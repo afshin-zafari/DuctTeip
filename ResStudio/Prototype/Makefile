@@ -15,6 +15,11 @@ ifdef SCILINUX
     CPP_LIBS =  -L/usr/lib/  -lstdc++
     C = /usr/bin/gcc
 endif
+ifdef KALKYL
+    CPP = /bubo/sw/comp/gcc/4.7.2_kalkyl/bin/gcc
+    CPP_LIBS =  -L/bubo/sw/comp/gcc/4.7.2_kalkyl/lib -lstdc++
+    C = /bubo/sw/comp/gcc/4.7.2_kalkyl/bin/gcc
+endif
 
 define rule_tests
 $(outdir)/test$(1): $(outdir)/main$(1).o $(shell ls *.hpp) 

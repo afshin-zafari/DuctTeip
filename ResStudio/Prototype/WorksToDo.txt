@@ -1,0 +1,26 @@
+
+Level 1 tasks non in context, e.g. "chol" Aii ???
+partition nodes fractional {0.8,0.2}
+
+Tasks : SYRK
+Connecting Contexts MAtAsm , Cholesky
+Data Handles
+Complete Framework:
+	DuctTeip
+	Network
+		MPI
+	MailBox
+	
+port : KALKYL,TINTIN,...
+Kernels
+Link to Shared Mem Libraries:
+	SuperGlue
+	BLAS,LAPACK
+
+Fortran interface
+	dynamic library load
+Dynamic load balancing
+Iterative tasks
+Fault tolerance
+
+

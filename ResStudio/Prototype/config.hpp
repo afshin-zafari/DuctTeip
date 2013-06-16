@@ -5,7 +5,7 @@
 #define SETTER(a,b) void set##a(int _p){b=_p;}
 #define PROPERTY(a,b) GETTER(a,b) \
   SETTER(a,b)
-
+// environment settings
 class Config
 {
 private:

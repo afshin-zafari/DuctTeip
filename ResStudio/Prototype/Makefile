@@ -10,7 +10,11 @@ ifdef LINUX
     CPP_LIBS =  -L/usr/lib/  -lstdc++
     C = /usr/bin/cc
 endif
-
+ifdef SCILINUX
+    CPP = /usr/bin/gcc
+    CPP_LIBS =  -L/usr/lib/  -lstdc++
+    C = /usr/bin/gcc
+endif
 
 define rule_tests
 $(outdir)/test$(1): $(outdir)/main$(1).o $(shell ls *.hpp) 

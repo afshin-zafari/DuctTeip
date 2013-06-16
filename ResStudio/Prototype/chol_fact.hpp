@@ -8,7 +8,7 @@ class Cholesky: public  Context
 private:
   int Nb,p;
   IData *M;
-  Config *config;
+  Config *config;// environment settings
 public:
   Cholesky(Config *cfg)  {
     config = cfg ;

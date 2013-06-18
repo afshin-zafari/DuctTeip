@@ -6,7 +6,7 @@ from pylab import *
 import os
 import numpy as np
 
-Np_COL,Nb_COL,CpAvg_COL,CcAvg_COL,CpTot_COL,CcTot_COL,Mtd_COL=range(0,7)
+Np_COL,Nb_COL,CpAvg_COL,CcAvg_COL,CpTot_COL,CcTot_COL,CcSize_COL,Mtd_COL=range(0,8)
 
 def readfile(filename,final):
     fh = open(filename, "r")
@@ -19,8 +19,9 @@ def readfile(filename,final):
         cca= float(line[CcAvg_COL])
         cpt= float(line[CpTot_COL])
         cct= float(line[CcTot_COL])
+        ccs= float(line[CcSize_COL])
         mtd= int  (line[Mtd_COL])
-        final.append([np,nb,cpa,cca,cpt,cct,mtd])
+        final.append([np,nb,cpa,cca,cpt,cct,ccs,mtd])
     fh.close()
     return final
 
@@ -55,7 +56,7 @@ cs_cp.insert(0,0)
 
 fg = plt.figure(None,figsize=(22,16))
 
-ax = fg.add_subplot(121)
+ax = fg.add_subplot(131)
 ax.set_title('Average Computation Cost, ' + str(np_par)+' Processors \n Average Overhead: %'+str(ovh))
 ax.set_xlabel('Problem Size (Nb x Nb)')
 
@@ -71,12 +72,12 @@ sp_cc   = [d[CcAvg_COL] for d in sp ]
 cs_cc   = [d[CcTot_COL] for d in cs ]
 
 
-dt_cptot   = [d[CcTot_COL] for d in dt ]
-sp_cptot   = [d[CcTot_COL] for d in cs ]
+dt_cctot   = [d[CcTot_COL] for d in dt ]
+sp_cctot   = [d[CcTot_COL] for d in cs ]
 
 cp = list()
 for i in range(0,len(dt_cptot)):
-    cp.append( dt_cptot[i] / sp_cptot[i] ) 
+    cp.append( dt_cctot[i] / sp_cctot[i] ) 
 ovh = int((sum(cp) / len(cp) - 1.00)*100)
 print ovh,cp
 
@@ -85,7 +86,7 @@ dt_cc.insert(0,-20)
 sp_cc.insert(0,0)
 cs_cc.insert(0,0)
 
-ax = fg.add_subplot(122)
+ax = fg.add_subplot(132)
 ax.set_title('Average Communication Cost, ' + str(np_par)+' Processors \n Average Overhead: %'+str(ovh))
 ax.set_xlabel('Problem Size (Nb x Nb)')
 
@@ -96,9 +97,39 @@ b3=plt.plot(nb_list,cs_cc,'bo-')
 plt.legend((b1[0],b2[0],b3[0]),('DuctTeip','StarPU','ClusterSs'),'upper left')
 
 
-dt_cp   = [d[CpTot_COL] for d in dt ]
-sp_cp   = [d[CpTot_COL] for d in sp ]
-cs_cp   = [d[CpTot_COL] for d in cs ]
+
+
+
+dt_cc   = [d[CcSize_COL] for d in dt ]
+sp_cc   = [d[CcSize_COL] for d in sp ]
+cs_cc   = [d[CcSize_COL] for d in cs ]
+
+
+dt_cctot   = [d[CcSize_COL] for d in dt ]
+sp_cctot   = [d[CcSize_COL] for d in cs ]
+
+cp = list()
+for i in range(0,len(dt_cptot)):
+    cp.append( dt_cctot[i] / sp_cctot[i] ) 
+ovh = int((sum(cp) / len(cp) - 1.00)*100)
+print ovh,cp
+
+
+dt_cc.insert(0,-20)
+sp_cc.insert(0,0)
+cs_cc.insert(0,0)
+
+ax = fg.add_subplot(133)
+ax.set_title('Average Communication Size Cost, ' + str(np_par)+' Processors \n Average Overhead: %'+str(ovh))
+ax.set_xlabel('Problem Size (Nb x Nb)')
+
+b1=plt.plot(nb_list,dt_cc,'go-')
+b2=plt.plot(nb_list,sp_cc,'r-')
+b3=plt.plot(nb_list,cs_cc,'bo-')
+
+plt.legend((b1[0],b2[0],b3[0]),('DuctTeip','StarPU','ClusterSs'),'upper left')
+
+
 
 plt.show()
 fg.savefig('taskgen_compare_np-'+str(np_par)+'.png')

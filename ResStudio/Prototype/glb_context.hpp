@@ -52,7 +52,7 @@ class GlobalContext
 {
 private:
   int s,TaskCount;
-  int counters[8];
+  int counters[9];
 
   list <GlobalContext *> children;
   list <PropagateInfo *> lstPropTasks;
@@ -84,6 +84,7 @@ public :
     VersionTrack ,
     TaskInsert   ,
     TaskPropagate,
+    PropagateSize,
     CompCost,
     CommCost
   };
@@ -130,6 +131,7 @@ public :
     counters[VersionTrack ] = 0 ;
     counters[TaskInsert   ] = 0 ;
     counters[TaskPropagate] = 0 ;
+    counters[PropagateSize] = 0 ;
     counters[CompCost     ] = 0 ;
     counters[CommCost     ] = 0 ;
     s=-1;
@@ -142,11 +144,14 @@ public :
   }
 
   /*------------------------------*/
-  void dumpPropagations(list < PropagateInfo *> prop_info){
+  int  dumpPropagations(list < PropagateInfo *> prop_info){
     list < PropagateInfo *>::iterator it;
+    typedef long data_handle; // ToDo: replace with real data handle
+    int msg_size = 0 ;
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);
       //printf ("  @A(%d,%d) [%s%d]== [%s0]\n",P.i,P.j,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
+      msg_size += sizeof (data_handle) +  P.fromCtx.size() + P.toCtx.size() + sizeof(P.fromVersion);
     }
   }
 
@@ -189,8 +194,10 @@ public :
       if (nodesPropTasks[p].size()==0) continue;
       if ( p != me ) {
 	//printf ("  @send propagte:to %d \n",p) ;
-	dumpPropagations(nodesPropTasks[p]);
+	int msg_size =dumpPropagations(nodesPropTasks[p]);
 	incrementCounter(TaskPropagate);
+	incrementCounter(PropagateSize,msg_size);
+
       }
       nodesPropTasks[p].clear();
     }

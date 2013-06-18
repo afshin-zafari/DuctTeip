@@ -7,7 +7,7 @@ import os
 import numpy as np
 
 
-Node_COL,CtxIn_COL,CtxSkip_COL,TaskRead_COL,TaskIns_COL,TaskProp_COL,CommCost_COL,TotTask_COL,Nb_COL,Proc_COL=range(0,10)
+Node_COL,CtxIn_COL,CtxSkip_COL,TaskRead_COL,TaskIns_COL,TaskProp_COL,PropSize_COL,CommCost_COL,TotTask_COL,Nb_COL,Proc_COL=range(0,11)
 
 def readfile(filename,final):
     fh = open(filename, "r")
@@ -26,11 +26,12 @@ def readfile(filename,final):
             tr= int(line[TaskRead_COL])
             ti= int(line[TaskIns_COL])
             tp= int(line[TaskProp_COL])
+            ps= int(line[PropSize_COL])
             cc= int(line[CommCost_COL])
             tt= int(line[TotTask_COL])
             nb= int(line[Nb_COL])
             pr= int(line[Proc_COL])            
-	    final.append([node,ci,cs,tr,ti,tp,cc,tt,nb,pr])
+	    final.append([node,ci,cs,tr,ti,tp,ps,cc,tt,nb,pr])
         header = fh.readline()    
     fh.close()
     return final
@@ -77,12 +78,12 @@ cp_avg = cp_tot / len(f)            #              Avg
 cc_tot = sum(stat[:,CommCost_COL])  # Commun. Cost Total
 cc_avg = cc_tot / len(f)            #              Avg
 
-a = [np,nb,cp_tot,0     ,cp_tot   ,0        ,1]  # StarPU
+a = [np,nb,cp_tot,0     ,cp_tot   ,0,0,1]  # StarPU
 s = ''
 for e in a:
     s = s +str(e)+'\t' 
 print s
-a=[ np,nb,cp_avg,cc_avg,cp_tot   ,cc_tot   ,2]  # ClusterSs
+a=[ np,nb,cp_avg,cc_avg,cp_tot   ,cc_tot,cc_tot   ,2]  # ClusterSs
 s = ''
 for e in a:
     s = s +str(e)+'\t' 
@@ -92,7 +93,8 @@ cp_tot = cp_tot + sum (stat[:,CtxIn_COL])   + sum (stat[:,CtxSkip_COL])
 cc_tot = cc_tot + sum (stat[:,TaskProp_COL])  
 cp_avg = cp_tot / len(f) 
 cc_avg = cc_tot / len(f) 
-a=[ np,nb,cp_avg,cc_avg,cp_tot,cc_tot,0]  # DuctTeip
+cc_size = cc_tot+ sum(stat[:,PropSize_COL])
+a=[ np,nb,cp_avg,cc_avg,cp_tot,cc_tot,cc_size,0]  # DuctTeip
 s = ''
 for e in a:
     s = s +str(e)+'\t' 

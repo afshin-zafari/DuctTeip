@@ -181,14 +181,15 @@ void IData::incrementVersion ( AccessType a) {
 /*=======================================================================*/
 
 void GlobalContext::dumpStatistics(Config *_cfg){
-  if ( me ==0)printf("#STAT:Node\tCtxIn\tCtxSkip\tT.Read\tT.Ins\tT.Prop.\tComm\tTotTask\tNb\tP\n");
-  printf("#STAT:%2d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+  if ( me ==0)printf("#STAT:Node\tCtxIn\tCtxSkip\tT.Read\tT.Ins\tT.Prop.\tP.Size\tComm\tTotTask\tNb\tP\n");
+  printf("#STAT:%2d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
 	 me,
 	 counters[EnterContexts],
 	 counters[SkipContexts],
 	 counters[TaskRead],
 	 counters[TaskInsert],
 	 counters[TaskPropagate],
+	 counters[PropagateSize],
 	 counters[CommCost],
 	 TaskCount,
 	 _cfg->getXBlocks(),

@@ -103,6 +103,11 @@ public:
 	(*dataView)[i][j]->dumpVersion();
 	  }
   }
+  void addToVersion(int v){
+    current_version += v;
+    request_version += v;
+  }
+
   DataRange  *RowSlice(int r , int i, int j ) {
     DataRange *dr = new DataRange;
     dr->d = this;

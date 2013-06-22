@@ -343,13 +343,14 @@ bool TaskPropagatePolicy::isAllowed(ContextHostPolicy *hpContext,int me){
   return false;
 }
 /*===================================================================================*/
-bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,int counter=-1){
+bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,int counter,int from,int to){
   ContextHeader *Summary = glbCtx.getHeader();
   Summary->addDataRange(IData::READ,r1);
   if ( r2 != NULL )
     Summary->addDataRange(IData::READ,r2);
   Summary->addDataRange(IData::WRITE,w);
   glbCtx.getContextHostPolicy()->setGroupCounter(counter);
+  glbCtx.setHeaderRange(from,to);
   glbCtx.downLevel();
   glbCtx.beginContext();
   glbCtx.sendPropagateTasks();

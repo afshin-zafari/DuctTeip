@@ -6,7 +6,7 @@
 
 int main (int argc, char * argv[])
 {
-  int Nb,P=12,p=2,q=6;
+  int Nb,P,p=2,q=2;
   Nb = atoi(argv[1]);
   P  = atoi(argv[2]);
   p = P/q;
@@ -29,6 +29,14 @@ int main (int argc, char * argv[])
   glbCtx.doPropagation(false);
   Cholesky C(&cfg);
   glbCtx.setTaskCount(C.countTasks() ) ;
+
+  me = 0 ;
+  hpTaskAdd.setPolicy(TaskAddPolicy::ROOT_ONLY);
+  C.generateTasksNoContext();
+  C.resetVersions();
+  glbCtx.resetCounters();
+  hpTaskAdd.setPolicy(TaskAddPolicy::NOT_OWNER_CYCLIC);
+
   for ( me=0;me<P;me++)
   {
     printf("--------------@Node : %d -------------\n",me);

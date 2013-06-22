@@ -161,21 +161,9 @@ int IData::getHost(){
 
 void IData::incrementVersion ( AccessType a) {
     DataVersions v;
+    current_version++;
     if ( a == WRITE ) {
       request_version = current_version;
-      if ( version == 9 ) {
-	v.ctx_switch = glbCtx.getID();
-	v.cur_version = current_version;
-	v.req_version = request_version;
-	versions_track.push_back(v);
-      }
-    }
-    current_version++;
-    if ( version == 8 ) {
-      v.ctx_switch = glbCtx.getID();
-      v.cur_version = current_version;
-      v.req_version = request_version;
-      versions_track.push_back(v);
     }
   }
 /*=======================================================================*/
@@ -219,7 +207,7 @@ void GlobalContext::setConfiguration(Config *_cfg){
 /*----------------------------------------------------------------------*/
 bool ContextHostPolicy ::isAllowed(IContext *ctx,ContextHeader *hdr){
   if (active_policy == PROC_GROUP_CYCLIC){
-    if (groupCounter  != -1 ) {
+    if (groupCounter  != DONT_CARE_COUNTER ) {
       int lower,upper;
       getHostRange(&lower,&upper);
       int group_size = upper - lower +1;
@@ -284,9 +272,13 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
 bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   int gc = glbCtx.getContextHostPolicy()->getGroupCounter();
 
-  if ( gc  != -1 )  
+  if ( gc  != DONT_CARE_COUNTER )  
     return true;
-
+  if ( active_policy  == ROOT_ONLY ) {
+    //printf("ROOT_ONLY policy me=%d,me==0?%d\n",me,me==0);
+    return ( me == 0 ) ;
+  }
+  
   if ( active_policy ==NOT_OWNER_CYCLIC ) {
     int r,c;
     IData *A;
@@ -345,23 +337,24 @@ bool TaskPropagatePolicy::isAllowed(ContextHostPolicy *hpContext,int me){
 /*===================================================================================*/
 bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,int counter,int from,int to){
   ContextHeader *Summary = glbCtx.getHeader();
+  Summary->clear();
   Summary->addDataRange(IData::READ,r1);
   if ( r2 != NULL )
     Summary->addDataRange(IData::READ,r2);
   Summary->addDataRange(IData::WRITE,w);
   glbCtx.getContextHostPolicy()->setGroupCounter(counter);
-  glbCtx.setHeaderRange(from,to);
   glbCtx.downLevel();
   glbCtx.beginContext();
   glbCtx.sendPropagateTasks();
-  //printf("@BeginContext %s,%d\n",glbCtx.getLevelString().c_str(),
-	// glbCtx.getID());
+  printf("@BeginContext %s,%d\n",glbCtx.getLevelString().c_str(), glbCtx.getID());
   bool b=glbCtx.getContextHostPolicy()->isAllowed(curCtx,Summary);
   if (b){
+    glbCtx.setHeaderRange(0,0);
     glbCtx.incrementCounter(GlobalContext::EnterContexts);
   }
   else{
     //curCtx->dumpDataVersions(Summary);
+    glbCtx.setHeaderRange(from,to);
     glbCtx.incrementCounter(GlobalContext::SkipContexts);
   }
   return b;
@@ -370,7 +363,7 @@ bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,in
 void end_context(IContext * curCtx){
   glbCtx.createPropagateTasks();
   glbCtx.upLevel();
-  //printf("@EndContext %s\n",glbCtx.getLevelString().c_str());
+  printf("@EndContext %s\n",glbCtx.getLevelString().c_str());
   glbCtx.endContext();
   glbCtx.getHeader()->clear();
 }
@@ -380,24 +373,19 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
   ContextHeader *c=NULL;
   if ( !glbCtx.getTaskReadHostPolicy()->isAllowed(ctx,c) )
     return;
+
   glbCtx.incrementCounter(GlobalContext::TaskRead);
   bool isOwner = d3->isOwnedBy(me);
-  /*
-  printf (" Read TASK:%d,%s %s %s %s %s\n",me , s,
-	  d1->getName().c_str(),
-	  (d2==NULL)?"  ---- ":d2->getName().c_str(),
-	  d3->getName().c_str(),
-	  isOwner?"*":""
-	  );
-  */
-	  
-  d1->incrementVersion(IData::READ);
-
+  printf("  @request:        %d       %d      %d ",
+	 (d1==NULL) ?-1:d1->getRequestVersion(),
+	 (d2==NULL) ?-1:d2->getRequestVersion(),
+	 d3->getCurrentVersion()
+	 );
+  
+  if ( d1 != NULL ) d1->incrementVersion(IData::READ);
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
 
-  int level = glbCtx.getDepth();
-  if ( level == 1  && !isOwner) 
-    return ;
+
   d3->incrementVersion(IData::WRITE);
   DataRange * dr = new DataRange;
   dr->d = d3->getParentData();;
@@ -411,25 +399,18 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
     glbCtx.incrementCounter(GlobalContext::TaskInsert);
     if ( !isOwner)
       glbCtx.incrementCounter(GlobalContext::CommCost);
-    /*
+    
     printf (" @Insert TASK:%d,%s %s %s %s %s\n",me , s,
-      d1->getName().c_str(),
+      (d1==NULL)?"  ---- ":d1->getName().c_str(),
       (d2==NULL)?"  ---- ":d2->getName().c_str(),
       d3->getName().c_str(),
       d3->isOwnedBy(me)?"*":""
       );
-    printf("  @reqv:        %d       %d      %d \n",
-	   d1->getRequestVersion(),
-	   (d2==NULL) ?-1:d2->getRequestVersion(),
-	   d3->getRequestVersion()
-	   );
-    printf("  @curv:        %d       %d      %d \n",
-	   d1->getCurrentVersion(),
+    printf("  @after-exec:        %d       %d      %d \n",
+	   (d1==NULL) ?-1:d1->getCurrentVersion(),
 	   (d2==NULL) ?-1:d2->getCurrentVersion(),
 	   d3->getCurrentVersion()
 	   );
-    */
-	   
   }
   delete dr;
   c->clear();
@@ -438,7 +419,7 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
 
 
 }
-void AddTask ( IContext *c,char*s,IData *d1)           { AddTask ( c,s,d1,NULL , d1);}
+void AddTask ( IContext *c,char*s,IData *d1)           { AddTask ( c,s,NULL,NULL , d1);}
 void AddTask ( IContext *c,char*s,IData *d1,IData *d2) { AddTask ( c,s,d1,NULL , d2);}
 
 

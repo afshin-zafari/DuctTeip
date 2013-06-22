@@ -26,8 +26,8 @@ typedef struct {
 
 #define DONT_CARE_COUNTER -1
 #define BEGIN_CONTEXT_ALL(counter,from,to,r1,r2,w) if(begin_context(this,r1,r2,w,counter,from,to)){
-#define BEGIN_CONTEXT_BY(counter,a,b,c) if(begin_context(this,a,b,c,counter,0,0)){
-#define BEGIN_CONTEXT(a,b,c) if(begin_context(this,a,b,c,-1,0,0)){
+#define BEGIN_CONTEXT_BY(counter,a,b,c) if(begin_context(this,a,b,c,counter,0,1)){
+#define BEGIN_CONTEXT(a,b,c) if(begin_context(this,a,b,c,DONT_CARE_COUNTER,0,1)){
 #define END_CONTEXT()        }end_context(this);
 
 
@@ -41,6 +41,7 @@ public :
       readRange.push_back(dr);
     else
       writeRange.push_back(dr);
+    //printf("AddDataRange access:%d,%ld,%ld\n",daxs,readRange.size(),writeRange.size());
   }
   list<DataRange *> getWriteRange(){
     return writeRange;
@@ -189,19 +190,36 @@ public :
       createPropagateTasks( ctxHeader->getReadRange()  );
     } 
     else {
+      printf("write data jump version\n");
       upgradeVersions(ctxHeader->getWriteRange());
-      upgradeVersions(ctxHeader->getReadRange());
+      //printf("read data jump version\n");
+      //upgradeVersions(ctxHeader->getReadRange());
     }
   }
 
   void upgradeVersions(list < DataRange *> dr){
-    list<DataRange *> :: iterator it = dr.begin();
-    int version_jump = HeaderRangeTo - HeaderRangeFrom  +1 ;
-    for ( ; it != dr.end(); ++it ) {
+    list<DataRange *> :: iterator it ;
+    int version_jump = HeaderRangeTo - HeaderRangeFrom   ;
+    if (version_jump <= 0 ) {
+      printf("no version jump %d\n",version_jump);
+      return;
+    }
+    printf("data range list size %ld\n",dr.size());
+    for ( it = dr.begin(); it != dr.end(); ++it ) {
       for ( int r=(*it)->row_from; r<= (*it)->row_to;r++){
-	for ( int c=(*it)->col_from; c<= (*it)->col_to;c++){
+	for ( int c=(*it)->col_from; c<= (*it)->col_to;c++){	  
 	  IData &A=*((*it)->d);
-	  A.addToVersion(version_jump);
+	  printf ( "data range : [%d %d] , [%d %d]\n",(*it)->row_from , (*it)->row_to , (*it)->col_from ,(*it)->col_to ) ;
+	  printf ( "           :   %d    ,    %d  \n",(*it)->row_from == (*it)->row_to , (*it)->col_from == (*it)->col_to ) ;
+	  if (((*it)->row_from == (*it)->row_to) && 
+	      ((*it)->col_from == (*it)->col_to) ) {
+	    A(r,c)->addToVersion(version_jump);
+	  }
+	  else {
+	    version_jump=1;
+	    A(r,c)->addToVersion(version_jump);
+	  }
+	  printf("version jumped %s,%d\n",A(r,c)->getName().c_str(),version_jump);
 	}
       }
     }

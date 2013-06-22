@@ -124,7 +124,8 @@ class TaskAddPolicy : public IHostPolicy
 public:
   typedef enum  {
     WRITE_DATA_OWNER=1,
-    NOT_OWNER_CYCLIC
+    NOT_OWNER_CYCLIC,
+    ROOT_ONLY
   }tapType;
 private:
   int not_owner_count;
@@ -136,6 +137,7 @@ public :
   bool isAllowed(IContext *c,ContextHeader *hdr);
   bool isAllowed(ContextHostPolicy *,int ){return false;}
   void reset(){not_owner_count=0;}
+  void setPolicy(tapType t){active_policy = t;}
 };
 
 

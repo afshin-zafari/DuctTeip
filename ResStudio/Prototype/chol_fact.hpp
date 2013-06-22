@@ -71,32 +71,65 @@ public:
 
   void generateTasksNoPropagate(){
     string s = "a";
-    char chol_str[5],pnl_str[5],gemm_str[5] ;
+    char chol_str[5],pnl_str[5],gemm_str[5],syrk_str[5] ;
     IData &A=*M;
-    sprintf(chol_str,"chol");
-    sprintf(pnl_str ,"pnlu");
+    sprintf(chol_str,"potrf");
+    sprintf(pnl_str ,"trsm");
     sprintf(gemm_str,"gemm");
+    sprintf(syrk_str,"syrk");
 
 
       for ( int i = 0; i< Nb ; i++) {
 
-	BEGIN_CONTEXT_ALL(DONT_CARE_COUNTER,0,i,A.Region(i,Nb-1,0,i-1) , A.RowSlice(i,0,i-1), A.ColSlice(i,i,Nb-1))  
+	printf("gemm + syrk context check?cntr=-1,f=0,t=%d\n",i);
+	BEGIN_CONTEXT_ALL(DONT_CARE_COUNTER,0,i,A.Region(i,Nb-1,0,i-1) , A.RowSlice(i,0,i-1), A.ColSlice(i,i,Nb-1)) 
+	  printf("gemm + syrk context entered.\n");
 	  for(int l = 0;l<i;l++){
-	    BEGIN_CONTEXT_ALL(l,i,Nb,A.ColSlice(l,i,Nb-1) , A.Cell(i,l), A.ColSlice(i,i,Nb-1))       
-	      for (int k = i; k<Nb ; k++){
-		AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
-	      }
-	    END_CONTEXT()
+	      AddTask(this,syrk_str,A(i,l),A(i,i));
+	      printf("gemm context check?ctr=%d,f=%d,t=%d\n",l,i+1,Nb);
+	      BEGIN_CONTEXT_ALL(l,i+1,Nb,A.ColSlice(l,i+1,Nb-1) , A.Cell(i,l), A.ColSlice(i,i,Nb-1))       
+		printf("gemm context entered\n");
+	        for (int k = i+1; k<Nb ; k++){
+		  AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
+	        }
+	      END_CONTEXT()
 	  }
 	END_CONTEXT()
 
 
-	BEGIN_CONTEXT( A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )                        
+	  printf("potrf+trsm context check?ctr=-1,f=0,t=1\n");
+	BEGIN_CONTEXT( A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )   
+	  printf("potrf+trsm context entered.\n");
 	  AddTask (this, chol_str , A(i,i));
 	  for( int j=i+1;j<Nb;j++){
 	    AddTask(this,pnl_str,A(i,i), A(j,i) ) ;
 	  }
 	END_CONTEXT()
+      }
+
+  }
+
+  void generateTasksNoContext(){
+    string s = "a";
+    char chol_str[5],pnl_str[5],gemm_str[5] ,syrk_str[5] ;
+    IData &A=*M;
+    sprintf(chol_str,"chol");
+    sprintf(pnl_str ,"pnlu");
+    sprintf(gemm_str,"gemm");
+    sprintf(syrk_str,"syrk");
+
+
+      for ( int i = 0; i< Nb ; i++) {
+	  for(int l = 0;l<i;l++){
+	      AddTask(this,syrk_str,A(i,l),A(i,i));
+	      for (int k = i+1; k<Nb ; k++){
+		AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
+	      }
+	  }
+	  AddTask (this, chol_str , A(i,i));
+	  for( int j=i+1;j<Nb;j++){
+	    AddTask(this,pnl_str,A(i,i), A(j,i) ) ;
+	  }
       }
 
   }

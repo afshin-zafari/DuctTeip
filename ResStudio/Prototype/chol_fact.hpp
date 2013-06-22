@@ -75,5 +75,37 @@ public:
 
   }
 
+  void generateTasksNoPropagate(){
+    string s = "a";
+    char chol_str[5],pnl_str[5],gemm_str[5] ;
+    IData &A=*M;
+    sprintf(chol_str,"chol");
+    sprintf(pnl_str ,"pnlu");
+    sprintf(gemm_str,"gemm");
+
+
+      for ( int i = 0; i< Nb ; i++) {
+
+	BEGIN_CONTEXT_ALL(DONT_CARE_COUNTER,0,i,A.Region(i,Nb-1,0,i-1) , A.RowSlice(i,0,i-1), A.ColSlice(i,i,Nb-1))  
+	  for(int l = 0;l<i;l++){
+	    BEGIN_CONTEXT_ALL(l,i,Nb,A.ColSlice(l,i,Nb-1) , A.Cell(i,l), A.ColSlice(i,i,Nb-1))       
+	      for (int k = i; k<Nb ; k++){
+		AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
+	      }
+	    END_CONTEXT()
+	  }
+	END_CONTEXT()
+
+
+	BEGIN_CONTEXT( A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )                        
+	  AddTask (this, chol_str , A(i,i));
+	  for( int j=i+1;j<Nb;j++){
+	    AddTask(this,pnl_str,A(i,i), A(j,i) ) ;
+	  }
+	END_CONTEXT()
+      }
+
+  }
+
 };
 #endif //__CHOL_FACT_HPP__

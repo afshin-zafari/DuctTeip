@@ -45,6 +45,7 @@ class ContextHostPolicy : public IHostPolicy
 public:
   typedef enum  {
     PROC_GROUP_CYCLIC=1
+    
   }chpType;
 private:
   chpType active_policy;

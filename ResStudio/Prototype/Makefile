@@ -1,5 +1,5 @@
 
-prog_list=  1 #2 3 4 5 6 7 8 9 10 11 12 
+prog_list=  1 2 # 3 4 5 6 7 8 9 10 11 12 
 outdir= ./temp
 CPP = /opt/SUNWspro/bin/CC
 CPP_LIBS =  -L/opt/SUNWspro/lib/ -lCstd -lCrun
@@ -9,6 +9,11 @@ ifdef LINUX
     CPP = /usr/bin/cc
     CPP_LIBS =  -L/usr/lib/  -lstdc++
     C = /usr/bin/cc
+endif
+ifdef UBUNTU
+    CPP = /usr/bin/g++
+    CPP_LIBS =  -L/usr/lib/  -lstdc++
+    C = /usr/bin/g++
 endif
 ifdef SCILINUX
     CPP = /usr/bin/gcc

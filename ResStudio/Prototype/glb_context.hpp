@@ -24,8 +24,10 @@ typedef struct {
 }LevelInfo;
 
 
-#define BEGIN_CONTEXT_BY(counter,a,b,c) if(begin_context(this,a,b,c,counter)){
-#define BEGIN_CONTEXT(a,b,c) if(begin_context(this,a,b,c)){
+#define DONT_CARE_COUNTER -1
+#define BEGIN_CONTEXT_ALL(counter,from,to,r1,r2,w) if(begin_context(this,r1,r2,w,counter,from,to)){
+#define BEGIN_CONTEXT_BY(counter,a,b,c) if(begin_context(this,a,b,c,counter,0,0)){
+#define BEGIN_CONTEXT(a,b,c) if(begin_context(this,a,b,c,-1,0,0)){
 #define END_CONTEXT()        }end_context(this);
 
 
@@ -51,8 +53,9 @@ public :
 class GlobalContext
 {
 private:
-  int s,TaskCount;
+  int s,TaskCount,HeaderRangeFrom,HeaderRangeTo;
   int counters[9];
+  bool with_propagation;
 
   list <GlobalContext *> children;
   list <PropagateInfo *> lstPropTasks;
@@ -106,6 +109,7 @@ public :
   ContextHeader *getHeader              ()          {return ctxHeader;}
   IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
   ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
+  void doPropagation(bool f) {with_propagation = f;}
 
 
   /*------------------------------*/
@@ -121,6 +125,10 @@ public :
     hpTaskRead      = trp;
     hpTaskAdd       = tap;
     hpTaskPropagate = tpp;
+  }
+  void setHeaderRange(int from,int to){
+    HeaderRangeFrom = from;
+    HeaderRangeTo = to;
   }
 
   /*------------------------------*/
@@ -174,11 +182,32 @@ public :
 
   /*------------------------------*/
   void createPropagateTasks(){
-    if( !getTaskPropagatePolicy()->isAllowed( hpContext,me) )
-      return ;
-    createPropagateTasks( ctxHeader->getWriteRange() );
-    createPropagateTasks( ctxHeader->getReadRange()  );
+    if ( with_propagation ) {
+      if( !getTaskPropagatePolicy()->isAllowed( hpContext,me) )
+	return ;
+      createPropagateTasks( ctxHeader->getWriteRange() );
+      createPropagateTasks( ctxHeader->getReadRange()  );
+    } 
+    else {
+      upgradeVersions(ctxHeader->getWriteRange());
+      upgradeVersions(ctxHeader->getReadRange());
+    }
   }
+
+  void upgradeVersions(list < DataRange *> dr){
+    list<DataRange *> :: iterator it = dr.begin();
+    int version_jump = HeaderRangeTo - HeaderRangeFrom  +1 ;
+    for ( ; it != dr.end(); ++it ) {
+      for ( int r=(*it)->row_from; r<= (*it)->row_to;r++){
+	for ( int c=(*it)->col_from; c<= (*it)->col_to;c++){
+	  IData &A=*((*it)->d);
+	  A.addToVersion(version_jump);
+	}
+      }
+    }
+    
+  }
+  
 
   /*------------------------------*/
   void sendPropagateTasks(){

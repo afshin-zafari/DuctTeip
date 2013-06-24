@@ -400,11 +400,12 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
     if ( !isOwner)
       glbCtx.incrementCounter(GlobalContext::CommCost);
     
-    printf (" @Insert TASK:%d,%s %s %s %s %s\n",me , s,
-      (d1==NULL)?"  ---- ":d1->getName().c_str(),
-      (d2==NULL)?"  ---- ":d2->getName().c_str(),
-      d3->getName().c_str(),
-      d3->isOwnedBy(me)?"*":""
+    printf (" @Insert TASK:%s %s %s %s %s,%d\n", s,
+	    (d1==NULL)?"  ---- ":d1->getName().c_str(),
+	    (d2==NULL)?"  ---- ":d2->getName().c_str(),
+	    d3->getName().c_str(),
+	    d3->isOwnedBy(me)?"*":"",
+	    me
       );
     printf("  @after-exec:        %d       %d      %d \n",
 	   (d1==NULL) ?-1:d1->getCurrentVersion(),

@@ -25,6 +25,8 @@ typedef struct {
 
 
 #define DONT_CARE_COUNTER -1
+#define BEGIN_CONTEXT_EX(counter,func,r1,r2,w) {bool _b_ = begin_context(this,r1,r2,w,counter,0,1) ; if ( !_b_) {func;} else{
+#define END_CONTEXT_EX()                             }end_context(this);}
 #define BEGIN_CONTEXT_ALL(counter,from,to,r1,r2,w) if(begin_context(this,r1,r2,w,counter,from,to)){
 #define BEGIN_CONTEXT_BY(counter,a,b,c) if(begin_context(this,a,b,c,counter,0,1)){
 #define BEGIN_CONTEXT(a,b,c) if(begin_context(this,a,b,c,DONT_CARE_COUNTER,0,1)){
@@ -190,13 +192,15 @@ public :
       createPropagateTasks( ctxHeader->getReadRange()  );
     } 
     else {
+      /*
       printf("write data jump version\n");
       upgradeVersions(ctxHeader->getWriteRange());
-      //printf("read data jump version\n");
-      //upgradeVersions(ctxHeader->getReadRange());
+      printf("read data jump version\n");
+      upgradeVersions(ctxHeader->getReadRange());
+      */
     }
   }
-
+  /*
   void upgradeVersions(list < DataRange *> dr){
     list<DataRange *> :: iterator it ;
     int version_jump = HeaderRangeTo - HeaderRangeFrom   ;
@@ -226,7 +230,7 @@ public :
     
   }
   
-
+  */
   /*------------------------------*/
   void sendPropagateTasks(){
     list <PropagateInfo *>::iterator it;

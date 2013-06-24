@@ -11,6 +11,7 @@ int main (int argc, char * argv[])
   P  = atoi(argv[2]);
   p = P/q;
 
+
   Config cfg(1000,1000,Nb,Nb,P,p,q);
   ProcessGrid PG(P,p,q);
 

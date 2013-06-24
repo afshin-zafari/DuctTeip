@@ -103,9 +103,12 @@ public:
 	(*dataView)[i][j]->dumpVersion();
 	  }
   }
-  void addToVersion(int v){
+  void addToVersion(AccessType axs,int v){
     current_version += v;
-    request_version += v;
+    if ( axs == WRITE ) {
+      request_version = current_version;
+    }
+    printf("version jumped %s,%d, reqv=%d,curv=%d\n",getName().c_str(),v, request_version ,current_version);
   }
 
   DataRange  *RowSlice(int r , int i, int j ) {

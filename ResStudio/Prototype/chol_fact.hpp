@@ -20,20 +20,27 @@ private:
      GEMM_COL_TASK_ID
   };
 public:
-  Cholesky(Config *cfg)  {
+  Cholesky(Config *cfg,IData *inData=NULL)  {
     config = cfg ;
     name=static_cast<string>("chol");
     Nb = cfg->getXBlocks();
     p = cfg->getP_pxq();
-    M= new Data ("M",cfg->getXDimension(),cfg->getXDimension(),this);
-    M->setDataHostPolicy(glbCtx.getDataHostPolicy() ) ;
-    M->setPartition ( Nb,Nb ) ;
+    if ( inData == NULL ) {
+      M= new Data ("M",cfg->getXDimension(),cfg->getXDimension(),this);
+      M->setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
+      M->setPartition ( Nb,Nb ) ;      
+    }
+    else
+      M= inData;
+
+
     addInputData(M);
     addOutputData(M);
 
   }
   ~Cholesky(){
-    delete M;
+    if (M->getParent() == this) 
+      delete M;
   }
   int countTasks(){
     int t=0;
@@ -132,6 +139,7 @@ public:
     sprintf(gemm_str,"gemm");
     sprintf(syrk_str,"syrk");
 
+    
 
       for ( int i = 0; i< Nb ; i++) {
 	  for(int l = 0;l<i;l++){

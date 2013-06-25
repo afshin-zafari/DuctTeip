@@ -30,11 +30,12 @@ int main (int argc, char * argv[])
                                    // all (from previous level) for third level
   glbCtx.setPolicies(&hpData,&hpTask,&hpContext,&hpTaskRead,&hpTaskAdd,&hpTaskProp);
   glbCtx.setConfiguration(&cfg);
-  glbCtx.doPropagation(false);
-  Cholesky C(&cfg);
-  glbCtx.setTaskCount(C.countTasks() ) ;
+
+  MatrixAssembly MA(&cfg);
+  Cholesky C(&cfg,MA.getOutputData(MatrixAssembly::RBFresult));
 
   me = 0 ;
+  MA.generateTasksSingleNode();
   hpTaskAdd.setPolicy(TaskAddPolicy::ROOT_ONLY);
   C.generateTasksNoContext();
   C.resetVersions();

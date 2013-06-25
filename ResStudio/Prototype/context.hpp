@@ -20,7 +20,6 @@ int me,version;
 
 class IContext;
 class IData;
-
 /*===============================  Context Class =======================================*/
 class IContext
 {
@@ -40,6 +39,19 @@ public:
   void print_name(const char *s=""){cout << s << name << endl;}
   virtual void downLevel(){}
   virtual void upLevel(){}
+  
+  IData *getDataFromList(list<IData* > dlist,int index){
+    list<IData *>:: iterator it;
+    it=dlist.begin();
+    advance(it,index);
+    return (*it);
+  }
+  IData *getOutputData(int index=0){    
+    return getDataFromList ( outputData , index);
+  }
+  IData *getInputData(int index=0){    
+    return getDataFromList ( inputData , index);
+  }
 
   void createPropagateTasks(){}
   void setParent ( IContext *_p ) {
@@ -145,13 +157,15 @@ public :
 /*=======================================================================*/
 bool IData::isOwnedBy(int p ) {
   Coordinate c = blk;
+  
+  
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
-    if ( parent_data->Nb ==1) c.bx = c.by;
+    if ( parent_data->Nb ==1) 
+      c.bx = c.by;
     return ( hpData->getHost ( c,1 ) == p );
   }
   else{
     bool b = (hpData->getHost ( blk ) == p) ;
-    //printf("A(%d,%d).isOwnedBy %d? %d\n",c.by,c.bx,p,b);
     return b;
   }
 }
@@ -271,14 +285,17 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
 /*===================================================================================*/
 bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   int gc = glbCtx.getContextHostPolicy()->getGroupCounter();
+  printf("add task policy  1,%d\n",gc);
 
-  if ( gc  != DONT_CARE_COUNTER )  
+  if ( gc  == DONT_CARE_COUNTER )  
     return true;
+  printf("add task policy  2\n");
   if ( active_policy  == ROOT_ONLY ) {
     //printf("ROOT_ONLY policy me=%d,me==0?%d\n",me,me==0);
     return ( me == 0 ) ;
   }
   
+  printf("add task policy  3\n");
   if ( active_policy ==NOT_OWNER_CYCLIC ) {
     int r,c;
     IData *A;
@@ -375,20 +392,9 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
     return;
 
   glbCtx.incrementCounter(GlobalContext::TaskRead);
-  bool isOwner = d3->isOwnedBy(me);
-  printf("  @request:        %d       %d      %d ",
-	 (d1==NULL) ?-1:d1->getRequestVersion(),
-	 (d2==NULL) ?-1:d2->getRequestVersion(),
-	 d3->getCurrentVersion()
-	 );
-  
-  if ( d1 != NULL ) d1->incrementVersion(IData::READ);
-  if ( d2 != NULL ) d2->incrementVersion(IData::READ);
 
-
-  d3->incrementVersion(IData::WRITE);
   DataRange * dr = new DataRange;
-  dr->d = d3->getParentData();;
+  dr->d = d3->getParentData();
   Coordinate b = d3->getBlockIdx();
   dr->row_from = dr->row_to = b.by;
   dr->col_from = dr->col_to = b.bx;
@@ -397,13 +403,14 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
 
   if ( glbCtx.getTaskAddHostPolicy()->isAllowed(ctx,c) ) {
     glbCtx.incrementCounter(GlobalContext::TaskInsert);
-    if ( !isOwner)
+    if ( !d3->isOwnedBy(me) ){
       glbCtx.incrementCounter(GlobalContext::CommCost);
+    }
     
-    printf (" @Insert TASK:%s %s %s %s %s,%d\n", s,
-	    (d1==NULL)?"  ---- ":d1->getName().c_str(),
-	    (d2==NULL)?"  ---- ":d2->getName().c_str(),
-	    d3->getName().c_str(),
+    printf (" @Insert TASK:%s %s,%d %s,%d %s,%d %s,host=%d\n", s,
+	    (d1==NULL)?"  ---- ":d1->getName().c_str(),	 (d1==NULL) ?-1:d1->getRequestVersion(),
+	    (d2==NULL)?"  ---- ":d2->getName().c_str(),	 (d2==NULL) ?-1:d2->getRequestVersion(),
+	    d3->getName().c_str(),	 d3->getCurrentVersion(),
 	    d3->isOwnedBy(me)?"*":"",
 	    me
       );
@@ -413,6 +420,11 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
 	   d3->getCurrentVersion()
 	   );
   }
+
+  if ( d1 != NULL ) d1->incrementVersion(IData::READ);
+  if ( d2 != NULL ) d2->incrementVersion(IData::READ);
+  d3->incrementVersion(IData::WRITE);
+
   delete dr;
   c->clear();
   delete c;

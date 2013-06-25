@@ -5,6 +5,11 @@ partition nodes fractional {0.8,0.2}
 Tasks : SYRK
 Connecting Contexts MAtAsm , Cholesky
 Data Handles
+	Ictx ctor register itself to glb => new id 
+	Ictx ask for new handle from glb for its data
+	glbctx.craetedata()
+	Ictx dtor data or not ?
+	
 Complete Framework:
 	DuctTeip
 	Network

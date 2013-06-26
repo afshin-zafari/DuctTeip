@@ -6,21 +6,21 @@
 class Cholesky: public  Context
 {
 private:
-  int Nb,p;
-  IData *M;
-  Config *config;// environment settings
+  int     Nb,p;
+  IData  *M;
+  Config *config;
   enum {
-    GEMM_SYRK_TASK_ID,
-    POTRF_TRSM_TASK_ID,
-    POTRF_TASK_ID,
-     TRSM_TASK_ID,
-     SYRK_TASK_ID,
-     GEMM_TASK_ID,
-     GEMM_ROW_TASK_ID,
-     GEMM_COL_TASK_ID
+    GEMM_SYRK_TASK_ID  ,
+    POTRF_TRSM_TASK_ID ,
+    POTRF_TASK_ID      ,
+    TRSM_TASK_ID       ,
+    SYRK_TASK_ID       ,
+    GEMM_TASK_ID       ,
+    GEMM_ROW_TASK_ID   ,
+    GEMM_COL_TASK_ID
   };
 public:
-  Cholesky(Config *cfg,IData *inData=NULL)  {
+   Cholesky(Config *cfg,IData *inData=NULL)  {
     config = cfg ;
     name=static_cast<string>("chol");
     Nb = cfg->getXBlocks();
@@ -34,15 +34,14 @@ public:
       M= inData;
 
 
-    addInputData(M);
-    addOutputData(M);
+    addInOutData(M);
 
   }
   ~Cholesky(){
     if (M->getParent() == this) 
       delete M;
   }
-  int countTasks(){
+  int  countTasks   (){
     int t=0;
       for ( int i = 0; i< Nb ; i++) {
 	  for(int l = 0;l<i;l++)
@@ -85,7 +84,6 @@ public:
     }
 
   }
-
   void generateTasksNoPropagate(){
     string s = "a";
     char chol_str[5],pnl_str[5],gemm_str[5],syrk_str[5] ;
@@ -129,7 +127,6 @@ public:
       }
 
   }
-
   void generateTasksNoContext(){
     string s = "a";
     char chol_str[5],pnl_str[5],gemm_str[5] ,syrk_str[5] ;

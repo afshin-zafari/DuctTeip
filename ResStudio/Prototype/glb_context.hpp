@@ -23,6 +23,8 @@ typedef struct {
   int children,seq;
 }LevelInfo;
 
+typedef unsigned long int ContextHandle;
+
 
 #define DONT_CARE_COUNTER -1
 #define BEGIN_CONTEXT_EX(counter,func,r1,r2,w) {bool _b_ = begin_context(this,r1,r2,w,counter,0,1) ; if ( !_b_) {func;} else{
@@ -43,12 +45,11 @@ public :
       readRange.push_back(dr);
     else
       writeRange.push_back(dr);
-    //printf("AddDataRange access:%d,%ld,%ld\n",daxs,readRange.size(),writeRange.size());
   }
   list<DataRange *> getWriteRange(){
     return writeRange;
   }
-  list<DataRange *> getReadRange(){return readRange;}
+  list<DataRange *> getReadRange (){return readRange;}
   void clear(){readRange.clear();writeRange.clear();}
 };
 
@@ -56,29 +57,32 @@ public :
 class GlobalContext
 {
 private:
-  int s,TaskCount,HeaderRangeFrom,HeaderRangeTo;
-  int counters[9];
+  int  sequence,TaskCount;
+  int  counters[9];
   bool with_propagation;
 
-  list <GlobalContext *> children;
   list <PropagateInfo *> lstPropTasks;
+  list <IContext *>      children;
   list <LevelInfo>       lstLevels;
+
   vector < list <PropagateInfo *> > nodesPropTasks;
 
-  Config        *cfg;
-  ContextHeader *ctxHeader;
-
+  Config              *cfg;
+  ContextHeader       *ctxHeader;
   ContextHostPolicy   *hpContext;
-  IHostPolicy  *hpData,*hpTask,*hpTaskRead,*hpTaskAdd,*hpTaskPropagate;
-
+  IHostPolicy         *hpData,*hpTask,*hpTaskRead,*hpTaskAdd,*hpTaskPropagate;
+  unsigned long        last_context_handle,last_data_handle;
+  
 public :
-  GlobalContext(){
-    s=-1;
+   GlobalContext(){
+    sequence=-1;
     ctxHeader = new ContextHeader;
     LevelInfo li;
     li.seq = 0;
     li.children = 0;
     lstLevels.push_back(li);
+    last_context_handle = 0 ;
+    last_data_handle = 0 ;
   }
   ~GlobalContext() {
     delete ctxHeader;
@@ -98,22 +102,38 @@ public :
   void           dumpStatistics         (Config *cfg);
   void           updateVersions         (IContext* ctx,ContextHeader *);
   void 	         endContext             ()		    {}
-  void           beginContext           ()		    { s++;}
-  void           setID                  (int id)	    { s=id;}
+  void           beginContext           ()		    { sequence++;}
+  void           setID                  (int id)	    { sequence=id;}
   void           incrementCounter       (Counters c,int v=1){counters[c] +=v;}
   void           setTaskCount           (int t)		    {TaskCount = t;}
-  int            getID                  () 		    {return s;}
+  int            getID                  () 		    {return sequence;}
   int            getDepth               ()		    {return lstLevels.size();}
-  int *          getCounters            () 		    {return counters; }
+  int           *getCounters            () 		    {return counters; }
   IHostPolicy   *getDataHostPolicy      ()		    {return hpData;}
   IHostPolicy   *getTaskHostPolicy      ()		    {return hpTask;}
   IHostPolicy   *getTaskReadHostPolicy  ()		    {return hpTaskRead;}
   IHostPolicy   *getTaskAddHostPolicy   ()		    {return hpTaskAdd;}
   ContextHeader *getHeader              ()          {return ctxHeader;}
   IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
-  ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
-  void doPropagation(bool f) {with_propagation = f;}
 
+  ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
+  ContextHandle       *createContextHandle(){
+    ContextHandle *ch = new ContextHandle ; 
+    *ch = last_context_handle++;
+    return ch;
+  }
+  DataHandle          *createDataHandle (){
+    DataHandle *dh = new DataHandle ; 
+    dh->data_handle = last_data_handle++ ;
+    return dh;
+  }
+
+  IContext *getContextByHandle ( ContextHandle ch) ;
+  IData    *getDataByHandle(DataHandle *d);
+  void      doPropagation(bool f) {with_propagation = f;}
+  void      addContext(IContext *c){
+    children.push_back(c);
+  }
 
   /*------------------------------*/
   void setPolicies (IHostPolicy *dhp,
@@ -129,10 +149,6 @@ public :
     hpTaskAdd       = tap;
     hpTaskPropagate = tpp;
   }
-  void setHeaderRange(int from,int to){
-    HeaderRangeFrom = from;
-    HeaderRangeTo = to;
-  }
 
   /*------------------------------*/
   void resetCounters() {
@@ -145,7 +161,7 @@ public :
     counters[PropagateSize] = 0 ;
     counters[CompCost     ] = 0 ;
     counters[CommCost     ] = 0 ;
-    s=-1;
+    sequence=-1;
     LevelInfo li;
     li.seq = 0;
     li.children = 0;
@@ -153,7 +169,6 @@ public :
     lstLevels.push_back(li);
     hpTaskAdd->reset();
   }
-
   /*------------------------------*/
   int  dumpPropagations(list < PropagateInfo *> prop_info){
     list < PropagateInfo *>::iterator it;
@@ -165,7 +180,6 @@ public :
       msg_size += sizeof (data_handle) +  P.fromCtx.size() + P.toCtx.size() + sizeof(P.fromVersion);
     }
   }
-
   /*------------------------------*/
   void createPropagateTasks(list<DataRange *>  dr){
     list<DataRange *> :: iterator it = dr.begin();
@@ -182,7 +196,6 @@ public :
       }
     }
   }
-
   /*------------------------------*/
   void createPropagateTasks(){
     if ( with_propagation ) {
@@ -191,46 +204,7 @@ public :
       createPropagateTasks( ctxHeader->getWriteRange() );
       createPropagateTasks( ctxHeader->getReadRange()  );
     } 
-    else {
-      /*
-      printf("write data jump version\n");
-      upgradeVersions(ctxHeader->getWriteRange());
-      printf("read data jump version\n");
-      upgradeVersions(ctxHeader->getReadRange());
-      */
-    }
   }
-  /*
-  void upgradeVersions(list < DataRange *> dr){
-    list<DataRange *> :: iterator it ;
-    int version_jump = HeaderRangeTo - HeaderRangeFrom   ;
-    if (version_jump <= 0 ) {
-      printf("no version jump %d\n",version_jump);
-      return;
-    }
-    printf("data range list size %ld\n",dr.size());
-    for ( it = dr.begin(); it != dr.end(); ++it ) {
-      for ( int r=(*it)->row_from; r<= (*it)->row_to;r++){
-	for ( int c=(*it)->col_from; c<= (*it)->col_to;c++){	  
-	  IData &A=*((*it)->d);
-	  printf ( "data range : [%d %d] , [%d %d]\n",(*it)->row_from , (*it)->row_to , (*it)->col_from ,(*it)->col_to ) ;
-	  printf ( "           :   %d    ,    %d  \n",(*it)->row_from == (*it)->row_to , (*it)->col_from == (*it)->col_to ) ;
-	  if (((*it)->row_from == (*it)->row_to) && 
-	      ((*it)->col_from == (*it)->col_to) ) {
-	    A(r,c)->addToVersion(version_jump);
-	  }
-	  else {
-	    version_jump=1;
-	    A(r,c)->addToVersion(version_jump);
-	  }
-	  printf("version jumped %s,%d\n",A(r,c)->getName().c_str(),version_jump);
-	}
-      }
-    }
-    
-  }
-  
-  */
   /*------------------------------*/
   void sendPropagateTasks(){
     list <PropagateInfo *>::iterator it;
@@ -254,7 +228,6 @@ public :
     }
     lstPropTasks.clear();
   }
-
   /*------------------------------*/
   void downLevel(){
     LevelInfo li  = lstLevels.back();
@@ -262,7 +235,6 @@ public :
     li.children = 0;
     lstLevels.push_back(li);
   }
-
   /*------------------------------*/
   void upLevel(){
     LevelInfo  li = lstLevels.back();
@@ -272,15 +244,13 @@ public :
     liP.children ++;
     lstLevels.push_back(liP);
   }
-
   /*------------------------------*/
-  int getLevelID(int level){
+  int  getLevelID(int level){
     list <LevelInfo>::iterator it=lstLevels.begin();
     for ( it  = lstLevels.begin();
 	  it != lstLevels.end(),level>0; ++it,--level ) ;
     return (*it).seq ;
   }
-
   /*------------------------------*/
   string getLevelString(){
     list <LevelInfo>::iterator it;
@@ -290,19 +260,16 @@ public :
     }
     return _s.str();
   }
-
   /*------------------------------*/
   void dumpLevels(char c=' '){
     printf("%c:\n%s\n",c,getLevelString().c_str());
   }
-
   /*------------------------------*/
-   bool isAnyOwnedBy(ContextHeader* hdr,int me){
+  bool isAnyOwnedBy(ContextHeader* hdr,int me){
      if ( isAnyOwnedBy(hdr->getWriteRange(),me))
        return true;
      return isAnyOwnedBy(hdr->getReadRange(),me);
    }
-
   /*------------------------------*/
   bool isAnyOwnedBy(list<DataRange*> dr,int me){
     list<DataRange*>::iterator  it = dr.begin();
@@ -318,6 +285,7 @@ public :
     }
     return false;
   }
+  void testHandles();
 
 
 };

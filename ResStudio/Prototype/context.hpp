@@ -24,36 +24,74 @@ class IData;
 class IContext
 {
 protected:
-  string name;
-  IContext *parent;
-  list<IContext*> children;
-  list<IData*> inputData,outputData;
-  ProcessGrid *PG;
+  string           name;
+  IContext        *parent;
+  list<IContext*>  children;
+  list<IData*>     inputData,
+                   outputData,
+                   in_outData;
+  ProcessGrid     *PG;
+  ContextHandle   *my_context_handle;
 public:
-  IContext(string _name){
+   IContext(string _name){
     name=_name;
     parent =NULL;
+    setContextHandle ( glbCtx.createContextHandle() ) ;
+    glbCtx.addContext( this ) ;
   }
-  string getName(){return name;}
-  string getFullName(){return getName();}
-  void print_name(const char *s=""){cout << s << name << endl;}
-  virtual void downLevel(){}
-  virtual void upLevel(){}
-  
+  ~IContext(){
+    list<IData*>::iterator it ;
+    list<IContext*>::iterator ctx_it ;
+    for ( ctx_it =children.begin(); ctx_it != children.end(); ++ ctx_it ){
+      delete (*ctx_it);
+    }
+    inputData.clear();
+    outputData.clear();
+    children.clear();
+  }
+
+          string getName()    {return name;}
+          string getFullName(){return getName();}
+          void   print_name       ( const char *s="") {cout << s << name << endl;}
+          void   setContextHandle ( ContextHandle *c) {my_context_handle = c;}
+  ContextHandle *getContextHandle ()                  { return my_context_handle;}
+
   IData *getDataFromList(list<IData* > dlist,int index){
     list<IData *>:: iterator it;
     it=dlist.begin();
     advance(it,index);
     return (*it);
   }
-  IData *getOutputData(int index=0){    
+  IData *getOutputData  (int index=0){    
     return getDataFromList ( outputData , index);
   }
-  IData *getInputData(int index=0){    
+  IData *getInputData   (int index=0){    
     return getDataFromList ( inputData , index);
   }
+  IData *getDataByHandle(list<IData *> dlist,DataHandle *dh){
+    list<IData*> :: iterator it;
+    IData* data= new IData("",0,0,this);
+    for (it = dlist.begin(); it != dlist.end();++it) {
+      data = (*it)->getDataByHandle(dh);
+      if ( data ->getName().size() != 0 ) 
+	return data;
+    }
+    return data;
+  }
+  IData *getDataByHandle(DataHandle *dh ) {
+    IData *data;
+    data = getDataByHandle ( inputData,dh);
+    if ( data ->getName().size() != 0 ) 
+      return data;
+    data = getDataByHandle ( outputData,dh);
+    if ( data ->getName().size() != 0 ) 
+      return data;
+    data = getDataByHandle ( in_outData,dh);
+    if ( data ->getName().size() != 0 ) 
+      return data;
+    return data;
+  }
 
-  void createPropagateTasks(){}
   void setParent ( IContext *_p ) {
     parent = _p;
     parent->children.push_back(this);
@@ -73,23 +111,8 @@ public:
   void addOutputData(IData *_d){
     outputData.push_back(_d);
   }
-  ~IContext(){
-    list<IData*>::iterator it ;
-    list<IContext*>::iterator ctx_it ;
-    for ( it =inputData.begin(); it != inputData.end(); ++ it ){
-      //delete (*it);
-    }
-    /*
-    for ( it =outputData.begin(); it != outputData.end(); ++ it ){
-      delete (*it);
-    }
-    */
-    for ( ctx_it =children.begin(); ctx_it != children.end(); ++ ctx_it ){
-      delete (*ctx_it);
-    }
-    inputData.clear();
-    outputData.clear();
-    children.clear();
+  void addInOutData(IData *_d){
+    in_outData.push_back(_d);
   }
   void resetVersions(){
     list<IData*>::iterator it ;
@@ -139,9 +162,31 @@ public:
     }
 
   }
-};
-/*=======================================================================*/
+  void testHandles(list<IData*> dlist){
+    list<IData*>::iterator it ;
+    for (it = dlist.begin(); it != dlist.end(); ++it) {
+      (*it)->testHandles();
+    }
+  }
+  void testHandles(){
+    IContext * c = glbCtx.getContextByHandle(*my_context_handle);
+    printf("Context:%s - Handle:%ld <--> %s,%ld\n",name.c_str(),*my_context_handle,c->getName().c_str(),*c->getContextHandle());
+    printf("InputData Handles \n");
+    testHandles( inputData);
+    printf("Output Data Handles \n");
+    testHandles(outputData);
+    printf("In/Out Data  Handles \n");
+    testHandles(in_outData);
+  }
 
+  DataHandle * createDataHandle ( ) {
+    DataHandle *d =glbCtx.createDataHandle () ;
+    d->context_handle = *my_context_handle ; 
+    return d;
+  }
+ 
+};
+/*===================================================================================*/
 class Context: public IContext
 {
 public :
@@ -153,9 +198,13 @@ public :
     name="";
   }
 };
-
-/*=======================================================================*/
-bool IData::isOwnedBy(int p ) {
+/*===================================================================================*/
+       IData::IData            (string _name,int m, int n,IContext *ctx):    M(m),N(n), parent_context(ctx){
+    name=_name;
+    current_version=request_version=0;
+    setDataHandle( ctx->createDataHandle());
+}
+bool   IData::isOwnedBy        (int p ) {
   Coordinate c = blk;
   
   
@@ -169,20 +218,59 @@ bool IData::isOwnedBy(int p ) {
     return b;
   }
 }
-int IData::getHost(){
+int    IData::getHost          (){
   return hpData->getHost(blk);
   }
-
-void IData::incrementVersion ( AccessType a) {
+void   IData::incrementVersion ( AccessType a) {
     DataVersions v;
     current_version++;
     if ( a == WRITE ) {
       request_version = current_version;
     }
   }
-/*=======================================================================*/
-
-void GlobalContext::dumpStatistics(Config *_cfg){
+IData *IData::getDataByHandle  (DataHandle *in_dh ) {
+  ContextHandle *ch = parent_context->getContextHandle();
+  IData *not_found= new IData("",0,0,parent_context);
+  if ( *ch != in_dh->context_handle ){ 
+    return not_found;
+  }
+  for ( int i = 0; i < Mb; i++) {
+    for ( int j = 0; j< Nb; j++){
+      DataHandle *my_dh = (*dataView)[i][j]->getDataHandle();
+      if ( my_dh->data_handle == in_dh->data_handle ) {
+	return  (*dataView)[i][j];
+      }
+    }
+  }
+  return not_found;
+}
+void   IData::testHandles      (){
+  printf("Data:%s, Context:%ld Handle :%ld\n",getName().c_str(),my_data_handle->context_handle,my_data_handle->data_handle);
+  for(int i=0;i<Mb;i++){
+    for (int j=0;j<Nb;j++){
+      DataHandle *dh = (*dataView)[i][j]->getDataHandle();
+      IData *d = glbCtx.getDataByHandle(dh);
+      if ( d->getName().size()!= 0 ) 
+	printf("%s-%ld,%ld  <--> %s,%ld\n", (*dataView)[i][j]->getName().c_str(),dh->context_handle,dh->data_handle,
+	       d->getName().c_str(),d->getDataHandle()->data_handle);
+      else 
+	printf("%s-%ld,%ld  <--> NULL  \n", (*dataView)[i][j]->getName().c_str(),dh->context_handle,dh->data_handle);
+    }
+  }
+}
+/*===================================================================================*/
+IContext *GlobalContext::getContextByHandle(ContextHandle ch) {
+  list<IContext *> ::iterator it;
+  for ( it= children.begin(); it != children.end();++it)
+    if (*(*it)->getContextHandle() == ch) 
+	return *it;
+  
+}
+IData    *GlobalContext::getDataByHandle   (DataHandle *d){
+  IContext *ctx = getContextByHandle(d->context_handle);
+  return ctx->getDataByHandle(d);
+}
+void      GlobalContext::dumpStatistics    (Config *_cfg){
   if ( me ==0)printf("#STAT:Node\tCtxIn\tCtxSkip\tT.Read\tT.Ins\tT.Prop.\tP.Size\tComm\tTotTask\tNb\tP\n");
   printf("#STAT:%2d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
 	 me,
@@ -197,15 +285,19 @@ void GlobalContext::dumpStatistics(Config *_cfg){
 	 _cfg->getXBlocks(),
 	 _cfg->getProcessors());
 }
-void GlobalContext::setConfiguration(Config *_cfg){
+void      GlobalContext::setConfiguration  (Config *_cfg){
   cfg=_cfg;
   list < PropagateInfo *> lp;
   for ( int i = 0 ; i <cfg->getProcessors();i++)
     nodesPropTasks.push_back(lp);
 }
-
-/*=============================================================================*/
-
+void      GlobalContext::testHandles       (){
+  list<IContext *>::iterator it;
+  for(it = children.begin();it != children.end(); ++it){
+    (*it)->testHandles();      
+  }
+}
+/*===================================================================================*/
 /*----------------------------------------------------------------------*/
 /*
  * At every level of contexts, processors are partitioned into sub-groups.
@@ -254,8 +346,6 @@ bool ContextHostPolicy ::isAllowed(IContext *ctx,ContextHeader *hdr){
   }
   return false;
 }
-
-/*----------------------------------------------------------------------*/
 void ContextHostPolicy::getHostRange(int *lower, int *upper){
   if (active_policy == PROC_GROUP_CYCLIC){
     int a = 0 ;
@@ -274,7 +364,6 @@ void ContextHostPolicy::getHostRange(int *lower, int *upper){
     *upper = offset -a + b;
   }
 }
-
 /*===================================================================================*/
 bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   if ( active_policy == ALL_GROUP_MEMBERS ) {
@@ -366,17 +455,14 @@ bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,in
   printf("@BeginContext %s,%d\n",glbCtx.getLevelString().c_str(), glbCtx.getID());
   bool b=glbCtx.getContextHostPolicy()->isAllowed(curCtx,Summary);
   if (b){
-    glbCtx.setHeaderRange(0,0);
     glbCtx.incrementCounter(GlobalContext::EnterContexts);
   }
   else{
     //curCtx->dumpDataVersions(Summary);
-    glbCtx.setHeaderRange(from,to);
     glbCtx.incrementCounter(GlobalContext::SkipContexts);
   }
   return b;
 }
-
 void end_context(IContext * curCtx){
   glbCtx.createPropagateTasks();
   glbCtx.upLevel();
@@ -384,9 +470,7 @@ void end_context(IContext * curCtx){
   glbCtx.endContext();
   glbCtx.getHeader()->clear();
 }
-
-void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
-{
+void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
   ContextHeader *c=NULL;
   if ( !glbCtx.getTaskReadHostPolicy()->isAllowed(ctx,c) )
     return;
@@ -432,8 +516,8 @@ void AddTask(IContext *ctx,char*s,IData *d1,IData *d2,IData *d3)
 
 
 }
-void AddTask ( IContext *c,char*s,IData *d1)           { AddTask ( c,s,NULL,NULL , d1);}
-void AddTask ( IContext *c,char*s,IData *d1,IData *d2) { AddTask ( c,s,d1,NULL , d2);}
+void AddTask ( IContext *ctx,char*s,IData *d1                    ) { AddTask ( ctx,s,NULL,NULL , d1);}
+void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2          ) { AddTask ( ctx,s,d1  ,NULL , d2);}
 
 
 #endif //  __CONTEXT_HPP__

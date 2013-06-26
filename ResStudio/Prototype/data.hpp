@@ -29,70 +29,51 @@ typedef struct {
 typedef struct {
   int cur_version,req_version,ctx_switch;
 }DataVersions;
+typedef struct{
+  unsigned long int context_handle,data_handle;
+}DataHandle;
 class IContext;
 /*================== Data Class =====================*/
 class IData
 {
 protected:
-  string name;
-  int N,M,Nb,Mb;
-  Coordinate blk;
-  vector< vector<IData*> >  *dataView;
-  list<DataVersions> versions_track;
-  unsigned int  current_version,request_version;
-  IContext *parent_context;
-  IData *parent_data;
-  IHostPolicy *hpData;
+  string                      name;
+  int                         N,M,Nb,Mb;
+  Coordinate                  blk;
+  vector< vector<IData*> >   *dataView;
+  list<DataVersions>          versions_track;
+  unsigned int                current_version,request_version;
+  IContext                   *parent_context;
+  IData                      *parent_data;
+  IHostPolicy                *hpData;
+  DataHandle                 *my_data_handle;
 public:
   enum AccessType {
-    READ=1,
+    READ  = 1,
     WRITE = 2
   };
-  IData(string _name,int m, int n,IContext *ctx):
-    M(m),N(n), parent_context(ctx){
-    name=_name;
-    current_version=request_version=0;
-  }
+
+   IData(string _name,int m, int n,IContext *ctx);
   ~IData() {
   }
-  string        getName          ()                {return name;}
-  IContext     *getParent        ()                {return parent_context;}
-  IData        *getParentData    ()                {return parent_data;}
+
+  string        getName          ()                { return name;}
+  IContext     *getParent        ()                { return parent_context;}
+  IData        *getParentData    ()                { return parent_data;}
   void          setParent        (IContext *p)     { parent_context=p;}
-  int           getRequestVersion()                {return request_version;}
-  int           getCurrentVersion()                {return current_version;}
-  IHostPolicy  *getDataHostPolicy()                {return hpData;}
+  int           getRequestVersion()                { return request_version;}
+  int           getCurrentVersion()                { return current_version;}
+  IHostPolicy  *getDataHostPolicy()                { return hpData;}
   void          setDataHostPolicy(IHostPolicy *hp) { hpData=hp;}
+  void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
+  DataHandle   *getDataHandle    ()                { return my_data_handle ; }
 
-  int getHost();
-  void  resetVersion(){
-    current_version = request_version = 0 ;
-    for ( int i=0;i<Mb;i++)
-      for ( int j=0;j<Nb;j++)
-	(*dataView)[i][j]->resetVersion();
-  }
+  int   getHost();
 
-  void setPartition(int _mb, int _nb){
-    Nb = _nb;
-    Mb = _mb;
-    dataView=new vector<vector<IData*> >  (Mb, vector<IData*>(Nb)  );
-    char s[100];
-    for ( int i=0;i<Mb;i++)
-      for ( int j=0;j<Nb;j++){
-	sprintf(s,"%s_%2.2d_%2.2d",  name.c_str() , i ,j);
-	if ( Nb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , i );
-	if ( Mb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , j );
-	(*dataView)[i][j] = new IData (static_cast<string>(s),M/Mb,N/Nb,parent_context);
-	(*dataView)[i][j]->blk.bx = j;
-	(*dataView)[i][j]->blk.by = i;
-	(*dataView)[i][j]->parent_data = this ;
-	(*dataView)[i][j]->hpData = hpData ;
-	//cout << (*dataView)[i][j]->getName()<< endl;
-      }
-    //cout << "end of partition\n"  ;
-  }
-  IData * operator () (const int i,const int j=0) {    return (*dataView)[i][j];  }
-  Coordinate getBlockIdx(){ return blk;  }
+  IData *operator () (const int i,const int j=0) {    return (*dataView)[i][j];  }
+  IData *getDataByHandle(DataHandle *in_dh ) ;
+
+  void testHandles();
   bool isOwnedBy(int p ) ;
   void incrementVersion ( AccessType a);
   void dumpVersion(){
@@ -110,7 +91,31 @@ public:
     }
     printf("version jumped %s,%d, reqv=%d,curv=%d\n",getName().c_str(),v, request_version ,current_version);
   }
+  void setPartition(int _mb, int _nb){
+    Nb = _nb;
+    Mb = _mb;
+    dataView=new vector<vector<IData*> >  (Mb, vector<IData*>(Nb)  );
+    char s[100];
+    for ( int i=0;i<Mb;i++)
+      for ( int j=0;j<Nb;j++){
+	sprintf(s,"%s_%2.2d_%2.2d",  name.c_str() , i ,j);
+	if ( Nb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , i );
+	if ( Mb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , j );
+	(*dataView)[i][j] = new IData (static_cast<string>(s),M/Mb,N/Nb,parent_context);
+	(*dataView)[i][j]->blk.bx = j;
+	(*dataView)[i][j]->blk.by = i;
+	(*dataView)[i][j]->parent_data = this ;
+	(*dataView)[i][j]->hpData = hpData ;
+      }
+  }
+  void resetVersion(){
+    current_version = request_version = 0 ;
+    for ( int i=0;i<Mb;i++)
+      for ( int j=0;j<Nb;j++)
+	(*dataView)[i][j]->resetVersion();
+  }
 
+  Coordinate  getBlockIdx(){ return blk;  }
   DataRange  *RowSlice(int r , int i, int j ) {
     DataRange *dr = new DataRange;
     dr->d = this;
@@ -147,7 +152,7 @@ public:
     dr->col_to   = j;
     return dr;
   }
-  DataRange *All(){
+  DataRange  *All(){
     DataRange *dr = new DataRange;
     dr->d = this;
     dr->row_from = 0;
@@ -156,7 +161,6 @@ public:
     dr->col_to   = Nb-1;
     return dr;
   }
-
 };
 
 

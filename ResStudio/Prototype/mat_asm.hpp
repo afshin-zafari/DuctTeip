@@ -4,12 +4,9 @@
 
 
 
-class MatrixAssembly : public Context
+class MatrixAssembly : public IContext
 {
 private:
-  Context *MA;
-  Context *ctxDistance;
-  Context *RBF;
   Data *D,*R,*V;
   Config *cfg;
 public : 
@@ -17,50 +14,53 @@ public :
     Distance,
     RBFresult
   };
-  MatrixAssembly (Config *_cfg):
-  cfg(_cfg)
-  {
-    MA= new Context ("MatrixAssembly");
-    RBF= new Context ("RBF_Phi");
-    ctxDistance= new Context ("Distance");
+   MatrixAssembly (Config *_cfg):IContext("MatrixAssembly"),  cfg(_cfg)  {
     PG = new ProcessGrid(cfg->getProcessors(),cfg->getP_pxq(),cfg->getQ_pxq());
 
-    D= new Data ("Dist",cfg->getXDimension(),cfg->getXDimension(),MA);
-    R= new Data ("RBF" ,cfg->getXDimension(),cfg->getXDimension(),MA);
-    V= new Data ("vP"  ,cfg->getXDimension(),1                   ,MA);
+    D= new Data ("Dist",cfg->getXDimension(),cfg->getXDimension(),this);
+    R= new Data ("RBF" ,cfg->getXDimension(),cfg->getXDimension(),this);
+    V= new Data ("vP"  ,cfg->getXDimension(),1                   ,this);
   
     IHostPolicy *hpData = glbCtx.getDataHostPolicy() ;
-    printf("%s,%d   %p\n",__FILE__,__LINE__,hpData);
     D->setDataHostPolicy(hpData);
     R->setDataHostPolicy(hpData);
     V->setDataHostPolicy(hpData);
-
 
     V->setPartition (cfg->getXBlocks(),1); 
     D->setPartition(cfg->getXBlocks(),cfg->getXBlocks());
     R->setPartition(cfg->getXBlocks(),cfg->getXBlocks());
 
-    MA->setParent(this);
-    ctxDistance->setParent (MA);
-    RBF->setParent (MA);
-
-    ctxDistance->addInputData (V);
-    ctxDistance->addOutputData(D);
-    RBF->addInputData  (D);
-    RBF->addOutputData (R);
-
+     addInputData (V) ;
     addOutputData (D) ;
     addOutputData (R) ;
   
   }
-  ~MatrixAssembly()
-  {
+  ~MatrixAssembly()  {
     return;
-    delete RBF;
-    delete ctxDistance;
-    delete MA;
   }
-  void generateTasks () {
+  
+  ProcessGrid *getProcessGrid(){return PG;}
+
+  void generateTasksSingleNode () {
+    int i,j;
+    char task_name[20];
+    IData &P=*V,&Dist=*D,&RBF=*R;
+
+    for ( i=0; i< cfg->getYBlocks() ; i++){
+      for ( j=0;j<cfg->getXBlocks();j++){
+	sprintf(task_name,"DIST_%2.2d_%2.2d",i,j);
+	AddTask(this,task_name,P(i),P(j),Dist(i,j) ) ;
+      }
+    }
+    for ( i=0; i< cfg->getYBlocks() ; i++){
+      for ( j=0;j<cfg->getXBlocks();j++){
+	sprintf(task_name,"RBF_%2.2d_%2.2d",i,j);
+	AddTask(this,task_name,Dist(i,j),NULL,RBF(i,j) ) ;
+      }
+    }
+
+  }
+  void generateTasks           () {
     int i,j,Mb=cfg->getYBlocks(),Nb=cfg->getXBlocks();
     char task_name[20];
     IData &P = *V,&Dist=*D,&RBF=*R;
@@ -84,28 +84,6 @@ public :
       END_CONTEXT()
     }
     END_CONTEXT()
-
-  }
-  ProcessGrid *getProcessGrid(){return PG;}
-  void resetVersions(){MA->resetVersions();}
-
-  void generateTasksSingleNode () {
-    int i,j;
-    char task_name[20];
-    IData &P=*V,&Dist=*D,&RBF=*R;
-
-    for ( i=0; i< cfg->getYBlocks() ; i++){
-      for ( j=0;j<cfg->getXBlocks();j++){
-	sprintf(task_name,"DIST_%2.2d_%2.2d",i,j);
-	AddTask(this,task_name,P(i),P(j),Dist(i,j) ) ;
-      }
-    }
-    for ( i=0; i< cfg->getYBlocks() ; i++){
-      for ( j=0;j<cfg->getXBlocks();j++){
-	sprintf(task_name,"RBF_%2.2d_%2.2d",i,j);
-	AddTask(this,task_name,Dist(i,j),NULL,RBF(i,j) ) ;
-      }
-    }
 
   }
 

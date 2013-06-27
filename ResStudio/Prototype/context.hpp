@@ -12,6 +12,7 @@
 #include "hostpolicy.hpp"
 #include "data.hpp"
 #include "glb_context.hpp"
+#include "engine.hpp"
 
 using namespace std;
 
@@ -490,8 +491,27 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
     if ( !d3->isOwnedBy(me) ){
       glbCtx.incrementCounter(GlobalContext::CommCost);
     }
-    
-    printf (" @Insert TASK:%s %s,%d %s,%d %s,%d %s,host=%d\n", s,
+    list<DataAccess *> *dlist = new list <DataAccess *>;
+    DataAccess *daxs ;
+    if ( d1 != NULL ) {
+      daxs = new DataAccess;
+      daxs->data = d1;
+      daxs->required_version = d1->getRequestVersion();
+      dlist->push_back(daxs);
+    }
+    if ( d2 != NULL ) {
+      daxs = new DataAccess;
+      daxs->data = d2;
+      daxs->required_version = d2->getRequestVersion();
+      dlist->push_back(daxs);
+    }
+    daxs = new DataAccess;
+    daxs->data = d3;
+    daxs->required_version = d3->getCurrentVersion();
+    dlist->push_back(daxs);
+
+    TaskHandle task_handle =dtEngine.addTask(s,d3->getHost(),dlist);
+    printf (" @Insert TASK:%s(%ld) %s,%d %s,%d %s,%d %s,host=%d\n", s,task_handle,
 	    (d1==NULL)?"  ---- ":d1->getName().c_str(),	 (d1==NULL) ?-1:d1->getRequestVersion(),
 	    (d2==NULL)?"  ---- ":d2->getName().c_str(),	 (d2==NULL) ?-1:d2->getRequestVersion(),
 	    d3->getName().c_str(),	 d3->getCurrentVersion(),

@@ -29,9 +29,20 @@ typedef struct {
 typedef struct {
   int cur_version,req_version,ctx_switch;
 }DataVersions;
-typedef struct{
+struct DataHandle{
+public:
   unsigned long int context_handle,data_handle;
-}DataHandle;
+  DataHandle () {context_handle=data_handle=0;}
+  DataHandle (unsigned long int c,unsigned long int d ){
+    context_handle = c;
+    data_handle = d;
+  }
+  
+DataHandle operator = ( DataHandle rhs ) {
+  this->context_handle = rhs.context_handle ;
+  this->data_handle   = rhs.data_handle    ;
+}
+};
 class IContext;
 /*================== Data Class =====================*/
 class IData

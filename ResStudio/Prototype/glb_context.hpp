@@ -32,87 +32,61 @@ public:
     o +=  sizeof(a);
   }
   template<class T> 
-  void paste(byte * b,int &o,T a){
-    memcpy((char *)&a,b+o,sizeof(a));
-    o +=  sizeof(a);
+  void paste(byte * b,int &o,T *a){
+    memcpy((char *)a,b+o,sizeof(T));
+    o +=  sizeof(T);
   }
   void deserializeContext(byte *buffer,int &offset,int max_length,string &ctx){
     int level_count, ctx_level_id ;
-    paste<int>(buffer,offset,level_count);
+    paste<int>(buffer,offset,&level_count);
     ostringstream s;
-    TRACE_LOCATION;
     for(int i=0; i < level_count; i++){
-      TRACE_LOCATION;
-      paste<int>(buffer,offset,ctx_level_id);
-      TRACE_LOCATION;
+      paste<int>(buffer,offset,&ctx_level_id);
       s << ctx_level_id << ".";
-      TRACE_LOCATION;
     }
-      TRACE_LOCATION;
     ctx = s.str();      
-      TRACE_LOCATION;
   }
   void   serializeContext(byte *buffer,int &offset,int max_size,string ctx){
-    istringstream s(ctx);
     int ctx_level_id,level_count=0,local_offset = offset;
-    char c;
+    istringstream s(ctx);
+    char c;//1.2.1.
     local_offset += sizeof(int);
-    TRACE_LOCATION;
     while ( !s.eof() ) {
-      TRACE_LOCATION;
       s >> ctx_level_id >> c;
-      TRACE_LOCATION;
+      if ( s.eof() ) break;
       copy<int>(buffer,local_offset,ctx_level_id);
-      TRACE_LOCATION;
       level_count ++;
     }
-    TRACE_LOCATION;
      copy<int>(buffer,offset,level_count);
-    TRACE_LOCATION;
      offset = local_offset;
-    TRACE_LOCATION;
-    printf ("offset : %d , max_size:%d\n",offset,max_size);
+  }
+  void flushBuffer(byte *buffer,int length){
+    printf("flush buffer:%p \n",buffer);
+    for ( int i=0;i<length ;i++){
+      printf ("%2.2X ",buffer[i]);
+      if ( (i>=20) && (i % 20) == 0 ) printf("\n");
+    }
+    printf("\n");
   }
   int serialize(byte *buffer,int max_length){
     int offset = 0 ;
-    TRACE_LOCATION;
     copy<int>(buffer,offset,fromVersion);
-    TRACE_LOCATION;
     copy<int>(buffer,offset,i);
-    TRACE_LOCATION;
     copy<int>(buffer,offset,j);
-    TRACE_LOCATION;
     copy<unsigned long>(buffer,offset,data_handle.context_handle);
-    TRACE_LOCATION;
     copy<unsigned long>(buffer,offset,data_handle.   data_handle);
-    TRACE_LOCATION;
-    /*
     serializeContext(buffer,offset,max_length,fromCtx);
-    TRACE_LOCATION;
     serializeContext(buffer,offset,max_length,  toCtx);
-    TRACE_LOCATION;
-    */
     return offset;
   }
   void deserialize(byte * buffer , int &offset,int max_length){
-      TRACE_LOCATION;
-    paste<int>(buffer,offset,fromVersion);
-      TRACE_LOCATION;
-    paste<int>(buffer,offset,i);
-      TRACE_LOCATION;
-    paste<int>(buffer,offset,j);
-      TRACE_LOCATION;
-    paste<unsigned long>(buffer,offset,data_handle.context_handle);
-      TRACE_LOCATION;
-    paste<unsigned long>(buffer,offset,data_handle.   data_handle);
-      TRACE_LOCATION;
-      /*
+    paste<int>(buffer,offset,&fromVersion);
+    paste<int>(buffer,offset,&i);
+    paste<int>(buffer,offset,&j);
+    paste<unsigned long>(buffer,offset,&data_handle.context_handle);
+    paste<unsigned long>(buffer,offset,&data_handle.   data_handle);
     deserializeContext(buffer,offset,max_length,fromCtx);
-      TRACE_LOCATION;
     deserializeContext(buffer,offset,max_length,  toCtx);
-      TRACE_LOCATION;
-      */
-    
   }
 };
 
@@ -312,77 +286,62 @@ public :
     PropagateInfo **p= new PropagateInfo*[4];
     for ( int i=0; i<4;i++)
       p[i] = new PropagateInfo;
-    p[0]->fromCtx = string("1.2.1.");
+    p[0]->fromCtx = string("1.2.1.3.5.");
     p[0]->toCtx=string("1.2.2.");
     p[0]->i = p[0]->j = 22;
     p[0]->fromVersion = 7;
     p[0]->data_handle = dh;
     prop_info.push_back(p[0]);
 
-    p[1]->fromCtx = string("1.2.1.");
-    p[1]->toCtx=string("1.2.2.");
-    p[1]->i = p[1]->j = 22;
-    p[1]->fromVersion = 7;
+    p[1]->fromCtx = string("1.2.1.3.");
+    p[1]->toCtx=string("1.2.2.5.");
+    p[1]->i = p[1]->j = 32;
+    p[1]->fromVersion = 17;
     p[1]->data_handle = dh;  
-    //    prop_info.push_back(p[1]);
+    prop_info.push_back(p[1]);
 
     p[2]->fromCtx = string("1.2.1.");
     p[2]->toCtx=string("1.2.2.");
-    p[2]->i = p[2]->j = 22;
-    p[2]->fromVersion = 7;
+    p[2]->i = p[2]->j = 2987;
+    p[2]->fromVersion = 21;
     p[2]->data_handle = dh;
-    //prop_info.push_back(p[2]);
+    prop_info.push_back(p[2]);
 
     p[3]->fromCtx = string("1.2.1.");
-    p[3]->toCtx=string("1.2.2.");
-    p[3]->i = p[3]->j = 22;
-    p[3]->fromVersion = 7;
+    p[3]->toCtx=string("1.4.2.");
+    p[3]->i = p[3]->j = 232;
+    p[3]->fromVersion = 77;
     p[3]->data_handle = dh;
-    //prop_info.push_back(p[3]);
+    prop_info.push_back(p[3]);
 
     byte *buffer;
     int length;
-    TRACE_LOCATION;
     packPropagateTask(prop_info,10); // pack and send
-    TRACE_LOCATION;
-    dtEngine.receivePropagateTask(buffer,&length);
-    TRACE_LOCATION;
+    dtEngine.receivePropagateTask(&buffer,&length);
     unpackPropagateTask(buffer,length);
-    TRACE_LOCATION;
 
   }
   /*------------------------------*/
   void unpackPropagateTask(byte *buffer,int length){
     PropagateInfo P;
     int offset = 0 ;
-    TRACE_LOCATION;
     while (offset <length) {
-      TRACE_LOCATION;
       P.deserialize(buffer,offset,length);
-      TRACE_LOCATION;
-      printf ("  @A(%d,%d) [%s%d]== [%s0]\n",P.i,P.j,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
-      TRACE_LOCATION;
+      printf ("  @A(%d,%d)%ld-%ld [%s%d]== [%s0]\n",P.i,P.j,P.data_handle.context_handle,P.data_handle.data_handle,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
       dtEngine.addPropagateTask(&P);
-      TRACE_LOCATION;
     }
-    TRACE_LOCATION;
   }
   /*------------------------------*/
   void packPropagateTask(list < PropagateInfo *> prop_info,int dest_host){
     list < PropagateInfo *>::iterator it;
     int msg_max_size = 1024; //prop_info.size() * sizeof(PropagateInfo) ;
     int msg_len = 0;
-    //    unsigned char *msg_buffer= new unsigned char [msg_max_size];
     byte  *msg_buffer= (byte *)malloc ( msg_max_size);
-    TRACE_LOCATION;
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);
-      TRACE_LOCATION;
       msg_len += P.serialize(msg_buffer + msg_len,msg_max_size);      
     }
-    TRACE_LOCATION;
     dtEngine.sendPropagateTask(msg_buffer,msg_len,dest_host);
-    TRACE_LOCATION;
   }
   /*------------------------------*/
   void sendPropagateTasks(){

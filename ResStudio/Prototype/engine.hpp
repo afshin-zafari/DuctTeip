@@ -35,14 +35,14 @@ public:
     }
     printf ("\n");
   }
-  void sendPropagateTask(unsigned char *msg_buffer, int msg_size, int dest_host) {
+  void sendPropagateTask(byte *msg_buffer, int msg_size, int dest_host) {
     prop_buffer = msg_buffer;
     prop_buffer_length = msg_size;
   }
-  void addPropagateTask(void *P){
+  void addPropagateTask(void *P){ 
   }
-  void receivePropagateTask(byte *buffer, int *length){
-    buffer  = prop_buffer ;
+  void receivePropagateTask(byte **buffer, int *length){
+    *buffer  = prop_buffer ;
     *length = prop_buffer_length ;
 
   }

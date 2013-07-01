@@ -141,7 +141,7 @@ Contains
        write ( *,"(A)",advance='no') "CholData:"
        do c = 1,ubound(mat,2)
           !if ( c>r ) exit
-          write ( *,"(F5)",advance='no') mat(r,c)
+          write ( *,"(F5.2)",advance='no') mat(r,c)
           if (mod(c,cb ) ==0 )  write ( *,"(A)",advance='no') "|" 
        end do
        write (*,*) ""
@@ -172,7 +172,7 @@ Contains
        data%id = i
        this%data_list(i)%status = DATA_STS_INITIALIZED
     Else
-       Write(*,*)  "*** Data List is Full"," : ",(i,data%name)
+       Write(*,*)  "*** Data List is Full"," : ",i,data%name
     End If
 
     
@@ -626,7 +626,7 @@ Contains
        mat =>this%data_list(i)%mat
        Do j = 1,Ubound(mat,1)
           Do k = 1,Ubound(mat,2)
-             Write ( *,"(F5)",advance='no') mat(j,k) 
+             Write ( *,"(F5.2)",advance='no') mat(j,k) 
           End Do
           Write (*,*) ""
        End Do   
@@ -654,7 +654,7 @@ Contains
     Do j = 1,Ubound(mat,1)
        Write (*,"(A9)",advance='no') "DataObj: "
        Do k = 1,Ubound(mat,2)
-          Write ( *,"(F5)",advance='no') mat(j,k) 
+          Write ( *,"(F5.2)",advance='no') mat(j,k) 
        End Do
        Write (*,*) ""
     End Do
@@ -670,7 +670,7 @@ Contains
     If ( Ubound(mat,1) > 10 ) return 
     Do j = 1,Ubound(mat,1)
        Do k = 1,Ubound(mat,2)
-          Write ( *,"(F5)",advance='no') mat(j,k) 
+          Write ( *,"(F5.2)",advance='no') mat(j,k) 
        End Do
        Write (*,*) ""
     End Do
@@ -740,7 +740,7 @@ Contains
    Type(remote_access)	:: this
    Type(task_info)	:: task
    Integer 		:: i  
-   Character (len=4*16) :: dlist
+   Character (len=4*25) :: dlist
    
 
    If ( task%type > SYNC_TYPE_NONE ) Then 
@@ -763,7 +763,8 @@ Contains
          Exit
       End If
    End Do
-  Write (*,"(A5 I2 I2 A8 A5 A75) ") "TBL ",task%id,task%proc_id,   task_sts_name(task%status),task%name(1:10),dlist(1:3*25)
+  Write (*,"(A5 I2 I2 A8 A5 A75) ") "TBL ",task%id,task%proc_id, &
+      task_sts_name(task%status),task%name(1:10),dlist(1:3*25)
 
 
   End Subroutine print_task
@@ -879,9 +880,9 @@ Contains
           tr_err = 0 
           trc=0
           If ( err /= 0.0 ) Then 
-             write(*,*)  "CheckCholResult-Sum,Error"," : ",(dname(1:13), sm, err)
+             write(*,*)  "CheckCholResult-Sum,Error"," : ",dname(1:13), sm, err
           Else
-             write(*,*)  "CheckCholResult-Sum"," : ",(dname(1:13), sm, err)
+             write(*,*)  "CheckCholResult-Sum"," : ",dname(1:13), sm, err
           End If
        Else          
           sm = 0.0
@@ -893,14 +894,14 @@ Contains
           err = sm + n*(n-1)/2.0
           tr_err = trc - n 
           If ( err /= 0.0 ) Then 
-             write(*,*)  "CheckCholResult-Sum,Error"," : ",(dname(1:13), sm, err)
+             write(*,*)  "CheckCholResult-Sum,Error"," : ",dname(1:13), sm, err
           Else
-             write(*,*)  "CheckCholResult-Sum   "," : ",(dname(1:13), sm, err)
+             write(*,*)  "CheckCholResult-Sum   "," : ",dname(1:13), sm, err
           End If
           If ( tr_err /= 0.0 ) Then 
-             write(*,*)  "CheckCholResult-Trace,Error"," : ",(dname(1:13), trc , tr_err)
+             write(*,*)  "CheckCholResult-Trace,Error"," : ",dname(1:13), trc , tr_err
           Else
-             write(*,*)  "CheckCholResult-Trace "," : ",(dname(1:13), trc , tr_err)
+             write(*,*)  "CheckCholResult-Trace "," : ",dname(1:13), trc , tr_err
           End If
        End If
     End Do

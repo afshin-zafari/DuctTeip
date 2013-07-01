@@ -409,7 +409,7 @@ Contains
     Do i=sp1(1),sp1(2)
        Do j=sp2(1),sp2(2)
           nam = Trim(this%writes)//"_block_"//to_str2(i+48)//"_"//to_str2(j+48)
-          write(*,*)  "asm task "," : ",("+>",nam,"<") 
+!          write(*,*)  "asm task "," : ",("+>",nam,"<") 
           Call dm_matrix_add(datamanager, nam)
           nam = Trim(this%writes)//"_dist_"//to_str2(i+48)//"_"//to_str2(j+48)
           Call dm_matrix_add(datamanager, nam)
@@ -432,7 +432,7 @@ Contains
           arg%i = i
           arg%j = j
           nam = Trim(this%writes)//"_block_"//to_str2(j+48)//"_"//to_str2(i+48)
-          write(*,*)  "asm task "," : ",("r>",nam,"<") 
+!          write(*,*)  "asm task "," : ",("r>",nam,"<") 
           writes = dm_handle_get(datamanager, nam)
           Call tl_add_task_unsafe(op_ass_single_task, arg, sizeof(arg), 0, 0, writes, 1, 0, 0) !!! ### MT
        End Do

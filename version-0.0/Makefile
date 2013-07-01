@@ -19,6 +19,15 @@ CPP_LIBS =  -L/opt/SUNWspro/lib/ -lCstd -lCrun
 #C = /opt/SUNWspro-12u2/bin/cc
 C = /opt/SUNWspro/bin/cc
 
+ifdef UBUNTU
+    F90 = mpif90
+    MPIF90 =mpif90 
+    PP.FLAGS=-E -DDEBUG_LEVEL=0 -DUPPMAX=1 -DRBF_VERSION=3 -DTIMING_TRACE=1 -DSAVE_DATA=0
+    F90.FLAGS = #-reentrancy  #-m64 
+    CPP = cc
+    C = cc
+    CPP_LIBS = -lstdc++ -lpthread #-lCstd -lCrun
+endif
 ifdef UPPMAX
     F90 = mpif90
     MPIF90 = mpif90 
@@ -192,6 +201,7 @@ op_mat_new_class.o: op_mat_new_class.f90
 
 op_mat_mul_class.o: op_mat_mul_class.f90
 	$(F90.COMPILE) op_mat_mul_class.f90
+
 op_mat_mul_class.f90:  debug.h op_mat_mul_class.F90
 	$(F90.COMPILE) $(PP.FLAGS) op_mat_mul_class.F90 -o op_mat_mul_class.f90
 

@@ -1,53 +1,28 @@
-# 1 "dist_cholesky_blk.F90"
-# 1 "<command-line>"
-# 1 "dist_cholesky_blk.F90"
 
+#include "debug.h" 
+#define TIMING(a,b,c,d) call instrument2(a,b,c,d)
+#define TRACEX(a,b)
 
-# 1 "debug.h" 1
+#define KERN(a) 
+#define TASK(a) 
 
+#define DIAG(a)  a
+#define PNLU(a)  
+#define MMUL(a)  
+#define XADD(a)  
+#define MADD(a)   
 
+#define HANDLE(a) 
+#define DRESULT(a) 
+#define DRANGE(a) 
 
-# 24 "debug.h"
+#define TRENTER(a)  
+#define TREXIT(a) 
 
+#define CHOL_NOPRT(a)  a
+#define CHOL_PRT(a)  
 
-
-                          
-# 36 "debug.h"
-
-# 46 "debug.h"
-
-# 56 "debug.h"
-
-# 66 "debug.h"
-
-# 76 "debug.h"
-
-# 86 "debug.h"
-
-# 3 "dist_cholesky_blk.F90" 2
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#define SEQ(a) 
 
 module dist_cholesky
 
@@ -99,13 +74,13 @@ contains
     type(chol_args) ,intent(inout):: arg
 
     
-    
+    TRACEX("CHOL_SYNC",arg%this%TName)
 
-    
+    TRACEX("CHOL_SYNC","D3")
     call data_combine_parts(arg%this%dobj3,arg%this%rows,arg%this%cols,arg%this%nb)
-    
+    TRACEX("CHOL_SYNC","D2")
     call data_combine_parts(arg%this%dobj2,arg%this%rows,arg%this%cols,arg%this%nb)
-    
+    TRACEX("CHOL_SYNC","D1")
     call data_combine_parts(arg%this%dobj1,arg%this%rows,arg%this%cols,arg%this%nb)
 
     call dm_set_sync(arg%this%dmngr,1)
@@ -129,15 +104,15 @@ contains
     C => arg%data1
 
     if ( .not. associated ( A)  ) then 
-       
+       KERN(DIAG(TRACEX("CHOL_KERN,Diag. A  associated",associated (A))))
        return 
     end if
     if ( .not. associated ( C)  ) then 
-       
+       KERN(DIAG(TRACEX("CHOL_KERN,Diag. C  associated",associated (C))))
        return 
     end if
     
-    call instrument2(EVENT_SUBTASK_STARTED , TASK_DIAG_NAME,1,arg%bidx) 
+    TIMING(EVENT_SUBTASK_STARTED , TASK_DIAG_NAME,1,arg%bidx) 
 
     do col=lbound(A,2),ubound(A,2)
        if ( col >1 ) then 
@@ -151,10 +126,10 @@ contains
        C(fr:,col) = A(fr:,col) / C(col,col)
     end do
 
-    call instrument2(EVENT_SUBTASK_FINISHED , TASK_DIAG_NAME,1,arg%bidx) 
-    
+    TIMING(EVENT_SUBTASK_FINISHED , TASK_DIAG_NAME,1,arg%bidx) 
+    KERN(DIAG(TRACEX("CholData: Diag ","A")))
     call chol_print_data( A, arg%rb,arg%cb)
-    
+    KERN(DIAG(TRACEX( "CHOL_KERN,Diag.","Exit")))
   end subroutine chol_diag_upd
 
 !!$------------------------------------------------------------------------------------------------------------------------
@@ -168,7 +143,7 @@ contains
 
 
 
-    
+    KERN(PNLU(TRACEX( "CHOL_KERN,Pnlu.  enter",(arg%fr,arg%tr,arg%fc,arg%tc))))
     
     A => arg%data1
     B => arg%data2 
@@ -177,10 +152,10 @@ contains
     if ( .not. associated (B)  ) return 
 
 
-    call instrument2(EVENT_SUBTASK_STARTED , TASK_PNLU_NAME,2,arg%bidx) 
+    TIMING(EVENT_SUBTASK_STARTED , TASK_PNLU_NAME,2,arg%bidx) 
     do col=1,ubound(B,2)
        
-       !
+       !KERN(PNLU(TRACEX("CHOL_KERN,Pnlu.  c,f:t",(col,",",arg%fr,arg%tr,"x",arg%fc,arg%tc))))
        if ( col >1 ) then 
           do r = 1,ubound(A,1)
              A(r,col) = A(r,col) - sum( A(r,1:col-1)*B(col,1:col-1) ) 
@@ -190,10 +165,10 @@ contains
        A(:,col) = A(:,col)/ B(col,col)
 
     end do
-    call instrument2(EVENT_SUBTASK_FINISHED , TASK_PNLU_NAME,2,arg%bidx) 
-!    
+    TIMING(EVENT_SUBTASK_FINISHED , TASK_PNLU_NAME,2,arg%bidx) 
+!    TRACEX("CholData: Pnlu A=p(A,B)","A")
     call chol_print_data( A, arg%rb,arg%cb)
-!    
+!    TRACEX("CholData: Pnlu ","B")
     call chol_print_data( B, arg%rb,arg%cb)
 
   end subroutine chol_mat_pnlu_local
@@ -204,7 +179,7 @@ contains
     type(chol_args), intent(inout)             :: arg
     real(kind=rfp) , dimension(:,:) , pointer  :: A,B,C
 
-    
+    KERN(MMUL(TRACEX("CHOL_KERN,MMul.  mul overwrt",arg%mul_overwrite)))
 
     A => arg%data1
     B => arg%data2
@@ -214,20 +189,20 @@ contains
     if ( .not. associated (B) ) return 
     if ( .not. associated (C) ) return 
 
-    call instrument2(EVENT_SUBTASK_STARTED , TASK_MMUL_NAME,3,arg%bidx) 
+    TIMING(EVENT_SUBTASK_STARTED , TASK_MMUL_NAME,3,arg%bidx) 
 
 
     C= matmul( A ,transpose(B) )
 
-    call instrument2(EVENT_SUBTASK_FINISHED , TASK_MMUL_NAME,3,arg%bidx) 
-    
-!    
+    TIMING(EVENT_SUBTASK_FINISHED , TASK_MMUL_NAME,3,arg%bidx) 
+    CHOL_PRT(TRACEX("CholData:","CHOL_KERN,MMul_local"))
+!    TRACEX("CholData: MMul C=A*Bt","A")
     call chol_print_data( A, arg%rb,arg%cb)
-!    
+!    TRACEX("CholData: MMul ","B")
     call chol_print_data( B, arg%rb,arg%cb)
-!    
+!    TRACEX("CholData: MMul ","C")
     call chol_print_data( C, arg%rb,arg%cb)
-    
+    KERN(MMUL(TRACEX("CHOL_KERN,MMul.","Exit")))
 
   end subroutine chol_mat_mul_local
 !!$------------------------------------------------------------------------------------------------------------------------
@@ -245,20 +220,20 @@ contains
     if ( .not. associated (C) ) return 
 
 
- !   
+ !   TRACEX("CholData: MAdd C=B-A","C0")
     call chol_print_data( C, arg%rb,arg%cb)
     
-    call instrument2(EVENT_SUBTASK_STARTED , TASK_MADD_NAME,4,arg%bidx) 
+    TIMING(EVENT_SUBTASK_STARTED , TASK_MADD_NAME,4,arg%bidx) 
     C(:,:)=B(:,:)-A(:,:)
 
-    call instrument2(EVENT_SUBTASK_FINISHED , TASK_MADD_NAME,4,arg%bidx) 
-  !  
+    TIMING(EVENT_SUBTASK_FINISHED , TASK_MADD_NAME,4,arg%bidx) 
+  !  TRACEX("CholData: MAdd ","C")
     call chol_print_data( C, arg%rb,arg%cb)
-  !  
+  !  TRACEX("CholData: MAdd ","B")
     call chol_print_data( B, arg%rb,arg%cb)
-  !  
+  !  TRACEX("CholData: MAdd ","A")
     call chol_print_data( A, arg%rb,arg%cb)
-    
+    KERN(MADD(TRACEX("CHOL_KERN,MAdd.","Exit")))
 
 
   end subroutine chol_mat_add_local
@@ -293,7 +268,7 @@ contains
     A => mat
     C => mat
     if ( .not. associated ( mat)  ) then 
-       
+       TRACEX("CHOL_SEQ,Diag. mat  associated",associated (mat))
        return 
     end if
     tr = ubound(mat,1)
@@ -336,7 +311,7 @@ contains
 
 
     if ( .not. associated ( mat ) ) then 
-       
+       TRACEX("Wrong Mat Input",associated ( mat ) )
        return
     end if
 
@@ -357,7 +332,7 @@ contains
 
     rbno = nrows / rb + 1
     cbno = ncols / cb + 1
-    
+    TRACEX("SeqBlock. BlkSize,BlkNo,Element No", (rb,cb,rbno,cbno,nrows,ncols) )
     do cbidx=1,cbno
        do rbidx = cbidx,rbno
           fr =     (rbidx-1) * rb+1
@@ -367,50 +342,50 @@ contains
           if ( fr > ubound(mat,1) ) exit
           if ( fc > ubound(mat,2) ) exit
           
-          
+          SEQ(TRACEX("SeqBlock. Loop cb,rb, ranges",(cbidx,rbidx,fr,tr,fc,tc)))
           if ( rbidx > cbidx ) then 
              ! panel update
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. Panel update",(fr,tr)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
              do c = fc,tc
                 if ( c > fc ) then 
                    do r=fr,tr
-                      
-                      
-                      
+                      SEQ(TRACEX("SeqBlock. Panel update inner loop ",(r,c)))
+                      SEQ(TRACEX("SeqBlock.",("mat(", c,',',fc,':',c-1,")*mat(",r,',',fc,':',c-1,"))")))
+                      SEQ(TRACEX("SeqBlock.",(sum(mat( c,fc:c-1)*mat(r,fc:c-1)))))
                       mat(r,c) = mat(r,c) - sum(mat( c,fc:c-1)*mat(r,fc:c-1))
                    end do
                 end if
                 !call chol_print_data( mat,rb,cb ) 
                 mat ( fr:tr,c) =  mat ( fr:tr,c) / mat ( c,c)                   
              end do
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
              ! gemm tasks
              fr2 = (cbidx)*rb +1 
              tr2 = min((cbidx+1)*rb , nrows)
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. gemm update ",(fr2,tr2)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
              Xmat(fr:tr,fc:tc) = matmul(  mat (fr:tr,fc:tc) , transpose(mat (fr2:tr2,fc:tc)) )
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
              do cbidx2=cbidx,rbidx-1
                 fc2 =  cbidx2   *cb + 1
                 tc2 = (cbidx2+1)*cb
                 if ( fc2 > ubound(mat,2) ) exit 
-                call instrument2(EVENT_SUBTASK_STARTED , TASK_MADD_NAME,4,rbidx*cb+cbidx2) 
+                TIMING(EVENT_SUBTASK_STARTED , TASK_MADD_NAME,4,rbidx*cb+cbidx2) 
                 mat(fr:tr,fc2:tc2) = mat(fr:tr,fc2:tc2) - Xmat(fr:tr,fc:tc)
-                call instrument2(EVENT_SUBTASK_FINISHED , TASK_MADD_NAME,4,rbidx*cb+cbidx2) 
+                TIMING(EVENT_SUBTASK_FINISHED , TASK_MADD_NAME,4,rbidx*cb+cbidx2) 
              end do
              call chol_print_data( mat ,rb,cb ) 
              call chol_print_data( Xmat,rb,cb ) 
           end if
           if (rbidx == cbidx) then 
              ! diagonal block 
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. Diagonal update",(fc,tc)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
              do c=fc,tc
                 if ( c >1 ) then 
                    do r = c,tr
-                      
+                      SEQ(TRACEX("SeqBlock. Diagonal update inner loop ",(r,c)))
                       mat(r,c) = mat (r,c) - sum(  mat(r,fc:c-1)*mat(c,fc:c-1)  )              
                    end do
                 end if
@@ -418,7 +393,7 @@ contains
                 mat(c,c) = sqrt ( abs(mat(c,c)))    
                 mat(fr:tr,c) = mat(fr:tr,c) / mat(c,c)    
              end do
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
              call chol_print_data( mat,rb,cb ) 
           end if 
        end do ! row block idx
@@ -460,7 +435,7 @@ contains
 
     rbno = nrows / rb + 1
     cbno = ncols / cb + 1
-    
+    TRACEX("SeqBlock. BlkSize,BlkNo,Element No", (rb,cb,rbno,cbno,nrows,ncols) )
     do cbidx=1,cbno
        do rbidx = cbidx,rbno
           fr =     (rbidx-1) * rb+1
@@ -469,50 +444,50 @@ contains
           tc = min( cbidx    * cb  ,ncols)
           if ( fr > ubound( mat ,1 ))  exit
           if ( fc > ubound( mat ,2 ))  exit
-          
+          SEQ(TRACEX("SeqBlock. Loop cb,rb, ranges",(cbidx,rbidx,fr,tr,fc,tc)))
           if ( cbidx > 1 ) then 
              ! add X to mat
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_MADD_NAME,4,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. Subtract X from Mat",(fr,tr)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_MADD_NAME,4,rbidx*cb+cbidx) 
              mat (fr:tr,fc:tc) = mat(fr:tr,fc:tc) - Xmat(fr:tr,:)
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_MADD_NAME,4,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_MADD_NAME,4,rbidx*cb+cbidx) 
              call chol_print_data( mat,rb,cb ) 
           end if
           if ( rbidx > cbidx ) then 
              ! panel update
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. Panel update",(fr,tr)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
              do c = fc,tc
                 if ( c > fc ) then 
                    do r=fr,tr
-                      
-                      
-                      
+                      SEQ(TRACEX("SeqBlock. Panel update inner loop ",(r,c)))
+                      SEQ(TRACEX("SeqBlock.",("mat(", c,',',fc,':',c-1,")*mat(",r,',',fc,':',c-1,"))")))
+                      SEQ(TRACEX("SeqBlock.",(sum(mat( c,fc:c-1)*mat(r,fc:c-1)))))
                       mat(r,c) = mat(r,c) - sum(mat( c,fc:c-1)*mat(r,fc:c-1))
                    end do
                 end if
                 !call chol_print_data( mat,rb,cb ) 
                 mat ( fr:tr,c) =  mat ( fr:tr,c) / mat ( c,c)                   
              end do
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_PNLU_NAME,2,rbidx*cb+cbidx) 
              ! gemm tasks
              fr2 = (cbidx)*rb +1 
              tr2 = min((cbidx+1)*rb , nrows)
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. gemm update ",(fr2,tr2)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
              Xmat(fr:tr,:) = Xmat(fr:tr,:) +  matmul(  mat (fr:tr,fc:tc) , transpose(mat (fr2:tr2,fc:tc)) )
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_MMUL_NAME,3,rbidx*cb+cbidx) 
              call chol_print_data( mat ,rb,cb ) 
              call chol_print_data( Xmat,rb,cb ) 
           end if
           if (rbidx == cbidx) then 
              ! diagonal block 
-             
-             call instrument2(EVENT_SUBTASK_STARTED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
+             SEQ(TRACEX("SeqBlock. Diagonal update",(fc,tc)))
+             TIMING(EVENT_SUBTASK_STARTED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
              do c=fc,tc
                 if ( c >1 ) then 
                    do r = c,tr
-                      
+                      SEQ(TRACEX("SeqBlock. Diagonal update inner loop ",(r,c)))
                       mat(r,c) = mat (r,c) - sum(  mat(r,fc:c-1)*mat(c,fc:c-1)  )              
                    end do
                 end if
@@ -520,7 +495,7 @@ contains
                 mat(c,c) = sqrt ( abs(mat(c,c)))    
                 mat(fr:tr,c) = mat(fr:tr,c) / mat(c,c)    
              end do
-             call instrument2(EVENT_SUBTASK_FINISHED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
+             TIMING(EVENT_SUBTASK_FINISHED , TASK_DIAG_NAME,1,rbidx*cb+cbidx) 
              call chol_print_data( mat,rb,cb ) 
           end if 
        end do ! row block idx
@@ -554,7 +529,7 @@ contains
  
     nrows = this%rows
     ncols = this%cols
-    
+    TRACEX("nb",this%nb)
     rb=nrows / this%nb
     cb=ncols / this%nb
     allocate ( Xdobj%mat ( 1:nrows, 1:ncols) ) 
@@ -569,7 +544,7 @@ contains
     rbno = this%nb
     cbno = this%nb
 
-    
+    TRACEX("CholTask.Diag BlkSize,BlkNo,Element No", (rb,cb,rbno,cbno,nrows,ncols) )
     do cbidx=1,cbno
        do rbidx = cbidx,rbno
           hAdd  = chol_get_handle(this,'M',rbidx,cbidx,.true.)
@@ -582,7 +557,7 @@ contains
     do cbidx=1,cbno
        do rbidx = cbidx,rbno
           arg%bidx = rbidx*cb + cbidx
-          
+          TASK(DIAG(TRACEX("CholTask.Diag  Loop cb,rb, ranges",(argidx,cbidx,rbidx))))
           if ( rbidx > cbidx ) then 
              ! panel update
              ! B d2 diag, A d1 
@@ -592,7 +567,7 @@ contains
              arg%data1 => data_get_mat_part(this%dobj1,rbidx,cbidx)
              arg%data2 => data_get_mat_part(this%dobj1,cbidx,cbidx)
              arg%TName = "PNLU"
-             
+             TASK(DIAG(TRACEX("CholTask.Diag. PNLU handle",(hRead,hAdd)) ))
              call tl_add_task_named(TASK_PNLU_NAME//char(0),chol_mat_pnlu_local, arg, sizeof(arg), &
                   hRead,1, hAdd,1, 0,0,5)
              ! gemm tasks
@@ -605,7 +580,7 @@ contains
              arg%data2 => data_get_mat_part(this%dobj1,rbidx  ,cbidx   )
              arg%data3 => data_get_mat_part(Xdobj     ,rbidx  ,cbidx+1 )
              arg%TName = "MMUL"
-             
+             TASK(DIAG(TRACEX("CholTask.Diag. MMUL handle",(hReads,hAdd)) ))
              call tl_add_task_named( TASK_MMUL_NAME , chol_mat_mul_local , arg, sizeof(arg) , &
                   hReads,2, hAdd ,1 , 0,0, 5)
 
@@ -621,7 +596,7 @@ contains
                 arg%data2 => data_get_mat_part(this%dobj1,rbidx  ,cbidx2+1 )
                 arg%data3 => data_get_mat_part(this%dobj1,rbidx  ,cbidx2+1 )
                 arg%TName = "MADD"
-                
+                TASK(DIAG(TRACEX("CholTask.Diag. MADD handle",(hRead,hAdd)) ))
                 call tl_add_task_named(TASK_MADD_NAME,chol_mat_add_local, arg,sizeof(arg) , &
                      hRead,1 , hAdd,1,0,0 ,5)
 !                call sg_madd(SG_ARG(arg) , hRead,1 , hAdd,1,NO_ADD )
@@ -630,7 +605,7 @@ contains
           if (rbidx == cbidx) then 
              hAdd = chol_get_handle ( this,'M',rbidx,cbidx )
              arg%data1 => data_get_mat_part(this%dobj1,rbidx,cbidx )
-             
+             TASK(DIAG(TRACEX("CholTask.Diag. DIAG handle",(hAdd)) ))
              arg%TName = "DIAG"
              call tl_add_task_named ( TASK_DIAG_NAME,chol_diag_upd,arg,sizeof(arg) , 0,0, hAdd,1 , 0,0,5)
 !             call sg_diag(arg,sizeof(arg) , NO_READ, hAdd,1 , NO_ADD)
@@ -639,7 +614,7 @@ contains
     end do ! col block idx
 
     hRead = chol_get_handle ( this,'M',rbno,cbno)
-    
+    TASK(DIAG(TRACEX("CholTask.Diag. DIAG handle",(hRead)) ))
     call tl_add_task_named("sync"//char(0),chol_task_sync,arg,sizeof(arg), hRead,1, 0,0, 0,0, 5)
 
   end subroutine chol_diag_task
@@ -662,11 +637,11 @@ contains
     if ( present(create) .and. create  ) then 
        call  dm_matrix_add ( this%dmngr, hname)
        hnd = dm_handle_get ( this%dmngr, hname)
-       
+       TASK(HANDLE(TRACEX(" Handle Name +", (hname ,hnd,fr,':',tr,'-',fc,':',tc)) ))
        return 
     end if
     hnd = dm_handle_get(this%dmngr,hname)
-    
+    TASK(HANDLE(TRACEX(" Handle Name  ", (hname ,hnd,fr,':',tr,'-',fc,':',tc)) ))
     
   end function chol_get_handle
 !!$------------------------------------------------------------------------------------------------------------------------

@@ -350,9 +350,10 @@ Contains
        
        call instrument(EVENT_LSNR_SENT_REQUESTED,idx,this%lsnr_list(idx)%req_data%proc_id,0)
        this%lsnr_list(idx)%status = COMM_STS_SEND_PROGRESS
-       write(*,*)  "Listener Sent, idx,dname,tag,sz,err,to"," : ",(idx,this%lsnr_list(idx)%dname,MPI_TAG_LSNR,               sizeof&
+       write(*,*)  "Listener Sent, idx,dname,tag,sz,err,to"," : ",&
+               idx,this%lsnr_list(idx)%dname,MPI_TAG_LSNR,               sizeof&
 # 288
-(lsnr),err,this%lsnr_list(idx)%req_data%proc_id)
+(lsnr),err,this%lsnr_list(idx)%req_data%proc_id
 
     End If
 

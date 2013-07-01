@@ -236,19 +236,19 @@ protected:
       if (task == 0)
         return;
 
-			rememberTask(task);
+			this->rememberTask(task);
 			WorkerThread_GetThreadWorkspace<Options, Options::ThreadWorkspace>::resetWorkspaceIndex();
 
-			if (runRenamed(task))
+			if (this->runRenamed(task))
 				continue;
 
-			if (!lockResources(task)) {
+			if (!this->lockResources(task)) {
 				// ### should we wake everybody waiting in a barrier here?
 				// DEBUG_TASK_DEPENDENCY_checkNotWaiting(task.get());
 				continue;
 			}
 			DEBUG_TASK_setThreadID(*task, id);
-			runTask(task);
+			this->runTask(task);
 		}
 	}
 

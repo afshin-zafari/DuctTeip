@@ -303,7 +303,7 @@ Contains
 
     Call MPI_IPROBE(MPI_ANY_SOURCE,MPI_TAG_LSNR, this%mpi_comm,flag,sts,err)
     if ( err /= 0 ) then 
-        write(*,*)  "Receiving Lsnr failed. err"," : ",(err)
+        write(*,*)  "Receiving Lsnr failed. err"," : ",err
     end if 
      
 
@@ -320,7 +320,7 @@ Contains
        this%lsnr_list(idx)%status = LSNR_STS_CLEANED
        this%event	          = EVENT_LSNR_RECEIVED
        dname=this%lsnr_list(idx)%dname
-       write(*,*)  "Lsnr from,dname "," : ",(sts(MPI_SOURCE),dname)
+       write(*,*)  "Lsnr from,dname "," : ",sts(MPI_SOURCE),dname
        Data = data_find_by_name_dbg(this,dname,"remote_access_class.F90",279)
        If ( data%id == DATA_INVALID_ID) Then 
           Data=data_create(this,dname,this%np,this%nd,this%lsnr_list(idx)%min_ver,this%proc_id)
@@ -841,7 +841,7 @@ Contains
     Integer                             :: i,j
     Character(len=MAX_DATA_NAME)        :: wrt_data_name
 
-    write(*,*)  "LBM, lsnr redirect,task,owner "," : ",(task_id,new_owner)
+    write(*,*)  "LBM, lsnr redirect,task,owner "," : ",task_id,new_owner
     Do i=1,Ubound(this%task_list,1)
        If (this%task_list(i)%id == task_id ) Then 
           Do j=1,Ubound(this%task_list(i)%axs_list,1)
@@ -887,14 +887,14 @@ Contains
           return 
        End If
        write(*,*)  "LBM,TASK export,dest"," : ",this%task_steal_dest
-       write(*,*)  "LBM,task idx,proc,comm,name"," : ",(idx,this%task_list(idx)%proc_id,this%mpi_comm,this%task_list(idx)%name)
+       write(*,*)  "LBM,task idx,proc,comm,name"," : ",idx,this%task_list(idx)%proc_id,this%mpi_comm,this%task_list(idx)%name
        this%task_list(idx)%id=0
        Call  MPI_ISEND (this%task_list(idx),sizeof(task),MPI_BYTE, & 
             this%task_steal_dest,MPI_TAG_TASK_STEAL,this%mpi_comm,this%task_req(idx),err) 
 !       write(*,*)  "LBM,tag,err,req,size,id,pid,name after ISEND"," : ",(MPI_TAG_TASK,err,this%task_req(idx),sizeof(task),this%task_list(idx)%id,this%task_list(idx)%proc_id,this%task_list(idx)%name)
 
        this%task_list(idx)%status = COMM_STS_SEND_PROGRESS
-       write(*,*)  "LBM,task sts"," : ",(idx,task_sts_name(this%task_list(idx)%status) )
+       write(*,*)  "LBM,task sts"," : ",idx,task_sts_name(this%task_list(idx)%status) 
     End If
   End Subroutine task_export
 
@@ -924,14 +924,14 @@ Contains
 # 984
 
     If ( flag ) Then 
-       write(*,*)  "LBM,task export received  error,flag,sts,name"," : ",(err,flag,sts,this%task_list(idx)%name) 
+       write(*,*)  "LBM,task export received  error,flag,sts,name"," : ",err,flag,sts,this%task_list(idx)%name
 
 
        Call MPI_RECV ( this%task_list(idx), sizeof(task), MPI_BYTE,&
             sts(MPI_SOURCE), MPI_TAG_TASK_STEAL, this%mpi_comm, sts, err)
 
 
-       write(*,*)  "LBM,task export received  error,flag,sts,name"," : ",(err,flag,sts,this%task_list(idx)%name)
+       write(*,*)  "LBM,task export received  error,flag,sts,name"," : ",err,flag,sts,this%task_list(idx)%name
 !       
 !G_TASK&
 !# 997
@@ -947,7 +947,7 @@ Contains
 # 1008
 
     If ( flag ) Then 
-       write(*,*)  "LBM,task export  received  error,flag,sts,name"," : ",(err,flag,sts,this%task_list(idx)%name) 
+       write(*,*)  "LBM,task export  received  error,flag,sts,name"," : ",err,flag,sts,this%task_list(idx)%name
 
 
        Call MPI_RECV ( this%task_list(idx), sizeof(task), MPI_BYTE,&
@@ -1029,7 +1029,7 @@ Contains
     Integer                             :: idx,err
     Type(task_info)                     :: task
 
-    write(*,*)  "LBM,Xfer task,from,to,wght"," : ",(f,t,w)
+    write(*,*)  "LBM,Xfer task,from,to,wght"," : ",f,t,w
 
     Do idx=1,Ubound(this%task_list,1)
        If (this%task_list(idx)%id /= TASK_INVALID_ID) Then 
@@ -1245,7 +1245,7 @@ Contains
     Integer 		    	  	 :: ii
 
     If ( Present(idx)  ) Then 
-       write(*,*)  "Gen Single Task pid,idx"," : ",(pid,idx)
+       write(*,*)  "Gen Single Task pid,idx"," : ",pid,idx
        If ( this%task_list(idx)%id == TASK_INVALID_ID )  then 
           Return 
        end if 
@@ -1259,7 +1259,7 @@ Contains
        i = pid
        j = pid 
     End If
-    write(*,*)  "Task for pid, Di,Dj"," : ",(pid,i,j)
+    write(*,*)  "Task for pid, Di,Dj"," : ",pid,i,j
 
 
     t_name = TNAME_ASM_MAT
@@ -1570,7 +1570,7 @@ Contains
        t_cnt = (this%node_cnt*5) **2
        d_cnt = t_cnt*3 
     End If
-    write(*,*)  "Task,Data Cnt ,GrpSize,InstCnt,Nc"," : ",(t_cnt,d_cnt,this%group_size,inst_cnt,this%nc)
+    write(*,*)  "Task,Data Cnt ,GrpSize,InstCnt,Nc"," : ",t_cnt,d_cnt,this%group_size,inst_cnt,this%nc
     
     
 
@@ -1772,7 +1772,7 @@ Contains
     End If
     Call rma_init_this(rma)
 
-    write(*,*)  "@@data buf size "," : ",(rma%data_buf_size,np,nc)
+    write(*,*)  "@@data buf size "," : ",rma%data_buf_size,np,nc
 
   End Function rma_make_this
 !---------------------------------------------------------------------------------------------------------------------------
@@ -1819,9 +1819,9 @@ Contains
 
     time_out= opt_get_option(rma%opt,OPT_TIME_OUT)
 
-    write(*,*)  "@@data buf size1 "," : ",(rma%data_buf_size,np,nt)
+    write(*,*)  "@@data buf size1 "," : ",rma%data_buf_size,np,nt
     Allocate ( rma%data_buf  (rma%data_buf_size) )  
-    write(*,*)  "@@data buf size2 "," : ",(rma%data_buf_size,np,nt)
+    write(*,*)  "@@data buf size2 "," : ",rma%data_buf_size,np,nt
     Allocate ( rma%data_buf2 (rma%data_buf_size) )
 !!! MT: Dead code? Packs invalid Datas and corrupts memory
 !    Call pack_data_pts(rma,Data,pts,rma%data_buf ,rma%data_buf_size)
@@ -1908,7 +1908,7 @@ Contains
                 j = j+1
                 If ( j > rma%pc)drdy =0 
                 dnow = getime()/1        
-                write(*,*)  "Populated P"," : ",(rma%proc_id,dname ,getime()/1e3 - drdy ,rma%pc,rma%sync_stage) 
+                write(*,*)  "Populated P"," : ",rma%proc_id,dname ,getime()/1e3 - drdy ,rma%pc,rma%sync_stage
              End If
           Else          
              If ( .Not. populated) Then 
@@ -1916,7 +1916,7 @@ Contains
                    Do j=1,rma%pc
                       dname = "P"//to_str(i)//"_"//to_str(j)
                       Call data_populate(rma,dname,pts)
-                      write(*,*)  "Populated P"," : ",(rma%proc_id,dname ,dnow ,rma%pc,rma%sync_stage) 
+                      write(*,*)  "Populated P"," : ",rma%proc_id,dname ,dnow ,rma%pc,rma%sync_stage
                    End Do
                 End Do
                 populated = .True.
@@ -1927,7 +1927,7 @@ Contains
           dnow = getime()/1        
        End If
        If ( (dnow-time) > time_out*1e6 ) Then 
-          Write (*,*) " TBL TimeOut #",dnow,time,(dnow-time) , (time_out*1       )
+          Write (*,*) " TBL TimeOut #",dnow,time,(dnow-time) , time_out*1       
           Exit
        End If
 
@@ -1954,7 +1954,7 @@ Contains
     seqchunk = opt_get_option(this%opt,OPT_SEQ_CHUNK)
     nb = Max(np/seqchunk,1)
     If ( nb == 1 ) seqchunk = np
-    write(*,*)  "SEQ_CHUNK,nb"," : ",(seqchunk,nb) 
+    write(*,*)  "SEQ_CHUNK,nb"," : ",seqchunk,nb
     Do l=1,nb
        Do k=1,nb
           Allocate(x(seqchunk,1:2),d(seqchunk,seqchunk),r(seqchunk,seqchunk))
@@ -2134,7 +2134,7 @@ Contains
              answer = this%sync_stage == SYNC_TYPE_TERM_OK
              If ( answer ) Then 
                 Call rma_save_data(this)
-                write(*,*)  "Data Clean All Called"," : ",(this%sync_stage,SYNC_TYPE_TERM_OK)
+                write(*,*)  "Data Clean All Called"," : ",this%sync_stage,SYNC_TYPE_TERM_OK
                 Call data_clean_all(this)
              End If
           End If       

@@ -277,7 +277,7 @@ Contains
     If (0==1 .and. opt_get_option(this%opt,OPT_NODE_AUTONOMY) /= 0 .And. this%proc_id == pid .And. dh%name(1:1)/= "D") Then 
        pts = data_sample_pts(this,this%np,2,this%nd)
        Call data_populate(this,dh%name ,pts)
-       write(*,*)  "Populated "," : ",(this%proc_id,pid,dh%name ) 
+       write(*,*)  "Populated "," : ",this%proc_id,pid,dh%name 
     End If
 
     
@@ -377,7 +377,7 @@ Contains
     test = opt_get_option(this%opt,OPT_TEST_CORRECTNESS)
     choltrf = opt_get_option(this%opt,OPT_CHOLESKY)
     If ( choltrf /= 0 ) Then 
-       write(*,*)  "Chol Init Data name,rows"," : ",(name,my_data%nrows)
+       write(*,*)  "Chol Init Data name,rows"," : ",name,my_data%nrows
        my_data%ncols = my_data%nrows
        Allocate ( this%data_list(my_data%id)%mat (1:my_data%nrows,1:my_data%ncols) ) 
        

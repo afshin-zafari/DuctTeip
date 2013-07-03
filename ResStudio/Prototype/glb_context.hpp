@@ -12,7 +12,7 @@
 
 #define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
 
-typedef unsigned char byte;
+//typedef unsigned char byte;
 using namespace std;
 
 extern int me;
@@ -22,20 +22,10 @@ class ContextHostPolicy;
 
 struct PropagateInfo{
 public:
-  int fromVersion;
-  int i,j;
-  string fromCtx,toCtx;
+  int        fromVersion,i,j;
+  string     fromCtx,toCtx;
   DataHandle data_handle;
-  template<class T> 
-  void copy(byte * b,int &o,T a){
-    memcpy(b+o,(char *)&a,sizeof(a));
-    o +=  sizeof(a);
-  }
-  template<class T> 
-  void paste(byte * b,int &o,T *a){
-    memcpy((char *)a,b+o,sizeof(T));
-    o +=  sizeof(T);
-  }
+
   void deserializeContext(byte *buffer,int &offset,int max_length,string &ctx){
     int level_count, ctx_level_id ;
     paste<int>(buffer,offset,&level_count);
@@ -60,16 +50,7 @@ public:
      copy<int>(buffer,offset,level_count);
      offset = local_offset;
   }
-  void flushBuffer(byte *buffer,int length){
-    printf("flush buffer:%p \n",buffer);
-    for ( int i=0;i<length ;i++){
-      printf ("%2.2X ",buffer[i]);
-      if ( (i>=20) && (i % 20) == 0 ) printf("\n");
-    }
-    printf("\n");
-  }
-  int serialize(byte *buffer,int max_length){
-    int offset = 0 ;
+  int    serialize(byte *buffer,int &offset,int max_length){
     copy<int>(buffer,offset,fromVersion);
     copy<int>(buffer,offset,i);
     copy<int>(buffer,offset,j);
@@ -79,7 +60,7 @@ public:
     serializeContext(buffer,offset,max_length,  toCtx);
     return offset;
   }
-  void deserialize(byte * buffer , int &offset,int max_length){
+  void deserialize(byte *buffer,int &offset,int max_length){
     paste<int>(buffer,offset,&fromVersion);
     paste<int>(buffer,offset,&i);
     paste<int>(buffer,offset,&j);
@@ -145,7 +126,7 @@ private:
   unsigned long        last_context_handle,last_data_handle;
   
 public :
-   GlobalContext(){
+  GlobalContext(){
     sequence=-1;
     ctxHeader = new ContextHeader;
     LevelInfo li;
@@ -243,7 +224,7 @@ public :
   /*------------------------------*/
   int  dumpPropagations(list < PropagateInfo *> prop_info){
     list < PropagateInfo *>::iterator it;
-    typedef long data_handle; // ToDo: replace with real data handle
+    DataHandle  data_handle;
     int msg_size = 0 ;
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);
@@ -339,7 +320,7 @@ public :
     byte  *msg_buffer= (byte *)malloc ( msg_max_size);
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);
-      msg_len += P.serialize(msg_buffer + msg_len,msg_max_size);      
+      P.serialize(msg_buffer,  msg_len,msg_max_size);      
     }
     dtEngine.sendPropagateTask(msg_buffer,msg_len,dest_host);
   }
@@ -428,5 +409,7 @@ public :
 
 
 };
+
+
 
 #endif //__GLB_CONTEXT_HPP__

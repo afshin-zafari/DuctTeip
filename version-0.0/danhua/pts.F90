@@ -1,4 +1,7 @@
 # 1 "danhua/pts.F90"
+# 1 "<command-line>"
+# 1 "danhua/pts.F90"
+# 1 "danhua/pts.F90"
 !$$$ pts.f90 $$$
 !
 ! get_pointer_pts(rg,pts)
@@ -19,25 +22,26 @@
 !              NOTE: All points of the same type must be in the same block
 !
 
-# 23
-
-
-# 1 "danhua/../debug.h" 1 
+# 23 "danhua/pts.F90"
 
 
 
-# 11
+# 1 "danhua/../debug.h" 1
 
 
 
-
+# 11 "danhua/../debug.h"
 
 
 
 
 
 
-# 23
+
+
+
+
+# 23 "danhua/../debug.h"
 
 
 
@@ -46,51 +50,51 @@
 
 
 
-# 35
+# 35 "danhua/../debug.h"
 
 
-# 41
-
-
-
-
-
-
-# 51
+# 41 "danhua/../debug.h"
 
 
 
 
 
 
-# 61
+# 51 "danhua/../debug.h"
 
 
 
 
 
 
-# 71
+# 61 "danhua/../debug.h"
 
 
 
 
 
 
-# 81
+# 71 "danhua/../debug.h"
 
 
 
 
 
 
-# 91
+# 81 "danhua/../debug.h"
 
 
 
 
 
-# 26 "danhua/pts.F90" 2 
+
+# 91 "danhua/../debug.h"
+
+
+
+
+
+# 26 "danhua/pts.F90" 2
 
 Module class_point_set 
 Use fp

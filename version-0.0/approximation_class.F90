@@ -1,9 +1,34 @@
+# 1 "approximation_class.F90"
+# 1 "<command-line>"
+# 1 "approximation_class.F90"
 
-#ifdef APPROXIMATION_DLEVEL 
-#define DEBUG_LEVEL APPROXIMATION_DLEVEL
-#endif
 
-#include "debug.h"
+
+
+
+
+# 1 "debug.h" 1
+
+
+
+# 24 "debug.h"
+
+
+
+                          
+# 36 "debug.h"
+
+# 46 "debug.h"
+
+# 56 "debug.h"
+
+# 66 "debug.h"
+
+# 76 "debug.h"
+
+# 86 "debug.h"
+
+# 7 "approximation_class.F90" 2
 
 
 Module approximation_class
@@ -29,7 +54,7 @@ Module approximation_class
  
  Contains 
 
-#if     RBF_VERSION > 2
+
     Subroutine approximation_new2(this, phi, eps,pts,pts2)
 
       Type(approximation)                   , Intent(inout)  :: this
@@ -38,18 +63,18 @@ Module approximation_class
       Type(point_set)                       , Intent(in)     :: pts,pts2
       Integer           ,Dimension(:,:)     , Pointer        :: ids
       Integer 						     :: i ,l
-      TRACE2("4.1",1)
+      
       
       this%phi = phi(1:80)
-      TRACE2("5",1)
+      
       this%eps = eps
-      TRACE2("6",1)
+      
       Allocate(this%pts)
       Allocate(this%pts2)
-      TRACE2("7",1)
+      
       this%pts = pts
       this%pts2 = pts2
-      TRACE2("8",1)
+      
 
     End Subroutine approximation_new2
     
@@ -60,7 +85,7 @@ Module approximation_class
     End Function approximation_get_point_set2
 
 
-#endif		
+
 
 	Subroutine approximation_new(this, phi, eps, file_path)
 		Type(approximation), Intent(inout)	:: this

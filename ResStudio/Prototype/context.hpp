@@ -539,5 +539,34 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
 void AddTask ( IContext *ctx,char*s,IData *d1                    ) { AddTask ( ctx,s,NULL,NULL , d1);}
 void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2          ) { AddTask ( ctx,s,d1  ,NULL , d2);}
 
+/*===============================================================================*/
+void ITask::deserialize(byte *buffer,int &offset,int max_length){
+  paste<TaskHandle>(buffer,offset,&handle);
+  int count ;
+  paste<int>(buffer,offset,&count);
+  data_list = new list<DataAccess *>;
+  for ( int i=0; i<count; i++){
+    DataAccess *data_access = new DataAccess;
+    DataHandle *data_handle = new DataHandle;
+    data_handle->deserialize(buffer,offset,max_length);
+    IData *data = glbCtx.getDataByHandle(data_handle);
+    paste<int>(buffer,offset,&data_access->required_version);
+    data_access->data = data;
+    data_list->push_back(data_access);
+  }
+}
+
+/*===============================================================================*/
+void engine:: sendTask(ITask* task,int destination){
+  int offset = 0 ;
+  int msg_size = task->getSerializeRequiredSpace();
+  byte *buffer = (byte *)malloc(msg_size);
+  task->serialize(buffer,offset,msg_size);
+  flushBuffer(buffer,msg_size);
+  mailbox->send(buffer,offset,MailBox::TaskTag,destination);
+}
+int MailBox::checkInbox(){//ToDo
+  dtEngine.sendTask(NULL,0);
+}
 
 #endif //  __CONTEXT_HPP__

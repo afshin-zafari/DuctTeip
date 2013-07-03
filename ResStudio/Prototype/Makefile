@@ -1,5 +1,5 @@
 
-prog_list=  1 2 3 4 5 6#  7 8 9 10 11 12 
+prog_list=  1 2 3 4 5 6 7 #8 9 10 11 12 
 outdir= ./temp
 CPP = /opt/SUNWspro/bin/CC
 CPP_LIBS =  -L/opt/SUNWspro/lib/ -lCstd -lCrun
@@ -14,6 +14,11 @@ ifdef UBUNTU
     CPP = /usr/bin/g++
     CPP_LIBS =  -L/usr/lib/  -lstdc++
     C = /usr/bin/g++
+endif
+ifdef UBUNTUMPI
+    CPP = /usr/bin/mpic++
+    CPP_LIBS =  -L/usr/lib/  -lmpi -lstdc++
+    C = /usr/bin/mpic++
 endif
 ifdef SCILINUX
     CPP = /usr/bin/gcc
@@ -38,7 +43,6 @@ endef
 all: $(foreach i, $(prog_list), $(outdir)/test$(i) ) 
 
 $(foreach i, $(prog_list), $(eval $(call rule_tests,$(i))))
-
 
 
 clean: 

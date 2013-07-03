@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include "basic.hpp"
 
 using namespace std;
 
@@ -42,6 +43,14 @@ DataHandle operator = ( DataHandle rhs ) {
   this->context_handle = rhs.context_handle ;
   this->data_handle   = rhs.data_handle    ;
 }
+  int    serialize(byte *buffer, int &offset,int max_length){
+    copy<unsigned long>(buffer,offset,context_handle);
+    copy<unsigned long>(buffer,offset,   data_handle);
+  } 
+  void deserialize(byte *buffer, int &offset,int max_length){
+    paste<unsigned long>(buffer,offset,&context_handle);
+    paste<unsigned long>(buffer,offset,   &data_handle);
+  }
 };
 class IContext;
 /*================== Data Class =====================*/

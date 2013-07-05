@@ -3,6 +3,7 @@
 
 typedef unsigned char byte;
 //#include "basic.hpp"
+#include <pthread.h>
 #include "task.hpp"
 #include "listener.hpp"
 #include "mailbox.hpp"
@@ -62,9 +63,10 @@ private:
   byte           *prop_buffer;
   int             prop_buffer_length;
   MailBox        *mailbox;
-  //SimulateComm   *net_comm;
-  MPIComm      *net_comm;
+  MPIComm        *net_comm;
   list<DuctTeipWork *> work_queue;
+  pthread_t thread_id;
+  pthread_mutex_t thread_lock;
 public:
   engine(){
     net_comm = new MPIComm;
@@ -76,13 +78,14 @@ public:
   }
   TaskHandle  addTask(string task_name, int task_host, list<DataAccess *> *data_access){
     ITask *task = new ITask (task_name,task_host,data_access);
-    TaskHandle task_id = task_list.size();    
+    pthread_mutex_lock(&thread_lock);
+    TaskHandle task_handle = task_list.size();    
     task_list.push_back(task);
     if (task_host != me ) {
       sendTask(task,task_host);
     }
-    //dumpTask(task_id ) ; 
-    return task_id;
+    pthread_mutex_unlock(&thread_lock);
+    return task_handle;
   }
   void dumpTask(TaskHandle th ) {
     ITask &t = *task_list[(int)th];
@@ -119,13 +122,18 @@ public:
   void receivedListener(){}//ToDo: engine.
   void receivedData(){}//ToDo: engine.
   void finalize(){
-    
+    printf("finalize\n");
+    pthread_join(thread_id,NULL);
+  }
+  static void *doProcessLoop(void *p){
+    engine *_this = (engine *)p;
+    while(true){
+      _this->doProcessMailBox();
+      _this->doProcessWorks();
+    }
   }
   void doProcess(){
-    while(true){
-      doProcessMailBox();
-      doProcessWorks();
-    }
+    pthread_create(&thread_id,NULL,engine::doProcessLoop,this);
   }
 private :
   void receivedTask(MailBoxEvent *event){
@@ -159,7 +167,6 @@ private :
     work_queue.push_back(second_work);    
   }
   void doProcessWorks(){
-    printf("work count :%ld\n",work_queue.size());
     if ( work_queue.size() < 1 ) 
       return;
     DuctTeipWork *work = work_queue.front();
@@ -205,11 +212,9 @@ private :
     }
   }
   void doProcessMailBox(){
-    TRACE_LOCATION;
     MailBoxEvent event ;
     bool wait= false;
     bool found =  mailbox->getEvent(&event,wait); 
-    TRACE_LOCATION;
     if ( !found ) 
       return ;
     TRACE_LOCATION;

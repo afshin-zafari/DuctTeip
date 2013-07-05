@@ -541,7 +541,9 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2          ) { AddTask ( c
 
 /*===============================================================================*/
 void ITask::deserialize(byte *buffer,int &offset,int max_length){
-  paste<TaskHandle>(buffer,offset,&handle);
+  paste<unsigned long>(buffer,offset,&key);
+  size_t len = sizeof(unsigned long);
+  name.assign((char *)&key,len);
   int count ;
   paste<int>(buffer,offset,&count);
   data_list = new list<DataAccess *>;
@@ -550,23 +552,36 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
     DataHandle *data_handle = new DataHandle;
     data_handle->deserialize(buffer,offset,max_length);
     IData *data = glbCtx.getDataByHandle(data_handle);
-    paste<int>(buffer,offset,&data_access->required_version);
+    paste<int> (buffer,offset,&data_access->required_version);
+    paste<bool>(buffer,offset,&data_access->ready           );
     data_access->data = data;
     data_list->push_back(data_access);
   }
 }
-
+void ITask::dump(){
+  printf("task:%s key:%lx ,#of data:%ld\n",name.c_str(),key,data_list->size());
+}
 /*===============================================================================*/
 void engine:: sendTask(ITask* task,int destination){
   int offset = 0 ;
   int msg_size = task->getSerializeRequiredSpace();
   byte *buffer = (byte *)malloc(msg_size);
+
+  task->dump();
+  dumpDataAccess(task->getDataAccessList());
+
   task->serialize(buffer,offset,msg_size);
   flushBuffer(buffer,msg_size);
-  mailbox->send(buffer,offset,MailBox::TaskTag,destination);
+  task->setCommHandle ( mailbox->send(buffer,offset,MailBox::TaskTag,destination));
+
+  ITask *temp = new ITask;
+  offset = 0;
+  temp->deserialize(buffer,offset,msg_size);
+  temp->dump();
+  dumpDataAccess(temp->getDataAccessList());
+  delete temp;
+  
 }
-int MailBox::checkInbox(){//ToDo
-  dtEngine.sendTask(NULL,0);
-}
+
 
 #endif //  __CONTEXT_HPP__

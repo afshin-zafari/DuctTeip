@@ -16,7 +16,7 @@ public:
   }
   ~SimulateComm(){
   }
-  int send ( byte *buffer, int length, int tag, int dest){
+  unsigned long send ( byte *buffer, int length, int tag, int dest){
   }
   int receive ( byte *buffer, int length, int tag, int source){
   }

@@ -12,6 +12,7 @@
 typedef struct {
   IData *data;
   int required_version;
+  bool ready;
 } DataAccess;
 
 typedef unsigned long TaskHandle;
@@ -23,30 +24,47 @@ private:
   list<DataAccess *> *data_list;
   int state,sync,type,host;
   TaskHandle handle;
+  unsigned long key,comm_handle;
 public:
-  ITask (string _name,int _host, list<DataAccess *> *dlist):name(_name),host(_host),data_list(dlist){
+  ITask (string _name,int _host, list<DataAccess *> *dlist):host(_host),data_list(dlist){
+    setName(_name);
   }
+  ITask():name(""),host(-1){}
   void    setHost(int h )    { host = h ;  }
   int     getHost()          { return host;}
   string  getName()          { return name;} 
-  void    setName(string n ) { name = n ;  }
+
+  void       setHandle(TaskHandle h)     { handle = h;}
+  TaskHandle getHandle()                 {return handle;}
+
+  void          setCommHandle(unsigned long h) { comm_handle = h;   }
+  unsigned long getCommHandle()                { return comm_handle;}
+
   list<DataAccess *> *getDataAccessList() { return data_list;  }
+
+  void dump();
+  void    setName(string n ) { 
+    name = n ;  
+    memcpy(&key,name.c_str(),sizeof(unsigned long));
+  }
   int getSerializeRequiredSpace(){
     return  
       sizeof(TaskHandle) + 
       sizeof(int)+
-      data_list->size()* (sizeof(DataAccess)+sizeof(int));
+      data_list->size()* (sizeof(DataAccess)+sizeof(int)+sizeof(bool));
      
   }
   int serialize(byte *buffer,int &offset,int max_length){
     int count =data_list->size();
     list<DataAccess *>::iterator it;
-    copy<TaskHandle>(buffer,offset,handle);
+    copy<unsigned long>(buffer,offset,key);
     copy<int>(buffer,offset,count);
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
       (*it)->data->getDataHandle()->serialize(buffer,offset,max_length);
       int ver = (*it)->required_version;
       copy<int>(buffer,offset,ver);
+      bool ready=(*it)->ready;
+      copy<bool>(buffer,offset,ready);
     }
     
   }

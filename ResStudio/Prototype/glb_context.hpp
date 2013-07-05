@@ -10,9 +10,6 @@
 #include "config.hpp"
 #include "engine.hpp"
 
-#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
-
-//typedef unsigned char byte;
 using namespace std;
 
 extern int me;

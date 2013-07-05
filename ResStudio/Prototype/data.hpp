@@ -39,10 +39,10 @@ public:
     data_handle = d;
   }
   
-DataHandle operator = ( DataHandle rhs ) {
-  this->context_handle = rhs.context_handle ;
-  this->data_handle   = rhs.data_handle    ;
-}
+  DataHandle operator = ( DataHandle rhs ) {
+    this->context_handle = rhs.context_handle ;
+    this->data_handle   = rhs.data_handle    ;
+  }
   int    serialize(byte *buffer, int &offset,int max_length){
     copy<unsigned long>(buffer,offset,context_handle);
     copy<unsigned long>(buffer,offset,   data_handle);
@@ -50,6 +50,7 @@ DataHandle operator = ( DataHandle rhs ) {
   void deserialize(byte *buffer, int &offset,int max_length){
     paste<unsigned long>(buffer,offset,&context_handle);
     paste<unsigned long>(buffer,offset,   &data_handle);
+    //printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
   }
 };
 class IContext;

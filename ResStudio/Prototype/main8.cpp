@@ -39,6 +39,7 @@ int main (int argc, char * argv[])
   hpTaskAdd.setPolicy(TaskAddPolicy::ROOT_ONLY);
   C.generateTasks();
   dtEngine.doProcess();
+  dtEngine.finalize();
 
 
 

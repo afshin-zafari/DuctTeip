@@ -64,12 +64,12 @@ public:
 	return flag;
       }
     }
+    return flag;
   }
   int probe(int tag,int *source,int *length,bool wait){
     int flag;
     MPI_Status status;
     flag = wait;
-    printf("host %d probes for: tag:%d\n",me,tag);
     if (wait ) 
       MPI_Probe (MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,      &status);
     else

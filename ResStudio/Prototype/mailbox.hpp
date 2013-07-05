@@ -38,9 +38,7 @@ public:
   }
   bool getEvent(MailBoxEvent *event,bool wait = false){
     int length,source;
-    TRACE_LOCATION;
     int found = comm->probe((int)TaskTag,&source,&length,wait);
-    TRACE_LOCATION;
     if (!found) {
       int tag;
       unsigned long handle;

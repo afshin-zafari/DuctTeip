@@ -558,9 +558,6 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
     data_list->push_back(data_access);
   }
 }
-void ITask::dump(){
-  printf("task:%s key:%lx ,#of data:%ld\n",name.c_str(),key,data_list->size());
-}
 /*===============================================================================*/
 void engine:: sendTask(ITask* task,int destination){
   int offset = 0 ;
@@ -568,17 +565,19 @@ void engine:: sendTask(ITask* task,int destination){
   byte *buffer = (byte *)malloc(msg_size);
 
   task->dump();
-  dumpDataAccess(task->getDataAccessList());
 
   task->serialize(buffer,offset,msg_size);
   flushBuffer(buffer,msg_size);
-  task->setCommHandle ( mailbox->send(buffer,offset,MailBox::TaskTag,destination));
+  TRACE_LOCATION;
+  unsigned long ch =  mailbox->send(buffer,offset,MailBox::TaskTag,destination);
+  printf("comm handle %ld\n",ch);
+  task->setCommHandle (ch);
+  TRACE_LOCATION;
 
   ITask *temp = new ITask;
   offset = 0;
   temp->deserialize(buffer,offset,msg_size);
   temp->dump();
-  dumpDataAccess(temp->getDataAccessList());
   delete temp;
   
 }

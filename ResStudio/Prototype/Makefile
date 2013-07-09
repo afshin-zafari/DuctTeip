@@ -1,5 +1,5 @@
 
-prog_list=  1 2 3 4 5 6 7 #8 9 10 11 12 
+prog_list=  1 2 3 4 5 6 7 8 # 9 10 11 12 
 outdir= ./temp
 CPP = /opt/SUNWspro/bin/CC
 CPP_LIBS =  -L/opt/SUNWspro/lib/ -lCstd -lCrun

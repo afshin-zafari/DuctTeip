@@ -42,7 +42,20 @@ public:
 
   list<DataAccess *> *getDataAccessList() { return data_list;  }
 
-  void dump();
+  void dumpDataAccess(list<DataAccess *> *dlist){
+    list<DataAccess *>::iterator it;
+    for (it = dlist->begin(); it != dlist->end(); it ++) {
+      printf("%s,%d rdy:%d ", (*it)->data->getName().c_str(),(*it)->required_version,(*it)->ready);
+    }
+    printf ("\n");
+  }
+  void dump(){
+    printf("---------------------------\n");
+    printf("task:%s key:%lx ,#of data:%ld ",name.c_str(),key,data_list->size());
+    printf("handle:%ld , comm_handle:%ld\n",handle,comm_handle);
+    dumpDataAccess(data_list);
+    printf("---------------------------\n");
+  }
   void    setName(string n ) { 
     name = n ;  
     memcpy(&key,name.c_str(),sizeof(unsigned long));

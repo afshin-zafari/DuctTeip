@@ -30,6 +30,11 @@ ifdef KALKYL
     CPP_LIBS =  -L/bubo/sw/comp/gcc/4.7.2_kalkyl/lib -lstdc++
     C = /bubo/sw/comp/gcc/4.7.2_kalkyl/bin/gcc
 endif
+ifdef KALKYLMPI	
+    CPP = /opt/openmpi/1.4.5gcc4.4/bin/mpic++
+    CPP_LIBS =  -L/opt/openmpi/1.4.5gcc4.4/lib/  -lmpi -lstdc++
+    C = /opt/openmpi/1.4.5gcc4.4/bin/mpic++
+endif
 
 define rule_tests
 $(outdir)/test$(1): $(outdir)/main$(1).o $(shell ls *.hpp) 

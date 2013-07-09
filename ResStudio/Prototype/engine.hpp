@@ -3,6 +3,7 @@
 
 typedef unsigned char byte;
 #include <pthread.h>
+#include <sched.h>
 #include "task.hpp"
 #include "listener.hpp"
 #include "mailbox.hpp"
@@ -70,6 +71,7 @@ private:
   list<DuctTeipWork *> work_queue;
   pthread_t thread_id;
   pthread_mutex_t thread_lock;
+  pthread_mutexattr_t mutex_attr;
   long last_task_handle;
   enum { Enter, Leave};
 public:
@@ -115,7 +117,7 @@ public:
     return task_handle;
   }
   void dumpTasks(){
-    list<ITask *>::iterator it;    
+    list<ITask *>::iterator it;
     for (  it =task_list.begin();  it!= task_list.end(); it ++) {
       ITask &t = *(*it);
       t.dump();
@@ -125,7 +127,7 @@ public:
     prop_buffer = msg_buffer;
     prop_buffer_length = msg_size;
   }
-  void addPropagateTask(void *P){ 
+  void addPropagateTask(void *P){
   }
   void receivePropagateTask(byte **buffer, int *length){//ToDo
     *buffer  = prop_buffer ;
@@ -140,6 +142,7 @@ public:
     printf("finalize\n");
     if ( net_comm->canMultiThread() ) {
       pthread_mutex_destroy(&thread_lock);
+      pthread_mutexattr_destroy(&mutex_attr);
       pthread_join(thread_id,NULL);
     }
     else
@@ -157,16 +160,16 @@ public:
       _this->doProcessMailBox();
       _this->doProcessWorks();
       printf("task count :%d\n",_this->getTaskCount());
-      if ( _this->canTerminate() ) 
+      if ( _this->canTerminate() )
 	break;
     }
   }
   bool canTerminate(){
-    if (!net_comm->canMultiThread()) 
+    if (!net_comm->canMultiThread())
       if (task_list.size() < 1){
 	return true;
       }
-      else ; 
+      else ;
     else{//Todo
       printf ("lth: %ld tls:%ld\n",last_task_handle,task_list.size());
       if (last_task_handle > 0 && task_list.size() < 1)
@@ -174,15 +177,17 @@ public:
     }
     return false;
   }
-  
+
   int getTaskCount(){
     return task_list.size();
   }
   void doProcess(){
-    
+
     if (net_comm->canMultiThread()) {
-      pthread_mutex_init(&thread_lock,NULL);
+      pthread_mutexattr_init(&mutex_attr);
+      pthread_mutexattr_settype(&mutex_attr,PTHREAD_MUTEX_RECURSIVE);
       pthread_create(&thread_id,NULL,engine::doProcessLoop,this);
+      pthread_mutex_init(&thread_lock,&mutex_attr);
       printf("multiple  thread run\n");
     }
     else{
@@ -197,11 +202,11 @@ private :
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
-    work->event = DuctTeipWork::Added; 
+    work->event = DuctTeipWork::Added;
     work->item  = DuctTeipWork::SendTask;
-    work->host  = task->getHost(); // ToDo : me 
+    work->host  = task->getHost(); // ToDo : me
     printf("work: add task-work for sending:%ld\n",task->getHandle());
-    work_queue.push_back(work);    
+    work_queue.push_back(work);
   }
 
   void putWorkForNewTask(ITask *task){
@@ -211,16 +216,16 @@ private :
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
-    work->event = DuctTeipWork::Added; 
+    work->event = DuctTeipWork::Added;
     work->item  = DuctTeipWork::CheckTaskForData;
-    work->host  = task->getHost(); // ToDo : me 
+    work->host  = task->getHost(); // ToDo : me
     printf("work: add task-work for check data of a new task:%d\n",work->tag);
-    work_queue.push_back(work);    
+    work_queue.push_back(work);
     DuctTeipWork *second_work = new DuctTeipWork;
     *second_work = *work;
     second_work->item  = DuctTeipWork::CheckTaskForRun;
     printf("second work: add task-work for run:%d\n",second_work->tag);
-    work_queue.push_back(second_work);    
+    work_queue.push_back(second_work);
   }
 
   void putWorkForReceivedTask(ITask *task){
@@ -230,16 +235,16 @@ private :
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
-    work->event = DuctTeipWork::Received; 
+    work->event = DuctTeipWork::Received;
     work->item  = DuctTeipWork::CheckTaskForData;
-    work->host  = task->getHost(); 
+    work->host  = task->getHost();
     printf("work: add task-work for received task:%d\n",work->tag);
-    work_queue.push_back(work);    
+    work_queue.push_back(work);
     DuctTeipWork *second_work = new DuctTeipWork;
     *second_work = *work;
     second_work->item  = DuctTeipWork::CheckTaskForRun;
     printf("second work: add task-work received:%d\n",second_work->tag);
-    work_queue.push_back(second_work);    
+    work_queue.push_back(second_work);
   }
 
   void receivedTask(MailBoxEvent *event){
@@ -274,15 +279,15 @@ private :
   }
   void executeTaskWork(DuctTeipWork * work){//ToDo
     switch (work->item){
-    case DuctTeipWork::SendTask:   
+    case DuctTeipWork::SendTask:
       TRACE_LOCATION;
       sendTask(work->task,work->host);
       TRACE_LOCATION;
       break;
-    case DuctTeipWork::CheckTaskForData:   
+    case DuctTeipWork::CheckTaskForData:
       printf("work :task check for data \n");
       break;
-    case DuctTeipWork::CheckTaskForRun:   
+    case DuctTeipWork::CheckTaskForRun:
       {
 	printf("work :task check for run \n");
 	// ToDo . remove the task just for test. this code to be deleted for product version.
@@ -322,13 +327,13 @@ private :
   void doProcessMailBox(){
     MailBoxEvent event ;
     bool wait= false;
-    bool found =  mailbox->getEvent(&event,wait); 
-    if ( !found ) 
+    bool found =  mailbox->getEvent(&event,wait);
+    if ( !found )
       return ;
     TRACE_LOCATION;
     printf("received msg tag:%d,len:%d,host:%d. task-tag:%d\n",event.tag,event.length,event.host,MailBox::TaskTag);
     switch ((MailBox::MessageTag)event.tag){
-    case MailBox::TaskTag: 	
+    case MailBox::TaskTag:
       if ( event.direction == MailBoxEvent::Received ) {
 	TRACE_LOCATION;
 	receivedTask(&event);
@@ -339,11 +344,11 @@ private :
 	TaskHandle task_handle = task->getHandle();
 	TRACE_LOCATION;
 	task->dump();
-	removeTaskByHandle(task_handle);	
+	removeTaskByHandle(task_handle);
       }
       break;
     }
-     
+
   }
   void removeTaskByHandle(TaskHandle task_handle){
     list<ITask *>::iterator it;
@@ -371,7 +376,7 @@ private :
       TRACE_LOCATION;
       if (task->getHandle() == task_handle){
 	TRACE_LOCATION;
-	criticalSection(Leave); 
+	criticalSection(Leave);
 	return task;
       }
     }
@@ -387,18 +392,18 @@ private :
       ITask *task = (*it);
       if (task->getCommHandle() == handle){
 	TRACE_LOCATION;
-	criticalSection(Leave); 
+	criticalSection(Leave);
 	return task;
       }
     }
     criticalSection(Leave); //pthread_mutex_unlock(&thread_lock);
-    TRACE_LOCATION;    
+    TRACE_LOCATION;
     return NULL;
   }
   void criticalSection(int direction){
-    if ( !net_comm->canMultiThread()) 
+    if ( !net_comm->canMultiThread())
       return;
-    if ( direction == Enter ) 
+    if ( direction == Enter )
       pthread_mutex_lock(&thread_lock);
     else
       pthread_mutex_unlock(&thread_lock);

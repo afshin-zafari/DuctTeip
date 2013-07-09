@@ -30,11 +30,11 @@ int main (int argc, char * argv[])
   glbCtx.setTaskCount(C.countTasks() ) ;
   for ( me=0;me<P;me++)
   {
+    glbCtx.resetCounters();
     printf("--------------@Node : %d -------------\n",me);
     C.generateTasks();
     glbCtx.dumpStatistics(&cfg);
     C.resetVersions();
-    glbCtx.resetCounters();
   }
 
 

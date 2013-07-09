@@ -17,7 +17,7 @@ typedef struct {
 
 typedef unsigned long TaskHandle;
 
-class ITask 
+class ITask
 {
 private:
   string name;
@@ -28,11 +28,12 @@ private:
 public:
   ITask (string _name,int _host, list<DataAccess *> *dlist):host(_host),data_list(dlist){
     setName(_name);
+    comm_handle = 0 ;
   }
   ITask():name(""),host(-1){}
   void    setHost(int h )    { host = h ;  }
   int     getHost()          { return host;}
-  string  getName()          { return name;} 
+  string  getName()          { return name;}
 
   void       setHandle(TaskHandle h)     { handle = h;}
   TaskHandle getHandle()                 {return handle;}
@@ -56,16 +57,16 @@ public:
     dumpDataAccess(data_list);
     printf("---------------------------\n");
   }
-  void    setName(string n ) { 
-    name = n ;  
+  void    setName(string n ) {
+    name = n ;
     memcpy(&key,name.c_str(),sizeof(unsigned long));
   }
   int getSerializeRequiredSpace(){
-    return  
-      sizeof(TaskHandle) + 
+    return
+      sizeof(TaskHandle) +
       sizeof(int)+
       data_list->size()* (sizeof(DataAccess)+sizeof(int)+sizeof(bool));
-     
+
   }
   int serialize(byte *buffer,int &offset,int max_length){
     int count =data_list->size();
@@ -79,7 +80,7 @@ public:
       bool ready=(*it)->ready;
       copy<bool>(buffer,offset,ready);
     }
-    
+
   }
   void deserialize(byte *buffer,int &offset,int max_length);
 };

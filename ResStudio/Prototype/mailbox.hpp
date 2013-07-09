@@ -34,7 +34,10 @@ public:
     PropagationTag
   };
   unsigned long  send(byte *buffer, int length, MessageTag tag, int destination){
-    return comm->send(buffer,length,(int)tag,destination);
+    TRACE_LOCATION;
+    unsigned long comm_handle  = comm->send(buffer,length,(int)tag,destination);
+    TRACE_LOCATION;
+    return comm_handle ;
   }
   bool getEvent(MailBoxEvent *event,bool wait = false){
     int length,source;
@@ -42,7 +45,7 @@ public:
     if (!found) {
       int tag;
       unsigned long handle;
-      found = comm->isAnySentCompleted(&tag,&handle);
+      found = comm->isAnySendCompleted(&tag,&handle);
       if ( found ) {
 	event->tag = tag;
 	event->handle = handle;

@@ -35,12 +35,9 @@ int main (int argc, char * argv[])
   Cholesky C(&cfg,MA.getOutputData(MatrixAssembly::RBFresult));
 
   //  me = 0 ;
-  MA.generateTasks();
   hpTaskAdd.setPolicy(TaskAddPolicy::ROOT_ONLY);
+  dtEngine.doProcess();// async. if MPI multi threaded is ok.
+  MA.generateTasks();
   C.generateTasks();
-  dtEngine.doProcess();
   dtEngine.finalize();
-
-
-
 }

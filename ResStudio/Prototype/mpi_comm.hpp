@@ -21,17 +21,22 @@ class MPIComm : public  INetwork
 private:
   list <CommRequest*> request_list;
   int rank;
+  bool  thread_enabled;
 public:
   MPIComm(){
-    int stat = MPI_Init(NULL,NULL );
+    int thread_level,request=MPI_THREAD_FUNNELED;
+    int err = MPI_Init_thread(NULL,NULL,request,&thread_level);
+    thread_enabled = (request == thread_level) ;
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
-    printf("result of MPI_Init:%d, host=%d\n",stat,rank);
+    printf("result of MPI_Init:%d, host=%d, thread-support:%d,requested:%d, err:%d thrd-enabled:%d\n",
+	   err,rank,thread_level,MPI_THREAD_FUNNELED,err,thread_enabled);
     last_comm_handle =0 ;
   }
   ~MPIComm(){
     int stat = MPI_Finalize();
     printf("result of MPI_Finalize:%d, host=%d\n",stat,rank);
   }
+  
   bool canTerminate(){
     bool allSendFinished = (request_list.size() == 0 );
     return allSendFinished;
@@ -52,7 +57,7 @@ public:
     int result = MPI_Recv(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,&status);
     printf ("result of MPI_Recv: %d\n",result);
   }
-  int isAnySentCompleted(int *tag,unsigned long *handle){
+  int isAnySendCompleted(int *tag,unsigned long *handle){
     list <CommRequest*>::iterator it;
     int flag=0;
     for (it = request_list.begin(); it != request_list.end() ; ++it) {
@@ -96,6 +101,9 @@ public:
     MPI_Comm_size(MPI_COMM_WORLD,&comm_size);
     return comm_size;
   }
-  
+  bool canMultiThread() {    return thread_enabled;  }
+  void barrier(){
+    MPI_Barrier(MPI_COMM_WORLD);
+  }
 };
 #endif //__MPI_COMM_HPP__

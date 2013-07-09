@@ -559,6 +559,24 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
   }
 }
 /*===============================================================================*/
+void IListener::deserialize(byte *buffer, int &offset, int max_length){
+    DataAccess *data_access = new DataAccess;
+    DataHandle *data_handle = new DataHandle;
+    TRACE_LOCATION;
+    paste<int>(buffer,offset,&host);
+    data_handle->deserialize(buffer,offset,max_length);
+    IData *data = glbCtx.getDataByHandle(data_handle);
+    printf("listener for Data:%s, is received from host:%d\n",data->getName().c_str(),host);
+    TRACE_LOCATION;
+    paste<int> (buffer,offset,&data_access->required_version);
+    paste<bool>(buffer,offset,&data_access->ready           );
+    TRACE_LOCATION;
+    data_access->data = data;
+    data_request = data_access;
+    TRACE_LOCATION;
+  }
+
+/*===============================================================================*/
 void engine:: sendTask(ITask* task,int destination){
   int offset = 0 ;
   int msg_size = task->getSerializeRequiredSpace();

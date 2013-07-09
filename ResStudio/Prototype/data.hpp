@@ -50,7 +50,7 @@ public:
   void deserialize(byte *buffer, int &offset,int max_length){
     paste<unsigned long>(buffer,offset,&context_handle);
     paste<unsigned long>(buffer,offset,   &data_handle);
-    //printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
+    printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
   }
 };
 class IContext;

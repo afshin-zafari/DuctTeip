@@ -39,13 +39,17 @@ public:
     TRACE_LOCATION;
     return comm_handle ;
   }
+
   bool getEvent(MailBoxEvent *event,bool wait = false){
-    int length,source;
-    int found = comm->probe((int)TaskTag,&source,&length,wait);
-    if (!found) {
+    int length,source,listener_received;
+    int task_received = comm->probe((int)TaskTag,&source,&length,wait);
+    if ( !task_received) {
+      listener_received = comm->probe((int)ListenerTag,&source,&length,wait);
+    }
+    if (!task_received && !listener_received) {
       int tag;
       unsigned long handle;
-      found = comm->isAnySendCompleted(&tag,&handle);
+      int found = comm->isAnySendCompleted(&tag,&handle);
       if ( found ) {
 	event->tag = tag;
 	event->handle = handle;
@@ -61,11 +65,16 @@ public:
     event->buffer = buffer;
     event->length = length;
     event->host   = source;
-    event->tag    = (int)TaskTag;
-    printf("mb.msg recv tag:%d, task-tag:%d , event:%p\n",event->tag,(int)TaskTag,event);
+    if ( task_received ) {
+      event->tag    = (int)TaskTag;
+      printf("mb.msg recv tag:%d, task-tag:%d , event:%p\n",event->tag,(int)TaskTag,event);
+    }
+    if ( listener_received ) {
+      event->tag    = (int)ListenerTag;
+      printf("mb.msg recv tag:%d, listener-tag:%d , event:%p\n",event->tag,(int)ListenerTag,event);
+    }
     TRACE_LOCATION;
-    comm->receive(buffer,length,(int)TaskTag,source);
-    printf("mb.msg recv tag:%d, task-tag:%d\n",event->tag,(int)TaskTag);
+    comm->receive(buffer,length,event->tag,source);
     TRACE_LOCATION;
     return true;
   }

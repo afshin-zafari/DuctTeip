@@ -41,12 +41,15 @@ public:
   }
 
   bool getEvent(MailBoxEvent *event,bool wait = false){
-    int length,source,listener_received;
-    int task_received = comm->probe((int)TaskTag,&source,&length,wait);
-    if ( !task_received) {
-      listener_received = comm->probe((int)ListenerTag,&source,&length,wait);
+    int length,source,data_received=0,listener_received=0,task_received=0;
+    data_received = comm->probe((int)DataTag,&source,&length,wait);
+    if (!data_received) {
+      task_received = comm->probe((int)TaskTag,&source,&length,wait);
+      if ( !task_received) {
+	listener_received = comm->probe((int)ListenerTag,&source,&length,wait);
+      }
     }
-    if (!task_received && !listener_received) {
+    if (!data_received && !task_received && !listener_received) {
       int tag;
       unsigned long handle;
       int found = comm->isAnySendCompleted(&tag,&handle);
@@ -65,6 +68,10 @@ public:
     event->buffer = buffer;
     event->length = length;
     event->host   = source;
+    if ( data_received ) {
+      event->tag    = (int)DataTag;
+      printf("mb.msg recv tag:%d, data-tag:%d , event:%p\n",event->tag,(int)DataTag,event);
+    }
     if ( task_received ) {
       event->tag    = (int)TaskTag;
       printf("mb.msg recv tag:%d, task-tag:%d , event:%p\n",event->tag,(int)TaskTag,event);

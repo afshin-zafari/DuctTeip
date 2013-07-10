@@ -26,6 +26,8 @@ public:
     Finished,
     DataSent,
     DataReceived,
+    DataUpgraded,
+    DataReady,
     Received,
     Added
   };
@@ -38,7 +40,9 @@ public:
     CheckTaskForData,
     CheckTaskForRun,
     SendTask,
-    CheckListenerForData
+    CheckListenerForData,
+    CheckAfterDataUpgraded,
+    SendListenerData
   };
   ITask *task;
   IData *data;
@@ -146,8 +150,10 @@ public:
     listener->deserialize(event->buffer,offset,event->length);
     TRACE_LOCATION;
     listener->setHost ( me ) ;
+    listener->setSource ( event->host ) ;
+    listener->setReceived(true);
     TRACE_LOCATION;
-    printf("#listener for Data:%s, is received from host:%d\n",listener->getData()->getName().c_str(),event->host);
+    printf("#listener for Data:%s, is received from host:%d\n",listener->getData()->getName().c_str(),listener->getSource());
 
     criticalSection(Enter); //pthread_mutex_lock(&thread_lock);
     TRACE_LOCATION;
@@ -158,7 +164,7 @@ public:
     criticalSection(Leave); 
 
   }
-  void receivedData(){}//ToDo: engine.
+  void receivedData(MailBoxEvent *event);
   void finalize(){
     printf("finalize\n");
     if ( net_comm->canMultiThread() ) {
@@ -175,16 +181,6 @@ public:
     net_comm->finish();
     printf("after global sync %d\n",me);
   }
-  static void *doProcessLoop(void *p){
-    engine *_this = (engine *)p;
-    while(true){
-      _this->doProcessMailBox();
-      _this->doProcessWorks();
-      printf("task count :%d\n",_this->getTaskCount());
-      if ( _this->canTerminate() )
-	break;
-    }
-  }
   bool canTerminate(){
     if (!net_comm->canMultiThread())
       if (task_list.size() < 1){
@@ -198,7 +194,7 @@ public:
     }
     return false;
   }
-  int getTaskCount(){
+  int  getTaskCount(){
     return task_list.size();
   }
   void doProcess(){
@@ -214,8 +210,35 @@ public:
       printf("single thread run\n");
     }
   }
+  static 
+  void *doProcessLoop(void *p){
+    engine *_this = (engine *)p;
+    while(true){
+      _this->doProcessMailBox();
+      _this->doProcessWorks();
+      printf("task count :%d\n",_this->getTaskCount());
+      if ( _this->canTerminate() )
+	break;
+    }
+  }
 private :
-  void putWorkForReceivedListener(IListener *listener){
+  void putWorkForCheckAllTasks(){
+    list<ITask *>::iterator it;
+    for(it = task_list.begin(); it != task_list.end(); it ++){
+      ITask * task = (*it);
+      if (task->getHost() != me ) continue;
+      DuctTeipWork *work = new DuctTeipWork;
+      work->task  = task;
+      work->tag   = DuctTeipWork::TaskWork;
+      work->event = DuctTeipWork::Received;
+      work->item  = DuctTeipWork::CheckTaskForRun;
+      work->host  = task->getHost();
+      printf("work: add task-work for check for run:%s\n",task->getName().c_str());
+      task->dump();
+      work_queue.push_back(work);
+    }
+  }
+  void putWorkForReceivedListener(IListener *listener){//ToDo
     TRACE_LOCATION;
     DuctTeipWork *work = new DuctTeipWork;
     work->listener  = listener;
@@ -275,6 +298,30 @@ private :
     printf("second work: add task-work received:%d\n",second_work->tag);
     work_queue.push_back(second_work);
   }
+  void putWorkForSendListenerData(IListener *listener){//todo
+      DuctTeipWork *work = new DuctTeipWork;
+      work->listener = listener;
+      work->tag   = DuctTeipWork::ListenerWork;
+      work->event = DuctTeipWork::DataReady;
+      work->item  = DuctTeipWork::SendListenerData;
+      printf("work: add listener-work for **send listener data :%d\n",work->tag);
+      work_queue.push_back(work);      
+    
+  }
+  
+  void putWorkForDataReady(list<DataAccess *> *data_list){//ToDo
+    list<DataAccess *>::iterator it;
+    for (it =data_list->begin(); it != data_list->end() ; it ++) {
+      IData *data=(*it)->data;
+      DuctTeipWork *work = new DuctTeipWork;
+      work->data = data;
+      work->tag   = DuctTeipWork::DataWork;
+      work->event = DuctTeipWork::DataUpgraded;
+      work->item  = DuctTeipWork::CheckAfterDataUpgraded;
+      printf("work: add data-work for check data after upgraded:%d\n",work->tag);
+      work_queue.push_back(work);      
+    }
+  }
   void receivedTask(MailBoxEvent *event){
     ITask *task = new ITask;
     int offset = 0 ;
@@ -296,6 +343,7 @@ private :
   void doProcessWorks(){
     criticalSection(Enter); //pthread_mutex_lock(&thread_lock);
     if ( work_queue.size() < 1 ) {
+      putWorkForCheckAllTasks();    
       criticalSection(Leave); //      pthread_mutex_unlock(&thread_lock);
       return;
     }
@@ -345,8 +393,12 @@ private :
 	printf("work :task check for run \n");
 	// ToDo . remove the task just for test. this code to be deleted for product version.
 	TaskHandle task_handle = work->task->getHandle();
-	printf("task handle:%ld \n",task_handle);
-	removeTaskByHandle(task_handle);
+	if ( work->task->canRun() ) {
+	  printf("task is ready:%ld \n",task_handle);
+	  work->task->run();
+	  putWorkForDataReady(work->task->getDataAccessList());
+	  removeTaskByHandle(task_handle);
+	}
       }
       break;
     default:
@@ -356,16 +408,53 @@ private :
     work->task->dump();
   }
   void executeDataWork(DuctTeipWork * work){//ToDo
-    switch (work->event){
-    case DuctTeipWork::Sent:       break;
-    case DuctTeipWork::Ready:      break;
-    case DuctTeipWork::Received:   break;
+    switch (work->item){
+    case DuctTeipWork::CheckAfterDataUpgraded://todo
+      list<IListener *>::iterator lsnr_it;
+      list<ITask *>::iterator task_it;
+      printf("** data is upgraded\n");
+      for(lsnr_it = listener_list.begin() ; lsnr_it != listener_list.end(); ++lsnr_it){//Todo , not all of the listeners
+	IListener *listener = (*lsnr_it);
+	if (listener->isReceived())
+	  if (listener->isDataReady())
+	    if (!listener->isDataSent() )  
+	      {
+		printf("**listener data is ready\n");
+		putWorkForSendListenerData(listener);
+		listener->setDataSent(true);
+	      }
+      }
+      for(task_it = task_list.begin() ; task_it != task_list.end(); ++task_it){//Todo , not all of the tasks
+	ITask *task = (*task_it);
+	if (task->canRun()) {
+	  task->run();
+	  //putWorkForDataReady(work->task->getDataAccessList());
+	}
+      }
+      break;
     }
+  }
+  void sendListenerData(IListener *listener){
+    IData *data = listener->getData();
+    int offset = 0, max_length = data->getPackSize();
+    byte *buffer = new byte[max_length] ;
+    TRACE_LOCATION;
+    data->serialize(buffer,offset,max_length);
+    TRACE_LOCATION;    
+    printf("#data sent:%s, to:%d\n",data->getName().c_str(),listener->getSource());
+    unsigned long handle= mailbox->send(buffer,offset,MailBox::DataTag,listener->getSource());
+    TRACE_LOCATION;
+    listener->setCommHandle(handle);
+    TRACE_LOCATION;
   }
   void executeListenerWork(DuctTeipWork * work){//ToDo
     switch (work->item){
     case DuctTeipWork::CheckListenerForData:
       printf("work: check listener for data\n");
+      break;
+    case DuctTeipWork::SendListenerData:
+      printf("work: **send listener data\n");
+      sendListenerData(work->listener);
       break;
     }
   }
@@ -409,12 +498,40 @@ private :
 	removeListenerByHandle(listener->getHandle()); 
 	
       }
+      break;
+    case MailBox::DataTag:
+      TRACE_LOCATION;      
+      if (event.direction == MailBoxEvent::Received) {
+	TRACE_LOCATION;
+	receivedData(&event);
+      }
+      else{// when data is sent its corresponding listener should be removed.
+	TRACE_LOCATION;
+	IListener *listener= getListenerByCommHandle(event.handle);
+	TRACE_LOCATION;
+	removeListenerByHandle(listener->getHandle()); 	
+      }
+      break;
     }
 
   }
   IListener *getListenerByCommHandle ( unsigned long  comm_handle ) {//ToDo
   }
   void removeListenerByHandle(int handle ) {//ToDo
+    list<IListener *>::iterator it;
+	TRACE_LOCATION;
+        criticalSection(Enter); 
+	TRACE_LOCATION;
+    for ( it = listener_list.begin(); it != listener_list.end(); it ++){
+      IListener *listener = (*it);
+      if (listener->getHandle() == handle){
+	TRACE_LOCATION;
+	printf("listener_list change,deleted :%ld\n",listener_list.size()-1);
+	listener_list.erase(it);
+	criticalSection(Leave); 
+	return;
+      }
+    }
   }
 
   void removeTaskByHandle(TaskHandle task_handle){

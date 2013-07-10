@@ -202,13 +202,11 @@ public :
 /*===================================================================================*/
        IData::IData            (string _name,int m, int n,IContext *ctx):    M(m),N(n), parent_context(ctx){
     name=_name;
-    current_version=request_version=0;
+    current_version=request_version=rt_read_version=rt_write_version=0;
     setDataHandle( ctx->createDataHandle());
 }
 bool   IData::isOwnedBy        (int p ) {
-  Coordinate c = blk;
-  
-  
+  Coordinate c = blk;  
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
     if ( parent_data->Nb ==1) 
       c.bx = c.by;
@@ -220,8 +218,15 @@ bool   IData::isOwnedBy        (int p ) {
   }
 }
 int    IData::getHost          (){
-  return hpData->getHost(blk);
+  Coordinate c = blk;  
+  if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
+    if ( parent_data->Nb ==1) 
+      c.bx = c.by;
+    return ( hpData->getHost ( c,1 )  );
   }
+  else
+    return hpData->getHost(blk);
+}
 void   IData::incrementVersion ( AccessType a) {
     DataVersions v;
     current_version++;
@@ -497,17 +502,20 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
       daxs = new DataAccess;
       daxs->data = d1;
       daxs->required_version = d1->getRequestVersion();
+      daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
     if ( d2 != NULL ) {
       daxs = new DataAccess;
       daxs->data = d2;
       daxs->required_version = d2->getRequestVersion();
+      daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
     daxs = new DataAccess;
     daxs->data = d3;
     daxs->required_version = d3->getCurrentVersion();
+    daxs->type = IData::WRITE;
     dlist->push_back(daxs);
 
     TaskHandle task_handle =dtEngine.addTask(s,d3->getHost(),dlist);
@@ -554,6 +562,7 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
     IData *data = glbCtx.getDataByHandle(data_handle);
     paste<int> (buffer,offset,&data_access->required_version);
     paste<bool>(buffer,offset,&data_access->ready           );
+    paste<byte>(buffer,offset,&data_access->type            );
     data_access->data = data;
     data_list->push_back(data_access);
   }
@@ -599,6 +608,25 @@ void engine:: sendTask(ITask* task,int destination){
   delete temp;
   
 }
+/*=====================================================================*/
+void engine::receivedData(MailBoxEvent *event){//ToDo
+    IData *temp_data = new IData;
+    int offset =0 ;
+    TRACE_LOCATION;
+    flushBuffer(event->buffer,event->length);
+    printf("buf:%p,ofs:%d,len:%d\n",event->buffer,offset,event->length);
+    temp_data->deserialize(event->buffer,offset,event->length);
+    TRACE_LOCATION;
+    IData *data = glbCtx.getDataByHandle(temp_data->getDataHandle());
+    offset =0 ;
+    TRACE_LOCATION;
+    data->deserialize(event->buffer,offset,event->length,false);
+    printf("#data received:%s, from:%d\n",data->getName().c_str(),event->host);
+    TRACE_LOCATION;
+    delete temp_data;
+    TRACE_LOCATION;
+
+  }
 
 
 #endif //  __CONTEXT_HPP__

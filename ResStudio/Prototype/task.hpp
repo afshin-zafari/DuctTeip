@@ -12,6 +12,7 @@
 typedef struct {
   IData *data;
   int required_version;
+  byte type;
   bool ready;
 } DataAccess;
 
@@ -46,7 +47,7 @@ public:
   void dumpDataAccess(list<DataAccess *> *dlist){
     list<DataAccess *>::iterator it;
     for (it = dlist->begin(); it != dlist->end(); it ++) {
-      printf("%s,%d rdy:%d ", (*it)->data->getName().c_str(),(*it)->required_version,(*it)->ready);
+      printf("%s,%d@%d rdy:%d ", (*it)->data->getName().c_str(),(*it)->required_version,(*it)->data->getHost(),(*it)->ready);
     }
     printf ("\n");
   }
@@ -65,8 +66,24 @@ public:
     return
       sizeof(TaskHandle) +
       sizeof(int)+
-      data_list->size()* (sizeof(DataAccess)+sizeof(int)+sizeof(bool));
+      data_list->size()* (sizeof(DataAccess)+sizeof(int)+sizeof(bool)+sizeof(byte));
 
+  }
+  bool canRun(){
+    list<DataAccess *>::iterator it;
+    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
+      if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) 
+	return false;      
+    }
+    return true;
+  }
+  void run(){
+    list<DataAccess *>::iterator it;
+    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
+      printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
+      (*it)->data->incrementRunTimeVersion((*it)->type);
+    }
+    
   }
   int serialize(byte *buffer,int &offset,int max_length){
     int count =data_list->size();
@@ -79,6 +96,8 @@ public:
       copy<int>(buffer,offset,ver);
       bool ready=(*it)->ready;
       copy<bool>(buffer,offset,ready);
+      byte type = (*it)->type;
+      copy<byte>(buffer,offset,type);
     }
 
   }

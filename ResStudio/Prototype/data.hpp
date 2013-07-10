@@ -48,6 +48,8 @@ public:
     copy<unsigned long>(buffer,offset,   data_handle);
   } 
   void deserialize(byte *buffer, int &offset,int max_length){
+    printf("buf:%p,ofs:%d,len:%d\n",buffer,offset,max_length);
+    flushBuffer(buffer,max_length);
     paste<unsigned long>(buffer,offset,&context_handle);
     paste<unsigned long>(buffer,offset,   &data_handle);
     printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
@@ -63,7 +65,7 @@ protected:
   Coordinate                  blk;
   vector< vector<IData*> >   *dataView;
   list<DataVersions>          versions_track;
-  unsigned int                current_version,request_version;
+  unsigned int                current_version,request_version,rt_read_version,rt_write_version;
   IContext                   *parent_context;
   IData                      *parent_data;
   IHostPolicy                *hpData;
@@ -73,7 +75,9 @@ public:
     READ  = 1,
     WRITE = 2
   };
-
+  IData(){
+    my_data_handle = new DataHandle;
+  }
    IData(string _name,int m, int n,IContext *ctx);
   ~IData() {
   }
@@ -89,11 +93,50 @@ public:
   void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
   DataHandle   *getDataHandle    ()                { return my_data_handle ; }
 
+  //  void          setRunTimeVersion(int v )          { runtime_version = v ; }
+  int           getRunTimeVersion(byte type){ 
+    if ( type == IData::WRITE ) 
+      return rt_read_version;
+    else
+      return rt_write_version;
+
+  }
+  void          incrementRunTimeVersion(byte type ){
+    if ( type == IData::WRITE ) {
+      rt_write_version= rt_read_version++;
+    }
+    else{
+      rt_read_version++;
+    }
+  }
+
+
   int   getHost();
 
   IData *operator () (const int i,const int j=0) {    return (*dataView)[i][j];  }
   IData *getDataByHandle(DataHandle *in_dh ) ;
-
+  
+  void serialize(byte *buffer , int &offset, int max_length){//toDo
+    my_data_handle->serialize(buffer,offset,max_length);
+    copy<unsigned int>(buffer,offset,current_version);
+    copy<unsigned int>(buffer,offset,request_version);
+    copy<unsigned int>(buffer,offset,rt_read_version);
+    copy<unsigned int>(buffer,offset,rt_write_version);
+    // content of data
+  }
+  void deserialize(byte *buffer, int &offset,int max_length,bool header_only = true){//todo
+    TRACE_LOCATION;
+    my_data_handle->deserialize(buffer,offset,max_length);
+    TRACE_LOCATION;
+    paste<unsigned int>(buffer,offset,&current_version);
+    paste<unsigned int>(buffer,offset,&request_version);
+    paste<unsigned int>(buffer,offset,&rt_read_version);
+    paste<unsigned int>(buffer,offset,&rt_write_version);
+    if ( !header_only ) {
+    // content of data
+    }
+  }
+  int getPackSize(){ return 1024;}//Todo
   void testHandles();
   bool isOwnedBy(int p ) ;
   void incrementVersion ( AccessType a);

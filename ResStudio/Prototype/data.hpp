@@ -48,11 +48,11 @@ public:
     copy<unsigned long>(buffer,offset,   data_handle);
   } 
   void deserialize(byte *buffer, int &offset,int max_length){
-    printf("buf:%p,ofs:%d,len:%d\n",buffer,offset,max_length);
-    flushBuffer(buffer,max_length);
+    //printf("buf:%p,ofs:%d,len:%d\n",buffer,offset,max_length);
+    //flushBuffer(buffer,max_length);
     paste<unsigned long>(buffer,offset,&context_handle);
     paste<unsigned long>(buffer,offset,   &data_handle);
-    printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
+    //printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
   }
 };
 class IContext;

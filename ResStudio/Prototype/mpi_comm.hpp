@@ -43,19 +43,15 @@ public:
   }
   
   unsigned long send ( byte *buffer, int length, int tag, int dest){
-    printf ("call MPI_Isend: length: %d, source: %d ,dest:%d, tag: %d\n",length,me,dest,tag);
     MPI_Request *mpi_request = new MPI_Request;
     int result = MPI_Isend(buffer,length,MPI_BYTE,dest,tag,MPI_COMM_WORLD,mpi_request);
     CommRequest *comm_request = new CommRequest(mpi_request,tag,last_comm_handle++);
     request_list.push_back(comm_request);
-    printf ("result of MPI_Isend: %d\n",result);
     return (last_comm_handle -1) ; 
   }
   int receive ( byte *buffer, int length, int tag, int source){
     MPI_Status status;
-    printf ("call MPI_Recv: length: %d, source:%d, tag: %d\n",length,source,tag);
     int result = MPI_Recv(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,&status);
-    printf ("result of MPI_Recv: %d\n",result);
   }
   int isAnySendCompleted(int *tag,unsigned long *handle){
     list <CommRequest*>::iterator it;

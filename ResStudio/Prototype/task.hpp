@@ -80,8 +80,9 @@ public:
   void run(){
     list<DataAccess *>::iterator it;
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-      printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
-      (*it)->data->incrementRunTimeVersion((*it)->type);
+      //printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
+      if ( (*it)->type == IData::WRITE)
+	(*it)->data->incrementRunTimeVersion((*it)->type);
     }
     
   }

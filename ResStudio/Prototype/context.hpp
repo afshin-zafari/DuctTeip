@@ -380,17 +380,16 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
 /*===================================================================================*/
 bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   int gc = glbCtx.getContextHostPolicy()->getGroupCounter();
-  printf("add task policy  1,%d\n",gc);
+  //printf("add task policy  1,%d\n",gc);
 
   if ( gc  == DONT_CARE_COUNTER )  
     return true;
-  printf("add task policy  2\n");
+  //printf("add task policy  2\n");
   if ( active_policy  == ROOT_ONLY ) {
     //printf("ROOT_ONLY policy me=%d,me==0?%d\n",me,me==0);
     return ( me == 0 ) ;
   }
   
-  printf("add task policy  3\n");
   if ( active_policy ==NOT_OWNER_CYCLIC ) {
     int r,c;
     IData *A;
@@ -472,7 +471,7 @@ bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,in
 void end_context(IContext * curCtx){
   glbCtx.createPropagateTasks();
   glbCtx.upLevel();
-  printf("@EndContext %s\n",glbCtx.getLevelString().c_str());
+  //printf("@EndContext %s\n",glbCtx.getLevelString().c_str());
   glbCtx.endContext();
   glbCtx.getHeader()->clear();
 }
@@ -591,20 +590,18 @@ void engine:: sendTask(ITask* task,int destination){
   int msg_size = task->getSerializeRequiredSpace();
   byte *buffer = (byte *)malloc(msg_size);
 
-  task->dump();
 
   task->serialize(buffer,offset,msg_size);
-  flushBuffer(buffer,msg_size);
+  //flushBuffer(buffer,msg_size);
   TRACE_LOCATION;
   unsigned long ch =  mailbox->send(buffer,offset,MailBox::TaskTag,destination);
-  printf("comm handle %ld\n",ch);
+  //printf("comm handle %ld\n",ch);
   task->setCommHandle (ch);
   TRACE_LOCATION;
 
   ITask *temp = new ITask;
   offset = 0;
   temp->deserialize(buffer,offset,msg_size);
-  temp->dump();
   delete temp;
   
 }
@@ -613,7 +610,7 @@ void engine::receivedData(MailBoxEvent *event){//ToDo
     IData *temp_data = new IData;
     int offset =0 ;
     TRACE_LOCATION;
-    flushBuffer(event->buffer,event->length);
+    //flushBuffer(event->buffer,event->length);
     printf("buf:%p,ofs:%d,len:%d\n",event->buffer,offset,event->length);
     temp_data->deserialize(event->buffer,offset,event->length);
     TRACE_LOCATION;

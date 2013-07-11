@@ -70,15 +70,12 @@ public:
     event->host   = source;
     if ( data_received ) {
       event->tag    = (int)DataTag;
-      printf("mb.msg recv tag:%d, data-tag:%d , event:%p\n",event->tag,(int)DataTag,event);
     }
     if ( task_received ) {
       event->tag    = (int)TaskTag;
-      printf("mb.msg recv tag:%d, task-tag:%d , event:%p\n",event->tag,(int)TaskTag,event);
     }
     if ( listener_received ) {
       event->tag    = (int)ListenerTag;
-      printf("mb.msg recv tag:%d, listener-tag:%d , event:%p\n",event->tag,(int)ListenerTag,event);
     }
     TRACE_LOCATION;
     comm->receive(buffer,length,event->tag,source);

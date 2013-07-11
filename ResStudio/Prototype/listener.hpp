@@ -18,7 +18,7 @@ private:
 public :
   IListener(){}
   IListener(DataAccess* _d , int _host):data_request(_d) , host(_host){
-    printf("listener ctor: data%s\n",data_request->data->getName().c_str());
+    //printf("listener ctor: data%s\n",data_request->data->getName().c_str());
     received=false;
   }
   ~IListener(){}
@@ -41,11 +41,13 @@ public :
   bool isReceived() { return received;}
   bool isDataReady(){
     bool isReady = (data_request->data->getRequestVersion() == data_request->required_version);
+    /*
     printf("**data :%s\n",data_request->data->getName().c_str());
     printf("**lsnr check, data rtver:%d , req ver :%d, required ver:%d\n",
 	   data_request->data->getRunTimeVersion(IData::READ) ,
 	   data_request->data->getRequestVersion() ,
 	   data_request->required_version);
+    */
     return isReady;
   }
   void serialize(byte *buffer, int &offset, int max_length){

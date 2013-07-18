@@ -93,7 +93,7 @@ public:
   TaskHandle  addTask(string task_name, int task_host, list<DataAccess *> *data_access){
     ITask *task = new ITask (task_name,task_host,data_access);
     TRACE_LOCATION;
-    criticalSection(Enter) ;//pthread_mutex_lock(&thread_lock);
+    criticalSection(Enter) ;
     TRACE_LOCATION;
     TaskHandle task_handle = last_task_handle ++;
     task->setHandle(task_handle);
@@ -148,7 +148,7 @@ public:
     TRACE_LOCATION;
 
 
-    criticalSection(Enter); //pthread_mutex_lock(&thread_lock);
+    criticalSection(Enter); 
     TRACE_LOCATION;
     listener->setHandle( last_listener_handle ++);
     listener_list.push_back(listener);
@@ -168,7 +168,9 @@ public:
     globalSync();
   }
   void globalSync(){
+    printf("global sync enter\n");
     net_comm->finish();
+    printf("global sync leave\n");
   }
   bool canTerminate(){
     if (!net_comm->canMultiThread())
@@ -211,6 +213,19 @@ public:
 private :
   void putWorkForCheckAllTasks(){
     list<ITask *>::iterator it;
+    it = task_list.begin();
+    for(; it != task_list.end(); ){
+      ITask * task = (*it);
+      if (task->isFinished()){
+	printf("task deleted.\n");
+	task->dump();
+	task_list.erase(it);
+	it = task_list.begin();
+	TRACE_LOCATION;
+      }
+      else
+	it ++;
+    }
     for(it = task_list.begin(); it != task_list.end(); it ++){
       ITask * task = (*it);
       if (task->getHost() != me ) continue;
@@ -221,6 +236,14 @@ private :
       work->item  = DuctTeipWork::CheckTaskForRun;
       work->host  = task->getHost();
       work_queue.push_back(work);
+    }
+  }
+  void putWorkForCheckAllListeners(){
+
+    list<IListener *>::iterator it;
+    for(it = listener_list.begin(); it != listener_list.end(); it ++){
+      IListener *listener=(*it);
+      
     }
   }
   void putWorkForReceivedListener(IListener *listener){//ToDo
@@ -280,7 +303,6 @@ private :
       work_queue.push_back(work);      
     
   }
-  
   void putWorkForDataReady(list<DataAccess *> *data_list){//ToDo
     list<DataAccess *>::iterator it;
     for (it =data_list->begin(); it != data_list->end() ; it ++) {
@@ -312,6 +334,7 @@ private :
   }
   void doProcessWorks(){
     criticalSection(Enter); 
+    dumpAll();
     if ( work_queue.size() < 1 ) {
       putWorkForCheckAllTasks();    
       criticalSection(Leave);
@@ -320,16 +343,23 @@ private :
     DuctTeipWork *work = work_queue.front();
     work_queue.pop_front();
     executeWork(work);
+    //putWorkForCheckAllTasks();    
     criticalSection(Leave); 
   }
   void addListener(IListener *listener ){
     int handle = last_listener_handle ++;
     listener_list.push_back(listener);
     listener->setHandle(handle);
+    printf("$$\n");
+    listener->dump();
+    printf("$$\n");
   }
   void checkTaskDependencies(ITask *task){
     list<DataAccess *> *data_list= task->getDataAccessList();
     list<DataAccess *>::iterator it;
+    printf("!!\n");
+    task->dump();
+    printf("!!\n");
     for (it = data_list->begin(); it != data_list->end() ; it ++) {
       DataAccess &data_access = *(*it);
       int host = data_access.data->getHost();
@@ -341,6 +371,7 @@ private :
 	addListener(lsnr);
 	lsnr->serialize(buffer,offset,buffer_size);
 	unsigned long comm_handle = mailbox->send(buffer,buffer_size,MailBox::ListenerTag,host);	
+	printf("lsnr b'cos task dep:%ld\n",comm_handle);
 	lsnr->setCommHandle ( comm_handle);
       }
     }
@@ -357,12 +388,20 @@ private :
       break;
     case DuctTeipWork::CheckTaskForRun:
       {
-	// ToDo . remove the task just for test. this code to be deleted for product version.
 	TaskHandle task_handle = work->task->getHandle();
 	if ( work->task->canRun() ) {
 	  work->task->run();
+	  TRACE_LOCATION;
 	  putWorkForDataReady(work->task->getDataAccessList());
+	  TRACE_LOCATION;
+	  return;
+	  // ToDo . removes the task just for test scenarios. this code to be deleted for product version.
+	  printf("**task: %s is removed.\n",work->task->getName().c_str());
 	  removeTaskByHandle(task_handle);
+	  printf("++++++++\n");
+	  dumpTasks();
+	  printf("++++++++\n");
+	  
 	}
       }
       break;
@@ -376,21 +415,27 @@ private :
     case DuctTeipWork::CheckAfterDataUpgraded://todo
       list<IListener *>::iterator lsnr_it;
       list<ITask *>::iterator task_it;
-      for(lsnr_it = listener_list.begin() ; lsnr_it != listener_list.end(); ++lsnr_it){//Todo , not all of the listeners
+      for(lsnr_it = listener_list.begin() ; lsnr_it != listener_list.end(); ++lsnr_it){//Todo , not all of the listeners to be checked
 	IListener *listener = (*lsnr_it);
-	if (listener->isReceived())
-	  if (listener->isDataReady())
+	if (listener->isReceived()){
+	  if (listener->isDataReady()){
 	    if (!listener->isDataSent() )  
 	      {
 		putWorkForSendListenerData(listener);
 		listener->setDataSent(true);
+		printf("**lsnr,data is ready and sent now.\n");
 	      }
+	    else{printf("**lsnr,data is ready and sent already.\n");}
+	  }else{printf("**lsnr,data is not ready\n");}
+	}else{printf("**lsnr, is not received\n");}
       }
       for(task_it = task_list.begin() ; task_it != task_list.end(); ++task_it){//Todo , not all of the tasks
 	ITask *task = (*task_it);
 	if (task->canRun()) {
 	  task->run();
-	  //putWorkForDataReady(work->task->getDataAccessList());
+	  TRACE_LOCATION;
+	  putWorkForDataReady(task->getDataAccessList());
+	  TRACE_LOCATION;
 	}
       }
       break;
@@ -406,11 +451,26 @@ private :
     unsigned long handle= mailbox->send(buffer,offset,MailBox::DataTag,listener->getSource());
     TRACE_LOCATION;
     listener->setCommHandle(handle);
+    listener->dump();
     TRACE_LOCATION;
   }
   void executeListenerWork(DuctTeipWork * work){//ToDo
     switch (work->item){
     case DuctTeipWork::CheckListenerForData:
+      {
+	IListener *listener = work->listener;
+	if (listener->isReceived()){
+	  if (listener->isDataReady()){
+	    if (!listener->isDataSent() )  
+	      {
+		putWorkForSendListenerData(listener);
+		listener->setDataSent(true);
+		printf("**lsnr,data is ready and sent now.\n");
+	      }
+	    else{printf("**lsnr,data is ready and sent already.\n");}
+	  }else{printf("**lsnr,data is not ready\n");}
+	}else{printf("**lsnr, is not received\n");}
+      }
       break;
     case DuctTeipWork::SendListenerData:
       sendListenerData(work->listener);
@@ -466,21 +526,46 @@ private :
 	TRACE_LOCATION;
 	IListener *listener= getListenerByCommHandle(event.handle);
 	TRACE_LOCATION;
-	listener->getData()->incrementRunTimeVersion(IData::READ);
-	removeListenerByHandle(listener->getHandle()); 	
+	while ( listener ) {
+	  TRACE_LOCATION;
+	  listener->getData()->incrementRunTimeVersion(IData::READ);
+	  removeListenerByHandle(listener->getHandle()); 	
+	  listener= getListenerByCommHandle(event.handle);
+	}
       }
       break;
     }
 
   }
-  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) {//ToDo
-    list<IListener *>::iterator it;
-    for (it = listener_list.begin(); it !=listener_list.end();it ++){
-      IListener *listener=(*it);
-      if ( listener->getCommHandle() == comm_handle)
-	return listener;
+  IListener *getListenerForData(IData *data){
+    list<IListener *>::iterator it ;
+    for(it = listener_list.begin();it != listener_list.end(); it ++){
+      IListener *listener = (*it);
+      if (listener->getData()->getDataHandle() == data->getDataHandle() )
+	if ( listener->getRequiredVersion() == data->getRunTimeVersion(IData::READ) ) 
+	{
+	  return listener;
+	}
+
     }
     return NULL;
+  }
+  void dumpListeners(){
+    list<IListener *>::iterator it;
+    for (it = listener_list.begin(); it != listener_list.end(); it ++){
+      (*it)->dump();
+      (*it)->getData()->dump();
+    }
+  }
+  void dumpData(){
+    
+  }
+  void dumpAll(){
+    printf("------------------------------------------------\n");
+    dumpTasks();
+    dumpData();
+    dumpListeners();
+    printf("------------------------------------------------\n");
   }
   void removeListenerByHandle(int handle ) {//ToDo
     list<IListener *>::iterator it;
@@ -491,31 +576,41 @@ private :
       IListener *listener = (*it);
       if (listener->getHandle() == handle){
 	TRACE_LOCATION;
+	printf("%%%%%%%%%%\n");
+	listener->dump();
+	printf("%%%%%%%%%%\n");
 	listener_list.erase(it);
 	criticalSection(Leave); 
 	return;
       }
     }
   }
-
   void removeTaskByHandle(TaskHandle task_handle){
     list<ITask *>::iterator it;
 	TRACE_LOCATION;
-        criticalSection(Enter); //pthread_mutex_lock(&thread_lock);
+        criticalSection(Enter);
 	TRACE_LOCATION;
     for ( it = task_list.begin(); it != task_list.end(); it ++){
       ITask *task = (*it);
       if (task->getHandle() == task_handle){
 	TRACE_LOCATION;
 	task_list.erase(it);
-	criticalSection(Leave); //pthread_mutex_unlock(&thread_lock);
+	criticalSection(Leave);
 	return;
       }
     }
   }
+  void criticalSection(int direction){
+    if ( !net_comm->canMultiThread())
+      return;
+    if ( direction == Enter )
+      pthread_mutex_lock(&thread_lock);
+    else
+      pthread_mutex_unlock(&thread_lock);
+  }
   ITask *getTaskByHandle(TaskHandle  task_handle){
     list<ITask *>::iterator it;
-    criticalSection(Enter); //pthread_mutex_lock(&thread_lock);
+    criticalSection(Enter); 
     TRACE_LOCATION;
     for ( it = task_list.begin(); it != task_list.end(); it ++){
       ITask *task = (*it);
@@ -526,7 +621,7 @@ private :
 	return task;
       }
     }
-    criticalSection(Leave); //pthread_mutex_unlock(&thread_lock);
+    criticalSection(Leave);
   }
   ITask *getTaskByCommHandle(unsigned long handle){
     list<ITask *>::iterator it;
@@ -541,17 +636,20 @@ private :
 	return task;
       }
     }
-    criticalSection(Leave); //pthread_mutex_unlock(&thread_lock);
+    criticalSection(Leave);
     TRACE_LOCATION;
+    printf("task not found %ld\n",handle);
     return NULL;
   }
-  void criticalSection(int direction){
-    if ( !net_comm->canMultiThread())
-      return;
-    if ( direction == Enter )
-      pthread_mutex_lock(&thread_lock);
-    else
-      pthread_mutex_unlock(&thread_lock);
+  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) {//ToDo
+    list<IListener *>::iterator it;
+    for (it = listener_list.begin(); it !=listener_list.end();it ++){
+      IListener *listener=(*it);
+      if ( listener->getCommHandle() == comm_handle)
+	return listener;
+    }
+    printf("listener not found %ld\n",comm_handle);
+    return NULL;
   }
 
 };

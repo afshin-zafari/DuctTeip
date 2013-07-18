@@ -317,7 +317,7 @@ void      GlobalContext::testHandles       (){
  *   number of partitions within the 'level'
  */
 /*----------------------------------------------------------------------*/
-bool ContextHostPolicy ::isAllowed(IContext *ctx,ContextHeader *hdr){
+bool ContextHostPolicy::isAllowed(IContext *ctx,ContextHeader *hdr){
   if (active_policy == PROC_GROUP_CYCLIC){
     if (groupCounter  != DONT_CARE_COUNTER ) {
       int lower,upper;
@@ -379,37 +379,39 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
 }
 /*===================================================================================*/
 bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
+  
   int gc = glbCtx.getContextHostPolicy()->getGroupCounter();
-  //printf("add task policy  1,%d\n",gc);
-
-  if ( gc  == DONT_CARE_COUNTER )  
+  TRACE_LOCATION;
+  printf("act-pol:%d,wrt_dt_ownr:%d\n",active_policy,WRITE_DATA_OWNER);
+  if ( gc  == DONT_CARE_COUNTER && (active_policy != WRITE_DATA_OWNER)  )
     return true;
-  //printf("add task policy  2\n");
+  TRACE_LOCATION;
   if ( active_policy  == ROOT_ONLY ) {
-    //printf("ROOT_ONLY policy me=%d,me==0?%d\n",me,me==0);
     return ( me == 0 ) ;
   }
+  TRACE_LOCATION;
   
-  if ( active_policy ==NOT_OWNER_CYCLIC ) {
+  if ( active_policy ==NOT_OWNER_CYCLIC || active_policy == WRITE_DATA_OWNER) {
     int r,c;
     IData *A;
     list<DataRange *> dr = hdr->getWriteRange();
     list<DataRange *>::iterator it;
-    //printf("TaskAddPolicy: isAllowed(%d)?\n",me);
+    printf("TaskAddPolicy: isAllowed(%d)?\n",me);
     for ( it = dr.begin(); it != dr.end(); ++it ) {
       for (  r=(*it)->row_from; r<= (*it)->row_to;r++){
 	for (  c=(*it)->col_from; c<= (*it)->col_to;c++){
 	  A=(*it)->d;
-	  //printf("A(%d,%d), %s\n",r,c,(*A)(r,c)->getName().c_str());
+	  printf("A(%d,%d), %s\n",r,c,(*A)(r,c)->getName().c_str());
 	  if ( (*A)(r,c)->isOwnedBy(me) ) {
-	    //printf("Yes\n");
+	    printf("Yes\n");
 	    return true;
 	  }
 	}
       }
     }
-
-    //printf("No.\n");
+    printf("No\n");
+    if (active_policy == WRITE_DATA_OWNER) 
+      return false;
     it = dr.begin();
     r=(*it)->row_from;
     c=(*it)->col_from;
@@ -490,6 +492,8 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
   c = new ContextHeader ;
   c->addDataRange(IData::WRITE,dr);
 
+  
+
   if ( glbCtx.getTaskAddHostPolicy()->isAllowed(ctx,c) ) {
     glbCtx.incrementCounter(GlobalContext::TaskInsert);
     if ( !d3->isOwnedBy(me) ){
@@ -525,16 +529,26 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
 	    d3->isOwnedBy(me)?"*":"",
 	    me
       );
-    printf("  @after-exec:        %d       %d      %d \n",
-	   (d1==NULL) ?-1:d1->getCurrentVersion(),
-	   (d2==NULL) ?-1:d2->getCurrentVersion(),
-	   d3->getCurrentVersion()
-	   );
+  }
+  else{
+    printf (" @Skip TASK:%s %s,%d %s,%d %s,%d %s,host=%d\n", s,
+	    (d1==NULL)?"  ---- ":d1->getName().c_str(),	 (d1==NULL) ?-1:d1->getRequestVersion(),
+	    (d2==NULL)?"  ---- ":d2->getName().c_str(),	 (d2==NULL) ?-1:d2->getRequestVersion(),
+	    d3->getName().c_str(),	 d3->getCurrentVersion(),
+	    d3->isOwnedBy(me)?"*":"",
+	    me
+      );
   }
 
   if ( d1 != NULL ) d1->incrementVersion(IData::READ);
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
   d3->incrementVersion(IData::WRITE);
+
+  printf("  @after-exec:        %d       %d      %d \n",
+	 (d1==NULL) ?-1:d1->getCurrentVersion(),
+	 (d2==NULL) ?-1:d2->getCurrentVersion(),
+	 d3->getCurrentVersion()
+	 );
 
   delete dr;
   c->clear();
@@ -560,7 +574,6 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
     data_handle->deserialize(buffer,offset,max_length);
     IData *data = glbCtx.getDataByHandle(data_handle);
     paste<int> (buffer,offset,&data_access->required_version);
-    paste<bool>(buffer,offset,&data_access->ready           );
     paste<byte>(buffer,offset,&data_access->type            );
     data_access->data = data;
     data_list->push_back(data_access);
@@ -577,13 +590,11 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
     printf("listener for Data:%s, is received from host:%d\n",data->getName().c_str(),host);
     TRACE_LOCATION;
     paste<int> (buffer,offset,&data_access->required_version);
-    paste<bool>(buffer,offset,&data_access->ready           );
     TRACE_LOCATION;
     data_access->data = data;
     data_request = data_access;
     TRACE_LOCATION;
   }
-
 /*===============================================================================*/
 void engine:: sendTask(ITask* task,int destination){
   int offset = 0 ;

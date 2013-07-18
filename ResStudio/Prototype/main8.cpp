@@ -22,7 +22,7 @@ int main (int argc, char * argv[])
   TaskHostPolicy      hpTask    (TaskHostPolicy::WRITE_DATA_OWNER     , PG );
   ContextHostPolicy   hpContext (ContextHostPolicy::PROC_GROUP_CYCLIC , PG );
   TaskReadPolicy      hpTaskRead(TaskReadPolicy::ALL_GROUP_MEMBERS    , PG );
-  TaskAddPolicy       hpTaskAdd (TaskAddPolicy::NOT_OWNER_CYCLIC      , PG );
+  TaskAddPolicy       hpTaskAdd (TaskAddPolicy::WRITE_DATA_OWNER       , PG );
   TaskPropagatePolicy hpTaskProp(TaskPropagatePolicy::ALL_CYCLIC      , PG );
 
   hpContext.setGroupCount(1,2,1);  // all processors allowed for first level,
@@ -35,9 +35,9 @@ int main (int argc, char * argv[])
   Cholesky C(&cfg,MA.getOutputData(MatrixAssembly::RBFresult));
 
   //  me = 0 ;
-  hpTaskAdd.setPolicy(TaskAddPolicy::ROOT_ONLY);
+  hpTaskAdd.setPolicy(TaskAddPolicy::WRITE_DATA_OWNER);
   dtEngine.doProcess();// async. if MPI multi threaded is ok.
-  MA.generateTasks();
-  C.generateTasks();
+  MA.generateTasksNoContext();
+  C.generateTasksNoContext();
   dtEngine.finalize();
 }

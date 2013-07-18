@@ -41,7 +41,7 @@ public :
   
   ProcessGrid *getProcessGrid(){return PG;}
 
-  void generateTasksSingleNode () {
+  void generateTasksNoContext () {
     int i,j;
     char task_name[20];
     IData &P=*V,&Dist=*D,&RBF=*R;

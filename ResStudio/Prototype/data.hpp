@@ -93,20 +93,21 @@ public:
   void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
   DataHandle   *getDataHandle    ()                { return my_data_handle ; }
 
-  //  void          setRunTimeVersion(int v )          { runtime_version = v ; }
-  int           getRunTimeVersion(byte type){ 
+  int getRunTimeVersion(byte type){ 
     if ( type == IData::WRITE ) 
       return rt_read_version;
     else
       return rt_write_version;
 
   }
-  void          incrementRunTimeVersion(byte type ){
+  void incrementRunTimeVersion(byte type ){
     if ( type == IData::WRITE ) {
-      rt_write_version= rt_read_version++;
+      rt_write_version= ++rt_read_version;
+      dump('W');
     }
     else{
       rt_read_version++;
+      dump('R');
     }
   }
 
@@ -140,6 +141,10 @@ public:
   void testHandles();
   bool isOwnedBy(int p ) ;
   void incrementVersion ( AccessType a);
+  void dump(char c=' '){
+    printf("#data%c: %s, cv:%d, rv:%d\n",c,getName().c_str(),current_version, request_version  );
+    printf("#data%c: %s, rv:%d, wv:%d\n",c,getName().c_str(),rt_read_version, rt_write_version );
+  }
   void dumpVersion(){
     printf("   @@%s,%d-%d\n",getName().c_str(),getCurrentVersion(),getRequestVersion());
     for ( int i=0;i<Mb;i++)

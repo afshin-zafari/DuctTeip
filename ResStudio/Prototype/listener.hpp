@@ -32,14 +32,14 @@ public :
   IData *getData() { 
     return data_request->data;
   }
-  int getRequiredVersion(){
+  DataVersion getRequiredVersion(){
     return data_request->required_version;
   }
   void dump(){
-    printf("#listener for data:%s, req_ver:%d source:%d host:%d, comm:%ld data-sent:%d\n ",
+    printf("#listener for data:%s, source:%d host:%d, comm:%ld data-sent:%d\n ",
 	   getData()->getName().c_str(),
-	   data_request->required_version,
 	   source,host,comm_handle,data_sent);
+    data_request->required_version.dump();
   }
   void setSource(int s ) { source =s ; }
   int getSource(){return source;}
@@ -50,18 +50,16 @@ public :
   bool isReceived() { return received;}
   bool isDataReady(){
     bool isReady = (data_request->data->getRunTimeVersion(IData::READ) == data_request->required_version);
-    printf("**data :%s\n",data_request->data->getName().c_str());
-    printf("**lsnr check, data rtver:%d , req ver :%d, required ver:%d,isReady:%d\n",
-	   data_request->data->getRunTimeVersion(IData::READ) ,
-	   data_request->data->getRequestVersion() ,
-	   data_request->required_version, isReady);
+    printf("**data :%s , isReady:%d\n",data_request->data->getName().c_str(),isReady);
+    data_request->data->getRunTimeVersion(IData::READ).dump();
+    data_request->data->getRequestVersion().dump() ;
+    data_request->required_version.dump();
     return isReady;
   }
   void serialize(byte *buffer, int &offset, int max_length){
     copy<int>(buffer,offset,host);
     data_request->data->getDataHandle()->serialize(buffer,offset,max_length);
-    int ver = data_request->required_version;
-    copy<int>(buffer,offset,ver);
+    data_request->required_version.serialize(buffer,offset,max_length);
   }
   void deserialize(byte *buffer, int &offset, int max_length);
 };

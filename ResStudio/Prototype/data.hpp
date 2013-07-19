@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdio>
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <list>
 #include "basic.hpp"
@@ -12,6 +13,144 @@ using namespace std;
 
 class IData;
 class IHostPolicy ;
+
+struct  ContextPrefix{
+  list<int> context_id_list;
+  ContextPrefix(){}
+  ContextPrefix(string s){
+    fromString(s);
+  }
+  ~ContextPrefix(){
+    reset();
+  }
+  int   serialize(byte *buffer,int &offset,int max_length){
+    int len = context_id_list.size();
+    copy<int>(buffer,offset,len);
+    list<int>::iterator it;
+    for(it = context_id_list.begin();it != context_id_list.end();it++){
+      int context_id = *it;      
+      copy<int>(buffer,offset,context_id);
+    }    
+    return 0;
+  }
+  int deserialize(byte *buffer,int &offset,int max_length){
+    reset();
+    int context_id,count;
+    paste<int>(buffer,offset,&count);
+    for ( int i =0 ; i< count; i++){
+      paste<int>(buffer,offset,&context_id);
+      context_id_list.push_back(context_id);
+    }
+    return 0;
+  }
+  bool operator !=(ContextPrefix rhs){
+    return !(*this == rhs);
+  }
+  bool operator ==(ContextPrefix rhs){
+    if ( context_id_list.size() == 0 && rhs.context_id_list.size() == 0 ) 
+      return true;
+    TRACE_LOCATION;
+    return false;
+  }
+  void fromString(string ctx){
+    istringstream s(ctx);
+    char c;//1.2.1.
+    int context_id;
+    reset();
+    while ( !s.eof() ) {
+      s >> context_id >> c;
+      if ( s.eof() ) break;
+      context_id_list.push_back(context_id);
+    }
+  }
+  ContextPrefix operator=(ContextPrefix rhs){
+    reset();
+    context_id_list.assign( rhs.context_id_list.begin(),rhs.context_id_list.end());
+    TRACE_LOCATION;
+    return *this;
+  }
+  string toString(){
+    list<int>::iterator it;
+    ostringstream s;
+    for(it = context_id_list.begin(); it != context_id_list.end(); it ++){      
+      s << (*it) << ".";
+    }
+    return s.str();      
+  }
+  void dump(){
+    printf("prefix:%s\n",toString().c_str());
+  }
+  void reset(){
+    context_id_list.clear();
+  }
+};
+struct DataVersion{
+public:  
+  ContextPrefix prefix;
+  int version;
+  int getVersion(){
+    return version;
+  }
+  DataVersion(){
+  }
+  ~ DataVersion(){
+  }
+  DataVersion operator +=(int a){
+    version += a;
+    return *this;
+  }
+  DataVersion operator =(DataVersion rhs){
+    TRACE_LOCATION;
+    version = rhs.version;
+    prefix  = rhs.prefix ;
+    return *this;
+  }
+  DataVersion operator =(int a){
+    version = a;
+    return *this;
+  }
+  bool operator ==(DataVersion rhs){
+    if (prefix != rhs.prefix) 
+      return false;
+    if ( version == rhs.version)
+      return true;
+    return false;
+  }
+  bool operator !=(DataVersion &rhs){
+    return !(*this==rhs);
+  }
+  DataVersion operator ++(int a) {
+    version ++;
+    return *this;
+  }
+  DataVersion operator ++() {
+    version ++;
+    return *this;    
+  }
+  string dumpString(){
+    ostringstream os;
+    os << prefix.toString() << ' ' << version;
+    return os.str();
+  }
+  void dump(){
+    printf("version:%s\n",dumpString().c_str());
+  }
+  int   serialize(byte *buffer,int &offset,int max_length){
+    copy<int>(buffer,offset,version);
+    prefix.serialize(buffer,offset,max_length);
+  }
+  int deserialize(byte *buffer,int &offset,int max_length){
+    paste<int>(buffer,offset,&version);
+    prefix.serialize(buffer,offset,max_length);
+  }
+  void reset(){
+    prefix.reset();
+    version =0 ;
+  }
+  void setContext(string s ){
+    prefix.fromString(s);
+  }
+};
 
 class Coordinate
 {
@@ -27,9 +166,7 @@ typedef struct {
   int row_from,row_to,col_from,col_to;
 }DataRange;
 
-typedef struct {
-  int cur_version,req_version,ctx_switch;
-}DataVersions;
+
 struct DataHandle{
 public:
   unsigned long int context_handle,data_handle;
@@ -64,8 +201,9 @@ protected:
   int                         N,M,Nb,Mb;
   Coordinate                  blk;
   vector< vector<IData*> >   *dataView;
-  list<DataVersions>          versions_track;
-  unsigned int                current_version,request_version,rt_read_version,rt_write_version;
+  //  unsigned int                current_version,request_version;
+  DataVersion                 current_version,request_version;
+  DataVersion                 rt_read_version,rt_write_version;
   IContext                   *parent_context;
   IData                      *parent_data;
   IHostPolicy                *hpData;
@@ -86,14 +224,14 @@ public:
   IContext     *getParent        ()                { return parent_context;}
   IData        *getParentData    ()                { return parent_data;}
   void          setParent        (IContext *p)     { parent_context=p;}
-  int           getRequestVersion()                { return request_version;}
-  int           getCurrentVersion()                { return current_version;}
+  DataVersion   getRequestVersion()                { return request_version;}
+  DataVersion   getCurrentVersion()                { return current_version;}
   IHostPolicy  *getDataHostPolicy()                { return hpData;}
   void          setDataHostPolicy(IHostPolicy *hp) { hpData=hp;}
   void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
   DataHandle   *getDataHandle    ()                { return my_data_handle ; }
 
-  int getRunTimeVersion(byte type){ 
+  DataVersion getRunTimeVersion(byte type){ 
     if ( type == IData::WRITE ) 
       return rt_read_version;
     else
@@ -117,24 +255,24 @@ public:
   IData *operator () (const int i,const int j=0) {    return (*dataView)[i][j];  }
   IData *getDataByHandle(DataHandle *in_dh ) ;
   
-  void serialize(byte *buffer , int &offset, int max_length){//toDo
+  void serialize(byte *buffer , int &offset, int max_length){
     my_data_handle->serialize(buffer,offset,max_length);
-    copy<unsigned int>(buffer,offset,current_version);
-    copy<unsigned int>(buffer,offset,request_version);
-    copy<unsigned int>(buffer,offset,rt_read_version);
-    copy<unsigned int>(buffer,offset,rt_write_version);
-    // content of data
+    current_version.serialize(buffer,offset,max_length);
+    request_version.serialize(buffer,offset,max_length);
+    rt_read_version.serialize(buffer,offset,max_length);
+    rt_write_version.serialize(buffer,offset,max_length);
+    // todo :content of data
   }
-  void deserialize(byte *buffer, int &offset,int max_length,bool header_only = true){//todo
+  void deserialize(byte *buffer, int &offset,int max_length,bool header_only = true){
     TRACE_LOCATION;
     my_data_handle->deserialize(buffer,offset,max_length);
     TRACE_LOCATION;
-    paste<unsigned int>(buffer,offset,&current_version);
-    paste<unsigned int>(buffer,offset,&request_version);
-    paste<unsigned int>(buffer,offset,&rt_read_version);
-    paste<unsigned int>(buffer,offset,&rt_write_version);
+    current_version.deserialize(buffer,offset,max_length);
+    request_version.deserialize(buffer,offset,max_length);
+    rt_read_version.deserialize(buffer,offset,max_length);
+    rt_write_version.deserialize(buffer,offset,max_length);
     if ( !header_only ) {
-    // content of data
+    // todo content of data
     }
   }
   int getPackSize(){ return 1024;}//Todo
@@ -142,14 +280,21 @@ public:
   bool isOwnedBy(int p ) ;
   void incrementVersion ( AccessType a);
   void dump(char c=' '){
-    printf("#data%c: %s, cv:%d, rv:%d\n",c,getName().c_str(),current_version, request_version  );
-    printf("#data%c: %s, rv:%d, wv:%d\n",c,getName().c_str(),rt_read_version, rt_write_version );
+    printf("#data%c: %s\n",c,getName().c_str());
+    dumpVersion();
   }
   void dumpVersion(){
-    printf("   @@%s,%d-%d\n",getName().c_str(),getCurrentVersion(),getRequestVersion());
+    printf("task generation phase, read version:%s\n",
+	   current_version.dumpString().c_str());
+    printf("task generation phase, write version:%s\n",
+	   request_version.dumpString().c_str());
+    printf("task execution phase, read version:%s\n",
+	   rt_read_version.dumpString().c_str());
+    printf("task execution phase, write version:%s\n",
+	   rt_write_version.dumpString().c_str());
+
     for ( int i=0;i<Mb;i++)
       for ( int j=0;j<Nb;j++)  {
-          //printf("----%s\n",(*dataView)[i][j]->getName().c_str());
 	(*dataView)[i][j]->dumpVersion();
 	  }
   }
@@ -158,7 +303,7 @@ public:
     if ( axs == WRITE ) {
       request_version = current_version;
     }
-    printf("version jumped %s,%d, reqv=%d,curv=%d\n",getName().c_str(),v, request_version ,current_version);
+    dump();
   }
   void setPartition(int _mb, int _nb){
     Nb = _nb;

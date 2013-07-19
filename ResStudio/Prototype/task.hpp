@@ -11,7 +11,7 @@
 
 typedef struct {
   IData *data;
-  int required_version;
+  DataVersion required_version;
   byte type;
 } DataAccess;
 
@@ -25,21 +25,31 @@ private:
   int state,sync,type,host;
   TaskHandle handle;
   unsigned long key,comm_handle;
+  IContext *parent_context;
 public:
   enum TaskState{
     WaitForData,
     Running,
     Finished
   };
-  ITask (string _name,int _host, list<DataAccess *> *dlist):host(_host),data_list(dlist){
+  ITask (IContext *context,string _name,unsigned long _key,int _host, list<DataAccess *> *dlist):host(_host),data_list(dlist){
+    parent_context = context;
+    printf("##task ctor:%s,%ld\n",_name.c_str(),key);
+    key = _key;
+    if (_name.size() ==0  )
+      _name.assign("task");
     setName(_name);
-    comm_handle = 0 ;
+    comm_handle = 0 ;    
+    state = WaitForData; 
+  }
+  ITask():name(""),host(-1){
+    printf("##task ctor2:%s,%ld\n",name.c_str(),key);
     state = WaitForData;
   }
-  ITask():name(""),host(-1){state = WaitForData;}
   void    setHost(int h )    { host = h ;  }
   int     getHost()          { return host;}
   string  getName()          { return name;}
+  unsigned long getKey(){ return key;}
 
   void       setHandle(TaskHandle h)     { handle = h;}
   TaskHandle getHandle()                 {return handle;}
@@ -52,7 +62,8 @@ public:
   void dumpDataAccess(list<DataAccess *> *dlist){
     list<DataAccess *>::iterator it;
     for (it = dlist->begin(); it != dlist->end(); it ++) {
-      printf("#daxs:%s,%d@%d \n ", (*it)->data->getName().c_str(),(*it)->required_version,(*it)->data->getHost());
+      printf("#daxs:%s @%d \n ", (*it)->data->getName().c_str(),(*it)->data->getHost());
+      (*it)->required_version.dump();
       (*it)->data->dump();
     }
     printf ("\n");
@@ -64,7 +75,7 @@ public:
   bool isFinished(){ return (state == Finished);}
   void    setName(string n ) {
     name = n ;
-    memcpy(&key,name.c_str(),sizeof(unsigned long));
+    //memcpy(&key,name.c_str(),sizeof(unsigned long));
   }
   int getSerializeRequiredSpace(){
     return
@@ -78,11 +89,12 @@ public:
     if ( state == Finished ) 
       return false;
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-	printf("**task %s dep : data:%s , rt_v:%d req:%d\n",
+	printf("**task %s dep : data:%s \n",
 	       getName().c_str(),
-	       (*it)->data->getName().c_str(),
-	       (*it)->data->getRunTimeVersion((*it)->type) , 
-	       (*it)->required_version);
+	       (*it)->data->getName().c_str()
+	       );
+	(*it)->data->getRunTimeVersion((*it)->type).dump();
+	(*it)->required_version.dump();
       if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
 	return false;      
       }
@@ -90,32 +102,9 @@ public:
     printf("canRun = True\n");
     return true;
   }
-  void run(){
-    list<DataAccess *>::iterator it;
-    if ( state == Finished ) 
-      return;
-    state = Finished;
-    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-      printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
-      if ( (*it)->type == IData::WRITE)
-	(*it)->data->incrementRunTimeVersion((*it)->type);
-    }
-    
-  }
-  int serialize(byte *buffer,int &offset,int max_length){
-    int count =data_list->size();
-    list<DataAccess *>::iterator it;
-    copy<unsigned long>(buffer,offset,key);
-    copy<int>(buffer,offset,count);
-    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-      (*it)->data->getDataHandle()->serialize(buffer,offset,max_length);
-      int ver = (*it)->required_version;
-      copy<int>(buffer,offset,ver);
-      byte type = (*it)->type;
-      copy<byte>(buffer,offset,type);
-    }
-
-  }
+  void setFinished(bool f);
+  void run();
+  int serialize(byte *buffer,int &offset,int max_length);
   void deserialize(byte *buffer,int &offset,int max_length);
 };
 

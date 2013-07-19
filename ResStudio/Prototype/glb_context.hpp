@@ -103,6 +103,11 @@ public :
 };
 
 /*==================================================================================*/
+typedef struct {
+  IContext *context;
+  unsigned long task_key;
+} TaskKernel;
+
 class GlobalContext
 {
 private:
@@ -122,6 +127,7 @@ private:
   IHostPolicy         *hpData,*hpTask,*hpTaskRead,*hpTaskAdd,*hpTaskPropagate;
   unsigned long        last_context_handle,last_data_handle;
   
+  
 public :
   GlobalContext(){
     sequence=-1;
@@ -130,7 +136,7 @@ public :
     li.seq = 0;
     li.children = 0;
     lstLevels.push_back(li);
-    last_context_handle = 0 ;
+    last_context_handle = 34 ;
     last_data_handle = 0 ;
   }
   ~GlobalContext() {
@@ -237,7 +243,7 @@ public :
 	for ( int c=(*it)->col_from; c<= (*it)->col_to;c++){
 	  IData &A=*((*it)->d);
 	  PropagateInfo *p = new PropagateInfo();
-	  p->fromVersion = A(r,c)->getCurrentVersion();
+	  p->fromVersion = A(r,c)->getCurrentVersion().getVersion();
 	  p->fromCtx.assign( getLevelString());
 	  p->i = r; p->j = c;
 	  p->data_handle = *A(r,c)->getDataHandle();
@@ -254,8 +260,7 @@ public :
       createPropagateTasks( ctxHeader->getWriteRange() );
       createPropagateTasks( ctxHeader->getReadRange()  );
     } 
-  }
-  
+  }  
   /*------------------------------*/
   void testPropagatePacking(){
     list < PropagateInfo *> prop_info;
@@ -403,7 +408,6 @@ public :
     return false;
   }
   void testHandles();
-
 
 };
 

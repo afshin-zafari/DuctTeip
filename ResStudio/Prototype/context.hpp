@@ -50,6 +50,8 @@ public:
     outputData.clear();
     children.clear();
   }
+  virtual void runKernels(ITask *task) = 0 ; 
+  virtual string getTaskName(unsigned long) =0;
 
           string getName()    {return name;}
           string getFullName(){return getName();}
@@ -202,7 +204,10 @@ public :
 /*===================================================================================*/
        IData::IData            (string _name,int m, int n,IContext *ctx):    M(m),N(n), parent_context(ctx){
     name=_name;
-    current_version=request_version=rt_read_version=rt_write_version=0;
+    current_version.reset();
+    request_version.reset();
+    rt_read_version.reset();
+    rt_write_version.reset();
     setDataHandle( ctx->createDataHandle());
 }
 bool   IData::isOwnedBy        (int p ) {
@@ -228,7 +233,6 @@ int    IData::getHost          (){
     return hpData->getHost(blk);
 }
 void   IData::incrementVersion ( AccessType a) {
-    DataVersions v;
     current_version++;
     if ( a == WRITE ) {
       request_version = current_version;
@@ -339,16 +343,16 @@ bool ContextHostPolicy::isAllowed(IContext *ctx,ContextHeader *hdr){
       a = p * s;
       b = (p+1) *s -1 ;
       if (me < (offset + a) || me > (offset+b) )  {
-	//printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
+	printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
 	return false;
       }
       offset  += a;
     }
     if (me >= (offset) && me <= (offset-a+b) ) {
-      //printf("ContextHostPolicy: %d IS in [%d,%d]\n",me,offset+a,offset+b);
+      printf("ContextHostPolicy: %d IS in [%d,%d]\n",me,offset+a,offset+b);
       return true;
     }
-    //printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
+    printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
   }
   return false;
 }
@@ -477,7 +481,7 @@ void end_context(IContext * curCtx){
   glbCtx.endContext();
   glbCtx.getHeader()->clear();
 }
-void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
+void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData *d3){
   ContextHeader *c=NULL;
   if ( !glbCtx.getTaskReadHostPolicy()->isAllowed(ctx,c) )
     return;
@@ -501,54 +505,58 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
     }
     list<DataAccess *> *dlist = new list <DataAccess *>;
     DataAccess *daxs ;
+    TRACE_LOCATION;
     if ( d1 != NULL ) {
+      TRACE_LOCATION;
       daxs = new DataAccess;
       daxs->data = d1;
+      d1->getRequestVersion().setContext( glbCtx.getLevelString() );
       daxs->required_version = d1->getRequestVersion();
+      TRACE_LOCATION;
       daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
     if ( d2 != NULL ) {
+      TRACE_LOCATION;
       daxs = new DataAccess;
       daxs->data = d2;
+      TRACE_LOCATION;
+      d2->getRequestVersion().setContext( glbCtx.getLevelString() );
       daxs->required_version = d2->getRequestVersion();
+      TRACE_LOCATION;
       daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
+    TRACE_LOCATION;
     daxs = new DataAccess;
     daxs->data = d3;
+    d3->getRequestVersion().setContext( glbCtx.getLevelString() );
     daxs->required_version = d3->getCurrentVersion();
+    TRACE_LOCATION;
     daxs->type = IData::WRITE;
     dlist->push_back(daxs);
 
-    TaskHandle task_handle =dtEngine.addTask(s,d3->getHost(),dlist);
-    printf (" @Insert TASK:%s(%ld) %s,%d %s,%d %s,%d %s,host=%d\n", s,task_handle,
-	    (d1==NULL)?"  ---- ":d1->getName().c_str(),	 (d1==NULL) ?-1:d1->getRequestVersion(),
-	    (d2==NULL)?"  ---- ":d2->getName().c_str(),	 (d2==NULL) ?-1:d2->getRequestVersion(),
-	    d3->getName().c_str(),	 d3->getCurrentVersion(),
-	    d3->isOwnedBy(me)?"*":"",
-	    me
-      );
+    TaskHandle task_handle =dtEngine.addTask(ctx,s,key,d3->getHost(),dlist);
+    printf (" @Insert TASK:%s(%ld)  %s,host=%d\n", s,task_handle,d3->isOwnedBy(me)?"*":"",me);
+    if (d1) d1->dump();
+    if (d2) d2->dump();
+    d3->dump();
   }
   else{
-    printf (" @Skip TASK:%s %s,%d %s,%d %s,%d %s,host=%d\n", s,
-	    (d1==NULL)?"  ---- ":d1->getName().c_str(),	 (d1==NULL) ?-1:d1->getRequestVersion(),
-	    (d2==NULL)?"  ---- ":d2->getName().c_str(),	 (d2==NULL) ?-1:d2->getRequestVersion(),
-	    d3->getName().c_str(),	 d3->getCurrentVersion(),
-	    d3->isOwnedBy(me)?"*":"",
-	    me
-      );
+    printf (" @Skip TASK:%s  %s,host=%d\n", s,d3->isOwnedBy(me)?"*":"",me);
+    if (d1) d1->dump();
+    if (d2) d2->dump();
+    d3->dump();
   }
 
   if ( d1 != NULL ) d1->incrementVersion(IData::READ);
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
   d3->incrementVersion(IData::WRITE);
 
-  printf("  @after-exec:        %d       %d      %d \n",
-	 (d1==NULL) ?-1:d1->getCurrentVersion(),
-	 (d2==NULL) ?-1:d2->getCurrentVersion(),
-	 d3->getCurrentVersion()
-	 );
+  printf("  @after-exec: \n");
+  if (d1) d1->dump();
+  if (d2) d2->dump();
+  d3->dump();
 
   delete dr;
   c->clear();
@@ -557,14 +565,44 @@ void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2,IData *d3){
 
 
 }
-void AddTask ( IContext *ctx,char*s,IData *d1                    ) { AddTask ( ctx,s,NULL,NULL , d1);}
-void AddTask ( IContext *ctx,char*s,IData *d1,IData *d2          ) { AddTask ( ctx,s,d1  ,NULL , d2);}
+void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1                    ) { AddTask ( ctx,s,key,NULL,NULL , d1);}
+void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2          ) { AddTask ( ctx,s,key,d1  ,NULL , d2);}
 
 /*===============================================================================*/
+int ITask::serialize(byte *buffer,int &offset,int max_length){
+    int count =data_list->size();
+    list<DataAccess *>::iterator it;
+    copy<unsigned long>(buffer,offset,key);
+    ContextHandle handle=*parent_context->getContextHandle();
+    printf("##parent ctx hdl:%ld name:%s\n",*(long *)&handle,parent_context->getName().c_str());
+    printf("##parent ctx hdl:%ld\n",handle);
+    flushBuffer(buffer,max_length);
+    copy<ContextHandle>(buffer,offset,handle);
+    copy<int>(buffer,offset,count);
+    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
+      (*it)->data->getDataHandle()->serialize(buffer,offset,max_length);
+      (*it)->required_version.serialize(buffer,offset,max_length);
+      byte type = (*it)->type;
+      copy<byte>(buffer,offset,type);
+    }
+
+  }
+
 void ITask::deserialize(byte *buffer,int &offset,int max_length){
   paste<unsigned long>(buffer,offset,&key);
   size_t len = sizeof(unsigned long);
-  name.assign((char *)&key,len);
+  ContextHandle handle ;
+  flushBuffer(buffer,max_length);
+  paste<ContextHandle>(buffer,offset,&handle);
+  printf("##parent ctx hdl(rcv):%ld\n",*(long *)&handle);
+  printf("##parent ctx hdl(rcv):%ld\n",handle);
+  parent_context = glbCtx.getContextByHandle(handle);
+  printf("##parent ctx hdl(rcv):%ld name:%s\n",*(long *)&handle,parent_context->getName().c_str());
+  TRACE_LOCATION;
+  name=parent_context->getTaskName(key);
+  printf("##task name:%s\n",getName().c_str());
+  printf("##task name:%s\n",name.c_str());
+  TRACE_LOCATION;
   int count ;
   paste<int>(buffer,offset,&count);
   data_list = new list<DataAccess *>;
@@ -573,12 +611,29 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
     DataHandle *data_handle = new DataHandle;
     data_handle->deserialize(buffer,offset,max_length);
     IData *data = glbCtx.getDataByHandle(data_handle);
-    paste<int> (buffer,offset,&data_access->required_version);
+    data_access->required_version.deserialize(buffer,offset,max_length);
     paste<byte>(buffer,offset,&data_access->type            );
     data_access->data = data;
     data_list->push_back(data_access);
   }
 }
+void ITask::run(){
+    if ( state == Finished ) 
+      return;
+    parent_context->runKernels(this);
+}
+void ITask::setFinished(bool flag){
+    list<DataAccess *>::iterator it;
+    if ( !flag ) 
+      return ;
+    state = Finished;
+    printf("%s task finished.\n",getName().c_str());
+    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
+      printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
+      (*it)->data->incrementRunTimeVersion((*it)->type);
+    }
+    
+  }
 /*===============================================================================*/
 void IListener::deserialize(byte *buffer, int &offset, int max_length){
     DataAccess *data_access = new DataAccess;
@@ -589,7 +644,7 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
     IData *data = glbCtx.getDataByHandle(data_handle);
     printf("listener for Data:%s, is received from host:%d\n",data->getName().c_str(),host);
     TRACE_LOCATION;
-    paste<int> (buffer,offset,&data_access->required_version);
+    data_access->required_version.deserialize(buffer,offset,max_length);
     TRACE_LOCATION;
     data_access->data = data;
     data_request = data_access;
@@ -610,14 +665,16 @@ void engine:: sendTask(ITask* task,int destination){
   task->setCommHandle (ch);
   TRACE_LOCATION;
 
+  /*
   ITask *temp = new ITask;
   offset = 0;
   temp->deserialize(buffer,offset,msg_size);
   delete temp;
+  */
   
 }
 /*=====================================================================*/
-void engine::receivedData(MailBoxEvent *event){//ToDo
+void engine::receivedData(MailBoxEvent *event){
     IData *temp_data = new IData;
     int offset =0 ;
     TRACE_LOCATION;

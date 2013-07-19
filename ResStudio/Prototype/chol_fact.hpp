@@ -19,6 +19,12 @@ private:
     GEMM_ROW_TASK_ID   ,
     GEMM_COL_TASK_ID
   };
+  enum Kernels{
+    potrf_Kernel,
+    trsm_Kernel,
+    gemm_Kernel,
+    syrk_Kernel
+  };
 public:
    Cholesky(Config *cfg,IData *inData=NULL)  {
     config = cfg ;
@@ -68,17 +74,17 @@ public:
 	  for(int l = 0;l<i;l++){
 	    BEGIN_CONTEXT_BY(l,A.ColSlice(l,i,Nb-1) , A.Cell(i,l), A.ColSlice(i,i,Nb-1))       // 0.i*2.L
 	      for (int k = i; k<Nb ; k++){
-	        AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
+	        AddTask (this,gemm_str,gemm_Kernel, A(k,l) , A(i,l) , A(k,i) ) ;
 	      }
 	    END_CONTEXT()
 	  }
 	  END_CONTEXT()
 
-	  AddTask (this, chol_str , A(i,i));
+	    AddTask (this, chol_str, potrf_Kernel , A(i,i));
 
 	  BEGIN_CONTEXT( A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )                         // 0.i*2+1
 	    for( int j=i+1;j<Nb;j++){
-	        AddTask(this,pnl_str,A(i,i), A(j,i) ) ;
+	      AddTask(this,pnl_str,trsm_Kernel,A(i,i), A(j,i) ) ;
 	    }
 	  END_CONTEXT()
     }
@@ -102,12 +108,12 @@ public:
 	BEGIN_CONTEXT_EX(DONT_CARE_COUNTER,skipFunc(i,0,GEMM_SYRK_TASK_ID),A.Region(i,Nb-1,0,i-1) , A.RowSlice(i,0,i-1), A.ColSlice(i,i,Nb-1)) 
 	  printf("gemm + syrk context entered.\n");
 	  for(int l = 0;l<i;l++){
-	      AddTask(this,syrk_str,A(i,l),A(i,i));
+  	      AddTask(this,syrk_str,syrk_Kernel,A(i,l),A(i,i));
 	      printf("gemm context check?ctr=%d,f=%d,t=%d\n",l,i+1,Nb);
 	      BEGIN_CONTEXT_EX(l,skipFunc(i,l,GEMM_COL_TASK_ID),A.ColSlice(l,i+1,Nb-1) , A.Cell(i,l), A.ColSlice(i,i,Nb-1))       
 		printf("gemm context entered\n");
 	        for (int k = i+1; k<Nb ; k++){
-		  AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
+		  AddTask (this,gemm_str, gemm_Kernel,A(k,l) , A(i,l) , A(k,i) ) ;
 	        }
 	      END_CONTEXT_EX()
 	  }
@@ -117,10 +123,10 @@ public:
 	  printf("potrf+trsm context check?ctr=-1,f=0,t=1\n");
 	BEGIN_CONTEXT_EX( DONT_CARE_COUNTER,skipFunc(i,0,POTRF_TRSM_TASK_ID),A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )   
 	  printf("potrf+trsm context entered.\n");
-	  AddTask (this, chol_str , A(i,i));
+	  AddTask (this, chol_str , potrf_Kernel,A(i,i));
 	  BEGIN_CONTEXT_EX( DONT_CARE_COUNTER,skipFunc(i,0,TRSM_TASK_ID),A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )   
 	    for( int j=i+1;j<Nb;j++){
-	      AddTask(this,pnl_str,A(i,i), A(j,i) ) ;
+	      AddTask(this,pnl_str,trsm_Kernel,A(i,i), A(j,i) ) ;
 	    }
 	  END_CONTEXT_EX()
 	END_CONTEXT_EX()
@@ -140,14 +146,14 @@ public:
 
       for ( int i = 0; i< Nb ; i++) {
 	  for(int l = 0;l<i;l++){
-	      AddTask(this,syrk_str,A(i,l),A(i,i));
+  	      AddTask(this,syrk_str,syrk_Kernel,A(i,l),A(i,i));
 	      for (int k = i+1; k<Nb ; k++){
-		AddTask (this,gemm_str, A(k,l) , A(i,l) , A(k,i) ) ;
+		AddTask (this,gemm_str, gemm_Kernel,A(k,l) , A(i,l) , A(k,i) ) ;
 	      }
 	  }
-	  AddTask (this, chol_str , A(i,i));
+	  AddTask (this, chol_str , potrf_Kernel,A(i,i));
 	  for( int j=i+1;j<Nb;j++){
-	    AddTask(this,pnl_str,A(i,i), A(j,i) ) ;
+	    AddTask(this,pnl_str,trsm_Kernel,A(i,i), A(j,i) ) ;
 	  }
       }
 
@@ -206,6 +212,48 @@ public:
       upgradeVersions(col,0,N,M,TRSM_TASK_ID);
       break;
     }
+  }
+  void runKernels(ITask *task ){
+    switch (task->getKey()){
+    case potrf_Kernel:
+      printf("potrf task starts running.\n");
+      break;
+    case trsm_Kernel:
+      printf("trsm task starts running.\n");
+      break;
+    case gemm_Kernel:
+      printf("gemm task starts running.\n");
+      break;
+    case syrk_Kernel:
+      printf("syrk task starts running.\n");
+      break;
+    default:
+      printf("invalid task key:%ld.\n",task->getKey());
+      break;      
+    }
+    task->setFinished(true);
+  }
+  string getTaskName(unsigned long key){
+    string s;
+    switch(key){
+    case potrf_Kernel:
+      s.assign("potrf",5);
+      break;
+    case gemm_Kernel:
+      s.assign("gemm",4);
+      break;
+    case trsm_Kernel:
+      s.assign("trsm",4);
+      break;
+    case syrk_Kernel:
+      s.assign("syrk",4);
+      break;
+    default:
+      s.assign("INVLD",5);
+      break;
+    }
+    printf("task name:%s\n",s.c_str());
+    return s;
   }
 };
 #endif //__CHOL_FACT_HPP__

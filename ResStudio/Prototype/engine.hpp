@@ -90,8 +90,8 @@ public:
     delete net_comm;
   }
 
-  TaskHandle  addTask(string task_name, int task_host, list<DataAccess *> *data_access){
-    ITask *task = new ITask (task_name,task_host,data_access);
+  TaskHandle  addTask(IContext * context,string task_name,unsigned long key, int task_host, list<DataAccess *> *data_access){
+    ITask *task = new ITask (context,task_name,key,task_host,data_access);
     TRACE_LOCATION;
     criticalSection(Enter) ;
     TRACE_LOCATION;
@@ -133,8 +133,6 @@ public:
     *length = prop_buffer_length ;
   }
   void sendTask(ITask* task,int destination);
-  void sendListener(){} //ToDo: engine.sendListener
-  void sendData() {}//ToDo: engine.sendData
   void receivedListener(MailBoxEvent *event){
 
     IListener *listener = new IListener;
@@ -246,7 +244,7 @@ private :
       
     }
   }
-  void putWorkForReceivedListener(IListener *listener){//ToDo
+  void putWorkForReceivedListener(IListener *listener){
     TRACE_LOCATION;
     DuctTeipWork *work = new DuctTeipWork;
     work->listener  = listener;
@@ -263,7 +261,7 @@ private :
     work->tag   = DuctTeipWork::TaskWork;
     work->event = DuctTeipWork::Added;
     work->item  = DuctTeipWork::SendTask;
-    work->host  = task->getHost(); // ToDo : me
+    work->host  = task->getHost(); // ToDo : create_place, dest_place
     work_queue.push_back(work);
   }
   void putWorkForNewTask(ITask *task){
@@ -273,7 +271,7 @@ private :
     work->tag   = DuctTeipWork::TaskWork;
     work->event = DuctTeipWork::Added;
     work->item  = DuctTeipWork::CheckTaskForData;
-    work->host  = task->getHost(); // ToDo : me
+    work->host  = task->getHost(); // ToDo : create_place, dest_place
     work_queue.push_back(work);
     DuctTeipWork *second_work = new DuctTeipWork;
     *second_work = *work;
@@ -294,7 +292,7 @@ private :
     second_work->item  = DuctTeipWork::CheckTaskForRun;
     work_queue.push_back(second_work);
   }
-  void putWorkForSendListenerData(IListener *listener){//todo
+  void putWorkForSendListenerData(IListener *listener){
       DuctTeipWork *work = new DuctTeipWork;
       work->listener = listener;
       work->tag   = DuctTeipWork::ListenerWork;
@@ -303,7 +301,7 @@ private :
       work_queue.push_back(work);      
     
   }
-  void putWorkForDataReady(list<DataAccess *> *data_list){//ToDo
+  void putWorkForDataReady(list<DataAccess *> *data_list){
     list<DataAccess *>::iterator it;
     for (it =data_list->begin(); it != data_list->end() ; it ++) {
       IData *data=(*it)->data;
@@ -376,7 +374,7 @@ private :
       }
     }
   }
-  void executeTaskWork(DuctTeipWork * work){//ToDo
+  void executeTaskWork(DuctTeipWork * work){
     switch (work->item){
     case DuctTeipWork::SendTask:
       TRACE_LOCATION;
@@ -410,9 +408,9 @@ private :
       break;
     }
   }
-  void executeDataWork(DuctTeipWork * work){//ToDo
+  void executeDataWork(DuctTeipWork * work){
     switch (work->item){
-    case DuctTeipWork::CheckAfterDataUpgraded://todo
+    case DuctTeipWork::CheckAfterDataUpgraded:
       list<IListener *>::iterator lsnr_it;
       list<ITask *>::iterator task_it;
       for(lsnr_it = listener_list.begin() ; lsnr_it != listener_list.end(); ++lsnr_it){//Todo , not all of the listeners to be checked
@@ -454,7 +452,7 @@ private :
     listener->dump();
     TRACE_LOCATION;
   }
-  void executeListenerWork(DuctTeipWork * work){//ToDo
+  void executeListenerWork(DuctTeipWork * work){
     switch (work->item){
     case DuctTeipWork::CheckListenerForData:
       {
@@ -567,7 +565,7 @@ private :
     dumpListeners();
     printf("------------------------------------------------\n");
   }
-  void removeListenerByHandle(int handle ) {//ToDo
+  void removeListenerByHandle(int handle ) {
     list<IListener *>::iterator it;
 	TRACE_LOCATION;
         criticalSection(Enter); 
@@ -641,7 +639,7 @@ private :
     printf("task not found %ld\n",handle);
     return NULL;
   }
-  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) {//ToDo
+  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) {
     list<IListener *>::iterator it;
     for (it = listener_list.begin(); it !=listener_list.end();it ++){
       IListener *listener=(*it);

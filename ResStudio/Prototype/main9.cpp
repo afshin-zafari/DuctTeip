@@ -13,7 +13,6 @@ int main (int argc, char * argv[])
   Nb = atoi(argv[1]);
   P  = atoi(argv[2]);
   p = P/q;
-  TRACE_LOCATION;
 
   Config cfg(1000,1000,Nb,Nb,P,p,q);
   ProcessGrid PG(P,p,q);
@@ -24,7 +23,6 @@ int main (int argc, char * argv[])
   TaskReadPolicy      hpTaskRead(TaskReadPolicy::ALL_GROUP_MEMBERS    , PG );
   TaskAddPolicy       hpTaskAdd (TaskAddPolicy::NOT_OWNER_CYCLIC      , PG );
   TaskPropagatePolicy hpTaskProp(TaskPropagatePolicy::ALL_CYCLIC      , PG );
-  TRACE_LOCATION;
 
   hpContext.setGroupCount(1,2,1);  // all processors allowed for first level,
                                    // divide them by 2 for second level
@@ -36,6 +34,9 @@ int main (int argc, char * argv[])
   MatrixAssembly MA(&cfg);
   TRACE_LOCATION;
   Cholesky C(&cfg,MA.getOutputData(MatrixAssembly::RBFresult));
+
+  TRACE_LOCATION;
+  glbCtx.initPropagateTasks();
 
   dtEngine.doProcess();// async. if MPI multi threaded is ok.
   TRACE_LOCATION;

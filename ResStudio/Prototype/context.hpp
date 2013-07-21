@@ -61,6 +61,8 @@ public:
 
   IData *getDataFromList(list<IData* > dlist,int index){
     list<IData *>:: iterator it;
+    if ( index >= dlist.size() ) 
+      return NULL;
     it=dlist.begin();
     advance(it,index);
     return (*it);
@@ -71,6 +73,11 @@ public:
   IData *getInputData   (int index=0){    
     return getDataFromList ( inputData , index);
   }
+  IData *getInOutData   (int index=0){    
+    return getDataFromList ( in_outData , index);
+  }
+  
+  
   IData *getDataByHandle(list<IData *> dlist,DataHandle *dh){
     list<IData*> :: iterator it;
     IData* data= new IData("",0,0,this);
@@ -204,10 +211,12 @@ public :
 /*===================================================================================*/
        IData::IData            (string _name,int m, int n,IContext *ctx):    M(m),N(n), parent_context(ctx){
     name=_name;
-    current_version.reset();
-    request_version.reset();
-    rt_read_version.reset();
+     current_version.reset();
+     request_version.reset();
+     rt_read_version.reset();
     rt_write_version.reset();
+     rt_read_version.setContext(glbCtx.getLevelString());
+    rt_write_version.setContext(glbCtx.getLevelString());
     setDataHandle( ctx->createDataHandle());
 }
 bool   IData::isOwnedBy        (int p ) {
@@ -280,6 +289,30 @@ IData    *GlobalContext::getDataByHandle   (DataHandle *d){
   IContext *ctx = getContextByHandle(d->context_handle);
   return ctx->getDataByHandle(d);
 }
+
+DataRange *GlobalContext::getIndependentData(IContext *ctx,int data_type){
+    IData * data=NULL ;
+    if ( data_type == InputData)
+      data = ctx->getInputData(); // todo loop for all input data
+    else if (data_type == OutputData)  
+      data = ctx->getOutputData();// todo loop for all output data
+    else if (data_type == InOutData)
+      data = ctx->getInOutData(); // todo loop for all inout data
+    TRACE_LOCATION;
+    if ( !data ) 
+      return NULL;
+    TRACE_LOCATION;
+    printf("data:%p , %s\n",data,data->getName().c_str());
+    ContextHandle dch = *data->getParent()->getContextHandle();
+    TRACE_LOCATION;
+    ContextHandle cch = *ctx->getContextHandle();
+    TRACE_LOCATION;
+    if ( dch == cch ) 
+      return data->All();
+    TRACE_LOCATION;
+    return NULL;
+  }
+
 void      GlobalContext::dumpStatistics    (Config *_cfg){
   if ( me ==0)printf("#STAT:Node\tCtxIn\tCtxSkip\tT.Read\tT.Ins\tT.Prop.\tP.Size\tComm\tTotTask\tNb\tP\n");
   printf("#STAT:%2d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
@@ -510,8 +543,8 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData 
       TRACE_LOCATION;
       daxs = new DataAccess;
       daxs->data = d1;
-      d1->getRequestVersion().setContext( glbCtx.getLevelString() );
       daxs->required_version = d1->getRequestVersion();
+      daxs->required_version.setContext( glbCtx.getLevelString() );
       TRACE_LOCATION;
       daxs->type = IData::READ;
       dlist->push_back(daxs);
@@ -521,8 +554,8 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData 
       daxs = new DataAccess;
       daxs->data = d2;
       TRACE_LOCATION;
-      d2->getRequestVersion().setContext( glbCtx.getLevelString() );
       daxs->required_version = d2->getRequestVersion();
+      daxs->required_version.setContext( glbCtx.getLevelString() );
       TRACE_LOCATION;
       daxs->type = IData::READ;
       dlist->push_back(daxs);
@@ -530,8 +563,8 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData 
     TRACE_LOCATION;
     daxs = new DataAccess;
     daxs->data = d3;
-    d3->getRequestVersion().setContext( glbCtx.getLevelString() );
     daxs->required_version = d3->getCurrentVersion();
+    daxs->required_version.setContext( glbCtx.getLevelString() );
     TRACE_LOCATION;
     daxs->type = IData::WRITE;
     dlist->push_back(daxs);
@@ -569,6 +602,27 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1                 
 void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2          ) { AddTask ( ctx,s,key,d1  ,NULL , d2);}
 
 /*===============================================================================*/
+ITask::ITask(PropagateInfo *p){//todo
+  prop_info = p;
+  type = PropagateTask;
+  data_list = new list<DataAccess*>;
+  DataAccess *daxs = new DataAccess;
+  daxs->data = glbCtx.getDataByHandle(&p->data_handle);  
+  TRACE_LOCATION;
+  daxs->required_version = p->fromVersion;
+  daxs->required_version.setContext( p->fromCtx);
+  TRACE_LOCATION;
+  daxs->type = IData::READ;
+  data_list->push_back(daxs);  
+}
+ void ITask::runPropagateTask(){
+  TRACE_LOCATION;
+  IData *data = glbCtx.getDataByHandle(&prop_info->data_handle);
+  TRACE_LOCATION;
+  data->setRunTimeVersion(prop_info->toCtx,0);
+  TRACE_LOCATION;
+}
+
 int ITask::serialize(byte *buffer,int &offset,int max_length){
     int count =data_list->size();
     list<DataAccess *>::iterator it;
@@ -576,7 +630,6 @@ int ITask::serialize(byte *buffer,int &offset,int max_length){
     ContextHandle handle=*parent_context->getContextHandle();
     printf("##parent ctx hdl:%ld name:%s\n",*(long *)&handle,parent_context->getName().c_str());
     printf("##parent ctx hdl:%ld\n",handle);
-    flushBuffer(buffer,max_length);
     copy<ContextHandle>(buffer,offset,handle);
     copy<int>(buffer,offset,count);
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
@@ -585,8 +638,8 @@ int ITask::serialize(byte *buffer,int &offset,int max_length){
       byte type = (*it)->type;
       copy<byte>(buffer,offset,type);
     }
-
-  }
+    flushBuffer(buffer,max_length);
+}
 
 void ITask::deserialize(byte *buffer,int &offset,int max_length){
   paste<unsigned long>(buffer,offset,&key);
@@ -605,22 +658,37 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
   TRACE_LOCATION;
   int count ;
   paste<int>(buffer,offset,&count);
+  printf ("count:%d\n",count);
+  TRACE_LOCATION;
   data_list = new list<DataAccess *>;
   for ( int i=0; i<count; i++){
     DataAccess *data_access = new DataAccess;
     DataHandle *data_handle = new DataHandle;
     data_handle->deserialize(buffer,offset,max_length);
+    printf("ch:%lx , dh:%lx\n",data_handle->context_handle,data_handle->data_handle);
+    TRACE_LOCATION;
     IData *data = glbCtx.getDataByHandle(data_handle);
+    TRACE_LOCATION;
     data_access->required_version.deserialize(buffer,offset,max_length);
-    paste<byte>(buffer,offset,&data_access->type            );
+    TRACE_LOCATION;
+    paste<byte>(buffer,offset,&data_access->type);
+    TRACE_LOCATION;
     data_access->data = data;
+    TRACE_LOCATION;
     data_list->push_back(data_access);
+    TRACE_LOCATION;
   }
 }
 void ITask::run(){
     if ( state == Finished ) 
       return;
-    parent_context->runKernels(this);
+    TRACE_LOCATION;
+    if (type == PropagateTask){
+      TRACE_LOCATION;
+      runPropagateTask();
+    }
+    else
+      parent_context->runKernels(this);
 }
 void ITask::setFinished(bool flag){
     list<DataAccess *>::iterator it;
@@ -639,6 +707,7 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
     DataAccess *data_access = new DataAccess;
     DataHandle *data_handle = new DataHandle;
     TRACE_LOCATION;
+    flushBuffer(buffer, max_length);
     paste<int>(buffer,offset,&host);
     data_handle->deserialize(buffer,offset,max_length);
     IData *data = glbCtx.getDataByHandle(data_handle);
@@ -651,6 +720,27 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
     TRACE_LOCATION;
   }
 /*===============================================================================*/
+void engine::receivePropagateTask(byte *buffer, int len){
+    PropagateInfo *p = new PropagateInfo;
+    TRACE_LOCATION;
+    glbCtx.unpackPropagateTask(buffer,len);
+    TRACE_LOCATION;
+  }
+
+void engine::addPropagateTask(PropagateInfo *P){//todo 
+  ITask *task = new ITask(P);
+  criticalSection(Enter) ;
+  TRACE_LOCATION;
+  TaskHandle task_handle = last_task_handle ++;
+  TRACE_LOCATION;
+  task->setHandle(task_handle);
+  TRACE_LOCATION;
+  task_list.push_back(task);
+  TRACE_LOCATION;
+  putWorkForNewTask(task);
+  TRACE_LOCATION;
+  criticalSection(Leave) ;
+}
 void engine:: sendTask(ITask* task,int destination){
   int offset = 0 ;
   int msg_size = task->getSerializeRequiredSpace();

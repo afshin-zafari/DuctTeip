@@ -36,12 +36,10 @@ public:
       M->setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
       M->setPartition ( Nb,Nb ) ;      
     }
-    else
+    else{
       M= inData;
-
-
+    }
     addInOutData(M);
-
   }
   ~Cholesky(){
     if (M->getParent() == this) 
@@ -59,6 +57,7 @@ public:
       }
       return t;
   }
+
   void generateTasks(){
     string s = "a";
     char chol_str[5],pnl_str[5],gemm_str[5] ;

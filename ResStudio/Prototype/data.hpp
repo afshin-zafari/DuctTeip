@@ -16,7 +16,8 @@ class IHostPolicy ;
 
 struct  ContextPrefix{
   list<int> context_id_list;
-  ContextPrefix(){}
+  ContextPrefix(){
+  }
   ContextPrefix(string s){
     fromString(s);
   }
@@ -37,9 +38,11 @@ struct  ContextPrefix{
     reset();
     int context_id,count;
     paste<int>(buffer,offset,&count);
+      printf("prfx: cnt:%d,ofs:%d,ctx:%d\n",count,offset,context_id);
     for ( int i =0 ; i< count; i++){
       paste<int>(buffer,offset,&context_id);
       context_id_list.push_back(context_id);
+      printf("prfx: cnt:%d,ofs:%d,ctx:%d\n",count,offset,context_id);
     }
     return 0;
   }
@@ -50,7 +53,18 @@ struct  ContextPrefix{
     if ( context_id_list.size() == 0 && rhs.context_id_list.size() == 0 ) 
       return true;
     TRACE_LOCATION;
-    return false;
+    if (context_id_list.size() !=  rhs.context_id_list.size() ) 
+      return false;
+    TRACE_LOCATION;
+    list<int>::iterator it1,it2;
+    for (it1 = context_id_list.begin(),it2 = rhs.context_id_list.begin();
+	 it1 != context_id_list.end() && it2 != rhs.context_id_list.end(); 
+	 it1 ++, it2++){
+      if (*it1 != *it2) 
+	return false;
+    }
+    TRACE_LOCATION;
+    return true;
   }
   void fromString(string ctx){
     istringstream s(ctx);
@@ -92,6 +106,7 @@ public:
     return version;
   }
   DataVersion(){
+    version =0 ;
   }
   ~ DataVersion(){
   }
@@ -110,10 +125,14 @@ public:
     return *this;
   }
   bool operator ==(DataVersion rhs){
-    if (prefix != rhs.prefix) 
+    if (prefix != rhs.prefix) {
+      printf("**prf !=: true\n");
       return false;
-    if ( version == rhs.version)
+    }
+    if ( version == rhs.version){
+      printf("**p ==: true\n");
       return true;
+    }
     return false;
   }
   bool operator !=(DataVersion &rhs){
@@ -141,7 +160,7 @@ public:
   }
   int deserialize(byte *buffer,int &offset,int max_length){
     paste<int>(buffer,offset,&version);
-    prefix.serialize(buffer,offset,max_length);
+    prefix.deserialize(buffer,offset,max_length);
   }
   void reset(){
     prefix.reset();
@@ -149,6 +168,7 @@ public:
   }
   void setContext(string s ){
     prefix.fromString(s);
+    prefix.dump();
   }
 };
 
@@ -201,7 +221,6 @@ protected:
   int                         N,M,Nb,Mb;
   Coordinate                  blk;
   vector< vector<IData*> >   *dataView;
-  //  unsigned int                current_version,request_version;
   DataVersion                 current_version,request_version;
   DataVersion                 rt_read_version,rt_write_version;
   IContext                   *parent_context;
@@ -224,8 +243,8 @@ public:
   IContext     *getParent        ()                { return parent_context;}
   IData        *getParentData    ()                { return parent_data;}
   void          setParent        (IContext *p)     { parent_context=p;}
-  DataVersion   getRequestVersion()                { return request_version;}
-  DataVersion   getCurrentVersion()                { return current_version;}
+  DataVersion & getRequestVersion()                { return request_version;}
+  DataVersion & getCurrentVersion()                { return current_version;}
   IHostPolicy  *getDataHostPolicy()                { return hpData;}
   void          setDataHostPolicy(IHostPolicy *hp) { hpData=hp;}
   void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
@@ -237,6 +256,12 @@ public:
     else
       return rt_write_version;
 
+  }
+  void setRunTimeVersion(string to_ctx, int to_version){//todo
+    rt_read_version = to_version;
+    rt_read_version.setContext(to_ctx);
+    rt_write_version = to_version;
+    rt_write_version.setContext(to_ctx);
   }
   void incrementRunTimeVersion(byte type ){
     if ( type == IData::WRITE ) {

@@ -9,6 +9,7 @@
 #include <list>
 #include "data.hpp"
 
+struct PropagateInfo;
 typedef struct {
   IData *data;
   DataVersion required_version;
@@ -26,7 +27,12 @@ private:
   TaskHandle handle;
   unsigned long key,comm_handle;
   IContext *parent_context;
+  PropagateInfo *prop_info;
 public:
+  enum TaskType{
+    NormalTask,
+    PropagateTask
+  };
   enum TaskState{
     WaitForData,
     Running,
@@ -41,11 +47,14 @@ public:
     setName(_name);
     comm_handle = 0 ;    
     state = WaitForData; 
+    type = NormalTask;
   }
   ITask():name(""),host(-1){
     printf("##task ctor2:%s,%ld\n",name.c_str(),key);
     state = WaitForData;
+    type = NormalTask;
   }
+  ITask(PropagateInfo *P);
   void    setHost(int h )    { host = h ;  }
   int     getHost()          { return host;}
   string  getName()          { return name;}
@@ -86,8 +95,10 @@ public:
   }
   bool canRun(){
     list<DataAccess *>::iterator it;
+    printf("canRun check\n");
     if ( state == Finished ) 
       return false;
+    TRACE_LOCATION;
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
 	printf("**task %s dep : data:%s \n",
 	       getName().c_str(),
@@ -106,6 +117,7 @@ public:
   void run();
   int serialize(byte *buffer,int &offset,int max_length);
   void deserialize(byte *buffer,int &offset,int max_length);
+  void runPropagateTask();
 };
 
 #endif //__TASK_HPP__

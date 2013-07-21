@@ -153,6 +153,11 @@ public :
     CompCost,
     CommCost
   };
+  enum DataType{
+    InputData,
+    OutputData,
+    InOutData
+  };
   void           setConfiguration       (Config *_cfg);
   void           dumpStatistics         (Config *cfg);
   void           updateVersions         (IContext* ctx,ContextHeader *);
@@ -225,32 +230,63 @@ public :
     hpTaskAdd->reset();
   }
   /*------------------------------*/
+  DataRange *getIndependentData(IContext *ctx,int data_type);
+  /*------------------------------*/
+  void initPropagateTasks(){
+    list<IContext *>::iterator it;
+    DataRange *ind_data;
+    for(it = children.begin(); it != children.end(); it ++){
+      TRACE_LOCATION;
+      ind_data =getIndependentData( (*it),InputData);
+      if ( ind_data)
+	createPropagateTasksFromRange(ind_data);
+
+    printf("prop tasks cnt:%ld\n",lstPropTasks.size());
+      ind_data =getIndependentData( (*it),OutputData);
+      if ( ind_data)
+	createPropagateTasksFromRange(ind_data);
+    printf("prop tasks cnt:%ld\n",lstPropTasks.size());
+
+      ind_data =getIndependentData( (*it),InOutData);
+      if ( ind_data)
+	createPropagateTasksFromRange(ind_data);
+    }    
+    printf("prop tasks cnt:%ld\n",lstPropTasks.size());
+  }
+  /*------------------------------*/
   int  dumpPropagations(list < PropagateInfo *> prop_info){
     list < PropagateInfo *>::iterator it;
     DataHandle  data_handle;
     int msg_size = 0 ;
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);
-      printf ("  @A(%d,%d) [%s%d]== [%s0]\n",P.i,P.j,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
+      IData *d = getDataByHandle(&P.data_handle);
+      
+      printf ("  @%s(%d,%d) [%s%d]== [%s0]\n",d->getName().c_str(),P.i,P.j,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
       msg_size += sizeof (data_handle) +  P.fromCtx.size() + P.toCtx.size() + sizeof(P.fromVersion);
     }
+    return msg_size;
   }
   /*------------------------------*/
   void createPropagateTasks(list<DataRange *>  dr){
     list<DataRange *> :: iterator it = dr.begin();
     for ( ; it != dr.end(); ++it ) {
-      for ( int r=(*it)->row_from; r<= (*it)->row_to;r++){
-	for ( int c=(*it)->col_from; c<= (*it)->col_to;c++){
-	  IData &A=*((*it)->d);
-	  PropagateInfo *p = new PropagateInfo();
-	  p->fromVersion = A(r,c)->getCurrentVersion().getVersion();
-	  p->fromCtx.assign( getLevelString());
-	  p->i = r; p->j = c;
-	  p->data_handle = *A(r,c)->getDataHandle();
-	  lstPropTasks.push_back(p);
-	}
-      }
+      createPropagateTasksFromRange((*it));
     }
+  }
+  /*------------------------------*/
+  void createPropagateTasksFromRange(DataRange *  data_range){
+    for ( int r=data_range->row_from; r<= data_range->row_to;r++){
+      for ( int c=data_range->col_from; c<= data_range->col_to;c++){
+	IData &A=*(data_range->d);
+	PropagateInfo *p = new PropagateInfo();
+	p->fromVersion = A(r,c)->getCurrentVersion().getVersion();
+	p->fromCtx.assign( getLevelString());
+	p->i = r; p->j = c;
+	p->data_handle = *A(r,c)->getDataHandle();
+	lstPropTasks.push_back(p);
+      }
+    }    
   }
   /*------------------------------*/
   void createPropagateTasks(){
@@ -317,36 +353,39 @@ public :
   /*------------------------------*/
   void packPropagateTask(list < PropagateInfo *> prop_info,int dest_host){
     list < PropagateInfo *>::iterator it;
-    int msg_max_size = 1024; //prop_info.size() * sizeof(PropagateInfo) ;
+    int msg_max_size = 1024; //prop_info.size() * sizeof(PropagateInfo) ;// todo
     int msg_len = 0;
     byte  *msg_buffer= (byte *)malloc ( msg_max_size);
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);
-      P.serialize(msg_buffer,  msg_len,msg_max_size);      
+      if ( dest_host != me ) {
+	P.serialize(msg_buffer,  msg_len,msg_max_size);      
+	dtEngine.sendPropagateTask(msg_buffer,msg_len,dest_host);
+	incrementCounter(TaskPropagate);
+	incrementCounter(PropagateSize,msg_len);
+      }
+      else{
+	dtEngine.addPropagateTask(&P);
+      }
     }
-    dtEngine.sendPropagateTask(msg_buffer,msg_len,dest_host);
   }
   /*------------------------------*/
   void sendPropagateTasks(){
     list <PropagateInfo *>::iterator it;
     //if( !getTaskPropagatePolicy()->isAllowed(hpContext,me ) )      return ;
+    TRACE_LOCATION;
     for ( it = lstPropTasks.begin(); it != lstPropTasks.end();++it){
       int p = getDataHostPolicy()->getHost(Coordinate ((*it)->i,(*it)->j));
       (*it)->toCtx = getLevelString();
       nodesPropTasks[p].push_back((*it));
     }
     //send porpagation tasks
+    TRACE_LOCATION;
     for ( int p= 0; p < cfg->getProcessors(); p++){
       if (nodesPropTasks[p].size()==0) continue;
-      if ( p != me ) {
-	//printf ("  @send propagte:to %d \n",p) ;
-	int msg_size =dumpPropagations(nodesPropTasks[p]);
-	packPropagateTask(nodesPropTasks[p],p);
-	incrementCounter(TaskPropagate);
-	incrementCounter(PropagateSize,msg_size);
-
-      }
-      nodesPropTasks[p].clear();
+      //printf ("  @send propagte:to %d \n",p) ;
+      dumpPropagations(nodesPropTasks[p]);
+      packPropagateTask(nodesPropTasks[p],p);
     }
     lstPropTasks.clear();
   }

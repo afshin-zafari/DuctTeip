@@ -11,6 +11,8 @@ typedef unsigned char byte;
 #include "simulate_comm.hpp"
 extern int me;
 
+struct PropagateInfo;
+
 
 struct DuctTeipWork{
 public:
@@ -122,12 +124,13 @@ public:
       t.dump();
     }
   }
-  void sendPropagateTask(byte *msg_buffer, int msg_size, int dest_host) {//ToDo
-    prop_buffer = msg_buffer;
-    prop_buffer_length = msg_size;
+  void sendPropagateTask(byte *buffer, int size, int dest_host) {//ToDo
+    mailbox->send(buffer,size,MailBox::PropagationTag,dest_host);
+    prop_buffer = buffer;
+    prop_buffer_length = size;
   }
-  void addPropagateTask(void *P){
-  }
+  void addPropagateTask(PropagateInfo *P);
+  void receivePropagateTask(byte *buffer, int len);
   void receivePropagateTask(byte **buffer, int *length){//ToDo
     *buffer  = prop_buffer ;
     *length = prop_buffer_length ;
@@ -301,16 +304,19 @@ private :
       work_queue.push_back(work);      
     
   }
+  void putWorkForSingleDataReady(IData* data){
+    DuctTeipWork *work = new DuctTeipWork;
+    work->data = data;
+    work->tag   = DuctTeipWork::DataWork;
+    work->event = DuctTeipWork::DataUpgraded;
+    work->item  = DuctTeipWork::CheckAfterDataUpgraded;
+    work_queue.push_back(work);      
+  }
   void putWorkForDataReady(list<DataAccess *> *data_list){
     list<DataAccess *>::iterator it;
     for (it =data_list->begin(); it != data_list->end() ; it ++) {
       IData *data=(*it)->data;
-      DuctTeipWork *work = new DuctTeipWork;
-      work->data = data;
-      work->tag   = DuctTeipWork::DataWork;
-      work->event = DuctTeipWork::DataUpgraded;
-      work->item  = DuctTeipWork::CheckAfterDataUpgraded;
-      work_queue.push_back(work);      
+      putWorkForSingleDataReady(data);
     }
   }
   void receivedTask(MailBoxEvent *event){
@@ -363,7 +369,7 @@ private :
       int host = data_access.data->getHost();
       if ( host != me ) {
 	IListener * lsnr = new IListener((*it),host);
-	int buffer_size = sizeof(DataHandle)+sizeof(int)*2+ sizeof(bool);
+	int buffer_size = sizeof(DataHandle)+sizeof(int)*20+ sizeof(bool);//todo : buf size
 	byte *buffer = new byte[buffer_size];
 	int offset =0;
 	addListener(lsnr);
@@ -531,6 +537,10 @@ private :
 	  listener= getListenerByCommHandle(event.handle);
 	}
       }
+      break;
+    case MailBox::PropagationTag:
+      TRACE_LOCATION;
+      receivePropagateTask(event.buffer,event.length);
       break;
     }
 

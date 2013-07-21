@@ -41,15 +41,17 @@ public:
   }
 
   bool getEvent(MailBoxEvent *event,bool wait = false){
-    int length,source,data_received=0,listener_received=0,task_received=0;
+    int length,source,data_received=0,listener_received=0,task_received=0,prop_received=0;
     data_received = comm->probe((int)DataTag,&source,&length,wait);
     if (!data_received) {
       task_received = comm->probe((int)TaskTag,&source,&length,wait);
       if ( !task_received) {
 	listener_received = comm->probe((int)ListenerTag,&source,&length,wait);
+	if ( !listener_received ) 
+	  prop_received = comm->probe((int)PropagationTag,&source,&length,wait);
       }
     }
-    if (!data_received && !task_received && !listener_received) {
+    if (!data_received && !task_received && !listener_received && !prop_received) {
       int tag;
       unsigned long handle;
       int found = comm->isAnySendCompleted(&tag,&handle);
@@ -76,6 +78,9 @@ public:
     }
     if ( listener_received ) {
       event->tag    = (int)ListenerTag;
+    }
+    if ( prop_received ) {
+      event->tag    = (int)PropagationTag;
     }
     TRACE_LOCATION;
     comm->receive(buffer,length,event->tag,source);

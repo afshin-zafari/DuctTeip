@@ -34,9 +34,7 @@ public:
     PropagationTag
   };
   unsigned long  send(byte *buffer, int length, MessageTag tag, int destination){
-    TRACE_LOCATION;
     unsigned long comm_handle  = comm->send(buffer,length,(int)tag,destination);
-    TRACE_LOCATION;
     return comm_handle ;
   }
 
@@ -63,10 +61,8 @@ public:
       }
       return false;
     }
-    TRACE_LOCATION;
     event->direction = MailBoxEvent::Received;
     byte *buffer = (byte *)malloc(length);
-    TRACE_LOCATION;
     event->buffer = buffer;
     event->length = length;
     event->host   = source;
@@ -82,9 +78,7 @@ public:
     if ( prop_received ) {
       event->tag    = (int)PropagationTag;
     }
-    TRACE_LOCATION;
     comm->receive(buffer,length,event->tag,source);
-    TRACE_LOCATION;
     return true;
   }
   

@@ -23,6 +23,7 @@ public:
   string     fromCtx,toCtx;
   DataHandle data_handle;
 
+  void dump();
   void deserializeContext(byte *buffer,int &offset,int max_length,string &ctx){
     int level_count, ctx_level_id ;
     paste<int>(buffer,offset,&level_count);
@@ -173,9 +174,9 @@ public :
   IHostPolicy   *getTaskHostPolicy      ()		    {return hpTask;}
   IHostPolicy   *getTaskReadHostPolicy  ()		    {return hpTaskRead;}
   IHostPolicy   *getTaskAddHostPolicy   ()		    {return hpTaskAdd;}
-  ContextHeader *getHeader              ()          {return ctxHeader;}
+  ContextHeader *getHeader              ()                  {return ctxHeader;}
   IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
-
+  int            getPropagateCount      ()                  {return lstPropTasks.size();}
   ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
   ContextHandle       *createContextHandle(){
     ContextHandle *ch = new ContextHandle ; 
@@ -236,22 +237,18 @@ public :
     list<IContext *>::iterator it;
     DataRange *ind_data;
     for(it = children.begin(); it != children.end(); it ++){
-      TRACE_LOCATION;
       ind_data =getIndependentData( (*it),InputData);
       if ( ind_data)
 	createPropagateTasksFromRange(ind_data);
 
-    printf("prop tasks cnt:%ld\n",lstPropTasks.size());
       ind_data =getIndependentData( (*it),OutputData);
       if ( ind_data)
 	createPropagateTasksFromRange(ind_data);
-    printf("prop tasks cnt:%ld\n",lstPropTasks.size());
 
       ind_data =getIndependentData( (*it),InOutData);
       if ( ind_data)
 	createPropagateTasksFromRange(ind_data);
     }    
-    printf("prop tasks cnt:%ld\n",lstPropTasks.size());
   }
   /*------------------------------*/
   int  dumpPropagations(list < PropagateInfo *> prop_info){
@@ -298,6 +295,27 @@ public :
     } 
   }  
   /*------------------------------*/
+  void resetVersiosOfDataRange(DataRange *  data_range){
+    for ( int r=data_range->row_from; r<= data_range->row_to;r++){
+      for ( int c=data_range->col_from; c<= data_range->col_to;c++){
+	IData &A=*(data_range->d);
+	A.resetVersion();
+      }
+    }    
+  }
+  /*------------------------------*/
+  void resetVersiosOfDataRangeList(list<DataRange *>  dr){
+    list<DataRange *> :: iterator it = dr.begin();
+    for ( ; it != dr.end(); ++it ) {
+      resetVersiosOfDataRange((*it));
+    }
+  }
+  /*------------------------------*/
+  void resetVersiosOfHeaderData(){
+    resetVersiosOfDataRangeList(ctxHeader->getWriteRange() );
+    resetVersiosOfDataRangeList(ctxHeader->getReadRange()  );
+  }
+  /*------------------------------*/
   void testPropagatePacking(){
     list < PropagateInfo *> prop_info;
     DataHandle dh (10,25);
@@ -336,7 +354,7 @@ public :
     byte *buffer;
     int length;
     packPropagateTask(prop_info,10); // pack and send
-    dtEngine.receivePropagateTask(&buffer,&length);
+    //dtEngine.receivePropagateTask(&buffer,&length);
     unpackPropagateTask(buffer,length);
 
   }
@@ -346,7 +364,11 @@ public :
     int offset = 0 ;
     while (offset <length) {
       P.deserialize(buffer,offset,length);
-      printf ("  @A(%d,%d)%ld-%ld [%s%d]== [%s0]\n",P.i,P.j,P.data_handle.context_handle,P.data_handle.data_handle,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
+      printf ("  @A(%d,%d)%ld-%ld [%s%d]== [%s0]\n",P.i,P.j,
+	      P.data_handle.context_handle,
+	      P.data_handle.data_handle,
+	      P.fromCtx.c_str(),
+	      P.fromVersion,P.toCtx.c_str());
       dtEngine.addPropagateTask(&P);
     }
   }
@@ -372,20 +394,17 @@ public :
   /*------------------------------*/
   void sendPropagateTasks(){
     list <PropagateInfo *>::iterator it;
-    //if( !getTaskPropagatePolicy()->isAllowed(hpContext,me ) )      return ;
-    TRACE_LOCATION;
     for ( it = lstPropTasks.begin(); it != lstPropTasks.end();++it){
       int p = getDataHostPolicy()->getHost(Coordinate ((*it)->i,(*it)->j));
       (*it)->toCtx = getLevelString();
       nodesPropTasks[p].push_back((*it));
     }
-    //send porpagation tasks
-    TRACE_LOCATION;
     for ( int p= 0; p < cfg->getProcessors(); p++){
       if (nodesPropTasks[p].size()==0) continue;
-      //printf ("  @send propagte:to %d \n",p) ;
+      printf ("  @send propagate to: %d \n",p) ;
       dumpPropagations(nodesPropTasks[p]);
       packPropagateTask(nodesPropTasks[p],p);
+      nodesPropTasks[p].clear();
     }
     lstPropTasks.clear();
   }

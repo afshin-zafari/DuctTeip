@@ -298,18 +298,12 @@ DataRange *GlobalContext::getIndependentData(IContext *ctx,int data_type){
       data = ctx->getOutputData();// todo loop for all output data
     else if (data_type == InOutData)
       data = ctx->getInOutData(); // todo loop for all inout data
-    TRACE_LOCATION;
     if ( !data ) 
       return NULL;
-    TRACE_LOCATION;
-    printf("data:%p , %s\n",data,data->getName().c_str());
     ContextHandle dch = *data->getParent()->getContextHandle();
-    TRACE_LOCATION;
     ContextHandle cch = *ctx->getContextHandle();
-    TRACE_LOCATION;
     if ( dch == cch ) 
       return data->All();
-    TRACE_LOCATION;
     return NULL;
   }
 
@@ -340,6 +334,12 @@ void      GlobalContext::testHandles       (){
     (*it)->testHandles();      
   }
 }
+/*===================================================================================*/
+void PropagateInfo::dump(){
+    IData *data  = glbCtx.getDataByHandle(&data_handle);
+    printf("prop: %s [%s%d] -> [%s0]\n",data->getName().c_str(),fromCtx.c_str(),fromVersion,toCtx.c_str());
+  }
+
 /*===================================================================================*/
 /*----------------------------------------------------------------------*/
 /*
@@ -376,16 +376,16 @@ bool ContextHostPolicy::isAllowed(IContext *ctx,ContextHeader *hdr){
       a = p * s;
       b = (p+1) *s -1 ;
       if (me < (offset + a) || me > (offset+b) )  {
-	printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
+	//printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
 	return false;
       }
       offset  += a;
     }
     if (me >= (offset) && me <= (offset-a+b) ) {
-      printf("ContextHostPolicy: %d IS in [%d,%d]\n",me,offset+a,offset+b);
+      //printf("ContextHostPolicy: %d IS in [%d,%d]\n",me,offset+a,offset+b);
       return true;
     }
-    printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
+    //printf("ContextHostPolicy: %d is NOT in [%d,%d]\n",me,offset+a,offset+b);
   }
   return false;
 }
@@ -418,35 +418,31 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
 bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   
   int gc = glbCtx.getContextHostPolicy()->getGroupCounter();
-  TRACE_LOCATION;
-  printf("act-pol:%d,wrt_dt_ownr:%d\n",active_policy,WRITE_DATA_OWNER);
   if ( gc  == DONT_CARE_COUNTER && (active_policy != WRITE_DATA_OWNER)  )
     return true;
-  TRACE_LOCATION;
   if ( active_policy  == ROOT_ONLY ) {
     return ( me == 0 ) ;
   }
-  TRACE_LOCATION;
   
   if ( active_policy ==NOT_OWNER_CYCLIC || active_policy == WRITE_DATA_OWNER) {
     int r,c;
     IData *A;
     list<DataRange *> dr = hdr->getWriteRange();
     list<DataRange *>::iterator it;
-    printf("TaskAddPolicy: isAllowed(%d)?\n",me);
+    //printf("TaskAddPolicy: isAllowed(%d)?\n",me);
     for ( it = dr.begin(); it != dr.end(); ++it ) {
       for (  r=(*it)->row_from; r<= (*it)->row_to;r++){
 	for (  c=(*it)->col_from; c<= (*it)->col_to;c++){
 	  A=(*it)->d;
-	  printf("A(%d,%d), %s\n",r,c,(*A)(r,c)->getName().c_str());
+	  //printf("A(%d,%d), %s\n",r,c,(*A)(r,c)->getName().c_str());
 	  if ( (*A)(r,c)->isOwnedBy(me) ) {
-	    printf("Yes\n");
+	    //printf("Yes\n");
 	    return true;
 	  }
 	}
       }
     }
-    printf("No\n");
+    //printf("No\n");
     if (active_policy == WRITE_DATA_OWNER) 
       return false;
     it = dr.begin();
@@ -478,6 +474,7 @@ bool TaskPropagatePolicy::isAllowed(ContextHostPolicy *hpContext,int me){
   if (active_policy == ALL_CYCLIC) {
     int group_size = upper - lower + 1;
     bool b = ((propagate_count % group_size ) + lower ) == me;
+    //printf("taskprop policy : pcnt:%d grp:%d lower:%d me:%d is_allowed:%d\n",propagate_count ,group_size  ,lower , me,b);
     propagate_count++;
     return b;
     
@@ -486,17 +483,22 @@ bool TaskPropagatePolicy::isAllowed(ContextHostPolicy *hpContext,int me){
 }
 /*===================================================================================*/
 bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,int counter,int from,int to){
+  static int count=0;
   ContextHeader *Summary = glbCtx.getHeader();
   Summary->clear();
   Summary->addDataRange(IData::READ,r1);
   if ( r2 != NULL )
     Summary->addDataRange(IData::READ,r2);
   Summary->addDataRange(IData::WRITE,w);
+  printf("@BeginContext \n");
+  printf("@change Context(beg) from:%8.8s* %d\n",glbCtx.getLevelString().c_str(),count++);
   glbCtx.getContextHostPolicy()->setGroupCounter(counter);
+  glbCtx.createPropagateTasks();
   glbCtx.downLevel();
   glbCtx.beginContext();
   glbCtx.sendPropagateTasks();
-  printf("@BeginContext %s,%d\n",glbCtx.getLevelString().c_str(), glbCtx.getID());
+  glbCtx.resetVersiosOfHeaderData();
+  printf("@change Context(beg) to  :%8.8s* %d\n",glbCtx.getLevelString().c_str(),count);
   bool b=glbCtx.getContextHostPolicy()->isAllowed(curCtx,Summary);
   if (b){
     glbCtx.incrementCounter(GlobalContext::EnterContexts);
@@ -508,9 +510,14 @@ bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,in
   return b;
 }
 void end_context(IContext * curCtx){
+  static int count=0;
+  printf("@EndContext \n");
+  printf("@change Context(end) from:%8.8s* %d\n",glbCtx.getLevelString().c_str(),count++);
   glbCtx.createPropagateTasks();
   glbCtx.upLevel();
-  //printf("@EndContext %s\n",glbCtx.getLevelString().c_str());
+  glbCtx.sendPropagateTasks();
+  glbCtx.resetVersiosOfHeaderData();
+  printf("@change Context(end) to  :%8.8s* %d\n",glbCtx.getLevelString().c_str(),count);
   glbCtx.endContext();
   glbCtx.getHeader()->clear();
 }
@@ -538,34 +545,32 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData 
     }
     list<DataAccess *> *dlist = new list <DataAccess *>;
     DataAccess *daxs ;
-    TRACE_LOCATION;
     if ( d1 != NULL ) {
-      TRACE_LOCATION;
       daxs = new DataAccess;
       daxs->data = d1;
       daxs->required_version = d1->getRequestVersion();
       daxs->required_version.setContext( glbCtx.getLevelString() );
-      TRACE_LOCATION;
+      d1->getRequestVersion().setContext( glbCtx.getLevelString() );
+      d1->getCurrentVersion().setContext( glbCtx.getLevelString() );
       daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
     if ( d2 != NULL ) {
-      TRACE_LOCATION;
       daxs = new DataAccess;
       daxs->data = d2;
-      TRACE_LOCATION;
       daxs->required_version = d2->getRequestVersion();
       daxs->required_version.setContext( glbCtx.getLevelString() );
-      TRACE_LOCATION;
+      d2->getRequestVersion().setContext( glbCtx.getLevelString() );
+      d2->getCurrentVersion().setContext( glbCtx.getLevelString() );
       daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
-    TRACE_LOCATION;
     daxs = new DataAccess;
     daxs->data = d3;
     daxs->required_version = d3->getCurrentVersion();
     daxs->required_version.setContext( glbCtx.getLevelString() );
-    TRACE_LOCATION;
+    d3->getRequestVersion().setContext( glbCtx.getLevelString() );
+    d3->getCurrentVersion().setContext( glbCtx.getLevelString() );
     daxs->type = IData::WRITE;
     dlist->push_back(daxs);
 
@@ -586,41 +591,43 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData 
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
   d3->incrementVersion(IData::WRITE);
 
+  /*
   printf("  @after-exec: \n");
   if (d1) d1->dump();
   if (d2) d2->dump();
   d3->dump();
+  */
 
   delete dr;
   c->clear();
   delete c;
-
-
-
 }
 void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1                    ) { AddTask ( ctx,s,key,NULL,NULL , d1);}
 void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2          ) { AddTask ( ctx,s,key,d1  ,NULL , d2);}
 
 /*===============================================================================*/
+void ITask::dump(){
+    printf("#task:%s key:%lx ,no.of data:%ld state:%d\n ",name.c_str(),key,data_list->size(),state);
+    if (type == PropagateTask)
+      prop_info->dump();
+    else
+      dumpDataAccess(data_list);
+  }
 ITask::ITask(PropagateInfo *p){//todo
   prop_info = p;
   type = PropagateTask;
   data_list = new list<DataAccess*>;
   DataAccess *daxs = new DataAccess;
   daxs->data = glbCtx.getDataByHandle(&p->data_handle);  
-  TRACE_LOCATION;
   daxs->required_version = p->fromVersion;
   daxs->required_version.setContext( p->fromCtx);
-  TRACE_LOCATION;
   daxs->type = IData::READ;
   data_list->push_back(daxs);  
 }
  void ITask::runPropagateTask(){
-  TRACE_LOCATION;
   IData *data = glbCtx.getDataByHandle(&prop_info->data_handle);
-  TRACE_LOCATION;
   data->setRunTimeVersion(prop_info->toCtx,0);
-  TRACE_LOCATION;
+  setFinished(true);
 }
 
 int ITask::serialize(byte *buffer,int &offset,int max_length){
@@ -628,8 +635,6 @@ int ITask::serialize(byte *buffer,int &offset,int max_length){
     list<DataAccess *>::iterator it;
     copy<unsigned long>(buffer,offset,key);
     ContextHandle handle=*parent_context->getContextHandle();
-    printf("##parent ctx hdl:%ld name:%s\n",*(long *)&handle,parent_context->getName().c_str());
-    printf("##parent ctx hdl:%ld\n",handle);
     copy<ContextHandle>(buffer,offset,handle);
     copy<int>(buffer,offset,count);
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
@@ -638,53 +643,33 @@ int ITask::serialize(byte *buffer,int &offset,int max_length){
       byte type = (*it)->type;
       copy<byte>(buffer,offset,type);
     }
-    flushBuffer(buffer,max_length);
 }
 
 void ITask::deserialize(byte *buffer,int &offset,int max_length){
   paste<unsigned long>(buffer,offset,&key);
   size_t len = sizeof(unsigned long);
   ContextHandle handle ;
-  flushBuffer(buffer,max_length);
   paste<ContextHandle>(buffer,offset,&handle);
-  printf("##parent ctx hdl(rcv):%ld\n",*(long *)&handle);
-  printf("##parent ctx hdl(rcv):%ld\n",handle);
   parent_context = glbCtx.getContextByHandle(handle);
-  printf("##parent ctx hdl(rcv):%ld name:%s\n",*(long *)&handle,parent_context->getName().c_str());
-  TRACE_LOCATION;
   name=parent_context->getTaskName(key);
-  printf("##task name:%s\n",getName().c_str());
-  printf("##task name:%s\n",name.c_str());
-  TRACE_LOCATION;
   int count ;
   paste<int>(buffer,offset,&count);
-  printf ("count:%d\n",count);
-  TRACE_LOCATION;
   data_list = new list<DataAccess *>;
   for ( int i=0; i<count; i++){
     DataAccess *data_access = new DataAccess;
     DataHandle *data_handle = new DataHandle;
     data_handle->deserialize(buffer,offset,max_length);
-    printf("ch:%lx , dh:%lx\n",data_handle->context_handle,data_handle->data_handle);
-    TRACE_LOCATION;
     IData *data = glbCtx.getDataByHandle(data_handle);
-    TRACE_LOCATION;
     data_access->required_version.deserialize(buffer,offset,max_length);
-    TRACE_LOCATION;
     paste<byte>(buffer,offset,&data_access->type);
-    TRACE_LOCATION;
     data_access->data = data;
-    TRACE_LOCATION;
     data_list->push_back(data_access);
-    TRACE_LOCATION;
   }
 }
 void ITask::run(){
     if ( state == Finished ) 
       return;
-    TRACE_LOCATION;
     if (type == PropagateTask){
-      TRACE_LOCATION;
       runPropagateTask();
     }
     else
@@ -695,7 +680,8 @@ void ITask::setFinished(bool flag){
     if ( !flag ) 
       return ;
     state = Finished;
-    printf("%s task finished.\n",getName().c_str());
+    if ( type == PropagateTask ) 
+      return;
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
       printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
       (*it)->data->incrementRunTimeVersion((*it)->type);
@@ -706,39 +692,30 @@ void ITask::setFinished(bool flag){
 void IListener::deserialize(byte *buffer, int &offset, int max_length){
     DataAccess *data_access = new DataAccess;
     DataHandle *data_handle = new DataHandle;
-    TRACE_LOCATION;
-    flushBuffer(buffer, max_length);
     paste<int>(buffer,offset,&host);
     data_handle->deserialize(buffer,offset,max_length);
     IData *data = glbCtx.getDataByHandle(data_handle);
-    printf("listener for Data:%s, is received from host:%d\n",data->getName().c_str(),host);
-    TRACE_LOCATION;
     data_access->required_version.deserialize(buffer,offset,max_length);
-    TRACE_LOCATION;
     data_access->data = data;
     data_request = data_access;
-    TRACE_LOCATION;
   }
 /*===============================================================================*/
 void engine::receivePropagateTask(byte *buffer, int len){
     PropagateInfo *p = new PropagateInfo;
-    TRACE_LOCATION;
-    glbCtx.unpackPropagateTask(buffer,len);
-    TRACE_LOCATION;
+    int offset =0 ;
+    p->deserialize(buffer,offset,len);
+    addPropagateTask(p);
   }
 
 void engine::addPropagateTask(PropagateInfo *P){//todo 
   ITask *task = new ITask(P);
+  string s("PROPTASK");
+  task->setName(s);
   criticalSection(Enter) ;
-  TRACE_LOCATION;
   TaskHandle task_handle = last_task_handle ++;
-  TRACE_LOCATION;
   task->setHandle(task_handle);
-  TRACE_LOCATION;
   task_list.push_back(task);
-  TRACE_LOCATION;
-  putWorkForNewTask(task);
-  TRACE_LOCATION;
+  putWorkForPropagateTask(task);
   criticalSection(Leave) ;
 }
 void engine:: sendTask(ITask* task,int destination){
@@ -746,41 +723,20 @@ void engine:: sendTask(ITask* task,int destination){
   int msg_size = task->getSerializeRequiredSpace();
   byte *buffer = (byte *)malloc(msg_size);
 
-
   task->serialize(buffer,offset,msg_size);
-  //flushBuffer(buffer,msg_size);
-  TRACE_LOCATION;
   unsigned long ch =  mailbox->send(buffer,offset,MailBox::TaskTag,destination);
-  //printf("comm handle %ld\n",ch);
   task->setCommHandle (ch);
-  TRACE_LOCATION;
-
-  /*
-  ITask *temp = new ITask;
-  offset = 0;
-  temp->deserialize(buffer,offset,msg_size);
-  delete temp;
-  */
   
 }
 /*=====================================================================*/
 void engine::receivedData(MailBoxEvent *event){
     IData *temp_data = new IData;
     int offset =0 ;
-    TRACE_LOCATION;
-    //flushBuffer(event->buffer,event->length);
-    printf("buf:%p,ofs:%d,len:%d\n",event->buffer,offset,event->length);
     temp_data->deserialize(event->buffer,offset,event->length);
-    TRACE_LOCATION;
     IData *data = glbCtx.getDataByHandle(temp_data->getDataHandle());
     offset =0 ;
-    TRACE_LOCATION;
     data->deserialize(event->buffer,offset,event->length,false);
-    printf("#data received:%s, from:%d\n",data->getName().c_str(),event->host);
-    TRACE_LOCATION;
     delete temp_data;
-    TRACE_LOCATION;
-
   }
 
 

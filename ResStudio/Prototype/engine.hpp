@@ -94,27 +94,21 @@ public:
 
   TaskHandle  addTask(IContext * context,string task_name,unsigned long key, int task_host, list<DataAccess *> *data_access){
     ITask *task = new ITask (context,task_name,key,task_host,data_access);
-    TRACE_LOCATION;
     criticalSection(Enter) ;
-    TRACE_LOCATION;
     TaskHandle task_handle = last_task_handle ++;
     task->setHandle(task_handle);
     task_list.push_back(task);
-    TRACE_LOCATION;
     if (task_host != me ) {
       putWorkForSendingTask(task);
     }
     else {
-      TRACE_LOCATION;
       putWorkForNewTask(task);
     }
-    TRACE_LOCATION;
     criticalSection(Leave) ;
     if (!net_comm->canMultiThread()) {
       doProcessMailBox();
       doProcessWorks();
     }
-    TRACE_LOCATION;
     return task_handle;
   }
   void dumpTasks(){
@@ -131,26 +125,24 @@ public:
   }
   void addPropagateTask(PropagateInfo *P);
   void receivePropagateTask(byte *buffer, int len);
+  /*
   void receivePropagateTask(byte **buffer, int *length){//ToDo
     *buffer  = prop_buffer ;
     *length = prop_buffer_length ;
   }
+  */
   void sendTask(ITask* task,int destination);
   void receivedListener(MailBoxEvent *event){
 
     IListener *listener = new IListener;
     int offset = 0 ;
-    TRACE_LOCATION;
     listener->deserialize(event->buffer,offset,event->length);
-    TRACE_LOCATION;
     listener->setHost ( me ) ;
     listener->setSource ( event->host ) ;
     listener->setReceived(true);
-    TRACE_LOCATION;
 
 
     criticalSection(Enter); 
-    TRACE_LOCATION;
     listener->setHandle( last_listener_handle ++);
     listener_list.push_back(listener);
     putWorkForReceivedListener(listener);
@@ -218,11 +210,8 @@ private :
     for(; it != task_list.end(); ){
       ITask * task = (*it);
       if (task->isFinished()){
-	printf("task deleted.\n");
-	task->dump();
 	task_list.erase(it);
 	it = task_list.begin();
-	TRACE_LOCATION;
       }
       else
 	it ++;
@@ -248,7 +237,6 @@ private :
     }
   }
   void putWorkForReceivedListener(IListener *listener){
-    TRACE_LOCATION;
     DuctTeipWork *work = new DuctTeipWork;
     work->listener  = listener;
     work->tag   = DuctTeipWork::ListenerWork;
@@ -258,7 +246,6 @@ private :
     work_queue.push_back(work);
   }
   void putWorkForSendingTask(ITask *task){
-    TRACE_LOCATION;
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -267,8 +254,17 @@ private :
     work->host  = task->getHost(); // ToDo : create_place, dest_place
     work_queue.push_back(work);
   }
+  void putWorkForPropagateTask(ITask *task){
+    DuctTeipWork *work = new DuctTeipWork;
+    work->task  = task;
+    work->tag   = DuctTeipWork::TaskWork;
+    work->event = DuctTeipWork::Added;
+    work->item  = DuctTeipWork::CheckTaskForRun;
+    work->host  = task->getHost(); // ToDo : create_place, dest_place
+    work_queue.push_back(work);
+  }
+
   void putWorkForNewTask(ITask *task){
-    TRACE_LOCATION;
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -282,7 +278,6 @@ private :
     work_queue.push_back(second_work);
   }
   void putWorkForReceivedTask(ITask *task){
-    TRACE_LOCATION;
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -322,14 +317,10 @@ private :
   void receivedTask(MailBoxEvent *event){
     ITask *task = new ITask;
     int offset = 0 ;
-    TRACE_LOCATION;
     task->deserialize(event->buffer,offset,event->length);
-    TRACE_LOCATION;
     task->setHost ( me ) ;
-    TRACE_LOCATION;
 
     criticalSection(Enter); 
-    TRACE_LOCATION;
     task->setHandle( last_task_handle ++);
     task_list.push_back(task);
     putWorkForReceivedTask(task);
@@ -338,7 +329,7 @@ private :
   }
   void doProcessWorks(){
     criticalSection(Enter); 
-    dumpAll();
+    //dumpAll();
     if ( work_queue.size() < 1 ) {
       putWorkForCheckAllTasks();    
       criticalSection(Leave);
@@ -347,23 +338,17 @@ private :
     DuctTeipWork *work = work_queue.front();
     work_queue.pop_front();
     executeWork(work);
-    //putWorkForCheckAllTasks();    
+    putWorkForCheckAllTasks();    
     criticalSection(Leave); 
   }
   void addListener(IListener *listener ){
     int handle = last_listener_handle ++;
     listener_list.push_back(listener);
     listener->setHandle(handle);
-    printf("$$\n");
-    listener->dump();
-    printf("$$\n");
   }
   void checkTaskDependencies(ITask *task){
     list<DataAccess *> *data_list= task->getDataAccessList();
     list<DataAccess *>::iterator it;
-    printf("!!\n");
-    task->dump();
-    printf("!!\n");
     for (it = data_list->begin(); it != data_list->end() ; it ++) {
       DataAccess &data_access = *(*it);
       int host = data_access.data->getHost();
@@ -383,9 +368,7 @@ private :
   void executeTaskWork(DuctTeipWork * work){
     switch (work->item){
     case DuctTeipWork::SendTask:
-      TRACE_LOCATION;
       sendTask(work->task,work->host);
-      TRACE_LOCATION;
       break;
     case DuctTeipWork::CheckTaskForData:
       checkTaskDependencies(work->task);
@@ -395,17 +378,8 @@ private :
 	TaskHandle task_handle = work->task->getHandle();
 	if ( work->task->canRun() ) {
 	  work->task->run();
-	  TRACE_LOCATION;
 	  putWorkForDataReady(work->task->getDataAccessList());
-	  TRACE_LOCATION;
-	  return;
-	  // ToDo . removes the task just for test scenarios. this code to be deleted for product version.
-	  printf("**task: %s is removed.\n",work->task->getName().c_str());
-	  removeTaskByHandle(task_handle);
-	  printf("++++++++\n");
-	  dumpTasks();
-	  printf("++++++++\n");
-	  
+	  return;  
 	}
       }
       break;
@@ -437,9 +411,7 @@ private :
 	ITask *task = (*task_it);
 	if (task->canRun()) {
 	  task->run();
-	  TRACE_LOCATION;
 	  putWorkForDataReady(task->getDataAccessList());
-	  TRACE_LOCATION;
 	}
       }
       break;
@@ -449,14 +421,9 @@ private :
     IData *data = listener->getData();
     int offset = 0, max_length = data->getPackSize();
     byte *buffer = new byte[max_length] ;
-    TRACE_LOCATION;
     data->serialize(buffer,offset,max_length);
-    TRACE_LOCATION;    
     unsigned long handle= mailbox->send(buffer,offset,MailBox::DataTag,listener->getSource());
-    TRACE_LOCATION;
     listener->setCommHandle(handle);
-    listener->dump();
-    TRACE_LOCATION;
   }
   void executeListenerWork(DuctTeipWork * work){
     switch (work->item){
@@ -495,18 +462,14 @@ private :
     bool found =  mailbox->getEvent(&event,wait);
     if ( !found )
       return ;
-    TRACE_LOCATION;
     switch ((MailBox::MessageTag)event.tag){
       case MailBox::TaskTag:
 	if ( event.direction == MailBoxEvent::Received ) {
-	  TRACE_LOCATION;
 	  receivedTask(&event);
 	}
 	else {
 	  ITask *task = getTaskByCommHandle(event.handle);
-	  TRACE_LOCATION;
 	  TaskHandle task_handle = task->getHandle();
-	  TRACE_LOCATION;
 	  removeTaskByHandle(task_handle);
 	}
 	break;
@@ -521,17 +484,12 @@ private :
       }
       break;
     case MailBox::DataTag:
-      TRACE_LOCATION;      
       if (event.direction == MailBoxEvent::Received) {
-	TRACE_LOCATION;
 	receivedData(&event);
       }
       else{// when data is sent its corresponding listener should be removed.
-	TRACE_LOCATION;
 	IListener *listener= getListenerByCommHandle(event.handle);
-	TRACE_LOCATION;
 	while ( listener ) {
-	  TRACE_LOCATION;
 	  listener->getData()->incrementRunTimeVersion(IData::READ);
 	  removeListenerByHandle(listener->getHandle()); 	
 	  listener= getListenerByCommHandle(event.handle);
@@ -539,8 +497,9 @@ private :
       }
       break;
     case MailBox::PropagationTag:
-      TRACE_LOCATION;
-      receivePropagateTask(event.buffer,event.length);
+      if (event.direction == MailBoxEvent::Received) {
+	receivePropagateTask(event.buffer,event.length);
+      }
       break;
     }
 
@@ -577,16 +536,10 @@ private :
   }
   void removeListenerByHandle(int handle ) {
     list<IListener *>::iterator it;
-	TRACE_LOCATION;
-        criticalSection(Enter); 
-	TRACE_LOCATION;
+    criticalSection(Enter); 
     for ( it = listener_list.begin(); it != listener_list.end(); it ++){
       IListener *listener = (*it);
       if (listener->getHandle() == handle){
-	TRACE_LOCATION;
-	printf("%%%%%%%%%%\n");
-	listener->dump();
-	printf("%%%%%%%%%%\n");
 	listener_list.erase(it);
 	criticalSection(Leave); 
 	return;
@@ -595,13 +548,10 @@ private :
   }
   void removeTaskByHandle(TaskHandle task_handle){
     list<ITask *>::iterator it;
-	TRACE_LOCATION;
-        criticalSection(Enter);
-	TRACE_LOCATION;
+    criticalSection(Enter);
     for ( it = task_list.begin(); it != task_list.end(); it ++){
       ITask *task = (*it);
       if (task->getHandle() == task_handle){
-	TRACE_LOCATION;
 	task_list.erase(it);
 	criticalSection(Leave);
 	return;
@@ -619,12 +569,9 @@ private :
   ITask *getTaskByHandle(TaskHandle  task_handle){
     list<ITask *>::iterator it;
     criticalSection(Enter); 
-    TRACE_LOCATION;
     for ( it = task_list.begin(); it != task_list.end(); it ++){
       ITask *task = (*it);
-      TRACE_LOCATION;
       if (task->getHandle() == task_handle){
-	TRACE_LOCATION;
 	criticalSection(Leave);
 	return task;
       }
@@ -633,19 +580,15 @@ private :
   }
   ITask *getTaskByCommHandle(unsigned long handle){
     list<ITask *>::iterator it;
-    TRACE_LOCATION;
     criticalSection(Enter); 
-    TRACE_LOCATION;
     for ( it = task_list.begin(); it != task_list.end(); it ++){
       ITask *task = (*it);
       if (task->getCommHandle() == handle){
-	TRACE_LOCATION;
 	criticalSection(Leave);
 	return task;
       }
     }
     criticalSection(Leave);
-    TRACE_LOCATION;
     printf("task not found %ld\n",handle);
     return NULL;
   }

@@ -40,7 +40,6 @@ public:
   };
   ITask (IContext *context,string _name,unsigned long _key,int _host, list<DataAccess *> *dlist):host(_host),data_list(dlist){
     parent_context = context;
-    printf("##task ctor:%s,%ld\n",_name.c_str(),key);
     key = _key;
     if (_name.size() ==0  )
       _name.assign("task");
@@ -50,7 +49,6 @@ public:
     type = NormalTask;
   }
   ITask():name(""),host(-1){
-    printf("##task ctor2:%s,%ld\n",name.c_str(),key);
     state = WaitForData;
     type = NormalTask;
   }
@@ -77,10 +75,7 @@ public:
     }
     printf ("\n");
   }
-  void dump(){
-    printf("#task:%s key:%lx ,no.of data:%ld state:%d\n ",name.c_str(),key,data_list->size(),state);
-    dumpDataAccess(data_list);
-  }
+  void dump();
   bool isFinished(){ return (state == Finished);}
   void    setName(string n ) {
     name = n ;
@@ -95,22 +90,19 @@ public:
   }
   bool canRun(){
     list<DataAccess *>::iterator it;
-    printf("canRun check\n");
     if ( state == Finished ) 
       return false;
-    TRACE_LOCATION;
+    //printf("**task %s dep :  state:%d\n",	   getName().c_str(),	   state);
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-	printf("**task %s dep : data:%s \n",
-	       getName().c_str(),
-	       (*it)->data->getName().c_str()
-	       );
-	(*it)->data->getRunTimeVersion((*it)->type).dump();
-	(*it)->required_version.dump();
+      /*
+	printf("**data:%s \n",  (*it)->data->getName().c_str());
+	printf("cur-version: ");(*it)->data->getRunTimeVersion((*it)->type).dump();
+	printf("req-version: ");(*it)->required_version.dump();
+      */
       if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
 	return false;      
       }
     }
-    printf("canRun = True\n");
     return true;
   }
   void setFinished(bool f);

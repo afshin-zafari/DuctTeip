@@ -38,11 +38,9 @@ struct  ContextPrefix{
     reset();
     int context_id,count;
     paste<int>(buffer,offset,&count);
-      printf("prfx: cnt:%d,ofs:%d,ctx:%d\n",count,offset,context_id);
     for ( int i =0 ; i< count; i++){
       paste<int>(buffer,offset,&context_id);
       context_id_list.push_back(context_id);
-      printf("prfx: cnt:%d,ofs:%d,ctx:%d\n",count,offset,context_id);
     }
     return 0;
   }
@@ -52,10 +50,8 @@ struct  ContextPrefix{
   bool operator ==(ContextPrefix rhs){
     if ( context_id_list.size() == 0 && rhs.context_id_list.size() == 0 ) 
       return true;
-    TRACE_LOCATION;
     if (context_id_list.size() !=  rhs.context_id_list.size() ) 
       return false;
-    TRACE_LOCATION;
     list<int>::iterator it1,it2;
     for (it1 = context_id_list.begin(),it2 = rhs.context_id_list.begin();
 	 it1 != context_id_list.end() && it2 != rhs.context_id_list.end(); 
@@ -63,7 +59,6 @@ struct  ContextPrefix{
       if (*it1 != *it2) 
 	return false;
     }
-    TRACE_LOCATION;
     return true;
   }
   void fromString(string ctx){
@@ -80,7 +75,6 @@ struct  ContextPrefix{
   ContextPrefix operator=(ContextPrefix rhs){
     reset();
     context_id_list.assign( rhs.context_id_list.begin(),rhs.context_id_list.end());
-    TRACE_LOCATION;
     return *this;
   }
   string toString(){
@@ -92,7 +86,7 @@ struct  ContextPrefix{
     return s.str();      
   }
   void dump(){
-    printf("prefix:%s\n",toString().c_str());
+    printf("prefix: %s\n",toString().c_str());
   }
   void reset(){
     context_id_list.clear();
@@ -115,7 +109,6 @@ public:
     return *this;
   }
   DataVersion operator =(DataVersion rhs){
-    TRACE_LOCATION;
     version = rhs.version;
     prefix  = rhs.prefix ;
     return *this;
@@ -126,11 +119,9 @@ public:
   }
   bool operator ==(DataVersion rhs){
     if (prefix != rhs.prefix) {
-      printf("**prf !=: true\n");
       return false;
     }
     if ( version == rhs.version){
-      printf("**p ==: true\n");
       return true;
     }
     return false;
@@ -148,11 +139,11 @@ public:
   }
   string dumpString(){
     ostringstream os;
-    os << prefix.toString() << ' ' << version;
+    os << prefix.toString()  << version;
     return os.str();
   }
   void dump(){
-    printf("version:%s\n",dumpString().c_str());
+    printf("version: %s\n",dumpString().c_str());
   }
   int   serialize(byte *buffer,int &offset,int max_length){
     copy<int>(buffer,offset,version);
@@ -168,7 +159,6 @@ public:
   }
   void setContext(string s ){
     prefix.fromString(s);
-    prefix.dump();
   }
 };
 
@@ -205,11 +195,8 @@ public:
     copy<unsigned long>(buffer,offset,   data_handle);
   } 
   void deserialize(byte *buffer, int &offset,int max_length){
-    //printf("buf:%p,ofs:%d,len:%d\n",buffer,offset,max_length);
-    //flushBuffer(buffer,max_length);
     paste<unsigned long>(buffer,offset,&context_handle);
     paste<unsigned long>(buffer,offset,   &data_handle);
-    //printf("ctx hdl:%ld,dt-hdl:%ld\n",context_handle,data_handle);
   }
 };
 class IContext;
@@ -289,9 +276,7 @@ public:
     // todo :content of data
   }
   void deserialize(byte *buffer, int &offset,int max_length,bool header_only = true){
-    TRACE_LOCATION;
     my_data_handle->deserialize(buffer,offset,max_length);
-    TRACE_LOCATION;
     current_version.deserialize(buffer,offset,max_length);
     request_version.deserialize(buffer,offset,max_length);
     rt_read_version.deserialize(buffer,offset,max_length);
@@ -305,23 +290,20 @@ public:
   bool isOwnedBy(int p ) ;
   void incrementVersion ( AccessType a);
   void dump(char c=' '){
-    printf("#data%c: %s\n",c,getName().c_str());
+    printf("#data%c: %11.11s ",c,getName().c_str());
     dumpVersion();
   }
   void dumpVersion(){
-    printf("task generation phase, read version:%s\n",
-	   current_version.dumpString().c_str());
-    printf("task generation phase, write version:%s\n",
-	   request_version.dumpString().c_str());
-    printf("task execution phase, read version:%s\n",
-	   rt_read_version.dumpString().c_str());
-    printf("task execution phase, write version:%s\n",
-	   rt_write_version.dumpString().c_str());
 
+    printf("\t\t%s\t\t%s\t\t%s\t\t%s\n",
+	   current_version.dumpString().c_str(),
+	   request_version.dumpString().c_str(),
+	   rt_read_version.dumpString().c_str(),
+	   rt_write_version.dumpString().c_str());
     for ( int i=0;i<Mb;i++)
       for ( int j=0;j<Nb;j++)  {
 	(*dataView)[i][j]->dumpVersion();
-	  }
+      }
   }
   void addToVersion(AccessType axs,int v){
     current_version += v;

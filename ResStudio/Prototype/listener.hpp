@@ -50,10 +50,11 @@ public :
   bool isReceived() { return received;}
   bool isDataReady(){
     bool isReady = (data_request->data->getRunTimeVersion(IData::READ) == data_request->required_version);
-    printf("**data :%s , isReady:%d\n",data_request->data->getName().c_str(),isReady);
+    /*
     data_request->data->getRunTimeVersion(IData::READ).dump();
     data_request->data->getRequestVersion().dump() ;
     data_request->required_version.dump();
+    */
     return isReady;
   }
   void serialize(byte *buffer, int &offset, int max_length){

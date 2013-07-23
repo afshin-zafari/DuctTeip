@@ -22,27 +22,21 @@ int main (int argc, char * argv[])
   ContextHostPolicy   hpContext (ContextHostPolicy::PROC_GROUP_CYCLIC , PG );
   TaskReadPolicy      hpTaskRead(TaskReadPolicy::ALL_GROUP_MEMBERS    , PG );
   TaskAddPolicy       hpTaskAdd (TaskAddPolicy::NOT_OWNER_CYCLIC      , PG );
-  TaskPropagatePolicy hpTaskProp(TaskPropagatePolicy::ALL_CYCLIC      , PG );
+  TaskPropagatePolicy hpTaskProp(TaskPropagatePolicy::GROUP_LEADER    , PG );
 
   hpContext.setGroupCount(1,2,1);  // all processors allowed for first level,
                                    // divide them by 2 for second level
                                    // all (from previous level) for third level
   glbCtx.setPolicies(&hpData,&hpTask,&hpContext,&hpTaskRead,&hpTaskAdd,&hpTaskProp);
   glbCtx.setConfiguration(&cfg);
-  TRACE_LOCATION;
 
   MatrixAssembly MA(&cfg);
-  TRACE_LOCATION;
   Cholesky C(&cfg,MA.getOutputData(MatrixAssembly::RBFresult));
 
-  TRACE_LOCATION;
   glbCtx.initPropagateTasks();
-
+  glbCtx.doPropagation(true);
   dtEngine.doProcess();// async. if MPI multi threaded is ok.
-  TRACE_LOCATION;
   MA.generateTasks();
   //  C.generateTasks();
-  TRACE_LOCATION;
   dtEngine.finalize();
-  TRACE_LOCATION;
 }

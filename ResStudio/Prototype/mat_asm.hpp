@@ -71,7 +71,7 @@ public :
     IData &P = *V,&Dist=*D,&RBF=*R;
     BEGIN_CONTEXT(P.All(),NULL,Dist.All())
     for ( i=0; i< Mb ; i++){
-      BEGIN_CONTEXT(P.Cell(i,0),P.ColSlice(i,0,Nb-1),Dist.RowSlice(i,0,Nb-1))
+      BEGIN_CONTEXT(P.Cell(i,0),P.ColSlice(0,0,Nb-1),Dist.RowSlice(i,0,Nb-1))
       for ( j=0;j<Nb;j++){
 	sprintf(task_name,"DIST_%2.2d_%2.2d",i,j);
 	AddTask(this,task_name,Distance_Kernel,P(i),P(j),Dist(i,j) ) ;

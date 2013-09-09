@@ -178,6 +178,7 @@ public :
   IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
   int            getPropagateCount      ()                  {return lstPropTasks.size();}
   ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
+
   ContextHandle       *createContextHandle(){
     ContextHandle *ch = new ContextHandle ; 
     *ch = last_context_handle++;
@@ -196,6 +197,23 @@ public :
     children.push_back(c);
   }
 
+  /*------------------------------*/
+  void setEndContext(){
+    if (last_context_boundry == EndContext)
+      return ;
+    //version chain: fromCtx = current ctx , fromVer = current ver
+    last_context_boundry = EndContext;
+    
+  }
+
+  void setBeginContext(){
+    if (last_context_boundry == BeginContext){
+      // version chain: toCtx = currentCtx
+      return ;
+    }
+    //broadcast version chain
+    last_context_boundry = EndContext;
+  }
   /*------------------------------*/
   void setPolicies (IHostPolicy *dhp,
 		    IHostPolicy *thp,

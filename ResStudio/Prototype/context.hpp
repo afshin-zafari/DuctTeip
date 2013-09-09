@@ -493,7 +493,8 @@ bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,in
   printf("@BeginContext \n");
   printf("@change Context(beg) from:%8.8s* %d\n",glbCtx.getLevelString().c_str(),count++);
   glbCtx.getContextHostPolicy()->setGroupCounter(counter);
-  glbCtx.createPropagateTasks();
+  //glbCtx.sendPropagateTasks();
+  // glbCtx.createPropagateTasks();
   glbCtx.downLevel();
   glbCtx.beginContext();
   glbCtx.sendPropagateTasks();
@@ -515,8 +516,8 @@ void end_context(IContext * curCtx){
   printf("@change Context(end) from:%8.8s* %d\n",glbCtx.getLevelString().c_str(),count++);
   glbCtx.createPropagateTasks();
   glbCtx.upLevel();
-  glbCtx.sendPropagateTasks();
-  glbCtx.resetVersiosOfHeaderData();
+  //glbCtx.sendPropagateTasks();
+  //glbCtx.resetVersiosOfHeaderData();
   printf("@change Context(end) to  :%8.8s* %d\n",glbCtx.getLevelString().c_str(),count);
   glbCtx.endContext();
   glbCtx.getHeader()->clear();

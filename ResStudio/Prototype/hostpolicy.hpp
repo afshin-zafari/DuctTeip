@@ -44,8 +44,8 @@ class ContextHostPolicy : public IHostPolicy
 {
 public:
   typedef enum  {
-    PROC_GROUP_CYCLIC=1
-    
+    PROC_GROUP_CYCLIC=1,
+    ALL_ENTER=2
   }chpType;
 private:
   chpType active_policy;
@@ -58,6 +58,7 @@ public :
   int getHost ( IContext * context){return -1;}
   bool isAllowed(ContextHostPolicy *,int ){return false;}
   bool isAllowed(IContext *,ContextHeader*);
+  bool canAllEnter(){return  (active_policy == ALL_ENTER); }
   void setGroupCount(int l1,int l2, int l3=1){
     groupCount.push_back(l1);
     groupCount.push_back(l2);
@@ -106,7 +107,9 @@ class TaskReadPolicy : public IHostPolicy
 {
 public:
   typedef enum  {
-    ALL_GROUP_MEMBERS=1
+    ALL_GROUP_MEMBERS=1,
+    ALL_READ_ALL=2,
+    ONE_READ_ALL=3
   }trpType;
 private:
   trpType active_policy;

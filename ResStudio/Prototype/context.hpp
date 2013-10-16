@@ -17,6 +17,8 @@
 using namespace std;
 
 GlobalContext glbCtx;
+engine dtEngine;
+
 int me,version;
 
 class IContext;
@@ -50,7 +52,7 @@ public:
     outputData.clear();
     children.clear();
   }
-  virtual void runKernels(ITask *task) = 0 ; 
+  virtual void runKernels(IDuctteipTask *task) = 0 ; 
   virtual string getTaskName(unsigned long) =0;
 
           string getName()    {return name;}
@@ -80,25 +82,40 @@ public:
   
   IData *getDataByHandle(list<IData *> dlist,DataHandle *dh){
     list<IData*> :: iterator it;
+    TRACE_LOCATION;
     IData* data= new IData("",0,0,this);
+    TRACE_LOCATION;
     for (it = dlist.begin(); it != dlist.end();++it) {
+    TRACE_LOCATION;
       data = (*it)->getDataByHandle(dh);
-      if ( data ->getName().size() != 0 ) 
-	return data;
+      TRACE_LOCATION;
+      if ( data ) 
+	if ( data ->getName().size() != 0 ) 
+	  return data;
     }
-    return data;
+    TRACE_LOCATION;
+    return NULL;
   }
   IData *getDataByHandle(DataHandle *dh ) {
-    IData *data;
+    IData *data=NULL;
+    TRACE_LOCATION;
     data = getDataByHandle ( inputData,dh);
-    if ( data ->getName().size() != 0 ) 
-      return data;
+    TRACE_LOCATION;
+    if ( data ) 
+      if ( data ->getName().size() != 0 ) 
+	return data;
+    TRACE_LOCATION;
     data = getDataByHandle ( outputData,dh);
-    if ( data ->getName().size() != 0 ) 
-      return data;
+    TRACE_LOCATION;
+    if ( data ) 
+      if ( data ->getName().size() != 0 ) 
+	return data;
+    TRACE_LOCATION;
     data = getDataByHandle ( in_outData,dh);
-    if ( data ->getName().size() != 0 ) 
-      return data;
+    if ( data ) 
+      if ( data ->getName().size() != 0 ) 
+	return data;
+    TRACE_LOCATION;
     return data;
   }
 
@@ -211,13 +228,15 @@ public :
 /*===================================================================================*/
        IData::IData            (string _name,int m, int n,IContext *ctx):    M(m),N(n), parent_context(ctx){
     name=_name;
-     current_version.reset();
-     request_version.reset();
+     gt_read_version.reset();
+     gt_write_version.reset();
      rt_read_version.reset();
     rt_write_version.reset();
      rt_read_version.setContext(glbCtx.getLevelString());
     rt_write_version.setContext(glbCtx.getLevelString());
+    Mb = -1;Nb=-1;
     setDataHandle( ctx->createDataHandle());
+    hM = NULL;
 }
 bool   IData::isOwnedBy        (int p ) {
   Coordinate c = blk;  
@@ -242,9 +261,9 @@ int    IData::getHost          (){
     return hpData->getHost(blk);
 }
 void   IData::incrementVersion ( AccessType a) {
-    current_version++;
+    gt_read_version++;
     if ( a == WRITE ) {
-      request_version = current_version;
+      gt_write_version = gt_read_version;
     }
   }
 IData *IData::getDataByHandle  (DataHandle *in_dh ) {
@@ -412,6 +431,9 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   if ( active_policy == ALL_GROUP_MEMBERS ) {
     return true;
   }
+  if ( active_policy == ALL_READ_ALL ) {
+    return true;
+  }
   return false;
 }
 /*===================================================================================*/
@@ -483,6 +505,9 @@ bool TaskPropagatePolicy::isAllowed(ContextHostPolicy *hpContext,int me){
 }
 /*===================================================================================*/
 bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,int counter,int from,int to){
+  if (glbCtx.canAllEnter()){
+    return true;
+  }
   static int count=0;
   ContextHeader *Summary = glbCtx.getHeader();
   Summary->clear();
@@ -512,6 +537,9 @@ bool begin_context(IContext * curCtx,DataRange *r1,DataRange *r2,DataRange *w,in
 }
 void end_context(IContext * curCtx){
   static int count=0;
+  if (glbCtx.canAllEnter()){
+    return ;
+  }
   printf("@EndContext \n");
   printf("@change Context(end) from:%8.8s* %d\n",glbCtx.getLevelString().c_str(),count++);
   glbCtx.createPropagateTasks();
@@ -522,7 +550,13 @@ void end_context(IContext * curCtx){
   glbCtx.endContext();
   glbCtx.getHeader()->clear();
 }
-void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData *d3){
+/*----------------------------------------------------------------------------*/
+void AddTask ( IContext *ctx,
+	       char*s,
+	       unsigned long key,
+	       IData *d1,
+	       IData *d2,
+	       IData *d3){
   ContextHeader *c=NULL;
   if ( !glbCtx.getTaskReadHostPolicy()->isAllowed(ctx,c) )
     return;
@@ -549,55 +583,47 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2,IData 
     if ( d1 != NULL ) {
       daxs = new DataAccess;
       daxs->data = d1;
-      daxs->required_version = d1->getRequestVersion();
+      daxs->required_version = d1->getWriteVersion();
       daxs->required_version.setContext( glbCtx.getLevelString() );
-      d1->getRequestVersion().setContext( glbCtx.getLevelString() );
-      d1->getCurrentVersion().setContext( glbCtx.getLevelString() );
+      d1->getWriteVersion().setContext( glbCtx.getLevelString() );
+      d1->getReadVersion().setContext( glbCtx.getLevelString() );
       daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
     if ( d2 != NULL ) {
       daxs = new DataAccess;
       daxs->data = d2;
-      daxs->required_version = d2->getRequestVersion();
+      daxs->required_version = d2->getWriteVersion();
       daxs->required_version.setContext( glbCtx.getLevelString() );
-      d2->getRequestVersion().setContext( glbCtx.getLevelString() );
-      d2->getCurrentVersion().setContext( glbCtx.getLevelString() );
+      d2->getWriteVersion().setContext( glbCtx.getLevelString() );
+      d2->getReadVersion().setContext( glbCtx.getLevelString() );
       daxs->type = IData::READ;
       dlist->push_back(daxs);
     }
     daxs = new DataAccess;
     daxs->data = d3;
-    daxs->required_version = d3->getCurrentVersion();
+    daxs->required_version = d3->getReadVersion();
     daxs->required_version.setContext( glbCtx.getLevelString() );
-    d3->getRequestVersion().setContext( glbCtx.getLevelString() );
-    d3->getCurrentVersion().setContext( glbCtx.getLevelString() );
+    d3->getWriteVersion().setContext( glbCtx.getLevelString() );
+    d3->getReadVersion().setContext( glbCtx.getLevelString() );
     daxs->type = IData::WRITE;
     dlist->push_back(daxs);
 
     TaskHandle task_handle =dtEngine.addTask(ctx,s,key,d3->getHost(),dlist);
-    printf (" @Insert TASK:%s(%ld)  %s,host=%d\n", s,task_handle,d3->isOwnedBy(me)?"*":"",me);
-    if (d1) d1->dump();
-    if (d2) d2->dump();
-    d3->dump();
+    
+    PRINT_IF(INSERT_TASK_FLAG) (" @Insert TASK:%s(%ld)  %s,host=%d\n", s,task_handle,d3->isOwnedBy(me)?"*":"",me);
+    if (d1) d1->dump('N');
+    if (d2) d2->dump('N');
+    d3->dump('N');
+    
   }
   else{
-    printf (" @Skip TASK:%s  %s,host=%d\n", s,d3->isOwnedBy(me)?"*":"",me);
-    if (d1) d1->dump();
-    if (d2) d2->dump();
-    d3->dump();
+    PRINT_IF(SKIP_TASK_FLAG)     (" @Skip TASK:%s  %s,host=%d\n", s,d3->isOwnedBy(me)?"*":"",me);
   }
 
   if ( d1 != NULL ) d1->incrementVersion(IData::READ);
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
   d3->incrementVersion(IData::WRITE);
-
-  /*
-  printf("  @after-exec: \n");
-  if (d1) d1->dump();
-  if (d2) d2->dump();
-  d3->dump();
-  */
 
   delete dr;
   c->clear();
@@ -607,14 +633,16 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1                 
 void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2          ) { AddTask ( ctx,s,key,d1  ,NULL , d2);}
 
 /*===============================================================================*/
-void ITask::dump(){
-    printf("#task:%s key:%lx ,no.of data:%ld state:%d\n ",name.c_str(),key,data_list->size(),state);
-    if (type == PropagateTask)
-      prop_info->dump();
-    else
-      dumpDataAccess(data_list);
-  }
-ITask::ITask(PropagateInfo *p){//todo
+void IDuctteipTask::dump(){
+  if ( !DUMP_FLAG)
+    return;
+  printf("#task:%s key:%lx ,no.of data:%ld state:%d\n ",name.c_str(),key,data_list->size(),state);
+  if (type == PropagateTask)
+    prop_info->dump();
+  else
+    dumpDataAccess(data_list);
+}
+IDuctteipTask::IDuctteipTask(PropagateInfo *p){
   prop_info = p;
   type = PropagateTask;
   data_list = new list<DataAccess*>;
@@ -625,13 +653,19 @@ ITask::ITask(PropagateInfo *p){//todo
   daxs->type = IData::READ;
   data_list->push_back(daxs);  
 }
- void ITask::runPropagateTask(){
+ void IDuctteipTask::runPropagateTask(){
   IData *data = glbCtx.getDataByHandle(&prop_info->data_handle);
   data->setRunTimeVersion(prop_info->toCtx,0);
   setFinished(true);
 }
 
-int ITask::serialize(byte *buffer,int &offset,int max_length){
+MessageBuffer *IDuctteipTask::serialize(){
+  int offset =0 ;
+  serialize(message_buffer->address,offset,message_buffer->size);
+  return message_buffer;
+}
+
+int IDuctteipTask::serialize(byte *buffer,int &offset,int max_length){
     int count =data_list->size();
     list<DataAccess *>::iterator it;
     copy<unsigned long>(buffer,offset,key);
@@ -646,7 +680,7 @@ int ITask::serialize(byte *buffer,int &offset,int max_length){
     }
 }
 
-void ITask::deserialize(byte *buffer,int &offset,int max_length){
+void IDuctteipTask::deserialize(byte *buffer,int &offset,int max_length){
   paste<unsigned long>(buffer,offset,&key);
   size_t len = sizeof(unsigned long);
   ContextHandle handle ;
@@ -667,27 +701,40 @@ void ITask::deserialize(byte *buffer,int &offset,int max_length){
     data_list->push_back(data_access);
   }
 }
-void ITask::run(){
+void IDuctteipTask::run(){
     if ( state == Finished ) 
+      return;
+    if ( state == Running ) 
       return;
     if (type == PropagateTask){
       runPropagateTask();
     }
-    else
+    else{
+      TRACE_LOCATION;
+      getDataAccess(0)->dump();
       parent_context->runKernels(this);
+      state = Running;
+    TRACE_LOCATION;
+    }
 }
-void ITask::setFinished(bool flag){
-    list<DataAccess *>::iterator it;
+void IDuctteipTask::setFinished(bool flag){
     if ( !flag ) 
       return ;
     state = Finished;
+}
+void IDuctteipTask::upgradeData(){
+    list<DataAccess *>::iterator it;
     if ( type == PropagateTask ) 
       return;
+    printf("task:%s\n",getName().c_str());
     for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-      printf("** data upgraded :%s\n",(*it)->data->getName().c_str());
+      PRINT_IF(DATA_UPGRADE_FLAG)("** data upgraded :%s,%ld\n",
+				  (*it)->data->getName().c_str(),
+				  dtEngine.elapsedTime(TIME_SCALE_TO_MILI_SECONDS));
       (*it)->data->incrementRunTimeVersion((*it)->type);
+      //(*it)->dump('Z');
     }
-    
+    dtEngine.putWorkForDataReady(getDataAccessList());    
   }
 /*===============================================================================*/
 void IListener::deserialize(byte *buffer, int &offset, int max_length){
@@ -698,7 +745,9 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
     IData *data = glbCtx.getDataByHandle(data_handle);
     data_access->required_version.deserialize(buffer,offset,max_length);
     data_access->data = data;
+    data_access->required_version.dump();
     data_request = data_access;
+    dump();
   }
 /*===============================================================================*/
 void engine::receivePropagateTask(byte *buffer, int len){
@@ -708,8 +757,8 @@ void engine::receivePropagateTask(byte *buffer, int len){
     addPropagateTask(p);
   }
 
-void engine::addPropagateTask(PropagateInfo *P){//todo 
-  ITask *task = new ITask(P);
+void engine::addPropagateTask(PropagateInfo *P){
+  IDuctteipTask *task = new IDuctteipTask(P);
   string s("PROPTASK");
   task->setName(s);
   criticalSection(Enter) ;
@@ -719,26 +768,97 @@ void engine::addPropagateTask(PropagateInfo *P){//todo
   putWorkForPropagateTask(task);
   criticalSection(Leave) ;
 }
-void engine:: sendTask(ITask* task,int destination){
-  int offset = 0 ;
-  int msg_size = task->getSerializeRequiredSpace();
-  byte *buffer = (byte *)malloc(msg_size);
-
-  task->serialize(buffer,offset,msg_size);
-  unsigned long ch =  mailbox->send(buffer,offset,MailBox::TaskTag,destination);
+void engine:: sendTask(IDuctteipTask* task,int destination){
+  MessageBuffer *m = task->serialize();
+  unsigned long ch =  mailbox->send(m->address,m->size,MailBox::TaskTag,destination);
   task->setCommHandle (ch);
   
 }
 /*=====================================================================*/
-void engine::receivedData(MailBoxEvent *event){
-    IData *temp_data = new IData;
+void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
     int offset =0 ;
-    temp_data->deserialize(event->buffer,offset,event->length);
-    IData *data = glbCtx.getDataByHandle(temp_data->getDataHandle());
+    const bool header_only = true;
+    const bool all_content = false;
+    DataHandle dh;
+    dh.deserialize(event->buffer,offset,event->length);
+    IData *data = glbCtx.getDataByHandle(&dh);
     offset =0 ;
-    data->deserialize(event->buffer,offset,event->length,false);
-    delete temp_data;
+    data->deserialize(event->buffer,offset,event->length,mi,all_content);
   }
+  /*--------------------------------------------------------------------------*/
 
+void IListener::checkAndSendData(MailBox * mailbox)
+{
+    if ( !isReceived() ) 
+      return;
+    if ( isDataSent() ) 
+      return ;
+    if (! isDataReady() ) 
+      return;
+    IData *data = getData();
+    if ( data->isDataSent(getSource(), getRequiredVersion() ) ){
+      setDataSent(true);
+      return;
+    }
+    data->serialize();
+    unsigned long c_handle= mailbox->send(data->getHeaderAddress(),
+					  data->getPackSize(),
+					  MailBox::DataTag,
+					  getSource());
+
+    setCommHandle(c_handle);
+    setDataSent(true);
+
+    export(V_SEND,O_DATA);
+    dump();
+    export_end(V_SEND);
+
+
+  }
+  /*--------------------------------------------------------------------------*/
+template <class ElementType>
+Partition<ElementType> *
+Partition<ElementType>::getBlock ( int y, int x ) {
+
+    Partition<ElementType> *p = new Partition<ElementType> (dim_count, element_alignment) ; 
+    p->block_alignment = block_alignment ;
+    p->mem_size = mem_size;
+    p->X_E()  = X_EB();
+    p->Y_E()  = Y_EB();
+
+    p->X_B()  = 1; 
+    p->Y_B()  = 1; 
+
+    p->Y_BS() = 0; 
+    p->X_BS() = 0; 
+
+    p->X_EB() = p->X_E() / p->X_B(); 
+    p->Y_EB() = p->Y_E() / p->Y_B(); 
+
+    if ( element_alignment == ROW_MAJOR ) {
+      p->X_ES() = 1;
+      p->Y_ES() = X_EB();
+    }
+    else{
+      p->X_ES() = Y_EB();
+      p->Y_ES() = 1     ;
+    }
+    if ( block_alignment  == ROW_MAJOR ) {
+      p->memory = memory + (y * X_B() + x )* Y_EB() * X_EB() ;
+    }
+    else { 
+      p->memory = memory + (x * Y_B() + y )* Y_EB() * X_EB() ;
+    }
+    return p;
+  } 
+/*----------------------------------------------------------------------------------------*/
+void IData:: allocateMemory(){
+    if ( Nb == 0 && Mb == 0 ) {      
+      content_size = (N/parent_data->Nb) * (M/parent_data->Mb) * sizeof(double);
+      data_memory = dtEngine.newDataMemory();
+      PRINT_IF(0)("block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
+		  N,parent_data->Nb,M,parent_data->Mb,getContentAddress() );
+    }
+  }
 
 #endif //  __CONTEXT_HPP__

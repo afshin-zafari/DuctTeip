@@ -11,6 +11,7 @@
 #include "engine.hpp"
 
 using namespace std;
+extern engine dtEngine;
 
 extern int me;
 class IContext;
@@ -178,7 +179,7 @@ public :
   IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
   int            getPropagateCount      ()                  {return lstPropTasks.size();}
   ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
-
+  bool           canAllEnter(){return hpContext->canAllEnter();}
   ContextHandle       *createContextHandle(){
     ContextHandle *ch = new ContextHandle ; 
     *ch = last_context_handle++;
@@ -197,7 +198,13 @@ public :
     children.push_back(c);
   }
 
+  void getLocalNumBlocks(int *mb, int *nb){
+    *nb = cfg->getXLocalBlocks();
+    *mb = cfg->getYLocalBlocks();
+  }
+  int getNumThreads(){return cfg->getNumThreads();}
   /*------------------------------*/
+  /*
   void setEndContext(){
     if (last_context_boundry == EndContext)
       return ;
@@ -214,6 +221,7 @@ public :
     //broadcast version chain
     last_context_boundry = EndContext;
   }
+  */
   /*------------------------------*/
   void setPolicies (IHostPolicy *dhp,
 		    IHostPolicy *thp,
@@ -295,7 +303,7 @@ public :
       for ( int c=data_range->col_from; c<= data_range->col_to;c++){
 	IData &A=*(data_range->d);
 	PropagateInfo *p = new PropagateInfo();
-	p->fromVersion = A(r,c)->getCurrentVersion().getVersion();
+	p->fromVersion = A(r,c)->getReadVersion().getVersion();
 	p->fromCtx.assign( getLevelString());
 	p->i = r; p->j = c;
 	p->data_handle = *A(r,c)->getDataHandle();
@@ -395,6 +403,8 @@ public :
     list < PropagateInfo *>::iterator it;
     int msg_max_size = 1024; //prop_info.size() * sizeof(PropagateInfo) ;// todo
     int msg_len = 0;
+    printf("gctx malloc sz:%d\n",msg_max_size);
+
     byte  *msg_buffer= (byte *)malloc ( msg_max_size);
     for (it = prop_info.begin(); it != prop_info.end();++it ) {
       PropagateInfo &P=*(*it);

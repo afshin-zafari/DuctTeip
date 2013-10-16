@@ -19,7 +19,18 @@ public :
     buffer(b),length(l),tag(t),host(s)
   {}
   MailBoxEvent(){buffer = NULL; tag = host = length = 0 ;}
-  ~MailBoxEvent(){free(buffer);}
+  ~MailBoxEvent(){
+  }
+  void dump(){
+    if ( !DUMP_FLAG)
+      return;
+    printf("@EVENT:%s, ",direction == Received?"Received":"Sent");
+    if (tag ==1 ) printf("Task");
+    if (tag ==2 ) printf("Data");
+    if (tag ==3 ) printf("Lsnr");
+    if (tag ==5 ) printf("TerminateOK");
+    printf("\n");
+  }
 };
 class MailBox
 {
@@ -31,28 +42,45 @@ public:
     TaskTag=1,
     DataTag,
     ListenerTag,
-    PropagationTag
-  };
+    PropagationTag,
+    TerminateOKTag,
+    TerminateCancelTag
+  } ;
   unsigned long  send(byte *buffer, int length, MessageTag tag, int destination){
     unsigned long comm_handle  = comm->send(buffer,length,(int)tag,destination);
     return comm_handle ;
   }
 
-  bool getEvent(MailBoxEvent *event,bool wait = false){
-    int length,source,data_received=0,listener_received=0,task_received=0,prop_received=0;
-    data_received = comm->probe((int)DataTag,&source,&length,wait);
-    if (!data_received) {
-      task_received = comm->probe((int)TaskTag,&source,&length,wait);
-      if ( !task_received) {
-	listener_received = comm->probe((int)ListenerTag,&source,&length,wait);
-	if ( !listener_received ) 
-	  prop_received = comm->probe((int)PropagationTag,&source,&length,wait);
-      }
+  bool getEvent(byte *data_buffer,MailBoxEvent *event,bool wait = false){
+    int length,source,found=0,tag,
+      mbox_tags[6]= {DataTag,TaskTag,ListenerTag,PropagationTag,TerminateOKTag,TerminateCancelTag};
+    unsigned long handle;
+    
+
+    for ( int i =0 ; i< 6; i++) {
+      found =  comm->probe(mbox_tags[i],&source,&length,wait);
+      if ( !found ) continue;
+      event->direction = MailBoxEvent::Received;
+      TRACE_LOCATION;
+      if (  mbox_tags[i] == DataTag ) 
+	event->buffer = data_buffer;
+      else	
+	event->buffer = new byte[length];
+      PRINT_IF(0)("mbox buffer mem:%p,sz:%d\n",event->buffer,length);
+      event->length = length;
+      event->host   = source;
+      event->tag = mbox_tags[i];
+      PRINT_IF(0)("1mbox malloc sz:%d\n",length);
+      comm->receive(event->buffer,length,event->tag,source);
+      PRINT_IF(0)("2mbox malloc sz:%d\n",length);
+      TRACE_LOCATION;
+      return true;
     }
-    if (!data_received && !task_received && !listener_received && !prop_received) {
-      int tag;
-      unsigned long handle;
-      int found = comm->isAnySendCompleted(&tag,&handle);
+
+    if (!found){
+      found = comm->isAnySendCompleted(&tag,&handle);
+      if ( (tag == TerminateOKTag) || (tag ==  TerminateCancelTag) ) 
+	return false;
       if ( found ) {
 	event->tag = tag;
 	event->handle = handle;
@@ -61,25 +89,8 @@ public:
       }
       return false;
     }
-    event->direction = MailBoxEvent::Received;
-    byte *buffer = (byte *)malloc(length);
-    event->buffer = buffer;
-    event->length = length;
-    event->host   = source;
-    if ( data_received ) {
-      event->tag    = (int)DataTag;
-    }
-    if ( task_received ) {
-      event->tag    = (int)TaskTag;
-    }
-    if ( listener_received ) {
-      event->tag    = (int)ListenerTag;
-    }
-    if ( prop_received ) {
-      event->tag    = (int)PropagationTag;
-    }
-    comm->receive(buffer,length,event->tag,source);
-    return true;
+
+    return false;
   }
   
   

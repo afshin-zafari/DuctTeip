@@ -1,9 +1,12 @@
 
-prog_list=  1 2 3 4 5 6 7 8 9# 10 11 12 
+prog_list=  1 2 3 4 5 6 7 8 9 # 10 11 12 
 outdir= ./temp
 CPP = /opt/SUNWspro/bin/CC
 CPP_LIBS =  -L/opt/SUNWspro/lib/ -lCstd -lCrun
 C = /opt/SUNWspro/bin/cc
+SUPERGLUE_DIR=./superglue-master/superglue
+SUPERGLUE_FLAGS=-I $(SUPERGLUE_DIR) -pthread #-pedantic -Wno-long-long -Wno-format
+
 
 ifdef LINUX
     CPP = /usr/bin/cc
@@ -49,6 +52,11 @@ all: $(foreach i, $(prog_list), $(outdir)/test$(i) )
 
 $(foreach i, $(prog_list), $(eval $(call rule_tests,$(i))))
 
+task_gen: $(outdir)/test_task_gen.o $(outdir)/test_task_gen  $(shell ls *.hpp) 
 
+$(outdir)/test_task_gen: $(outdir)/test_task_gen.o
+	$(CPP)  $(CPP_LIBS) -lm  $(outdir)/test_task_gen.o -o $(outdir)/test_task_gen 
+$(outdir)/test_task_gen.o: test_task_gen.cpp
+	$(CPP) -c $(SUPERGLUE_FLAGS) test_task_gen.cpp -o $(outdir)/test_task_gen.o 
 clean: 
 	rm $(outdir)/*.o $(outdir)/test*

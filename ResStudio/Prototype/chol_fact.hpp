@@ -3,6 +3,9 @@
 
 #include "context.hpp"
 #include "math.h"
+#define registerAccess register_access
+#define getAccess get_access
+#define getHandle  get_handle
 
 
 void dumpData(double *d,int M,int N){
@@ -20,12 +23,12 @@ void dumpData(double *d,int M,int N){
 struct SyncTask : public Task<Options, -1> {
   IDuctteipTask *dt_task ;
   SyncTask(Handle<Options> &h1,IDuctteipTask *task_):dt_task(task_) {
-        registerAccess(ReadWriteAdd::write, &h1);
+        registerAccess(ReadWriteAdd::write, h1);
     }
   SyncTask(Handle<Options> **h,int M,int N,IDuctteipTask *task_):dt_task(task_) {
     for(int i =0;i<M;i++)
       for (int j=0;j<N;j++)
-        registerAccess(ReadWriteAdd::write, &h[i][j]);
+        registerAccess(ReadWriteAdd::write, h[i][j]);
     }
     void run() {
       dtEngine.dumpTime();
@@ -37,11 +40,11 @@ struct SyncTask : public Task<Options, -1> {
 struct SyncColumnTask : public Task<Options, -1> {
   IDuctteipTask *dt_task ;
   SyncColumnTask(Handle<Options> &h1,IDuctteipTask *task_):dt_task(task_) {
-        registerAccess(ReadWriteAdd::write, &h1);
+        registerAccess(ReadWriteAdd::write, h1);
     }
   SyncColumnTask(Handle<Options> **h,int M,int column,IDuctteipTask *task_):dt_task(task_) {
     for(int i =0;i<M;i++)
-        registerAccess(ReadWriteAdd::write, &h[i][column]);
+        registerAccess(ReadWriteAdd::write, h[i][column]);
     }
     void run() {
       dtEngine.dumpTime();
@@ -52,7 +55,7 @@ struct SyncColumnTask : public Task<Options, -1> {
 
 struct PotrfTask : public Task<Options, 1> {
     PotrfTask(Handle<Options> &h1) {
-        registerAccess(ReadWriteAdd::write, &h1);
+        registerAccess(ReadWriteAdd::write, h1);
     }
     void run() {
       PRINT_IF(KERNEL_FLAG)("sg_potrf task starts running. %s\n",getAccess(0).getHandle()->name);
@@ -77,8 +80,8 @@ struct PotrfTask : public Task<Options, 1> {
 };
 struct SyrkTask : public Task<Options, 2> {
   SyrkTask(Handle<Options> &h1,Handle<Options> &h2) {
-        registerAccess(ReadWriteAdd::read, &h1);
-        registerAccess(ReadWriteAdd::write, &h2);
+        registerAccess(ReadWriteAdd::read, h1);
+        registerAccess(ReadWriteAdd::write, h2);
     }
   void run() {
     PRINT_IF(KERNEL_FLAG)("sg_syrk task starts running.A:%s, B:%s\n",
@@ -104,8 +107,8 @@ struct SyrkTask : public Task<Options, 2> {
 
 struct TrsmTask : public Task<Options, 2> {
   TrsmTask(Handle<Options> &h1,Handle<Options> &h2) {
-        registerAccess(ReadWriteAdd::read, &h1);
-        registerAccess(ReadWriteAdd::write, &h2);
+        registerAccess(ReadWriteAdd::read, h1);
+        registerAccess(ReadWriteAdd::write, h2);
     }
     void run() {
       PRINT_IF(KERNEL_FLAG)("sg_trsm task starts running.A:%s, B:%s\n",
@@ -136,9 +139,9 @@ struct GemmTask : public Task<Options, 3> {
 	   bool decrease_c = true):
     b_trans(trans_b),
     c_decrease(decrease_c){
-        registerAccess(ReadWriteAdd::read, &h1);
-        registerAccess(ReadWriteAdd::read, &h2);
-        registerAccess(ReadWriteAdd::write, &h3);
+        registerAccess(ReadWriteAdd::read, h1);
+        registerAccess(ReadWriteAdd::read, h2);
+        registerAccess(ReadWriteAdd::write, h3);
     }
     void run() {
       PRINT_IF(KERNEL_FLAG)("sg_gemm task starts running.A:%s,B:%s,C:%s\n",

@@ -1,5 +1,4 @@
 #include "context.hpp"
-#include "mat_asm.hpp"
 #include "chol_fact.hpp"
 
 #include <stdlib.h>

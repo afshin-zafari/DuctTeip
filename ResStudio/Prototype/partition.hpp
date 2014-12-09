@@ -1,8 +1,8 @@
 #ifndef __PARTITION_HPP__
 #define __PARTITION_HPP__
-#include "superglue.hpp"
-#include "option/instr_tasktiming.hpp"
-
+#include "sg/superglue.hpp"
+#include "sg/core/contrib.hpp"
+#include "sg/option/instr_trace.hpp"
 class IData;
 
 /*===================== DataBlock =======================================================*/
@@ -191,7 +191,7 @@ public:
 /*===================== DataBlock =======================================================*/
 /*===================== SuperGlue Handle ================================================*/
 template<typename Options>
-struct MyHandle : public HandleDefault<Options> {
+struct MyHandle : public HandleBase<Options> {
   Partition<double> *block;
   char name[20];
   ~MyHandle(){
@@ -206,7 +206,7 @@ struct MyHandle : public HandleDefault<Options> {
 struct Options : public DefaultOptions<Options> {
     typedef MyHandle<Options> HandleType;
     typedef Enable Logging;
-    typedef TaskExecutorTiming<Options> TaskExecutorInstrumentation;
+    typedef Trace<Options> TaskExecutorInstrumentation;
 };
 /*===================== SuperGlue Handle ================================================*/
 

@@ -52,4 +52,4 @@ then
     emacs ./temp/test_task_gen.out.1.0
     emacs ./temp/test_task_gen.out.1.1
 fi
-emacs ./temp/a.txt
+

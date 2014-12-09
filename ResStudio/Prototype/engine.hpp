@@ -84,7 +84,7 @@ private:
   long last_task_handle,last_listener_handle;
   list<IListener *> listener_list;
   TimeUnit start_time;
-  ThreadManager<Options> *thread_manager;
+  SuperGlue<Options> *thread_manager;
   Config *cfg;
   MemoryManager *data_memory;
   enum { Enter, Leave};
@@ -120,7 +120,7 @@ public:
     delete data_memory;
   }
   /*---------------------------------------------------------------------------------*/
-  ThreadManager<Options> * getThrdManager() {return thread_manager;}
+  SuperGlue<Options> * getThrdManager() {return thread_manager;}
   int getLocalNumBlocks(){return local_nb;}
   /*---------------------------------------------------------------------------------*/
   TaskHandle  addTask(IContext * context,
@@ -300,7 +300,7 @@ public:
     
     
     data_memory = new MemoryManager (  nb * mb/3 , ny * nx * sizeof(double) + dh.getPackSize() + 4*dv.getPackSize());
-    thread_manager = new ThreadManager<Options> ( num_threads ) ;
+    thread_manager = new SuperGlue<Options> ( num_threads ) ;
   }
   /*---------------------------------------------------------------------------------*/
   void doProcess(){

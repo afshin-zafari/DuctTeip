@@ -4,7 +4,7 @@ outdir= ./temp
 CPP = /opt/SUNWspro/bin/CC
 CPP_LIBS =  -L/opt/SUNWspro/lib/ -lCstd -lCrun
 C = /opt/SUNWspro/bin/cc
-SUPERGLUE_DIR=./superglue-master/superglue
+SUPERGLUE_DIR=../../../superglue/include
 SUPERGLUE_FLAGS=-I $(SUPERGLUE_DIR) -pthread #-pedantic -Wno-long-long -Wno-format
 
 
@@ -19,9 +19,9 @@ ifdef UBUNTU
     C = /usr/bin/g++
 endif
 ifdef UBUNTUMPI
-    CPP = /usr/bin/mpic++
-    CPP_LIBS =  -L/usr/lib/  -lmpi -lstdc++
-    C = /usr/bin/mpic++
+    CPP = mpic++
+    CPP_LIBS =  -lmpi -lstdc++
+    C = mpic++
 endif
 ifdef SCILINUX
     CPP = /usr/bin/gcc

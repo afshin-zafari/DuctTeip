@@ -7,19 +7,53 @@
 #include <string.h>
 #include <sys/time.h>
 #include <assert.h>
+#include <sched.h>
+#include <errno.h>
 
 
-#define DUMP_FLAG 0
+#define registerAccess register_access
+#define getAccess get_access
+#define getHandle  get_handle
+#define ThreadManager SuperGlue
+#define getTaskCount get_task_count
+
+#define MPI_WALL_TIME 1
+
+#ifdef MPI_WALL_TIME
+#include "mpi.h"
+#else
+#include "platform/gettime.hpp"
+#endif
+
+
+#define DLB_DEBUG 0
+#define DLB_BUSY_TASKS 5
+#define DLB_MODE 1
+
+#define DEBUG 0
+
+#define MAILBOX_THREAD  0 
+#define TERMINATE_TREE  1
+
+//#define THREAD_INFO(a) printf("%s , %d\n",__FILE__,__LINE__);threadInfo(a)
+#define THREAD_INFO(a)
+
+#define DUMP_FLAG DEBUG
 #define EXPORT_FLAG 0
 
-#define INSERT_TASK_FLAG  0
-#define SKIP_TASK_FLAG    0
-#define DATA_UPGRADE_FLAG 0
+#define INSERT_TASK_FLAG  DEBUG
+#define SKIP_TASK_FLAG    DEBUG
+#define DATA_UPGRADE_FLAG DEBUG
 #define KERNEL_FLAG       0
 #define TERMINATE_FLAG    0
+#define IRECV             0
+#define OVERSUBSCRIBED    0
+#define POSTPRINT         1
 
-//#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
-#define  TRACE_LOCATION
+#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
+		       //#define  TRACE_LOCATION
+//#define TRACE_ALLOCATION(a) printf("alloc mem %s,%d, %ld\n",__FILE__,__LINE__,a)
+#define TRACE_ALLOCATION(a) 
 //#define TRACE(a) TRACE_LOCATION;printf(a);
 #define TRACE(a)
 
@@ -41,6 +75,7 @@ struct MessageBuffer{
     content.size = content_size ;
 
             address = new byte[size];
+	    TRACE_ALLOCATION(size);
      header.address = address;
     content.address = address + header_size;
 
@@ -78,17 +113,33 @@ void flushBuffer(byte *buffer,int length){
   printf("\n");
 }
 
-#define TIME_SCALE_TO_MICRO_SECONDS 1
-#define TIME_SCALE_TO_MILI_SECONDS 1000
-#define TIME_SCALE_TO_SECONDS 1000000
+#define TIME_SCALE_TO_MICRO_SECONDS 1000
+#define MICRO_SECONDS 1000000
+#define MILI_SECONDS 1000
+#define TIME_SCALE_TO_MILI_SECONDS 1000000
+#define TIME_SCALE_TO_SECONDS 1000000000
 
-typedef long int TimeUnit;
-static inline TimeUnit getTime() {
+
+typedef unsigned long ClockTimeUnit;
+static inline ClockTimeUnit getClockTime(int unit) {
   timeval tv;
   gettimeofday(&tv, 0);
-  return (tv.tv_sec*1000000+tv.tv_usec);
+  if ( unit == MILI_SECONDS)
+    return (tv.tv_sec*(ClockTimeUnit)unit+tv.tv_usec/unit);
+  return (tv.tv_sec*(ClockTimeUnit)unit+tv.tv_usec);
 }
-
+#ifdef MPI_WALL_TIME
+typedef unsigned long TimeUnit;
+#pragma message("getTime()=MPI WTIME")
+static inline TimeUnit getTime(){
+  return (TimeUnit)(MPI_Wtime()*1000000000);  
+}
+#else
+typedef Time::TimeUnit  TimeUnit;
+static inline TimeUnit getTime(){
+  return Time::getTime();
+}
+#endif
 
 
 enum verbs_ {
@@ -144,6 +195,33 @@ string obj_str(int obj ) {
     return "program";
     
   }
+  return "";
+}
+
+
+void threadInfo(int arg){
+  sched_param sp;
+  int r;
+  if ( arg == 1 ) {
+    sp.sched_priority=1;
+    r=pthread_setschedparam(pthread_self(),SCHED_FIFO,&sp);
+  }
+  int schd;
+  int r2=pthread_getschedparam (pthread_self(),&schd,&sp);
+  //  sched_getparam(0,&sp);
+  if(0){
+    printf("ret-vals:%d,%d schedule policy:%d, sch-priority:%d\n",r,r2,schd,sp);  
+    printf("fifo:%d,other:%d,batch:%d,rr:%d,idle:%d\n",SCHED_FIFO,SCHED_OTHER,SCHED_BATCH,SCHED_RR,SCHED_IDLE);
+    printf("esrch:%d,einval:%d,eperm:%d\n",ESRCH,EINVAL,EPERM);
+  }
+}
+void nanoSleep(int n=1){
+  //return;
+  timespec ts;
+  ts.tv_sec=0;
+  ts.tv_nsec=n*1000;
+
+  clock_nanosleep(CLOCK_PROCESS_CPUTIME_ID,0,&ts,NULL);
 }
 
 #define PRINT_IF(a) if(a) printf
@@ -151,12 +229,10 @@ string obj_str(int obj ) {
 # if EXPORT_FLAG != 0
 #  define export(a,b) export_( a,b,__FILE__,__LINE__)
 #  define export_end(a) export_end_(a,__FILE__,__LINE__)
-#  define export_prefix printf("\nfile:%-12.12s,line:%4.4d,time:%ld,",file.c_str(),line,(long)getTime())
+#  define export_prefix printf("\nfile:%-12.12s,line:%4.4d,time:%ld,thread-id:%ld",file.c_str(),line,(long)getTime(),pthread_self())
 
     void export_(int verb, int object,string file,int line)
     {
-      if ( object != O_LSNR) 
-	return ;
       export_prefix;
       printf(" ,verb:%s,obj:%s,",verb_str(verb).c_str(),obj_str(object).c_str());
     }
@@ -167,6 +243,7 @@ string obj_str(int obj ) {
     }
 #  define export_int(a)    printf ( ",%s:%d," ,#a,a)
 #  define export_long(a)   printf ( ",%s:%ld,",#a,a)
+#  define export_time(a)   printf ( ",%s:%Ld,",#a,a)
 #  define export_str(a)    printf ( ",%s:%s," ,#a,a)
 #  define export_info(f,v) printf ( f,v)
 # else // undefine all export macros 
@@ -175,6 +252,7 @@ string obj_str(int obj ) {
 #  define export_prefix 
 #  define export_int(a)    
 #  define export_long(a)   
+#  define export_time(a) 
 #  define export_str(a)    
 #  define export_info(f,v) 
 # endif // EXPORT_FLAG

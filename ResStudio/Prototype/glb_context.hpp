@@ -25,6 +25,7 @@ public:
   DataHandle data_handle;
 
   void dump();
+  /*-----------------------------------------------------------------------------------------*/
   void deserializeContext(byte *buffer,int &offset,int max_length,string &ctx){
     int level_count, ctx_level_id ;
     paste<int>(buffer,offset,&level_count);
@@ -35,6 +36,7 @@ public:
     }
     ctx = s.str();      
   }
+  /*-----------------------------------------------------------------------------------------*/
   void   serializeContext(byte *buffer,int &offset,int max_size,string ctx){
     int ctx_level_id,level_count=0,local_offset = offset;
     istringstream s(ctx);
@@ -49,6 +51,7 @@ public:
      copy<int>(buffer,offset,level_count);
      offset = local_offset;
   }
+  /*-----------------------------------------------------------------------------------------*/
   int    serialize(byte *buffer,int &offset,int max_length){
     copy<int>(buffer,offset,fromVersion);
     copy<int>(buffer,offset,i);
@@ -59,6 +62,7 @@ public:
     serializeContext(buffer,offset,max_length,  toCtx);
     return offset;
   }
+  /*-----------------------------------------------------------------------------------------*/
   void deserialize(byte *buffer,int &offset,int max_length){
     paste<int>(buffer,offset,&fromVersion);
     paste<int>(buffer,offset,&i);
@@ -91,16 +95,20 @@ class ContextHeader
 private:
   list<DataRange *> readRange,writeRange;
 public :
+  /*-----------------------------------------------------------------------------------------*/
   void addDataRange(IData::AccessType daxs,DataRange *dr){
     if (daxs == IData::READ)
       readRange.push_back(dr);
     else
       writeRange.push_back(dr);
   }
+  /*-----------------------------------------------------------------------------------------*/
   list<DataRange *> getWriteRange(){
     return writeRange;
   }
+  /*-----------------------------------------------------------------------------------------*/
   list<DataRange *> getReadRange (){return readRange;}
+  /*-----------------------------------------------------------------------------------------*/
   void clear(){readRange.clear();writeRange.clear();}
 };
 
@@ -131,6 +139,7 @@ private:
   
   
 public :
+  /*-----------------------------------------------------------------------------------------*/
   GlobalContext(){
     sequence=-1;
     ctxHeader = new ContextHeader;
@@ -139,11 +148,13 @@ public :
     li.children = 0;
     lstLevels.push_back(li);
     last_context_handle = 34 ;
-    last_data_handle = 0 ;
+    last_data_handle = 1000 ;
   }
+  /*-----------------------------------------------------------------------------------------*/
   ~GlobalContext() {
     delete ctxHeader;
   }
+  /*-----------------------------------------------------------------------------------------*/
   enum Counters{
     EnterContexts,
     SkipContexts ,
@@ -160,6 +171,7 @@ public :
     OutputData,
     InOutData
   };
+  /*-----------------------------------------------------------------------------------------*/
   void           setConfiguration       (Config *_cfg);
   void           dumpStatistics         (Config *cfg);
   void           updateVersions         (IContext* ctx,ContextHeader *);
@@ -180,28 +192,33 @@ public :
   int            getPropagateCount      ()                  {return lstPropTasks.size();}
   ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
   bool           canAllEnter(){return hpContext->canAllEnter();}
+  /*-----------------------------------------------------------------------------------------*/
   ContextHandle       *createContextHandle(){
     ContextHandle *ch = new ContextHandle ; 
     *ch = last_context_handle++;
     return ch;
   }
+  /*-----------------------------------------------------------------------------------------*/
   DataHandle          *createDataHandle (){
     DataHandle *dh = new DataHandle ; 
     dh->data_handle = last_data_handle++ ;
     return dh;
   }
 
+  /*-----------------------------------------------------------------------------------------*/
   IContext *getContextByHandle ( ContextHandle ch) ;
   IData    *getDataByHandle(DataHandle *d);
   void      doPropagation(bool f) {with_propagation = f;}
+  /*-----------------------------------------------------------------------------------------*/
   void      addContext(IContext *c){
     children.push_back(c);
   }
-
+  /*-----------------------------------------------------------------------------------------*/
   void getLocalNumBlocks(int *mb, int *nb){
     *nb = cfg->getXLocalBlocks();
     *mb = cfg->getYLocalBlocks();
   }
+  /*-----------------------------------------------------------------------------------------*/
   int getNumThreads(){return cfg->getNumThreads();}
   /*------------------------------*/
   /*
@@ -377,8 +394,8 @@ public :
     p[3]->data_handle = dh;
     prop_info.push_back(p[3]);
 
-    byte *buffer;
-    int length;
+    byte *buffer=NULL;
+    int length=0;
     packPropagateTask(prop_info,10); // pack and send
     //dtEngine.receivePropagateTask(&buffer,&length);
     unpackPropagateTask(buffer,length);

@@ -14,12 +14,14 @@ class IListener
 {
 private:
   DataAccess *data_request;
-  int state,host,handle,source;
+  int state,host,handle,source,count;
   unsigned long comm_handle;
   bool data_sent,received;
   MessageBuffer *message_buffer;
 public :
   IListener(){
+    message_buffer = NULL;
+    data_request==NULL;
   }
   IListener(DataAccess* _d , int _host):data_request(_d) , host(_host){
     comm_handle = -1;
@@ -28,9 +30,8 @@ public :
     message_buffer = new MessageBuffer(size,0);
   }
   ~IListener(){
-	  TRACE_LOCATION;
-    delete message_buffer;
-	  TRACE_LOCATION;
+    if  ( message_buffer != NULL ) 
+      delete message_buffer;
   }
 
   int           getHandle     ()                 { return handle;      }
@@ -39,26 +40,28 @@ public :
   void          setCommHandle (unsigned long ch) { comm_handle = ch ;  }
   void          setHost       (int h )           { host = h ;          }
   int           getHost       ()                 { return host;        }
+  int           getCount()  { return count;}
+  void          setCount(int c ) { count = c; } 
   IData *getData() { 
     return data_request->data;
   }
   /*--------------------------------------------------------------------------*/
-  DataVersion getRequiredVersion(){
+  DataVersion & getRequiredVersion(){
     return data_request->required_version;
+  }
+  /*--------------------------------------------------------------------------*/
+  void setDataRequest ( DataAccess *dr){
+    data_request = dr;
+  }
+  /*--------------------------------------------------------------------------*/
+   void setRequiredVersion(DataVersion rhs){
+    data_request->required_version = rhs;
   }
   /*--------------------------------------------------------------------------*/
   void dump(){
     if (!DUMP_FLAG)
       return;
-    export(V_DUMP,O_LSNR);
-    export_info(",ListenerData:%s,",getData()->getName().c_str());
-    export_int(source);
-    export_int(host);
-    export_long(comm_handle);
-    export_int(handle);
-    export_int(data_sent);
     data_request->required_version.dump();
-    export_end(V_DUMP);
   }
   /*--------------------------------------------------------------------------*/
   void setSource(int s ) { source =s ; }
@@ -71,15 +74,16 @@ public :
   /*--------------------------------------------------------------------------*/
   bool isDataReady(){
     bool isReady = (data_request->data->getRunTimeVersion(IData::READ) == data_request->required_version);
-    export(V_CHECK_RDY,O_LSNR);
     data_request->data->dump();
-    export_info("Runtime-Write-Version","");
     data_request->data->getRunTimeVersion(IData::READ).dump();
-    export_info("Required-Version","");
     data_request->required_version.dump();
-    export_int(isReady);
-    export_end(V_CHECK_RDY);    
     return isReady;
+  }
+  /*--------------------------------------------------------------------------*/
+  long getPackSize(){
+    DataHandle dh;
+    DataVersion dv;
+    return sizeof(host) + dh.getPackSize() + dv.getPackSize();
   }
   /*--------------------------------------------------------------------------*/
   MessageBuffer *serialize(){

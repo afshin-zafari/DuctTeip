@@ -17,7 +17,7 @@ extern int me;
 class IData;
 class IHostPolicy ;
 
-/*===================ContextPrefix=======================================================*/
+/*===================ContextPrefix============================================*/
 struct  ContextPrefix{
   list<int> context_id_list;
   ContextPrefix(){  }
@@ -26,7 +26,7 @@ struct  ContextPrefix{
   /*--------------------------------------------------------------------------*/
   int getPackSize(){    return 10* sizeof(int);  }
   /*--------------------------------------------------------------------------*/
-  int   serialize(byte *buffer,int &offset,int max_length){
+  int serialize(byte *buffer,int &offset,int max_length){
     int len = context_id_list.size();
     copy<int>(buffer,offset,len);
     list<int>::iterator it;
@@ -89,7 +89,6 @@ struct  ContextPrefix{
   string toString(){
     list<int>::iterator it;
     ostringstream s;
-    TRACE_LOCATION;
     for(it = context_id_list.begin(); it != context_id_list.end(); it ++){      
       s << (*it) << ".";
     }
@@ -106,9 +105,9 @@ struct  ContextPrefix{
     context_id_list.clear();
   }
 };
-/*==========================ContextPrefix=======================================*/
+/*==========================ContextPrefix=====================================*/
 
-/*==========================DataVersion ========================================*/
+/*==========================DataVersion ======================================*/
 struct DataVersion{
 public:  
   ContextPrefix prefix;
@@ -134,6 +133,7 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   DataVersion operator =(DataVersion rhs){
+
     version = rhs.version;
     prefix  = rhs.prefix ;
     return *this;
@@ -153,7 +153,6 @@ public:
     }
     return false;
   }
-
   /*--------------------------------------------------------------------------*/
   bool operator <(DataVersion rhs){
     if (prefix != rhs.prefix) {
@@ -181,12 +180,11 @@ public:
   /*--------------------------------------------------------------------------*/
   string dumpString(){
     ostringstream os;
-    TRACE_LOCATION;
     os << prefix.toString()  << version;
     return os.str();
   }
   /*--------------------------------------------------------------------------*/
-  void dump(){
+  void dump(char c=' '){
     if (!DUMP_FLAG)
       return;
     printf(",version:%s,\n",dumpString().c_str());
@@ -195,11 +193,13 @@ public:
   int   serialize(byte *buffer,int &offset,int max_length){
     copy<int>(buffer,offset,version);
     prefix.serialize(buffer,offset,max_length);
+    return 0;
   }
   /*--------------------------------------------------------------------------*/
   int deserialize(byte *buffer,int &offset,int max_length){
     paste<int>(buffer,offset,&version);
     prefix.deserialize(buffer,offset,max_length);
+    return 0;
   }
   /*--------------------------------------------------------------------------*/
   void reset(){
@@ -211,9 +211,9 @@ public:
     prefix.fromString(s);
   }
 };
-/*==========================DataVersion ========================================*/
+/*==========================DataVersion ======================================*/
 
-/*==============================================================================*/
+/*============================================================================*/
 class Coordinate
 {
 public :
@@ -222,7 +222,7 @@ public :
   Coordinate( ) : by(0),bx(0){}
 };//Coordinate
 
-/*==============================================================================*/
+/*============================================================================*/
 
 typedef struct {
   IData *d;
@@ -230,7 +230,7 @@ typedef struct {
 }DataRange;
 
 
-/*==========================DataHandle =========================================*/
+/*==========================DataHandle =======================================*/
 struct DataHandle{
 public:
   unsigned long int context_handle,data_handle;
@@ -245,9 +245,10 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   
-  DataHandle operator = ( DataHandle rhs ) {
+  DataHandle &operator = ( DataHandle rhs ) {
     this->context_handle = rhs.context_handle ;
     this->data_handle   = rhs.data_handle    ;
+    return *this;
   }
   /*--------------------------------------------------------------------------*/
   bool operator == ( DataHandle rhs ) {
@@ -258,6 +259,7 @@ public:
   int    serialize(byte *buffer, int &offset,int max_length){
     copy<unsigned long>(buffer,offset,context_handle);
     copy<unsigned long>(buffer,offset,   data_handle);
+    return 0;
   } 
   /*--------------------------------------------------------------------------*/
   void deserialize(byte *buffer, int &offset,int max_length){
@@ -265,17 +267,22 @@ public:
     paste<unsigned long>(buffer,offset,   &data_handle);
   }
 };
-/*==========================DataHandle =========================================*/
-/*==========================DataListener =========================================*/
+/*==========================DataHandle =======================================*/
+/*==========================DataListener =====================================*/
+/*
 struct DataListener{
   DataVersion version;
   int host,count;
   bool sent;
 };
+*/
 /*==========================DataListener =====================================*/
 
 class IContext;
-
+class IListener;
+class IDuctteipTask;
+class MailBox;
+typedef IListener DataListener;
 
 /*========================== IData Class =====================================*/
 class IData
@@ -292,31 +299,41 @@ protected:
   IHostPolicy                *hpData;
   DataHandle                 *my_data_handle;
   MemoryItem                 *data_memory;
-  list<DataListener *>       listeners;
+  list<IListener *>          listeners;
+  list<IDuctteipTask *>      tasks_list;
   int                        local_n, local_m,local_nb,local_mb,content_size;
   Partition<double>          *dtPartition;
-  Handle<Options> **hM;
+  Handle<Options>            **hM;
+  bool                       partial;
+  list <int>                exported_nodes;
 public:
   /*--------------------------------------------------------------------------*/
-  enum AccessType {    READ  = 1,    WRITE = 2  };
+  enum AccessType {    READ  = 1,    WRITE = 2  , SCALAR=64};
   /*--------------------------------------------------------------------------*/
   IData(){
     my_data_handle = new DataHandle;
     dtPartition = NULL; 
     hM = NULL;
     name="";
+    data_memory=NULL;
   }
   /*--------------------------------------------------------------------------*/
    IData(string _name,int m, int n,IContext *ctx);
   /*--------------------------------------------------------------------------*/
   ~IData() {
     if ( my_data_handle) delete my_data_handle;
-    if ( dtPartition ) delete dtPartition;
+    my_data_handle = NULL;
+    if ( dtPartition !=NULL ) {
+      delete dtPartition;
+      dtPartition=NULL;
+    }
     if ( hM ) {
       for ( int i=0;i<local_mb; i++)
 	delete hM[i];
       delete[] hM;
+      hM = NULL;
     }
+
   }
 
   /*--------------------------------------------------------------------------*/
@@ -324,15 +341,18 @@ public:
   IContext     *getParent        ()                { return parent_context;}
   IData        *getParentData    ()                { return parent_data;}
   void          setParent        (IContext *p)     { parent_context=p;}
-  DataVersion & getWriteVersion()                { return gt_write_version;}
-  DataVersion & getReadVersion()                { return gt_read_version;}
+  DataVersion  &getWriteVersion  ()                { return gt_write_version;}
+  DataVersion  &getReadVersion   ()                { return gt_read_version;}
   IHostPolicy  *getDataHostPolicy()                { return hpData;}
   void          setDataHostPolicy(IHostPolicy *hp) { hpData=hp;}
   void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
-  DataHandle   *getDataHandle    ()                { return my_data_handle ; }
-  
+  DataHandle   *getDataHandle    ()                { return my_data_handle ; }  
+  unsigned long getDataHandleID  ()                {return my_data_handle->data_handle;}
   /*--------------------------------------------------------------------------*/
   void allocateMemory();
+  void prepareMemory();
+  void addTask(IDuctteipTask *);
+  void checkAfterUpgrade(list<IDuctteipTask *> &,MailBox *,char debug =' ');
   /*--------------------------------------------------------------------------*/
   byte  *getHeaderAddress(){
     return data_memory->getAddress();
@@ -343,8 +363,13 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   void setDataMemory(MemoryItem *mi ) {
-    data_memory->setState( MemoryItem::Ready) ; 
+    //    data_memory->setState( MemoryItem::Ready) ; 
     data_memory = mi;
+    printf("======%s\n",getName().c_str());
+  }
+  /*--------------------------------------------------------------------------*/
+  MemoryItem *getDataMemory(){
+    return data_memory;
   }
   /*--------------------------------------------------------------------------*/
   void setLocalNumBlocks(int mb, int nb ) {
@@ -361,81 +386,41 @@ public:
   int  getYLocalDimension( ) {    return local_m ;  }
   /*--------------------------------------------------------------------------*/
   Handle<Options> **createSuperGlueHandles(){
-    if ( hM ) 
+    if ( hM !=NULL ) 
       return hM;
+    //    printf ("SG handle for Data %s is created.\n",getName().c_str());
     int nb=local_nb,mb=local_mb;
+    bool dbg=true;
     hM= new Handle<Options>*[mb];
     for(int i=0;i<mb;i++){
       hM[i]=new Handle<Options>[nb];
     }   
-    PRINT_IF(0)("memory size:%d, %d,%d\n",local_m * local_n,local_m,local_n);
+    PRINT_IF(dbg)("data :%s , %p\n memory size:%d, %d,%d\n partition ptr:%p",name.c_str(),getContentAddress(),
+		  local_m * local_n,local_m,local_n,dtPartition);
     dtPartition->setBaseMemory( getContentAddress() , local_m * local_n);
+    printf("1\n");
     dtPartition->dump();
+    printf("2\n");
     dtPartition->partitionRectangle(local_m,local_n,local_mb,local_nb);
-    PRINT_IF(0)("m:%d,n:%d,mb:%d,nb:%d\n",local_m,local_n,local_mb,local_nb);
+    PRINT_IF(dbg)("m:%d,n:%d,mb:%d,nb:%d\n",local_m,local_n,local_mb,local_nb);
     
     for(int i=0;i<mb;i++){
       for(int j=0;j<nb;j++){
 	hM[i][j].block =dtPartition->getBlock(i,j);
-	PRINT_IF(0)("Block(%d,%d).Mem:%p\n",i,j,hM[i][j].block->getBaseMemory());
-	PRINT_IF(0)("Block(%d,%d).Y_E:%d,X_E:%d\n",i,j,hM[i][j].block->Y_E(),hM[i][j].block->X_E());
-	PRINT_IF(0)("Block(%d,%d).Y_EB:%d,X_EB:%d\n",i,j,hM[i][j].block->Y_EB(),hM[i][j].block->X_EB());
+	PRINT_IF(dbg)("Block(%d,%d).Mem:%p\n",i,j,hM[i][j].block->getBaseMemory());
+	PRINT_IF(dbg)("Block(%d,%d).Y_E:%d,X_E:%d\n",i,j,hM[i][j].block->Y_E(),hM[i][j].block->X_E());
+	PRINT_IF(dbg)("Block(%d,%d).Y_EB:%d,X_EB:%d\n",i,j,hM[i][j].block->Y_EB(),hM[i][j].block->X_EB());
 	sprintf( hM[i][j].name,"M[%d,%d](%d,%d)",blk.by,blk.bx,i,j);
       }
     }
     return hM;
   }
   /*--------------------------------------------------------------------------*/
-  bool isDataSent(int _host , DataVersion version){
-    list<DataListener *>::iterator it;
-    for (it = listeners.begin();it != listeners.end();it ++){
-      DataListener *lsnr = (*it);
-      if (lsnr->host == _host && lsnr->version == version){
-	PRINT_IF(0)("DLsnr data:%s for host:%d is sent?:%d\n",name.c_str(),_host , lsnr->sent);
-	version.dump();
-	return  lsnr->sent;
-      }
-    }
-    return false;
-  }
+  bool isDataSent(int _host , DataVersion version);
   /*--------------------------------------------------------------------------*/
-  void dataIsSent(int _host) {
-    list<DataListener *>::iterator it;
-
-    PRINT_IF(0)("Data:%s,DLsnr sent to host:%d,cur ver:\n",name.c_str(),_host);
-    rt_write_version.dump();
-    for (it = listeners.begin();it != listeners.end();it ++){
-      DataListener *lsnr = (*it);
-      if (lsnr->host == _host && lsnr->version == rt_write_version){
-	PRINT_IF(0)("DLsnr rt_read_version before upgrade:\n");
-	rt_read_version.dump();
-	incrementRunTimeVersion(READ,lsnr->count);
-	PRINT_IF(0)("DLsnr rt_read_version after upgrade:\n");
-	rt_read_version.dump();
-	lsnr->sent = true;
-	//listeners.erase(it);
-	return;
-      }      
-    }    
-  }
+  void dataIsSent(int _host) ;
   /*--------------------------------------------------------------------------*/
-  void listenerAdded(int host , DataVersion version ) {
-    list<DataListener *>::iterator it;
-    version.dump();
-    for (it = listeners.begin();it != listeners.end();it ++){
-      DataListener *lsnr = (*it);
-      if (lsnr->host == host && lsnr->version == version){
-	lsnr->count ++;
-	return;
-      }
-    }
-    DataListener *lsnr = new DataListener;
-    lsnr->host    = host ;
-    lsnr->version = version ;
-    lsnr->count   = 1;
-    lsnr->sent = false;
-    listeners.push_back(lsnr);
-  }
+  void listenerAdded(DataListener *,int host , DataVersion version ) ;
   /*--------------------------------------------------------------------------*/
   DataVersion getRunTimeVersion(byte type){ 
     if ( type == IData::WRITE ) 
@@ -446,32 +431,16 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   void setRunTimeVersion(string to_ctx, int to_version){
-	TRACE_LOCATION;
     rt_read_version = to_version;
-	TRACE_LOCATION;
     rt_read_version.setContext(to_ctx);
-	TRACE_LOCATION;
     rt_write_version = to_version;
-	TRACE_LOCATION;
     rt_write_version.setContext(to_ctx);
-	TRACE_LOCATION;
   }
   /*--------------------------------------------------------------------------*/
-  void deleteListenersForOldVersions(){
-    list<DataListener *>::iterator it;
-    it = listeners.begin();
-    for (;it != listeners.end();){
-      DataListener *lsnr = (*it);
-      if (lsnr->version < rt_write_version ){
-	PRINT_IF(0)("Data:%s,listeners deleted before:\n",name.c_str());
-	rt_write_version.dump();
-	listeners.erase(it);
-      }
-      else it ++;
-    }
-  }
+  void deleteListenersForOldVersions();
   /*--------------------------------------------------------------------------*/
   void incrementRunTimeVersion(byte type,int v = 1 ){
+    exported_nodes.clear();
     if ( type == IData::WRITE ) {
       rt_read_version += v;
       rt_write_version= rt_read_version;
@@ -479,7 +448,6 @@ public:
       dump('W');
     }
     else{
-    TRACE_LOCATION;
       rt_read_version +=v;
       dump('R');
     }
@@ -490,6 +458,12 @@ public:
   IData *operator () (const int i,const int j=0) {    
     return (*dataView)[i][j];  
   }
+  IData *operator [] (const int i) {    
+    return (*dataView)[i][0];  
+  }
+  IData *operator & (void) {    
+    return this;
+  }
   /*--------------------------------------------------------------------------*/
   double getElement(int row , int col =0) {
     double *m = dtPartition->getElementAt(row,col);
@@ -497,12 +471,15 @@ public:
   }
   /*--------------------------------------------------------------------------*/  
   void setElement(int row, int col ,double v) {
-    TRACE_LOCATION;
     double *elem = dtPartition->getElementAt(row,col);
     *elem=v;
   }
   /*--------------------------------------------------------------------------*/  
   void dumpElements(){
+    if ( data_memory == NULL)
+      return;
+    if (local_m> 12) return;
+    if (local_n> 12) return;
     printf("Data:%s(%d,%d),adr:%p, hdr-adr:%p\n",
 	   getName().c_str(),blk.by,blk.bx,
 	   getContentAddress(),
@@ -520,7 +497,6 @@ public:
   /*--------------------------------------------------------------------------*/
   byte *serialize(){
     int offset = 0 ;
-    TRACE_LOCATION;
     byte * buffer =getHeaderAddress(); 
     serialize(buffer,offset,getHeaderSize() );
     return buffer;
@@ -542,7 +518,13 @@ public:
     rt_write_version.deserialize(buffer,offset,max_length);
 
     if ( !header_only ) {
-      setDataMemory( mi ) ;
+      if (mi != data_memory){
+	printf("!!!!!!!!!!!!\n");
+	hM = NULL;
+	//createSuperGLueHandles();
+      }
+      if ( mi != NULL)
+	setDataMemory( mi ) ;
       dtPartition->setBaseMemory( getContentAddress(), getContentSize()) ; 
     }
   }
@@ -550,6 +532,8 @@ public:
   int getContentSize(){
     return content_size;
   }
+  /*--------------------------------------------------------------------------*/
+  void setContentSize(long s){content_size =s;}
   /*--------------------------------------------------------------------------*/
   int getHeaderSize(){
     return my_data_handle->getPackSize() + 
@@ -566,20 +550,35 @@ public:
   /*--------------------------------------------------------------------------*/
   void incrementVersion ( AccessType a);
   /*--------------------------------------------------------------------------*/
-  void dump(char c=' '){
-    if ( c == 'N') 
-      printf("#data%c: %11.11s \n",c,getName().c_str());
-    if (!DUMP_FLAG)
-      return;
-    if ( c == ' ' ) 
-      return;
-    dumpVersion();
-    dumpElements();
-    //dtPartition->dumpBlocks();
+  void dump(char ch=' '){
+    if ( ch != 'z') return;
+    double *contents=getContentAddress();
+    int r,c;
+    r=c=3;
+    for ( int k=0;k<local_mb;k++){
+      for (int ii=0;ii<r;ii++){
+	for(int l=0;l<local_nb;l++){
+	  for (int jj=0;jj<c;jj++){
+	    printf(" %3.0lf ",contents[k*r*c+l*local_mb*r*c+ii+jj*r]);
+	  }
+	}
+	printf("\n");
+      }
+    }
+    
+  }
+  /*--------------------------------------------------------------------------*/
+  string  dumpVersionString(){
+    string s;
+    s = gt_read_version.dumpString() + " " + 
+	   gt_write_version.dumpString()+ " " + 
+	   rt_read_version.dumpString()+ " " + 
+      rt_write_version.dumpString()+ " " ;
+    return s;
   }
   /*--------------------------------------------------------------------------*/
   void dumpVersion(){
-    if (!DUMP_FLAG)
+    if (0 && !DUMP_FLAG)
       return;
     printf("\t\t%s\t\t%s\t\t%s\t\t%s\n",
 	   gt_read_version.dumpString().c_str(),
@@ -600,53 +599,7 @@ public:
     dump();
   }
   /*--------------------------------------------------------------------------*/
-  void setPartition(int _mb, int _nb){
-    
-    Nb = _nb;
-    Mb = _mb;
-    dataView=new vector<vector<IData*> >  (Mb, vector<IData*>(Nb)  );
-    char s[100];
-    for ( int i=0;i<Mb;i++)
-      for ( int j=0;j<Nb;j++){
-	sprintf(s,"%s_%2.2d_%2.2d",  name.c_str() , i ,j);
-	if ( Nb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , i );
-	if ( Mb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , j );
-	(*dataView)[i][j] = new IData (static_cast<string>(s),M/Mb,N/Nb,parent_context);
-	IData *newPart = (*dataView)[i][j];
-	newPart->blk.bx = j;
-	newPart->blk.by = i;
-	newPart->parent_data = this ;
-	newPart->hpData = hpData ;
-	TRACE_LOCATION;
-	newPart->Nb = 0 ;
-	newPart->Mb = 0 ;
-	newPart->N  = N ;
-	newPart->M  = M ;
-	newPart->local_nb  = local_nb ;
-	newPart->local_mb  = local_mb ;
-	newPart->local_n = N / Nb   ;
-	newPart->local_m = M / Mb   ;
-
-	TRACE_LOCATION;
-	newPart->allocateMemory();
-	newPart->dtPartition=new Partition<double>(2);
-	Partition<double> *p = newPart->dtPartition;
-	TRACE_LOCATION;
-	p->setBaseMemory(newPart->getContentAddress() ,  newPart->getContentSize());
-	TRACE_LOCATION;
-	p->partitionRectangle(newPart->local_m,newPart->local_n,
-			      local_mb,local_nb);	
-	TRACE_LOCATION;
-	if ( newPart->getHost() != me ) {
-	  TRACE_LOCATION;
-	  newPart->setRunTimeVersion("-1",-1);
-	  newPart->resetVersion();
-	}
-	TRACE_LOCATION;
-
-      }
-    TRACE_LOCATION;
-  }
+  void setPartition(int _mb, int _nb);
   /*--------------------------------------------------------------------------*/
   void resetVersion(){
     gt_read_version = gt_write_version = 0 ;
@@ -707,6 +660,33 @@ public:
     dr->col_to   = Nb-1;
     return dr;
   }
+  list<IListener *>          &getListeners(){return listeners;}
+  list<IDuctteipTask *>      &getTasks(){return tasks_list;}
+  /*--------------------------------------------------------------------------*/
+  void dumpCheckSum(char c='i'){
+    if (!data_memory)return;
+    double *contents=getContentAddress();
+    long size = (getContentSize())/sizeof(double);
+    double sum = 0.0;
+    for ( long i=0; i< size; i++)
+      sum += contents[i];
+    printf("@CheckSum %c , %s,%lf adr:%p len:%ld CMjr:\n",c,getName().c_str(),sum,contents,size);
+    dumpVersion();
+  }
+  /*--------------------------------------------------------------------------*/
+  bool isExportedTo(int p ) {
+    list<int>::iterator it;
+    it = find(exported_nodes.begin(),exported_nodes.end(),p);
+    bool t=  it != exported_nodes.end();
+    //printf("Data %s is already sent to %d(y/n)? %c\n",getName().c_str(),p,t?'y':'n');
+    return t;
+
+  }
+  /*--------------------------------------------------------------------------*/
+  void setExportedTo(int p){
+    exported_nodes.push_back(p);
+  }
+
 };
 /*========================== IData Class =====================================*/
 
@@ -716,5 +696,6 @@ class Data: public IData
 public:
   Data(string  _name,int n, int m,IContext *ctx):  IData(_name,n,m,ctx){}
 };
+
 
 #endif //__DATA_HPP__

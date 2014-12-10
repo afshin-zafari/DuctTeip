@@ -18,13 +18,17 @@ public:
     q = _q ;
     G = _g;
   }
+  /*-----------------------------------------------*/
   int getProcessor(int dy,int dx ) {
     int py = dy % p ;
     int px = dx % q ;
     return (py * q + px) ;
   }
+  /*-----------------------------------------------*/
   int getProcessorCount(){return P;}
+  /*-----------------------------------------------*/
   int getGroupCount() {return G;}
+  /*-----------------------------------------------*/
   bool isInList(int _p, list<int> *plist){
     list<int>::iterator it ;
     for ( it = plist->begin(); it != plist->end(); it ++ )
@@ -32,6 +36,7 @@ public:
 	return true;
     return false;
   }
+  /*-----------------------------------------------*/
   list<int> *col(int c ) {
     list<int> *plist= new list<int>;
     for (int i=0;i<p;i++){
@@ -39,6 +44,7 @@ public:
     }
     return plist;
   }
+  /*-----------------------------------------------*/
   list<int> *row(int r ) {
     list<int> *plist= new list<int>;
     for (int i=0;i<q;i++){
@@ -46,10 +52,12 @@ public:
     }
     return plist;
   }
+  /*-----------------------------------------------*/
   bool isInRow(int x , int r ) {
     int rp = (r%p);
     return (  (rp*q <= x) && (x < (rp+1)*q) ) ;
   }
+  /*-----------------------------------------------*/
   bool isInCol(int x , int c ) {
     int cq = c%q;
     return ( cq == (x % q) ) ;

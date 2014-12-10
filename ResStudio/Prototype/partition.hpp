@@ -2,8 +2,7 @@
 #define __PARTITION_HPP__
 #include "sg/superglue.hpp"
 #include "sg/core/contrib.hpp"
-#include "sg/option/instr_trace.hpp"
-class IData;
+#include "sg/option/instr_trace.hpp"class IData;
 
 /*===================== DataBlock =======================================================*/
 
@@ -22,16 +21,23 @@ private:
   int               dim_count,mem_size;
   MemoryAlignment   block_alignment, element_alignment;
 public:
-  Partition ( int dim_cnt=2 ,MemoryAlignment algn=ROW_MAJOR){
+  Partition ( int dim_cnt=2 ,MemoryAlignment algn=COL_MAJOR){
     dimensions = new Dimension  [dim_cnt];
+    //printf ("partition ctor,dim:%p\n",dimensions);
+    //TRACE_ALLOCATION(dim_cnt * sizeof(Dimension));
     dim_count = dim_cnt;
     element_alignment = algn;
-    block_alignment=ROW_MAJOR;
+    block_alignment=algn;
   }
   /*--------------------------------------------------------------------------*/
   ~Partition () {
-    //printf ("partition dtor\n");
-    delete[] dimensions;
+    if (dimensions != NULL) {
+      printf ("partition dtor,dim:%p\n",dimensions);
+      delete[] dimensions;
+      printf ("partition dtor\n");
+      dimensions = NULL;
+    }
+    printf ("end partition dtor\n");
   }
   /*--------------------------------------------------------------------------*/
   inline int &X_E () {return  dimensions[X_AXIS].elements.count ;}    // Number of elements in X dimension
@@ -88,6 +94,7 @@ public:
   Partition *getBlock ( int y, int x ) ;
   /*--------------------------------------------------------------------------*/
   ElementType  *getElementAt(int y , int x ) {
+    if(0)printf("Element At %d,%d\n",x,y);
     ElementType *elem = getAddressOfElement(y,x);
     return elem;
   }
@@ -106,20 +113,31 @@ public:
   } 
   /*--------------------------------------------------------------------------*/
   ElementType * getAddressOfElement(int y , int x ) {
+    if(0)printf("x,y :%d,%d _E %d,%d _EB %d,%d\n",x,y,X_E(),Y_E(), X_EB(),Y_EB());
     if ( x > X_E() ) 
       return NULL;
     if ( y > Y_E() ) 
       return NULL;
-    Partition *P = getBlock(y/Y_EB() , x/X_EB() ) ;
-    ElementType *elem = P->getElement( y % Y_EB() , x % X_EB()  ) ;
-    delete P;
-    return elem;
+//    Partition *P = getBlock(y/Y_EB() , x/X_EB() ) ;
+    int by = y / Y_EB();
+    int bx = x / X_EB();
+    int offset ;
+    ElementType *elemp;
+    if ( element_alignment == ROW_MAJOR ) {
+      offset= (by * X_B() + bx )  * X_EB() * Y_EB();
+      elemp = memory + offset + (y%Y_EB() ) * X_EB() + (x % X_EB()) ; 
+    }
+    else{
+      offset= (bx * Y_B() + by )  * X_EB() * Y_EB();
+      elemp = memory + offset + (x%X_EB() ) * Y_EB() + (y % Y_EB()) ; 
+    }
+    return elemp;
   }
   /*--------------------------------------------------------------------------*/
   void partitionSquare( int n_elem, int n_blocks) {
-    setElementsInfoX(n_elem);
-    setElementsInfoY(n_elem,n_elem);
     if ( element_alignment == ROW_MAJOR ) {
+      setElementsInfoX(n_elem);
+      setElementsInfoY(n_elem,n_elem);
       setBlocksInfoX(n_blocks,n_elem/n_blocks);
       setBlocksInfoY(n_blocks,n_elem * n_elem/n_blocks);
     }
@@ -130,13 +148,17 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   void partitionRectangle( int yn_elem, int xn_elem,int yn_blocks,int xn_blocks) {
-    setElementsInfoX(xn_elem);
-    setElementsInfoY(yn_elem,-1);
     if ( element_alignment == ROW_MAJOR ) {
+      setElementsInfoX(xn_elem);
+      setElementsInfoY(yn_elem,-1);
       setBlocksInfoX(xn_blocks,-1);
       setBlocksInfoY(yn_blocks,-1);
     }
-    else {//todo 
+    else {
+      setElementsInfoX(xn_elem,yn_elem);
+      setElementsInfoY(yn_elem,1);
+      setBlocksInfoX(xn_blocks,1);
+      setBlocksInfoY(yn_blocks,1);
     }
     X_EB() = X_E() / X_B();
     Y_EB() = Y_E() / Y_B();
@@ -204,9 +226,10 @@ struct MyHandle : public HandleBase<Options> {
 };
 
 struct Options : public DefaultOptions<Options> {
-    typedef MyHandle<Options> HandleType;
-    typedef Enable Logging;
-    typedef Trace<Options> TaskExecutorInstrumentation;
+  typedef MyHandle<Options> HandleType;
+  typedef Enable Logging;
+  typedef Trace<Options> TaskExecutorInstrumentation;
+  typedef Enable TaskName;
 };
 /*===================== SuperGlue Handle ================================================*/
 

@@ -1,0 +1,62 @@
+#! /bin/bash
+
+outfile=./temp/test_task_gen.out
+# params:   p q N Nb nb
+ipn=2
+P=2
+p=2;q=1
+nt=1
+DLB=1
+#params[1]="$p $q 48 8 2 $nt $DLB 10"
+params[1]="$p $q 1200 10 5 $nt $DLB 10"
+
+if test $1 -ne 0
+then 
+    rm ./temp/a.txt
+    rm -R ./temp/out*/* 
+    rmdir ./temp/out*
+fi
+if test $2 -ne 0
+then 
+    rm ./temp/test_task* 
+    make TINTININTELMPI=1 POST_RECV=1 task_gen 
+
+fi
+if test $3 -ne 0
+then 
+    rm b.txt
+    for j in $(seq 1 10)
+    do
+	for i in 1
+	do	#--report-bindings --bysocket  --bind-to-socket -npernode $ipn
+	    time mpirun -n $P -npernode $ipn --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
+	    echo "$i$j-DLB-$DLB">>./temp/a.txt
+	    
+	    grep "error" ${outfile}* >>./temp/a.txt
+	    grep -i  "ProgramExec" ${outfile}*
+	    tmpdir="./temp/out$i$j-DLB-$DLB"
+	    mkdir -p $tmpdir
+	    mv ${outfile}* $tmpdir
+	    mv *log_file*.txt $tmpdir
+	    for node in $(seq 0 $[$P-1]) 
+	    do
+		if test  $node -lt 10 ;then  nodenum="0${node}" ;fi
+		if test  $node -ge 10 ;then  nodenum="${node}"  ;fi
+		mkdir -p $tmpdir/node-${nodenum}
+		grep "@stats" $tmpdir/test_task_gen.out*.$node  >>  $tmpdir/statistics.txt
+		
+		mv $tmpdir/dt_*_file-${nodenum}.txt  $tmpdir/node-${nodenum}/
+		mv $tmpdir/sg_log_file-${nodenum}.txt  $tmpdir/node-${nodenum}/
+		grep -c "timedout" $tmpdir/test_task_gen.out*.$node   
+	    done 
+	    cat  ./temp/a.txt
+	    grep -in "@Checksum [ix]" $tmpdir/test_task_gen.out* | sort -k 4 > cs.txt
+	    grep -in "@Checksum [ix]" $tmpdir/test_task_gen.out* | sort -k 5 > cs5.txt
+	    grep -in "@DataMemory" $tmpdir/test_task_gen.out* > cm.txt
+	    wc cs.txt>> b.txt
+	    grep -c "# key" $tmpdir/test_task_gen.out*>>b.txt
+	    grep -c "!!!" $tmpdir/test_task_gen.out*>>b.txt
+	done
+    done 
+fi
+cat b.txt

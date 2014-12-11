@@ -1,0 +1,163 @@
+\hypertarget{class_task_add_policy}{
+\section{TaskAddPolicy Class Reference}
+\label{class_task_add_policy}\index{TaskAddPolicy@{TaskAddPolicy}}
+}
+
+
+{\ttfamily \#include $<$hostpolicy.hpp$>$}Inheritance diagram for TaskAddPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{class_task_add_policy__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for TaskAddPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{class_task_add_policy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283e}{tapType} \{ \hyperlink{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283ea0a442bc9b7d6e86b1e0d42ea2b5b2c4f}{WRITE\_\-DATA\_\-OWNER} = 1, 
+\hyperlink{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283eac49d7d0717a05341dbd7aff1a5157718}{NOT\_\-OWNER\_\-CYCLIC}, 
+\hyperlink{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283ea7e73cbb6ef4a7caa7d911cbaefc1f58c}{ROOT\_\-ONLY}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_task_add_policy_ac1a8ac8ea73840de78c4f82df7b58895}{TaskAddPolicy} (\hyperlink{class_process_grid}{ProcessGrid} $\ast$pg)
+\item 
+\hyperlink{class_task_add_policy_a89b4e830d38115ef42d915c898d58268}{TaskAddPolicy} (\hyperlink{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283e}{tapType} tap, \hyperlink{class_process_grid}{ProcessGrid} \&pg)
+\item 
+int \hyperlink{class_task_add_policy_af4a2055c79d1605f4099bdec7f4429f2}{getHost} (list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ in\_\-data, list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ out\_\-data)
+\item 
+bool \hyperlink{class_task_add_policy_a80261d7262611c29d2b483e4e73cc204}{isAllowed} (\hyperlink{class_i_context}{IContext} $\ast$c, \hyperlink{class_context_header}{ContextHeader} $\ast$hdr)
+\item 
+bool \hyperlink{class_task_add_policy_a16f3ac4d4bf719e3020a4495d7498c3e}{isAllowed} (\hyperlink{class_context_host_policy}{ContextHostPolicy} $\ast$, int)
+\item 
+void \hyperlink{class_task_add_policy_a5ce62af8541c3e3001d5b373799c1228}{reset} ()
+\item 
+void \hyperlink{class_task_add_policy_a6fa0ab3a3c239febfe7de3da0117f96f}{setPolicy} (\hyperlink{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283e}{tapType} t)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 125 of file hostpolicy.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283e}{
+\index{TaskAddPolicy@{TaskAddPolicy}!tapType@{tapType}}
+\index{tapType@{tapType}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{tapType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf TaskAddPolicy::tapType}}}
+\label{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283e}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{WRITE\_\-DATA\_\-OWNER@{WRITE\_\-DATA\_\-OWNER}!TaskAddPolicy@{TaskAddPolicy}}\index{TaskAddPolicy@{TaskAddPolicy}!WRITE\_\-DATA\_\-OWNER@{WRITE\_\-DATA\_\-OWNER}}\item[{\em 
+\hypertarget{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283ea0a442bc9b7d6e86b1e0d42ea2b5b2c4f}{
+WRITE\_\-DATA\_\-OWNER}
+\label{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283ea0a442bc9b7d6e86b1e0d42ea2b5b2c4f}
+}]\index{NOT\_\-OWNER\_\-CYCLIC@{NOT\_\-OWNER\_\-CYCLIC}!TaskAddPolicy@{TaskAddPolicy}}\index{TaskAddPolicy@{TaskAddPolicy}!NOT\_\-OWNER\_\-CYCLIC@{NOT\_\-OWNER\_\-CYCLIC}}\item[{\em 
+\hypertarget{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283eac49d7d0717a05341dbd7aff1a5157718}{
+NOT\_\-OWNER\_\-CYCLIC}
+\label{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283eac49d7d0717a05341dbd7aff1a5157718}
+}]\index{ROOT\_\-ONLY@{ROOT\_\-ONLY}!TaskAddPolicy@{TaskAddPolicy}}\index{TaskAddPolicy@{TaskAddPolicy}!ROOT\_\-ONLY@{ROOT\_\-ONLY}}\item[{\em 
+\hypertarget{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283ea7e73cbb6ef4a7caa7d911cbaefc1f58c}{
+ROOT\_\-ONLY}
+\label{class_task_add_policy_afd8e033ef8b047a0df5c558cae84283ea7e73cbb6ef4a7caa7d911cbaefc1f58c}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 128 of file hostpolicy.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_task_add_policy_ac1a8ac8ea73840de78c4f82df7b58895}{
+\index{TaskAddPolicy@{TaskAddPolicy}!TaskAddPolicy@{TaskAddPolicy}}
+\index{TaskAddPolicy@{TaskAddPolicy}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{TaskAddPolicy}]{\setlength{\rightskip}{0pt plus 5cm}TaskAddPolicy::TaskAddPolicy ({\bf ProcessGrid} $\ast$ {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_add_policy_ac1a8ac8ea73840de78c4f82df7b58895}
+
+
+Definition at line 137 of file hostpolicy.hpp.\hypertarget{class_task_add_policy_a89b4e830d38115ef42d915c898d58268}{
+\index{TaskAddPolicy@{TaskAddPolicy}!TaskAddPolicy@{TaskAddPolicy}}
+\index{TaskAddPolicy@{TaskAddPolicy}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{TaskAddPolicy}]{\setlength{\rightskip}{0pt plus 5cm}TaskAddPolicy::TaskAddPolicy ({\bf tapType} {\em tap}, \/  {\bf ProcessGrid} \& {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_add_policy_a89b4e830d38115ef42d915c898d58268}
+
+
+Definition at line 138 of file hostpolicy.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_task_add_policy_af4a2055c79d1605f4099bdec7f4429f2}{
+\index{TaskAddPolicy@{TaskAddPolicy}!getHost@{getHost}}
+\index{getHost@{getHost}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int TaskAddPolicy::getHost (list$<$ {\bf IData} $\ast$ $>$ {\em in\_\-data}, \/  list$<$ {\bf IData} $\ast$ $>$ {\em out\_\-data})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_add_policy_af4a2055c79d1605f4099bdec7f4429f2}
+
+
+Definition at line 139 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_task_add_policy_af4a2055c79d1605f4099bdec7f4429f2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_task_add_policy_a16f3ac4d4bf719e3020a4495d7498c3e}{
+\index{TaskAddPolicy@{TaskAddPolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}bool TaskAddPolicy::isAllowed ({\bf ContextHostPolicy} $\ast$, \/  int)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_task_add_policy_a16f3ac4d4bf719e3020a4495d7498c3e}
+
+
+Reimplemented from \hyperlink{class_i_host_policy_ad7665cb96e008e8f189201662ae32736}{IHostPolicy}.
+
+Definition at line 141 of file hostpolicy.hpp.\hypertarget{class_task_add_policy_a80261d7262611c29d2b483e4e73cc204}{
+\index{TaskAddPolicy@{TaskAddPolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}bool TaskAddPolicy::isAllowed ({\bf IContext} $\ast$ {\em c}, \/  {\bf ContextHeader} $\ast$ {\em hdr})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_task_add_policy_a80261d7262611c29d2b483e4e73cc204}
+
+
+Reimplemented from \hyperlink{class_i_host_policy_a5200e3143a640e492438361a3fd2626a}{IHostPolicy}.
+
+Definition at line 540 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{class_task_add_policy_a80261d7262611c29d2b483e4e73cc204_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_task_add_policy_a5ce62af8541c3e3001d5b373799c1228}{
+\index{TaskAddPolicy@{TaskAddPolicy}!reset@{reset}}
+\index{reset@{reset}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}void TaskAddPolicy::reset ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_task_add_policy_a5ce62af8541c3e3001d5b373799c1228}
+
+
+Reimplemented from \hyperlink{class_i_host_policy_a76602bc70073ed8eb476d9ddacdef74f}{IHostPolicy}.
+
+Definition at line 142 of file hostpolicy.hpp.\hypertarget{class_task_add_policy_a6fa0ab3a3c239febfe7de3da0117f96f}{
+\index{TaskAddPolicy@{TaskAddPolicy}!setPolicy@{setPolicy}}
+\index{setPolicy@{setPolicy}!TaskAddPolicy@{TaskAddPolicy}}
+\subsubsection[{setPolicy}]{\setlength{\rightskip}{0pt plus 5cm}void TaskAddPolicy::setPolicy ({\bf tapType} {\em t})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_add_policy_a6fa0ab3a3c239febfe7de3da0117f96f}
+
+
+Definition at line 143 of file hostpolicy.hpp.
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{hostpolicy_8hpp}{hostpolicy.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

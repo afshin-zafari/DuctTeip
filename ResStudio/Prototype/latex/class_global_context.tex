@@ -1,0 +1,1084 @@
+\hypertarget{class_global_context}{
+\section{GlobalContext Class Reference}
+\label{class_global_context}\index{GlobalContext@{GlobalContext}}
+}
+
+
+{\ttfamily \#include $<$glb\_\-context.hpp$>$}Collaboration diagram for GlobalContext:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_global_context__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115}{Counters} \{ \par
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a8adb31c6379a35150b91f4ae59856c1f}{EnterContexts}, 
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a2a5f350feb0055da91f336f9e3288265}{SkipContexts}, 
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115ac0b6cd9e034ec35458daaf8f4da48df5}{TaskRead}, 
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a719398be38753a184b812bc1c838ca40}{VersionTrack}, 
+\par
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115ac294a94038a694976dcbb30935c60eb4}{TaskInsert}, 
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115aecf7475ee9015f85457fe79ef93a529e}{TaskPropagate}, 
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a2c3dcb9ea4474850f80d4b7c1fc43c6c}{PropagateSize}, 
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a789ede6860d3b26069381fde6d666b29}{CompCost}, 
+\par
+\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115af77be05d33c6713da530fb0f587bd01e}{CommCost}
+ \}
+\item 
+enum \hyperlink{class_global_context_af0e20c1e0fe7ae54a0770104388711ad}{DataType} \{ \hyperlink{class_global_context_af0e20c1e0fe7ae54a0770104388711adab853d0e0fa3a7be4b278689e37a5a9b2}{InputData}, 
+\hyperlink{class_global_context_af0e20c1e0fe7ae54a0770104388711adae537fcf2b5764dcdd403687e2c8b8d2d}{OutputData}, 
+\hyperlink{class_global_context_af0e20c1e0fe7ae54a0770104388711adab77270bedb7ef8e06460664950d4d414}{InOutData}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_global_context_aa52ca8a774611923c64fd9b2cc1a58a2}{GlobalContext} ()
+\item 
+\hyperlink{class_global_context_a91e18c107ec197cdafef0c13c2ac9f01}{$\sim$GlobalContext} ()
+\item 
+void \hyperlink{class_global_context_a7bf92109c22a9c883b6ca92143098019}{setConfiguration} (\hyperlink{class_config}{Config} $\ast$\_\-cfg)
+\item 
+void \hyperlink{class_global_context_acc1cb373d80601e3a43f28db871aac10}{dumpStatistics} (\hyperlink{class_config}{Config} $\ast$cfg)
+\item 
+void \hyperlink{class_global_context_a679f0c93603ce63c3690e578372f23b5}{updateVersions} (\hyperlink{class_i_context}{IContext} $\ast$ctx, \hyperlink{class_context_header}{ContextHeader} $\ast$)
+\item 
+void \hyperlink{class_global_context_a67e7eba1f3ea2ff2cc9d321a64f8d2b4}{endContext} ()
+\item 
+void \hyperlink{class_global_context_a9d7b59f27bc2226614fe2a65f6c3d5d1}{beginContext} ()
+\item 
+void \hyperlink{class_global_context_a4e609aa8aeab13c2529b7a3f3d204ec5}{setID} (int id)
+\item 
+void \hyperlink{class_global_context_a9348325efe41d1edae48c4313d07dc1a}{incrementCounter} (\hyperlink{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115}{Counters} c, int v=1)
+\item 
+void \hyperlink{class_global_context_a7d41742f16955cf6a007a95797fa52ac}{setTaskCount} (int t)
+\item 
+int \hyperlink{class_global_context_aed100f956efac564393ecdc088f1ef54}{getID} ()
+\item 
+int \hyperlink{class_global_context_a1142264190522f36cd19e2f3cd3d5d51}{getDepth} ()
+\item 
+int $\ast$ \hyperlink{class_global_context_a6bf21d326b4dec65505b1296170498ed}{getCounters} ()
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_global_context_a8770ae3435a92b44cdc1286e1668c9c8}{getDataHostPolicy} ()
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_global_context_ade353fcc225ba76065ff6fca6924e944}{getTaskHostPolicy} ()
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_global_context_ab7afe64dbb26b367d9d49f098de7f158}{getTaskReadHostPolicy} ()
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_global_context_aac8e417def6e6fc45699a87bf412f745}{getTaskAddHostPolicy} ()
+\item 
+\hyperlink{class_context_header}{ContextHeader} $\ast$ \hyperlink{class_global_context_acede5d21ec0546c5a97ee5752960183a}{getHeader} ()
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_global_context_a70524a314df10d540b267f34d297ec49}{getTaskPropagatePolicy} ()
+\item 
+int \hyperlink{class_global_context_a62d3dff5570b1e9b14f2b5d7101e9110}{getPropagateCount} ()
+\item 
+\hyperlink{class_context_host_policy}{ContextHostPolicy} $\ast$ \hyperlink{class_global_context_adee851ed3b5bc641f500fca07ba72498}{getContextHostPolicy} ()
+\item 
+bool \hyperlink{class_global_context_ac14dc301fa7de1207472da6f515a2f1f}{canAllEnter} ()
+\item 
+\hyperlink{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{ContextHandle} $\ast$ \hyperlink{class_global_context_a933e43be2a62ca16e4ffa34ce5cadb5c}{createContextHandle} ()
+\item 
+\hyperlink{struct_data_handle}{DataHandle} $\ast$ \hyperlink{class_global_context_aa3979e9a5f856d90384ebafb5ca9bf04}{createDataHandle} ()
+\item 
+\hyperlink{class_i_context}{IContext} $\ast$ \hyperlink{class_global_context_abed42c65852eb40358a222c34108c65a}{getContextByHandle} (\hyperlink{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{ContextHandle} ch)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_global_context_a82ec626cc456bb864bf2376e2bda621f}{getDataByHandle} (\hyperlink{struct_data_handle}{DataHandle} $\ast$d)
+\item 
+void \hyperlink{class_global_context_a8f6d2fae9cd8687798b175ad75ba7974}{doPropagation} (bool f)
+\item 
+void \hyperlink{class_global_context_ab518683a44cc92eb1c1a38a77f29f82d}{addContext} (\hyperlink{class_i_context}{IContext} $\ast$c)
+\item 
+void \hyperlink{class_global_context_a84061079f4d2d2fcdaeb3b201dd56cea}{getLocalNumBlocks} (int $\ast$mb, int $\ast$nb)
+\item 
+int \hyperlink{class_global_context_acec7514378c7877e7ba92d23538ae05e}{getNumThreads} ()
+\item 
+void \hyperlink{class_global_context_a764ed43467db5334719f4bfdddc4dc6b}{setPolicies} (\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$dhp, \hyperlink{class_i_host_policy}{IHostPolicy} $\ast$thp, \hyperlink{class_context_host_policy}{ContextHostPolicy} $\ast$chp, \hyperlink{class_i_host_policy}{IHostPolicy} $\ast$trp, \hyperlink{class_i_host_policy}{IHostPolicy} $\ast$tap, \hyperlink{class_i_host_policy}{IHostPolicy} $\ast$tpp)
+\item 
+void \hyperlink{class_global_context_a35b48731e0ef7a63c7017b57fd6c95b1}{resetCounters} ()
+\item 
+\hyperlink{struct_data_range}{DataRange} $\ast$ \hyperlink{class_global_context_a9cf2bd9142e7592455d0542ee457f6ff}{getIndependentData} (\hyperlink{class_i_context}{IContext} $\ast$ctx, int data\_\-type)
+\item 
+void \hyperlink{class_global_context_ac3f59832451f3d6b377a33ad01ea5cf5}{initPropagateTasks} ()
+\item 
+int \hyperlink{class_global_context_a6a4ed0adbb91872d956babaf32e3466c}{dumpPropagations} (list$<$ \hyperlink{struct_propagate_info}{PropagateInfo} $\ast$ $>$ prop\_\-info)
+\item 
+void \hyperlink{class_global_context_a0f3857165a2d4571d6ae82b86c6becbe}{createPropagateTasks} (list$<$ \hyperlink{struct_data_range}{DataRange} $\ast$ $>$ dr)
+\item 
+void \hyperlink{class_global_context_a24052ad1a783fc8860d47f6da220c321}{createPropagateTasksFromRange} (\hyperlink{struct_data_range}{DataRange} $\ast$data\_\-range)
+\item 
+void \hyperlink{class_global_context_ad56737fc110208d85069ac902b4cb97b}{createPropagateTasks} ()
+\item 
+void \hyperlink{class_global_context_a55ae2af04ecff458dece28649354a04f}{resetVersiosOfDataRange} (\hyperlink{struct_data_range}{DataRange} $\ast$data\_\-range)
+\item 
+void \hyperlink{class_global_context_acc65a1acfefed680d1d05345d1bf9ab8}{resetVersiosOfDataRangeList} (list$<$ \hyperlink{struct_data_range}{DataRange} $\ast$ $>$ dr)
+\item 
+void \hyperlink{class_global_context_aa903129142d1e7420aa521b89e77789b}{resetVersiosOfHeaderData} ()
+\item 
+void \hyperlink{class_global_context_a45180bd1ced20471a3489200c235ed37}{testPropagatePacking} ()
+\item 
+void \hyperlink{class_global_context_a2f62ad628b6c5d48c2cda3ea05e08860}{unpackPropagateTask} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length)
+\item 
+void \hyperlink{class_global_context_ab6ed24acc55b88a93b7498acbccf6141}{packPropagateTask} (list$<$ \hyperlink{struct_propagate_info}{PropagateInfo} $\ast$ $>$ prop\_\-info, int dest\_\-host)
+\item 
+void \hyperlink{class_global_context_ab7a7663698431c03044fb91223a8b0df}{sendPropagateTasks} ()
+\item 
+void \hyperlink{class_global_context_acdb15ae187d6c84b42851ddb94191eec}{downLevel} ()
+\item 
+void \hyperlink{class_global_context_a2afcc7411f13bee3be175887de0d5365}{upLevel} ()
+\item 
+int \hyperlink{class_global_context_a6e83bae803b2a595b2679b6b34bd572f}{getLevelID} (int level)
+\item 
+string \hyperlink{class_global_context_a3f1200ddc2119935fac3b8b4ef5143d1}{getLevelString} ()
+\item 
+void \hyperlink{class_global_context_a016ede40f469516e58cdc0a720d77bd7}{dumpLevels} (char c=' ')
+\item 
+bool \hyperlink{class_global_context_aab60de99c252ba5fe7e2d1fdbfa0ba6c}{isAnyOwnedBy} (\hyperlink{class_context_header}{ContextHeader} $\ast$hdr, int \hyperlink{mpi__comm_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me})
+\item 
+bool \hyperlink{class_global_context_a33b1aec3eb90bf8bfca3307d47058606}{isAnyOwnedBy} (list$<$ \hyperlink{struct_data_range}{DataRange} $\ast$ $>$ dr, int \hyperlink{mpi__comm_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me})
+\item 
+void \hyperlink{class_global_context_aeb21e846898eaf2a7ec28ded66cf4d17}{testHandles} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 121 of file glb\_\-context.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115}{
+\index{GlobalContext@{GlobalContext}!Counters@{Counters}}
+\index{Counters@{Counters}!GlobalContext@{GlobalContext}}
+\subsubsection[{Counters}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf GlobalContext::Counters}}}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{EnterContexts@{EnterContexts}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!EnterContexts@{EnterContexts}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a8adb31c6379a35150b91f4ae59856c1f}{
+EnterContexts}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a8adb31c6379a35150b91f4ae59856c1f}
+}]\index{SkipContexts@{SkipContexts}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!SkipContexts@{SkipContexts}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a2a5f350feb0055da91f336f9e3288265}{
+SkipContexts}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a2a5f350feb0055da91f336f9e3288265}
+}]\index{TaskRead@{TaskRead}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!TaskRead@{TaskRead}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115ac0b6cd9e034ec35458daaf8f4da48df5}{
+TaskRead}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115ac0b6cd9e034ec35458daaf8f4da48df5}
+}]\index{VersionTrack@{VersionTrack}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!VersionTrack@{VersionTrack}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a719398be38753a184b812bc1c838ca40}{
+VersionTrack}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a719398be38753a184b812bc1c838ca40}
+}]\index{TaskInsert@{TaskInsert}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!TaskInsert@{TaskInsert}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115ac294a94038a694976dcbb30935c60eb4}{
+TaskInsert}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115ac294a94038a694976dcbb30935c60eb4}
+}]\index{TaskPropagate@{TaskPropagate}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!TaskPropagate@{TaskPropagate}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115aecf7475ee9015f85457fe79ef93a529e}{
+TaskPropagate}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115aecf7475ee9015f85457fe79ef93a529e}
+}]\index{PropagateSize@{PropagateSize}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!PropagateSize@{PropagateSize}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a2c3dcb9ea4474850f80d4b7c1fc43c6c}{
+PropagateSize}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a2c3dcb9ea4474850f80d4b7c1fc43c6c}
+}]\index{CompCost@{CompCost}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!CompCost@{CompCost}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a789ede6860d3b26069381fde6d666b29}{
+CompCost}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115a789ede6860d3b26069381fde6d666b29}
+}]\index{CommCost@{CommCost}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!CommCost@{CommCost}}\item[{\em 
+\hypertarget{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115af77be05d33c6713da530fb0f587bd01e}{
+CommCost}
+\label{class_global_context_a5b47a178f9158cfca3d760cbe1a0a115af77be05d33c6713da530fb0f587bd01e}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 158 of file glb\_\-context.hpp.\hypertarget{class_global_context_af0e20c1e0fe7ae54a0770104388711ad}{
+\index{GlobalContext@{GlobalContext}!DataType@{DataType}}
+\index{DataType@{DataType}!GlobalContext@{GlobalContext}}
+\subsubsection[{DataType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf GlobalContext::DataType}}}
+\label{class_global_context_af0e20c1e0fe7ae54a0770104388711ad}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{InputData@{InputData}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!InputData@{InputData}}\item[{\em 
+\hypertarget{class_global_context_af0e20c1e0fe7ae54a0770104388711adab853d0e0fa3a7be4b278689e37a5a9b2}{
+InputData}
+\label{class_global_context_af0e20c1e0fe7ae54a0770104388711adab853d0e0fa3a7be4b278689e37a5a9b2}
+}]\index{OutputData@{OutputData}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!OutputData@{OutputData}}\item[{\em 
+\hypertarget{class_global_context_af0e20c1e0fe7ae54a0770104388711adae537fcf2b5764dcdd403687e2c8b8d2d}{
+OutputData}
+\label{class_global_context_af0e20c1e0fe7ae54a0770104388711adae537fcf2b5764dcdd403687e2c8b8d2d}
+}]\index{InOutData@{InOutData}!GlobalContext@{GlobalContext}}\index{GlobalContext@{GlobalContext}!InOutData@{InOutData}}\item[{\em 
+\hypertarget{class_global_context_af0e20c1e0fe7ae54a0770104388711adab77270bedb7ef8e06460664950d4d414}{
+InOutData}
+\label{class_global_context_af0e20c1e0fe7ae54a0770104388711adab77270bedb7ef8e06460664950d4d414}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 169 of file glb\_\-context.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_global_context_aa52ca8a774611923c64fd9b2cc1a58a2}{
+\index{GlobalContext@{GlobalContext}!GlobalContext@{GlobalContext}}
+\index{GlobalContext@{GlobalContext}!GlobalContext@{GlobalContext}}
+\subsubsection[{GlobalContext}]{\setlength{\rightskip}{0pt plus 5cm}GlobalContext::GlobalContext ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_aa52ca8a774611923c64fd9b2cc1a58a2}
+
+
+Definition at line 143 of file glb\_\-context.hpp.\hypertarget{class_global_context_a91e18c107ec197cdafef0c13c2ac9f01}{
+\index{GlobalContext@{GlobalContext}!$\sim$GlobalContext@{$\sim$GlobalContext}}
+\index{$\sim$GlobalContext@{$\sim$GlobalContext}!GlobalContext@{GlobalContext}}
+\subsubsection[{$\sim$GlobalContext}]{\setlength{\rightskip}{0pt plus 5cm}GlobalContext::$\sim$GlobalContext ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a91e18c107ec197cdafef0c13c2ac9f01}
+
+
+Definition at line 154 of file glb\_\-context.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_global_context_ab518683a44cc92eb1c1a38a77f29f82d}{
+\index{GlobalContext@{GlobalContext}!addContext@{addContext}}
+\index{addContext@{addContext}!GlobalContext@{GlobalContext}}
+\subsubsection[{addContext}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::addContext ({\bf IContext} $\ast$ {\em c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ab518683a44cc92eb1c1a38a77f29f82d}
+
+
+Definition at line 213 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{class_global_context_ab518683a44cc92eb1c1a38a77f29f82d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a9d7b59f27bc2226614fe2a65f6c3d5d1}{
+\index{GlobalContext@{GlobalContext}!beginContext@{beginContext}}
+\index{beginContext@{beginContext}!GlobalContext@{GlobalContext}}
+\subsubsection[{beginContext}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::beginContext ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a9d7b59f27bc2226614fe2a65f6c3d5d1}
+
+
+Definition at line 179 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{class_global_context_a9d7b59f27bc2226614fe2a65f6c3d5d1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ac14dc301fa7de1207472da6f515a2f1f}{
+\index{GlobalContext@{GlobalContext}!canAllEnter@{canAllEnter}}
+\index{canAllEnter@{canAllEnter}!GlobalContext@{GlobalContext}}
+\subsubsection[{canAllEnter}]{\setlength{\rightskip}{0pt plus 5cm}bool GlobalContext::canAllEnter ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ac14dc301fa7de1207472da6f515a2f1f}
+
+
+Definition at line 194 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{class_global_context_ac14dc301fa7de1207472da6f515a2f1f_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{class_global_context_ac14dc301fa7de1207472da6f515a2f1f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a933e43be2a62ca16e4ffa34ce5cadb5c}{
+\index{GlobalContext@{GlobalContext}!createContextHandle@{createContextHandle}}
+\index{createContextHandle@{createContextHandle}!GlobalContext@{GlobalContext}}
+\subsubsection[{createContextHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ContextHandle}$\ast$ GlobalContext::createContextHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a933e43be2a62ca16e4ffa34ce5cadb5c}
+
+
+Definition at line 196 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{class_global_context_a933e43be2a62ca16e4ffa34ce5cadb5c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_aa3979e9a5f856d90384ebafb5ca9bf04}{
+\index{GlobalContext@{GlobalContext}!createDataHandle@{createDataHandle}}
+\index{createDataHandle@{createDataHandle}!GlobalContext@{GlobalContext}}
+\subsubsection[{createDataHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataHandle}$\ast$ GlobalContext::createDataHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_aa3979e9a5f856d90384ebafb5ca9bf04}
+
+
+Definition at line 202 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{class_global_context_aa3979e9a5f856d90384ebafb5ca9bf04_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ad56737fc110208d85069ac902b4cb97b}{
+\index{GlobalContext@{GlobalContext}!createPropagateTasks@{createPropagateTasks}}
+\index{createPropagateTasks@{createPropagateTasks}!GlobalContext@{GlobalContext}}
+\subsubsection[{createPropagateTasks}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::createPropagateTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ad56737fc110208d85069ac902b4cb97b}
+
+
+Definition at line 332 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{class_global_context_ad56737fc110208d85069ac902b4cb97b_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a0f3857165a2d4571d6ae82b86c6becbe}{
+\index{GlobalContext@{GlobalContext}!createPropagateTasks@{createPropagateTasks}}
+\index{createPropagateTasks@{createPropagateTasks}!GlobalContext@{GlobalContext}}
+\subsubsection[{createPropagateTasks}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::createPropagateTasks (list$<$ {\bf DataRange} $\ast$ $>$ {\em dr})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a0f3857165a2d4571d6ae82b86c6becbe}
+
+
+Definition at line 311 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{class_global_context_a0f3857165a2d4571d6ae82b86c6becbe_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{class_global_context_a0f3857165a2d4571d6ae82b86c6becbe_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a24052ad1a783fc8860d47f6da220c321}{
+\index{GlobalContext@{GlobalContext}!createPropagateTasksFromRange@{createPropagateTasksFromRange}}
+\index{createPropagateTasksFromRange@{createPropagateTasksFromRange}!GlobalContext@{GlobalContext}}
+\subsubsection[{createPropagateTasksFromRange}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::createPropagateTasksFromRange ({\bf DataRange} $\ast$ {\em data\_\-range})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a24052ad1a783fc8860d47f6da220c321}
+
+
+Definition at line 318 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{class_global_context_a24052ad1a783fc8860d47f6da220c321_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{class_global_context_a24052ad1a783fc8860d47f6da220c321_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a8f6d2fae9cd8687798b175ad75ba7974}{
+\index{GlobalContext@{GlobalContext}!doPropagation@{doPropagation}}
+\index{doPropagation@{doPropagation}!GlobalContext@{GlobalContext}}
+\subsubsection[{doPropagation}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::doPropagation (bool {\em f})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a8f6d2fae9cd8687798b175ad75ba7974}
+
+
+Definition at line 211 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=133pt]{class_global_context_a8f6d2fae9cd8687798b175ad75ba7974_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_acdb15ae187d6c84b42851ddb94191eec}{
+\index{GlobalContext@{GlobalContext}!downLevel@{downLevel}}
+\index{downLevel@{downLevel}!GlobalContext@{GlobalContext}}
+\subsubsection[{downLevel}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::downLevel ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_acdb15ae187d6c84b42851ddb94191eec}
+
+
+Definition at line 457 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{class_global_context_acdb15ae187d6c84b42851ddb94191eec_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a016ede40f469516e58cdc0a720d77bd7}{
+\index{GlobalContext@{GlobalContext}!dumpLevels@{dumpLevels}}
+\index{dumpLevels@{dumpLevels}!GlobalContext@{GlobalContext}}
+\subsubsection[{dumpLevels}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::dumpLevels (char {\em c} = {\ttfamily '~'})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a016ede40f469516e58cdc0a720d77bd7}
+
+
+Definition at line 489 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_global_context_a016ede40f469516e58cdc0a720d77bd7_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{class_global_context_a016ede40f469516e58cdc0a720d77bd7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a6a4ed0adbb91872d956babaf32e3466c}{
+\index{GlobalContext@{GlobalContext}!dumpPropagations@{dumpPropagations}}
+\index{dumpPropagations@{dumpPropagations}!GlobalContext@{GlobalContext}}
+\subsubsection[{dumpPropagations}]{\setlength{\rightskip}{0pt plus 5cm}int GlobalContext::dumpPropagations (list$<$ {\bf PropagateInfo} $\ast$ $>$ {\em prop\_\-info})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a6a4ed0adbb91872d956babaf32e3466c}
+
+
+Definition at line 297 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_a6a4ed0adbb91872d956babaf32e3466c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=269pt]{class_global_context_a6a4ed0adbb91872d956babaf32e3466c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_acc1cb373d80601e3a43f28db871aac10}{
+\index{GlobalContext@{GlobalContext}!dumpStatistics@{dumpStatistics}}
+\index{dumpStatistics@{dumpStatistics}!GlobalContext@{GlobalContext}}
+\subsubsection[{dumpStatistics}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::dumpStatistics ({\bf Config} $\ast$ {\em cfg})}}
+\label{class_global_context_acc1cb373d80601e3a43f28db871aac10}
+
+
+Definition at line 425 of file context.hpp.\hypertarget{class_global_context_a67e7eba1f3ea2ff2cc9d321a64f8d2b4}{
+\index{GlobalContext@{GlobalContext}!endContext@{endContext}}
+\index{endContext@{endContext}!GlobalContext@{GlobalContext}}
+\subsubsection[{endContext}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::endContext ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a67e7eba1f3ea2ff2cc9d321a64f8d2b4}
+
+
+Definition at line 178 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=143pt]{class_global_context_a67e7eba1f3ea2ff2cc9d321a64f8d2b4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_abed42c65852eb40358a222c34108c65a}{
+\index{GlobalContext@{GlobalContext}!getContextByHandle@{getContextByHandle}}
+\index{getContextByHandle@{getContextByHandle}!GlobalContext@{GlobalContext}}
+\subsubsection[{getContextByHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IContext} $\ast$ GlobalContext::getContextByHandle ({\bf ContextHandle} {\em ch})}}
+\label{class_global_context_abed42c65852eb40358a222c34108c65a}
+
+
+Definition at line 394 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_abed42c65852eb40358a222c34108c65a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_adee851ed3b5bc641f500fca07ba72498}{
+\index{GlobalContext@{GlobalContext}!getContextHostPolicy@{getContextHostPolicy}}
+\index{getContextHostPolicy@{getContextHostPolicy}!GlobalContext@{GlobalContext}}
+\subsubsection[{getContextHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ContextHostPolicy}$\ast$ GlobalContext::getContextHostPolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_adee851ed3b5bc641f500fca07ba72498}
+
+
+Definition at line 193 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{class_global_context_adee851ed3b5bc641f500fca07ba72498_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a6bf21d326b4dec65505b1296170498ed}{
+\index{GlobalContext@{GlobalContext}!getCounters@{getCounters}}
+\index{getCounters@{getCounters}!GlobalContext@{GlobalContext}}
+\subsubsection[{getCounters}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ GlobalContext::getCounters ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a6bf21d326b4dec65505b1296170498ed}
+
+
+Definition at line 185 of file glb\_\-context.hpp.\hypertarget{class_global_context_a82ec626cc456bb864bf2376e2bda621f}{
+\index{GlobalContext@{GlobalContext}!getDataByHandle@{getDataByHandle}}
+\index{getDataByHandle@{getDataByHandle}!GlobalContext@{GlobalContext}}
+\subsubsection[{getDataByHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData} $\ast$ GlobalContext::getDataByHandle ({\bf DataHandle} $\ast$ {\em d})}}
+\label{class_global_context_a82ec626cc456bb864bf2376e2bda621f}
+
+
+Definition at line 402 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=377pt]{class_global_context_a82ec626cc456bb864bf2376e2bda621f_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_a82ec626cc456bb864bf2376e2bda621f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a8770ae3435a92b44cdc1286e1668c9c8}{
+\index{GlobalContext@{GlobalContext}!getDataHostPolicy@{getDataHostPolicy}}
+\index{getDataHostPolicy@{getDataHostPolicy}!GlobalContext@{GlobalContext}}
+\subsubsection[{getDataHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ GlobalContext::getDataHostPolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a8770ae3435a92b44cdc1286e1668c9c8}
+
+
+Definition at line 186 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{class_global_context_a8770ae3435a92b44cdc1286e1668c9c8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a1142264190522f36cd19e2f3cd3d5d51}{
+\index{GlobalContext@{GlobalContext}!getDepth@{getDepth}}
+\index{getDepth@{getDepth}!GlobalContext@{GlobalContext}}
+\subsubsection[{getDepth}]{\setlength{\rightskip}{0pt plus 5cm}int GlobalContext::getDepth ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a1142264190522f36cd19e2f3cd3d5d51}
+
+
+Definition at line 184 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_global_context_a1142264190522f36cd19e2f3cd3d5d51_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_acede5d21ec0546c5a97ee5752960183a}{
+\index{GlobalContext@{GlobalContext}!getHeader@{getHeader}}
+\index{getHeader@{getHeader}!GlobalContext@{GlobalContext}}
+\subsubsection[{getHeader}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ContextHeader}$\ast$ GlobalContext::getHeader ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_acede5d21ec0546c5a97ee5752960183a}
+
+
+Definition at line 190 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{class_global_context_acede5d21ec0546c5a97ee5752960183a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_aed100f956efac564393ecdc088f1ef54}{
+\index{GlobalContext@{GlobalContext}!getID@{getID}}
+\index{getID@{getID}!GlobalContext@{GlobalContext}}
+\subsubsection[{getID}]{\setlength{\rightskip}{0pt plus 5cm}int GlobalContext::getID ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_aed100f956efac564393ecdc088f1ef54}
+
+
+Definition at line 183 of file glb\_\-context.hpp.\hypertarget{class_global_context_a9cf2bd9142e7592455d0542ee457f6ff}{
+\index{GlobalContext@{GlobalContext}!getIndependentData@{getIndependentData}}
+\index{getIndependentData@{getIndependentData}!GlobalContext@{GlobalContext}}
+\subsubsection[{getIndependentData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataRange} $\ast$ GlobalContext::getIndependentData ({\bf IContext} $\ast$ {\em ctx}, \/  int {\em data\_\-type})}}
+\label{class_global_context_a9cf2bd9142e7592455d0542ee457f6ff}
+
+
+Definition at line 407 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{class_global_context_a9cf2bd9142e7592455d0542ee457f6ff_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{class_global_context_a9cf2bd9142e7592455d0542ee457f6ff_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a6e83bae803b2a595b2679b6b34bd572f}{
+\index{GlobalContext@{GlobalContext}!getLevelID@{getLevelID}}
+\index{getLevelID@{getLevelID}!GlobalContext@{GlobalContext}}
+\subsubsection[{getLevelID}]{\setlength{\rightskip}{0pt plus 5cm}int GlobalContext::getLevelID (int {\em level})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a6e83bae803b2a595b2679b6b34bd572f}
+
+
+Definition at line 473 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=287pt]{class_global_context_a6e83bae803b2a595b2679b6b34bd572f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a3f1200ddc2119935fac3b8b4ef5143d1}{
+\index{GlobalContext@{GlobalContext}!getLevelString@{getLevelString}}
+\index{getLevelString@{getLevelString}!GlobalContext@{GlobalContext}}
+\subsubsection[{getLevelString}]{\setlength{\rightskip}{0pt plus 5cm}string GlobalContext::getLevelString ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a3f1200ddc2119935fac3b8b4ef5143d1}
+
+
+Definition at line 480 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=394pt]{class_global_context_a3f1200ddc2119935fac3b8b4ef5143d1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a84061079f4d2d2fcdaeb3b201dd56cea}{
+\index{GlobalContext@{GlobalContext}!getLocalNumBlocks@{getLocalNumBlocks}}
+\index{getLocalNumBlocks@{getLocalNumBlocks}!GlobalContext@{GlobalContext}}
+\subsubsection[{getLocalNumBlocks}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::getLocalNumBlocks (int $\ast$ {\em mb}, \/  int $\ast$ {\em nb})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a84061079f4d2d2fcdaeb3b201dd56cea}
+
+
+Definition at line 217 of file glb\_\-context.hpp.\hypertarget{class_global_context_acec7514378c7877e7ba92d23538ae05e}{
+\index{GlobalContext@{GlobalContext}!getNumThreads@{getNumThreads}}
+\index{getNumThreads@{getNumThreads}!GlobalContext@{GlobalContext}}
+\subsubsection[{getNumThreads}]{\setlength{\rightskip}{0pt plus 5cm}int GlobalContext::getNumThreads ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_acec7514378c7877e7ba92d23538ae05e}
+
+
+Definition at line 222 of file glb\_\-context.hpp.\hypertarget{class_global_context_a62d3dff5570b1e9b14f2b5d7101e9110}{
+\index{GlobalContext@{GlobalContext}!getPropagateCount@{getPropagateCount}}
+\index{getPropagateCount@{getPropagateCount}!GlobalContext@{GlobalContext}}
+\subsubsection[{getPropagateCount}]{\setlength{\rightskip}{0pt plus 5cm}int GlobalContext::getPropagateCount ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a62d3dff5570b1e9b14f2b5d7101e9110}
+
+
+Definition at line 192 of file glb\_\-context.hpp.\hypertarget{class_global_context_aac8e417def6e6fc45699a87bf412f745}{
+\index{GlobalContext@{GlobalContext}!getTaskAddHostPolicy@{getTaskAddHostPolicy}}
+\index{getTaskAddHostPolicy@{getTaskAddHostPolicy}!GlobalContext@{GlobalContext}}
+\subsubsection[{getTaskAddHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ GlobalContext::getTaskAddHostPolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_aac8e417def6e6fc45699a87bf412f745}
+
+
+Definition at line 189 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{class_global_context_aac8e417def6e6fc45699a87bf412f745_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ade353fcc225ba76065ff6fca6924e944}{
+\index{GlobalContext@{GlobalContext}!getTaskHostPolicy@{getTaskHostPolicy}}
+\index{getTaskHostPolicy@{getTaskHostPolicy}!GlobalContext@{GlobalContext}}
+\subsubsection[{getTaskHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ GlobalContext::getTaskHostPolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ade353fcc225ba76065ff6fca6924e944}
+
+
+Definition at line 187 of file glb\_\-context.hpp.\hypertarget{class_global_context_a70524a314df10d540b267f34d297ec49}{
+\index{GlobalContext@{GlobalContext}!getTaskPropagatePolicy@{getTaskPropagatePolicy}}
+\index{getTaskPropagatePolicy@{getTaskPropagatePolicy}!GlobalContext@{GlobalContext}}
+\subsubsection[{getTaskPropagatePolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ GlobalContext::getTaskPropagatePolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a70524a314df10d540b267f34d297ec49}
+
+
+Definition at line 191 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{class_global_context_a70524a314df10d540b267f34d297ec49_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ab7afe64dbb26b367d9d49f098de7f158}{
+\index{GlobalContext@{GlobalContext}!getTaskReadHostPolicy@{getTaskReadHostPolicy}}
+\index{getTaskReadHostPolicy@{getTaskReadHostPolicy}!GlobalContext@{GlobalContext}}
+\subsubsection[{getTaskReadHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ GlobalContext::getTaskReadHostPolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ab7afe64dbb26b367d9d49f098de7f158}
+
+
+Definition at line 188 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{class_global_context_ab7afe64dbb26b367d9d49f098de7f158_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a9348325efe41d1edae48c4313d07dc1a}{
+\index{GlobalContext@{GlobalContext}!incrementCounter@{incrementCounter}}
+\index{incrementCounter@{incrementCounter}!GlobalContext@{GlobalContext}}
+\subsubsection[{incrementCounter}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::incrementCounter ({\bf Counters} {\em c}, \/  int {\em v} = {\ttfamily 1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a9348325efe41d1edae48c4313d07dc1a}
+
+
+Definition at line 181 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=373pt]{class_global_context_a9348325efe41d1edae48c4313d07dc1a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ac3f59832451f3d6b377a33ad01ea5cf5}{
+\index{GlobalContext@{GlobalContext}!initPropagateTasks@{initPropagateTasks}}
+\index{initPropagateTasks@{initPropagateTasks}!GlobalContext@{GlobalContext}}
+\subsubsection[{initPropagateTasks}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::initPropagateTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ac3f59832451f3d6b377a33ad01ea5cf5}
+
+
+Definition at line 279 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=419pt]{class_global_context_ac3f59832451f3d6b377a33ad01ea5cf5_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a33b1aec3eb90bf8bfca3307d47058606}{
+\index{GlobalContext@{GlobalContext}!isAnyOwnedBy@{isAnyOwnedBy}}
+\index{isAnyOwnedBy@{isAnyOwnedBy}!GlobalContext@{GlobalContext}}
+\subsubsection[{isAnyOwnedBy}]{\setlength{\rightskip}{0pt plus 5cm}bool GlobalContext::isAnyOwnedBy (list$<$ {\bf DataRange} $\ast$ $>$ {\em dr}, \/  int {\em me})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a33b1aec3eb90bf8bfca3307d47058606}
+
+
+Definition at line 499 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{class_global_context_a33b1aec3eb90bf8bfca3307d47058606_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_aab60de99c252ba5fe7e2d1fdbfa0ba6c}{
+\index{GlobalContext@{GlobalContext}!isAnyOwnedBy@{isAnyOwnedBy}}
+\index{isAnyOwnedBy@{isAnyOwnedBy}!GlobalContext@{GlobalContext}}
+\subsubsection[{isAnyOwnedBy}]{\setlength{\rightskip}{0pt plus 5cm}bool GlobalContext::isAnyOwnedBy ({\bf ContextHeader} $\ast$ {\em hdr}, \/  int {\em me})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_aab60de99c252ba5fe7e2d1fdbfa0ba6c}
+
+
+Definition at line 493 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{class_global_context_aab60de99c252ba5fe7e2d1fdbfa0ba6c_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ab6ed24acc55b88a93b7498acbccf6141}{
+\index{GlobalContext@{GlobalContext}!packPropagateTask@{packPropagateTask}}
+\index{packPropagateTask@{packPropagateTask}!GlobalContext@{GlobalContext}}
+\subsubsection[{packPropagateTask}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::packPropagateTask (list$<$ {\bf PropagateInfo} $\ast$ $>$ {\em prop\_\-info}, \/  int {\em dest\_\-host})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ab6ed24acc55b88a93b7498acbccf6141}
+
+
+Definition at line 419 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=362pt]{class_global_context_ab6ed24acc55b88a93b7498acbccf6141_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{class_global_context_ab6ed24acc55b88a93b7498acbccf6141_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a35b48731e0ef7a63c7017b57fd6c95b1}{
+\index{GlobalContext@{GlobalContext}!resetCounters@{resetCounters}}
+\index{resetCounters@{resetCounters}!GlobalContext@{GlobalContext}}
+\subsubsection[{resetCounters}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::resetCounters ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a35b48731e0ef7a63c7017b57fd6c95b1}
+
+
+Definition at line 258 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=161pt]{class_global_context_a35b48731e0ef7a63c7017b57fd6c95b1_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a55ae2af04ecff458dece28649354a04f}{
+\index{GlobalContext@{GlobalContext}!resetVersiosOfDataRange@{resetVersiosOfDataRange}}
+\index{resetVersiosOfDataRange@{resetVersiosOfDataRange}!GlobalContext@{GlobalContext}}
+\subsubsection[{resetVersiosOfDataRange}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::resetVersiosOfDataRange ({\bf DataRange} $\ast$ {\em data\_\-range})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a55ae2af04ecff458dece28649354a04f}
+
+
+Definition at line 341 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{class_global_context_a55ae2af04ecff458dece28649354a04f_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_a55ae2af04ecff458dece28649354a04f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_acc65a1acfefed680d1d05345d1bf9ab8}{
+\index{GlobalContext@{GlobalContext}!resetVersiosOfDataRangeList@{resetVersiosOfDataRangeList}}
+\index{resetVersiosOfDataRangeList@{resetVersiosOfDataRangeList}!GlobalContext@{GlobalContext}}
+\subsubsection[{resetVersiosOfDataRangeList}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::resetVersiosOfDataRangeList (list$<$ {\bf DataRange} $\ast$ $>$ {\em dr})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_acc65a1acfefed680d1d05345d1bf9ab8}
+
+
+Definition at line 350 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=317pt]{class_global_context_acc65a1acfefed680d1d05345d1bf9ab8_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{class_global_context_acc65a1acfefed680d1d05345d1bf9ab8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_aa903129142d1e7420aa521b89e77789b}{
+\index{GlobalContext@{GlobalContext}!resetVersiosOfHeaderData@{resetVersiosOfHeaderData}}
+\index{resetVersiosOfHeaderData@{resetVersiosOfHeaderData}!GlobalContext@{GlobalContext}}
+\subsubsection[{resetVersiosOfHeaderData}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::resetVersiosOfHeaderData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_aa903129142d1e7420aa521b89e77789b}
+
+
+Definition at line 357 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_aa903129142d1e7420aa521b89e77789b_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{class_global_context_aa903129142d1e7420aa521b89e77789b_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_ab7a7663698431c03044fb91223a8b0df}{
+\index{GlobalContext@{GlobalContext}!sendPropagateTasks@{sendPropagateTasks}}
+\index{sendPropagateTasks@{sendPropagateTasks}!GlobalContext@{GlobalContext}}
+\subsubsection[{sendPropagateTasks}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::sendPropagateTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_ab7a7663698431c03044fb91223a8b0df}
+
+
+Definition at line 440 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_ab7a7663698431c03044fb91223a8b0df_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_global_context_ab7a7663698431c03044fb91223a8b0df_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a7bf92109c22a9c883b6ca92143098019}{
+\index{GlobalContext@{GlobalContext}!setConfiguration@{setConfiguration}}
+\index{setConfiguration@{setConfiguration}!GlobalContext@{GlobalContext}}
+\subsubsection[{setConfiguration}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::setConfiguration ({\bf Config} $\ast$ {\em \_\-cfg})}}
+\label{class_global_context_a7bf92109c22a9c883b6ca92143098019}
+
+
+Definition at line 441 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=137pt]{class_global_context_a7bf92109c22a9c883b6ca92143098019_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a4e609aa8aeab13c2529b7a3f3d204ec5}{
+\index{GlobalContext@{GlobalContext}!setID@{setID}}
+\index{setID@{setID}!GlobalContext@{GlobalContext}}
+\subsubsection[{setID}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::setID (int {\em id})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a4e609aa8aeab13c2529b7a3f3d204ec5}
+
+
+Definition at line 180 of file glb\_\-context.hpp.\hypertarget{class_global_context_a764ed43467db5334719f4bfdddc4dc6b}{
+\index{GlobalContext@{GlobalContext}!setPolicies@{setPolicies}}
+\index{setPolicies@{setPolicies}!GlobalContext@{GlobalContext}}
+\subsubsection[{setPolicies}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::setPolicies ({\bf IHostPolicy} $\ast$ {\em dhp}, \/  {\bf IHostPolicy} $\ast$ {\em thp}, \/  {\bf ContextHostPolicy} $\ast$ {\em chp}, \/  {\bf IHostPolicy} $\ast$ {\em trp}, \/  {\bf IHostPolicy} $\ast$ {\em tap}, \/  {\bf IHostPolicy} $\ast$ {\em tpp})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a764ed43467db5334719f4bfdddc4dc6b}
+
+
+Definition at line 243 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{class_global_context_a764ed43467db5334719f4bfdddc4dc6b_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a7d41742f16955cf6a007a95797fa52ac}{
+\index{GlobalContext@{GlobalContext}!setTaskCount@{setTaskCount}}
+\index{setTaskCount@{setTaskCount}!GlobalContext@{GlobalContext}}
+\subsubsection[{setTaskCount}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::setTaskCount (int {\em t})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a7d41742f16955cf6a007a95797fa52ac}
+
+
+Definition at line 182 of file glb\_\-context.hpp.\hypertarget{class_global_context_aeb21e846898eaf2a7ec28ded66cf4d17}{
+\index{GlobalContext@{GlobalContext}!testHandles@{testHandles}}
+\index{testHandles@{testHandles}!GlobalContext@{GlobalContext}}
+\subsubsection[{testHandles}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::testHandles ()}}
+\label{class_global_context_aeb21e846898eaf2a7ec28ded66cf4d17}
+
+
+Definition at line 448 of file context.hpp.\hypertarget{class_global_context_a45180bd1ced20471a3489200c235ed37}{
+\index{GlobalContext@{GlobalContext}!testPropagatePacking@{testPropagatePacking}}
+\index{testPropagatePacking@{testPropagatePacking}!GlobalContext@{GlobalContext}}
+\subsubsection[{testPropagatePacking}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::testPropagatePacking ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a45180bd1ced20471a3489200c235ed37}
+
+
+Definition at line 362 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_global_context_a45180bd1ced20471a3489200c235ed37_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a2f62ad628b6c5d48c2cda3ea05e08860}{
+\index{GlobalContext@{GlobalContext}!unpackPropagateTask@{unpackPropagateTask}}
+\index{unpackPropagateTask@{unpackPropagateTask}!GlobalContext@{GlobalContext}}
+\subsubsection[{unpackPropagateTask}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::unpackPropagateTask ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a2f62ad628b6c5d48c2cda3ea05e08860}
+
+
+Definition at line 405 of file glb\_\-context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{class_global_context_a2f62ad628b6c5d48c2cda3ea05e08860_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_global_context_a2f62ad628b6c5d48c2cda3ea05e08860_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_global_context_a679f0c93603ce63c3690e578372f23b5}{
+\index{GlobalContext@{GlobalContext}!updateVersions@{updateVersions}}
+\index{updateVersions@{updateVersions}!GlobalContext@{GlobalContext}}
+\subsubsection[{updateVersions}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::updateVersions ({\bf IContext} $\ast$ {\em ctx}, \/  {\bf ContextHeader} $\ast$)}}
+\label{class_global_context_a679f0c93603ce63c3690e578372f23b5}
+\hypertarget{class_global_context_a2afcc7411f13bee3be175887de0d5365}{
+\index{GlobalContext@{GlobalContext}!upLevel@{upLevel}}
+\index{upLevel@{upLevel}!GlobalContext@{GlobalContext}}
+\subsubsection[{upLevel}]{\setlength{\rightskip}{0pt plus 5cm}void GlobalContext::upLevel ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_global_context_a2afcc7411f13bee3be175887de0d5365}
+
+
+Definition at line 464 of file glb\_\-context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=135pt]{class_global_context_a2afcc7411f13bee3be175887de0d5365_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{glb__context_8hpp}{glb\_\-context.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

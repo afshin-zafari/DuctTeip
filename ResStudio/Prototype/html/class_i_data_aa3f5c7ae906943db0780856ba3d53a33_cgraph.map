@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_data.html#a513a1ad05e427af81ca7c34291826efb" title="IData::getContentAddress" alt="" coords="209,111,383,140"/>
+<area shape="rect" id="node15" href="$class_i_data.html#a87b7baa5c42fd4c2b36875141030880d" title="IData::getName" alt="" coords="239,171,353,200"/>
+<area shape="rect" id="node17" href="$classengine.html#a99ae6156ee65044d03d61a3776ef2f99" title="engine::newDataMemory" alt="" coords="213,236,379,265"/>
+<area shape="rect" id="node5" href="$struct_memory_item.html#a8e5271126c1eb7d5d5b0d611149b67cf" title="MemoryItem::getAddress" alt="" coords="1005,161,1173,191"/>
+<area shape="rect" id="node7" href="$class_i_data.html#acf62b5fb26cf38c5a0b1480f8a548664" title="IData::getHeaderSize" alt="" coords="468,59,615,88"/>
+<area shape="rect" id="node9" href="$struct_data_version.html#a77899e6e8255693a00a56250c2d26572" title="DataVersion::getPackSize" alt="" coords="736,5,912,35"/>
+<area shape="rect" id="node13" href="$struct_data_handle.html#a5f555e8f89e12b36a6f831059fb10124" title="DataHandle::getPackSize" alt="" coords="737,59,911,88"/>
+<area shape="rect" id="node11" href="$struct_context_prefix.html#a6d30f468ca52d1dce17ee24804892d52" title="ContextPrefix::getPackSize" alt="" coords="997,5,1181,35"/>
+<area shape="rect" id="node19" href="$class_memory_manager.html#acafc29252617db5b035895aadb2946d4" title="MemoryManager::getNewMemory" alt="" coords="432,260,651,289"/>
+<area shape="rect" id="node21" href="$class_memory_manager.html#a672f7255418e01cccc234b563068c39e" title="MemoryManager::expandMemoryItems" alt="" coords="700,371,948,400"/>
+<area shape="rect" id="node23" href="$class_memory_manager.html#abe914c7420e3ef7b101013e42b2a9602" title="MemoryManager::findFreeMemory" alt="" coords="713,213,935,243"/>
+<area shape="rect" id="node26" href="$struct_memory_item.html#ae1fd92ca511fee0daeeac11b301977a6" title="MemoryItem::getState" alt="" coords="1013,267,1165,296"/>
+<area shape="rect" id="node30" href="$struct_memory_item.html#ae23ea09a2d3d4d6e311b10b6ce60fd20" title="MemoryItem::setState" alt="" coords="748,267,900,296"/>
+</map>

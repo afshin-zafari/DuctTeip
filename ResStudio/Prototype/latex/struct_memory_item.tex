@@ -1,0 +1,208 @@
+\hypertarget{struct_memory_item}{
+\section{MemoryItem Struct Reference}
+\label{struct_memory_item}\index{MemoryItem@{MemoryItem}}
+}
+
+
+{\ttfamily \#include $<$memory\_\-manager.hpp$>$}\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7}{MemoryState} \{ \par
+\hyperlink{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a1e3968fce9ae4201296685e582166f06}{Initialized}, 
+\hyperlink{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7ab6f0e5cce6443bdc659c192d5babf350}{Allocated}, 
+\hyperlink{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a285d348f83b809b488ca76e24081d2aa}{InUse}, 
+\hyperlink{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a3702d4e3c6ee6b25e4ab536bb6754880}{Ready}, 
+\par
+\hyperlink{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7aa3decc1bb9c585cb27a13d5590a93d91}{Deallocated}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_memory_item_afa0c66e4afaa19a315a47cb61482d18c}{MemoryItem} ()
+\item 
+\hyperlink{struct_memory_item_a86015b342bb2d888d7458e1c7c8da71e}{MemoryItem} (int size\_\-, \hyperlink{memory__manager_8hpp_acfb86460d7fe0c6006e77faaae57ee19}{MemoryKey} key\_\-)
+\item 
+\hyperlink{struct_memory_item_a51966f62038798bfa49be9ae14e99691}{$\sim$MemoryItem} ()
+\item 
+void \hyperlink{struct_memory_item_ae23ea09a2d3d4d6e311b10b6ce60fd20}{setState} (int s)
+\item 
+\hyperlink{memory__manager_8hpp_acfb86460d7fe0c6006e77faaae57ee19}{MemoryKey} \hyperlink{struct_memory_item_a21be92140969e7ea8b6859837e9cbab3}{getKey} ()
+\item 
+unsigned long \hyperlink{struct_memory_item_a1e478ad1487849ca6da2f5c6250a1580}{getSize} ()
+\item 
+int \hyperlink{struct_memory_item_ae1fd92ca511fee0daeeac11b301977a6}{getState} ()
+\item 
+\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$ \hyperlink{struct_memory_item_a8e5271126c1eb7d5d5b0d611149b67cf}{getAddress} ()
+\item 
+void \hyperlink{struct_memory_item_aa6bd06b9d84d23905f34c40759e0dcba}{dump} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file memory\_\-manager.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7}{
+\index{MemoryItem@{MemoryItem}!MemoryState@{MemoryState}}
+\index{MemoryState@{MemoryState}!MemoryItem@{MemoryItem}}
+\subsubsection[{MemoryState}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf MemoryItem::MemoryState}}}
+\label{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{Initialized@{Initialized}!MemoryItem@{MemoryItem}}\index{MemoryItem@{MemoryItem}!Initialized@{Initialized}}\item[{\em 
+\hypertarget{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a1e3968fce9ae4201296685e582166f06}{
+Initialized}
+\label{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a1e3968fce9ae4201296685e582166f06}
+}]\index{Allocated@{Allocated}!MemoryItem@{MemoryItem}}\index{MemoryItem@{MemoryItem}!Allocated@{Allocated}}\item[{\em 
+\hypertarget{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7ab6f0e5cce6443bdc659c192d5babf350}{
+Allocated}
+\label{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7ab6f0e5cce6443bdc659c192d5babf350}
+}]\index{InUse@{InUse}!MemoryItem@{MemoryItem}}\index{MemoryItem@{MemoryItem}!InUse@{InUse}}\item[{\em 
+\hypertarget{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a285d348f83b809b488ca76e24081d2aa}{
+InUse}
+\label{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a285d348f83b809b488ca76e24081d2aa}
+}]\index{Ready@{Ready}!MemoryItem@{MemoryItem}}\index{MemoryItem@{MemoryItem}!Ready@{Ready}}\item[{\em 
+\hypertarget{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a3702d4e3c6ee6b25e4ab536bb6754880}{
+Ready}
+\label{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7a3702d4e3c6ee6b25e4ab536bb6754880}
+}]\index{Deallocated@{Deallocated}!MemoryItem@{MemoryItem}}\index{MemoryItem@{MemoryItem}!Deallocated@{Deallocated}}\item[{\em 
+\hypertarget{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7aa3decc1bb9c585cb27a13d5590a93d91}{
+Deallocated}
+\label{struct_memory_item_aa2a9caa490ce6080a6f6df62b84084a7aa3decc1bb9c585cb27a13d5590a93d91}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 16 of file memory\_\-manager.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{struct_memory_item_afa0c66e4afaa19a315a47cb61482d18c}{
+\index{MemoryItem@{MemoryItem}!MemoryItem@{MemoryItem}}
+\index{MemoryItem@{MemoryItem}!MemoryItem@{MemoryItem}}
+\subsubsection[{MemoryItem}]{\setlength{\rightskip}{0pt plus 5cm}MemoryItem::MemoryItem ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_afa0c66e4afaa19a315a47cb61482d18c}
+
+
+Definition at line 25 of file memory\_\-manager.hpp.\hypertarget{struct_memory_item_a86015b342bb2d888d7458e1c7c8da71e}{
+\index{MemoryItem@{MemoryItem}!MemoryItem@{MemoryItem}}
+\index{MemoryItem@{MemoryItem}!MemoryItem@{MemoryItem}}
+\subsubsection[{MemoryItem}]{\setlength{\rightskip}{0pt plus 5cm}MemoryItem::MemoryItem (int {\em size\_\-}, \/  {\bf MemoryKey} {\em key\_\-})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_a86015b342bb2d888d7458e1c7c8da71e}
+
+
+Definition at line 32 of file memory\_\-manager.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{struct_memory_item_a86015b342bb2d888d7458e1c7c8da71e_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_memory_item_a51966f62038798bfa49be9ae14e99691}{
+\index{MemoryItem@{MemoryItem}!$\sim$MemoryItem@{$\sim$MemoryItem}}
+\index{$\sim$MemoryItem@{$\sim$MemoryItem}!MemoryItem@{MemoryItem}}
+\subsubsection[{$\sim$MemoryItem}]{\setlength{\rightskip}{0pt plus 5cm}MemoryItem::$\sim$MemoryItem ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_a51966f62038798bfa49be9ae14e99691}
+
+
+Definition at line 42 of file memory\_\-manager.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{struct_memory_item_aa6bd06b9d84d23905f34c40759e0dcba}{
+\index{MemoryItem@{MemoryItem}!dump@{dump}}
+\index{dump@{dump}!MemoryItem@{MemoryItem}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void MemoryItem::dump ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_aa6bd06b9d84d23905f34c40759e0dcba}
+
+
+Definition at line 60 of file memory\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{struct_memory_item_aa6bd06b9d84d23905f34c40759e0dcba_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_memory_item_a8e5271126c1eb7d5d5b0d611149b67cf}{
+\index{MemoryItem@{MemoryItem}!getAddress@{getAddress}}
+\index{getAddress@{getAddress}!MemoryItem@{MemoryItem}}
+\subsubsection[{getAddress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf byte}$\ast$ MemoryItem::getAddress ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_a8e5271126c1eb7d5d5b0d611149b67cf}
+
+
+Definition at line 55 of file memory\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_memory_item_a8e5271126c1eb7d5d5b0d611149b67cf_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_memory_item_a21be92140969e7ea8b6859837e9cbab3}{
+\index{MemoryItem@{MemoryItem}!getKey@{getKey}}
+\index{getKey@{getKey}!MemoryItem@{MemoryItem}}
+\subsubsection[{getKey}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryKey} MemoryItem::getKey ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_a21be92140969e7ea8b6859837e9cbab3}
+
+
+Definition at line 49 of file memory\_\-manager.hpp.\hypertarget{struct_memory_item_a1e478ad1487849ca6da2f5c6250a1580}{
+\index{MemoryItem@{MemoryItem}!getSize@{getSize}}
+\index{getSize@{getSize}!MemoryItem@{MemoryItem}}
+\subsubsection[{getSize}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MemoryItem::getSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_a1e478ad1487849ca6da2f5c6250a1580}
+
+
+Definition at line 51 of file memory\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{struct_memory_item_a1e478ad1487849ca6da2f5c6250a1580_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_memory_item_ae1fd92ca511fee0daeeac11b301977a6}{
+\index{MemoryItem@{MemoryItem}!getState@{getState}}
+\index{getState@{getState}!MemoryItem@{MemoryItem}}
+\subsubsection[{getState}]{\setlength{\rightskip}{0pt plus 5cm}int MemoryItem::getState ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_ae1fd92ca511fee0daeeac11b301977a6}
+
+
+Definition at line 53 of file memory\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_memory_item_ae1fd92ca511fee0daeeac11b301977a6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_memory_item_ae23ea09a2d3d4d6e311b10b6ce60fd20}{
+\index{MemoryItem@{MemoryItem}!setState@{setState}}
+\index{setState@{setState}!MemoryItem@{MemoryItem}}
+\subsubsection[{setState}]{\setlength{\rightskip}{0pt plus 5cm}void MemoryItem::setState (int {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_memory_item_ae23ea09a2d3d4d6e311b10b6ce60fd20}
+
+
+Definition at line 47 of file memory\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_memory_item_ae23ea09a2d3d4d6e311b10b6ce60fd20_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{memory__manager_8hpp}{memory\_\-manager.hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_data_version.html#ac5bce97d68ce11492781071558bb1191" title="DataVersion::deserialize" alt="" coords="185,5,348,35"/>
+<area shape="rect" id="node9" href="$struct_data_handle.html#a4abd5569c8a2cb0ff6fdca749765aa70" title="DataHandle::deserialize" alt="" coords="187,59,347,88"/>
+<area shape="rect" id="node11" href="$class_i_data.html#a513a1ad05e427af81ca7c34291826efb" title="IData::getContentAddress" alt="" coords="180,112,353,141"/>
+<area shape="rect" id="node23" href="$class_i_data.html#a32479396ae443e9e80f6517fd1e20f35" title="IData::getContentSize" alt="" coords="191,165,343,195"/>
+<area shape="rect" id="node25" href="$class_partition.html#a8ca97963e7769bec5e7c59f9e4660427" title="Partition::setBaseMemory" alt="" coords="180,219,353,248"/>
+<area shape="rect" id="node27" href="$class_i_data.html#a6a6c0f1bebc3a8c52cdd858e29a965f6" title="IData::setDataMemory" alt="" coords="189,272,344,301"/>
+<area shape="rect" id="node5" href="$struct_context_prefix.html#aaacd69ff83b8a9788a603eaed58cd4e5" title="ContextPrefix::deserialize" alt="" coords="404,5,575,35"/>
+<area shape="rect" id="node7" href="$struct_context_prefix.html#af68366f850532d0a204ba1cbabc403cb" title="ContextPrefix::reset" alt="" coords="643,5,781,35"/>
+<area shape="rect" id="node13" href="$struct_memory_item.html#a8e5271126c1eb7d5d5b0d611149b67cf" title="MemoryItem::getAddress" alt="" coords="405,59,573,88"/>
+<area shape="rect" id="node15" href="$class_i_data.html#acf62b5fb26cf38c5a0b1480f8a548664" title="IData::getHeaderSize" alt="" coords="416,112,563,141"/>
+<area shape="rect" id="node17" href="$struct_data_version.html#a77899e6e8255693a00a56250c2d26572" title="DataVersion::getPackSize" alt="" coords="624,85,800,115"/>
+<area shape="rect" id="node21" href="$struct_data_handle.html#a5f555e8f89e12b36a6f831059fb10124" title="DataHandle::getPackSize" alt="" coords="625,139,799,168"/>
+<area shape="rect" id="node19" href="$struct_context_prefix.html#a6d30f468ca52d1dce17ee24804892d52" title="ContextPrefix::getPackSize" alt="" coords="848,85,1032,115"/>
+<area shape="rect" id="node29" href="$class_i_data.html#a87b7baa5c42fd4c2b36875141030880d" title="IData::getName" alt="" coords="432,272,547,301"/>
+</map>

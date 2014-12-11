@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_data.html#a07c124c61dac722dded4c78d45be5cd2" title="IData::getDataHandle" alt="" coords="183,5,332,35"/>
+<area shape="rect" id="node5" href="$struct_data_version.html#aad05f62a3e2cd0da4120b970c27f3451" title="DataVersion::serialize" alt="" coords="183,59,332,88"/>
+<area shape="rect" id="node9" href="$struct_data_handle.html#a5a107dc8166953db8bb7de3e1a74391f" title="DataHandle::serialize" alt="" coords="184,112,331,141"/>
+<area shape="rect" id="node7" href="$struct_context_prefix.html#a324733817553bbc909f18acd01f697a6" title="ContextPrefix::serialize" alt="" coords="383,59,540,88"/>
+</map>

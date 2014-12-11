@@ -1,0 +1,365 @@
+\hypertarget{class_mail_box}{
+\section{MailBox Class Reference}
+\label{class_mail_box}\index{MailBox@{MailBox}}
+}
+
+
+{\ttfamily \#include $<$mailbox.hpp$>$}Collaboration diagram for MailBox:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{class_mail_box__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38f}{MessageTag} \{ \par
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38faf012aed1646a6269dd130a7be7c697e1}{TaskTag} = 1, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa008868e6b3029ad80db19a0cc4ab48c9}{DataTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa04ccc470eaee013c03bf8f2450137d8a}{ListenerTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa95087e9821f25d9f57fa60e38bce55eb}{PropagationTag}, 
+\par
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa619d49f84b303625b3fbb7e92cbfbb97}{TerminateOKTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fad0a61b9def0e672b78af6f92ed12312b}{TerminateCancelTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa8580283be0c3cde77bfd7baa4499f94e}{FindIdleTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa6cbe6d7de11daf086db733c963202011}{FindBusyTag}, 
+\par
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa3b5cca06c2573ad16f90d7da519f4888}{MigrateTaskTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fad9a3b041138ef8d62c7e4a3bd6f2280e}{MigrateDataTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa9e01327077e6b75c561a7b600bb23df6}{DeclineMigrateTag}, 
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38faec829edd0cd7b7d322a7027a86c90bd5}{AcceptMigrateTag}, 
+\par
+\hyperlink{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa56ea80305e12502739ecdd2ffc068322}{MigratedTaskOutDataTag}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_mail_box_a534ac0f734937aa7f2409bea4da8de16}{MailBox} (\hyperlink{class_i_network}{INetwork} $\ast$net)
+\item 
+unsigned long \hyperlink{class_mail_box_ae6b86c4b322220e0a416dadec6e50877}{send} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int destination, bool wait=false)
+\item 
+void \hyperlink{class_mail_box_a1fb17b7247e23d29fc0f51e980717acf}{getLRNeighbors} (int org, int $\ast$left, int $\ast$right)
+\item 
+unsigned long \hyperlink{class_mail_box_a45435c4ffb07fe13da0bcdacdde49bb6}{prepareTerminateReceiveForHost} (int source)
+\item 
+void \hyperlink{class_mail_box_a9730cc56fbce0325496bb67970572015}{prepareTerminateReceive} (int source1, int source2, int source3)
+\item 
+void \hyperlink{class_mail_box_aa9c92ef9ed35dbd1ebc4aae5f16876bd}{prepareListenerReceive} (int length, int host=-\/1)
+\item 
+unsigned long \hyperlink{class_mail_box_a467ff1952f56669a619092d57824637d}{prepareDataReceive} (\hyperlink{struct_memory_item}{MemoryItem} $\ast$mi, int source, unsigned long key)
+\item 
+void \hyperlink{class_mail_box_a541c1f871502eec356801ed5657f56c3}{dumpPosts} ()
+\item 
+bool \hyperlink{class_mail_box_ad63db95e264ebb4d4bf090ad3e3d0394}{getPostEvent} (\hyperlink{struct_mail_box_event}{MailBoxEvent} $\ast$event, int tag, unsigned long handle)
+\item 
+bool \hyperlink{class_mail_box_a0dc7cda2ef943be7763bf18494e9422d}{checkPostedReceives} (\hyperlink{struct_mail_box_event}{MailBoxEvent} $\ast$event)
+\item 
+bool \hyperlink{class_mail_box_ad920ff9b804620414e814322462c783b}{getEvent} (\hyperlink{class_memory_manager}{MemoryManager} $\ast$memman, \hyperlink{struct_mail_box_event}{MailBoxEvent} $\ast$event, bool $\ast$completed, bool wait=false)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 59 of file mailbox.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38f}{
+\index{MailBox@{MailBox}!MessageTag@{MessageTag}}
+\index{MessageTag@{MessageTag}!MailBox@{MailBox}}
+\subsubsection[{MessageTag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf MailBox::MessageTag}}}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38f}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{TaskTag@{TaskTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!TaskTag@{TaskTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38faf012aed1646a6269dd130a7be7c697e1}{
+TaskTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38faf012aed1646a6269dd130a7be7c697e1}
+}]\index{DataTag@{DataTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!DataTag@{DataTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa008868e6b3029ad80db19a0cc4ab48c9}{
+DataTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa008868e6b3029ad80db19a0cc4ab48c9}
+}]\index{ListenerTag@{ListenerTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!ListenerTag@{ListenerTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa04ccc470eaee013c03bf8f2450137d8a}{
+ListenerTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa04ccc470eaee013c03bf8f2450137d8a}
+}]\index{PropagationTag@{PropagationTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!PropagationTag@{PropagationTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa95087e9821f25d9f57fa60e38bce55eb}{
+PropagationTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa95087e9821f25d9f57fa60e38bce55eb}
+}]\index{TerminateOKTag@{TerminateOKTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!TerminateOKTag@{TerminateOKTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa619d49f84b303625b3fbb7e92cbfbb97}{
+TerminateOKTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa619d49f84b303625b3fbb7e92cbfbb97}
+}]\index{TerminateCancelTag@{TerminateCancelTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!TerminateCancelTag@{TerminateCancelTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fad0a61b9def0e672b78af6f92ed12312b}{
+TerminateCancelTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fad0a61b9def0e672b78af6f92ed12312b}
+}]\index{FindIdleTag@{FindIdleTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!FindIdleTag@{FindIdleTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa8580283be0c3cde77bfd7baa4499f94e}{
+FindIdleTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa8580283be0c3cde77bfd7baa4499f94e}
+}]\index{FindBusyTag@{FindBusyTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!FindBusyTag@{FindBusyTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa6cbe6d7de11daf086db733c963202011}{
+FindBusyTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa6cbe6d7de11daf086db733c963202011}
+}]\index{MigrateTaskTag@{MigrateTaskTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!MigrateTaskTag@{MigrateTaskTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa3b5cca06c2573ad16f90d7da519f4888}{
+MigrateTaskTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa3b5cca06c2573ad16f90d7da519f4888}
+}]\index{MigrateDataTag@{MigrateDataTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!MigrateDataTag@{MigrateDataTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fad9a3b041138ef8d62c7e4a3bd6f2280e}{
+MigrateDataTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fad9a3b041138ef8d62c7e4a3bd6f2280e}
+}]\index{DeclineMigrateTag@{DeclineMigrateTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!DeclineMigrateTag@{DeclineMigrateTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa9e01327077e6b75c561a7b600bb23df6}{
+DeclineMigrateTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa9e01327077e6b75c561a7b600bb23df6}
+}]\index{AcceptMigrateTag@{AcceptMigrateTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!AcceptMigrateTag@{AcceptMigrateTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38faec829edd0cd7b7d322a7027a86c90bd5}{
+AcceptMigrateTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38faec829edd0cd7b7d322a7027a86c90bd5}
+}]\index{MigratedTaskOutDataTag@{MigratedTaskOutDataTag}!MailBox@{MailBox}}\index{MailBox@{MailBox}!MigratedTaskOutDataTag@{MigratedTaskOutDataTag}}\item[{\em 
+\hypertarget{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa56ea80305e12502739ecdd2ffc068322}{
+MigratedTaskOutDataTag}
+\label{class_mail_box_a3699f2a3318218702288ec9fb7f8e38fa56ea80305e12502739ecdd2ffc068322}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 69 of file mailbox.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_mail_box_a534ac0f734937aa7f2409bea4da8de16}{
+\index{MailBox@{MailBox}!MailBox@{MailBox}}
+\index{MailBox@{MailBox}!MailBox@{MailBox}}
+\subsubsection[{MailBox}]{\setlength{\rightskip}{0pt plus 5cm}MailBox::MailBox ({\bf INetwork} $\ast$ {\em net})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a534ac0f734937aa7f2409bea4da8de16}
+
+
+Definition at line 67 of file mailbox.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_mail_box_a0dc7cda2ef943be7763bf18494e9422d}{
+\index{MailBox@{MailBox}!checkPostedReceives@{checkPostedReceives}}
+\index{checkPostedReceives@{checkPostedReceives}!MailBox@{MailBox}}
+\subsubsection[{checkPostedReceives}]{\setlength{\rightskip}{0pt plus 5cm}bool MailBox::checkPostedReceives ({\bf MailBoxEvent} $\ast$ {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a0dc7cda2ef943be7763bf18494e9422d}
+
+
+Definition at line 204 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{class_mail_box_a0dc7cda2ef943be7763bf18494e9422d_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{class_mail_box_a0dc7cda2ef943be7763bf18494e9422d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_a541c1f871502eec356801ed5657f56c3}{
+\index{MailBox@{MailBox}!dumpPosts@{dumpPosts}}
+\index{dumpPosts@{dumpPosts}!MailBox@{MailBox}}
+\subsubsection[{dumpPosts}]{\setlength{\rightskip}{0pt plus 5cm}void MailBox::dumpPosts ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a541c1f871502eec356801ed5657f56c3}
+
+
+Definition at line 179 of file mailbox.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_mail_box_a541c1f871502eec356801ed5657f56c3_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_ad920ff9b804620414e814322462c783b}{
+\index{MailBox@{MailBox}!getEvent@{getEvent}}
+\index{getEvent@{getEvent}!MailBox@{MailBox}}
+\subsubsection[{getEvent}]{\setlength{\rightskip}{0pt plus 5cm}bool MailBox::getEvent ({\bf MemoryManager} $\ast$ {\em memman}, \/  {\bf MailBoxEvent} $\ast$ {\em event}, \/  bool $\ast$ {\em completed}, \/  bool {\em wait} = {\ttfamily false})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_ad920ff9b804620414e814322462c783b}
+
+
+Definition at line 216 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_mail_box_ad920ff9b804620414e814322462c783b_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_a1fb17b7247e23d29fc0f51e980717acf}{
+\index{MailBox@{MailBox}!getLRNeighbors@{getLRNeighbors}}
+\index{getLRNeighbors@{getLRNeighbors}!MailBox@{MailBox}}
+\subsubsection[{getLRNeighbors}]{\setlength{\rightskip}{0pt plus 5cm}void MailBox::getLRNeighbors (int {\em org}, \/  int $\ast$ {\em left}, \/  int $\ast$ {\em right})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a1fb17b7247e23d29fc0f51e980717acf}
+
+
+Definition at line 90 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{class_mail_box_a1fb17b7247e23d29fc0f51e980717acf_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=374pt]{class_mail_box_a1fb17b7247e23d29fc0f51e980717acf_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_ad63db95e264ebb4d4bf090ad3e3d0394}{
+\index{MailBox@{MailBox}!getPostEvent@{getPostEvent}}
+\index{getPostEvent@{getPostEvent}!MailBox@{MailBox}}
+\subsubsection[{getPostEvent}]{\setlength{\rightskip}{0pt plus 5cm}bool MailBox::getPostEvent ({\bf MailBoxEvent} $\ast$ {\em event}, \/  int {\em tag}, \/  unsigned long {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_ad63db95e264ebb4d4bf090ad3e3d0394}
+
+
+Definition at line 189 of file mailbox.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{class_mail_box_ad63db95e264ebb4d4bf090ad3e3d0394_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_a467ff1952f56669a619092d57824637d}{
+\index{MailBox@{MailBox}!prepareDataReceive@{prepareDataReceive}}
+\index{prepareDataReceive@{prepareDataReceive}!MailBox@{MailBox}}
+\subsubsection[{prepareDataReceive}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MailBox::prepareDataReceive ({\bf MemoryItem} $\ast$ {\em mi}, \/  int {\em source}, \/  unsigned long {\em key})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a467ff1952f56669a619092d57824637d}
+
+
+Definition at line 163 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_mail_box_a467ff1952f56669a619092d57824637d_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_aa9c92ef9ed35dbd1ebc4aae5f16876bd}{
+\index{MailBox@{MailBox}!prepareListenerReceive@{prepareListenerReceive}}
+\index{prepareListenerReceive@{prepareListenerReceive}!MailBox@{MailBox}}
+\subsubsection[{prepareListenerReceive}]{\setlength{\rightskip}{0pt plus 5cm}void MailBox::prepareListenerReceive (int {\em length}, \/  int {\em host} = {\ttfamily -\/1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_aa9c92ef9ed35dbd1ebc4aae5f16876bd}
+
+
+Definition at line 138 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{class_mail_box_aa9c92ef9ed35dbd1ebc4aae5f16876bd_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{class_mail_box_aa9c92ef9ed35dbd1ebc4aae5f16876bd_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_a9730cc56fbce0325496bb67970572015}{
+\index{MailBox@{MailBox}!prepareTerminateReceive@{prepareTerminateReceive}}
+\index{prepareTerminateReceive@{prepareTerminateReceive}!MailBox@{MailBox}}
+\subsubsection[{prepareTerminateReceive}]{\setlength{\rightskip}{0pt plus 5cm}void MailBox::prepareTerminateReceive (int {\em source1}, \/  int {\em source2}, \/  int {\em source3})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a9730cc56fbce0325496bb67970572015}
+
+
+Definition at line 124 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{class_mail_box_a9730cc56fbce0325496bb67970572015_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{class_mail_box_a9730cc56fbce0325496bb67970572015_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_a45435c4ffb07fe13da0bcdacdde49bb6}{
+\index{MailBox@{MailBox}!prepareTerminateReceiveForHost@{prepareTerminateReceiveForHost}}
+\index{prepareTerminateReceiveForHost@{prepareTerminateReceiveForHost}!MailBox@{MailBox}}
+\subsubsection[{prepareTerminateReceiveForHost}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MailBox::prepareTerminateReceiveForHost (int {\em source})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_a45435c4ffb07fe13da0bcdacdde49bb6}
+
+
+Definition at line 104 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_mail_box_a45435c4ffb07fe13da0bcdacdde49bb6_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=413pt]{class_mail_box_a45435c4ffb07fe13da0bcdacdde49bb6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_mail_box_ae6b86c4b322220e0a416dadec6e50877}{
+\index{MailBox@{MailBox}!send@{send}}
+\index{send@{send}!MailBox@{MailBox}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MailBox::send ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em destination}, \/  bool {\em wait} = {\ttfamily false})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_mail_box_ae6b86c4b322220e0a416dadec6e50877}
+
+
+Definition at line 85 of file mailbox.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=122pt]{class_mail_box_ae6b86c4b322220e0a416dadec6e50877_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_mail_box_ae6b86c4b322220e0a416dadec6e50877_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mailbox_8hpp}{mailbox.hpp}\end{DoxyCompactItemize}

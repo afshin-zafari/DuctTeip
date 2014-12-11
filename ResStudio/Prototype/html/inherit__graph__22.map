@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_i_network.html" title="INetwork" alt="" coords="5,32,80,61"/>
+<area shape="rect" id="node3" href="$class_m_p_i_comm.html" title="MPIComm" alt="" coords="141,5,227,35"/>
+<area shape="rect" id="node5" href="$class_simulate_comm.html" title="SimulateComm" alt="" coords="128,59,240,88"/>
+</map>

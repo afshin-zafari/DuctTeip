@@ -1,0 +1,772 @@
+\hypertarget{class_i_ductteip_task}{
+\section{IDuctteipTask Class Reference}
+\label{class_i_ductteip_task}\index{IDuctteipTask@{IDuctteipTask}}
+}
+
+
+{\ttfamily \#include $<$task.hpp$>$}Collaboration diagram for IDuctteipTask:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=394pt]{class_i_ductteip_task__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0}{TaskType} \{ \hyperlink{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0a8e4e71fb86fb7236ab752d5a860c8548}{NormalTask}, 
+\hyperlink{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0a92cdf4ae80eb4c524b00cbbb3a9a2e0f}{PropagateTask}
+ \}
+\item 
+enum \hyperlink{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8}{TaskState} \{ \par
+\hyperlink{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a4f35a0ab665e980d0f9a3547abcc909c}{WaitForData} = 2, 
+\hyperlink{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a7e8dca5fd69a1c6780acce2f551e04ee}{Running}, 
+\hyperlink{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a2e345507c799f0cae7c77b35496aef1a}{Finished}, 
+\hyperlink{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a25d5dc05079079201f84b137e4b9a3a8}{UpgradingData}, 
+\par
+\hyperlink{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a1dd648383ed6b8a4132bf17552ed97b1}{CanBeCleared}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_i_ductteip_task_af6e8ba2a01f02e8a354831083d27d6c5}{IDuctteipTask} (\hyperlink{class_i_context}{IContext} $\ast$context, string \_\-name, unsigned long \_\-key, int \_\-host, list$<$ \hyperlink{struct_data_access}{DataAccess} $\ast$ $>$ $\ast$dlist)
+\item 
+\hyperlink{class_i_ductteip_task_a3cd60ba06a40fc003699bc87ec8c2f54}{$\sim$IDuctteipTask} ()
+\item 
+\hyperlink{class_i_ductteip_task_ac3e5ee9cc9a149d2d1fdcaf4f9bb6d4e}{IDuctteipTask} ()
+\item 
+\hyperlink{class_i_ductteip_task_a9829e9023aab8fa4bc8e54f0064fff9a}{IDuctteipTask} (\hyperlink{struct_propagate_info}{PropagateInfo} $\ast$P)
+\item 
+pthread\_\-mutex\_\-t $\ast$ \hyperlink{class_i_ductteip_task_a1f3ee21dbaeab6688bcc6bda4a9355ca}{getTaskFinishMutex} ()
+\item 
+void \hyperlink{class_i_ductteip_task_aac8c7bc01da3981e2080293b4337f576}{createSyncHandle} ()
+\item 
+Handle$<$ \hyperlink{struct_options}{Options} $>$ $\ast$ \hyperlink{class_i_ductteip_task_aed04ae7b68a5456ab60617c639da4f45}{getSyncHandle} ()
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_ductteip_task_a403052cd9aa617520ccf192f79b862b9}{getDataAccess} (int index)
+\item 
+void \hyperlink{class_i_ductteip_task_abbdb78cf7dc2e655b704e42fd344f4fb}{setHost} (int h)
+\item 
+int \hyperlink{class_i_ductteip_task_aff5c45921ef7de2e0a0261477fdbd323}{getHost} ()
+\item 
+string \hyperlink{class_i_ductteip_task_aff428fcafc7ce7f6aa9f281febead30a}{getName} ()
+\item 
+unsigned long \hyperlink{class_i_ductteip_task_adfbcbcb284c9dba335ce519bc27d4ff1}{getKey} ()
+\item 
+void \hyperlink{class_i_ductteip_task_a1f1f64d2c28f10f03516d242e3674a7f}{setHandle} (\hyperlink{task_8hpp_a189c327d368d47849e32f5dfcb3c5f45}{TaskHandle} h)
+\item 
+\hyperlink{task_8hpp_a189c327d368d47849e32f5dfcb3c5f45}{TaskHandle} \hyperlink{class_i_ductteip_task_ab4eb87b3c109c4a5c8a74c928ea3b8b5}{getHandle} ()
+\item 
+void \hyperlink{class_i_ductteip_task_ad0ae24379f4794c3363d1e94a1299c03}{setCommHandle} (unsigned long h)
+\item 
+unsigned long \hyperlink{class_i_ductteip_task_a9c7685d69efbb5b72a303138dd96521d}{getCommHandle} ()
+\item 
+list$<$ \hyperlink{struct_data_access}{DataAccess} $\ast$ $>$ $\ast$ \hyperlink{class_i_ductteip_task_a57d9c01e2a2d7603a46b18b9b7391228}{getDataAccessList} ()
+\item 
+void \hyperlink{class_i_ductteip_task_ab3ea4b7cc3e270b83a4b75655b4efa57}{dumpDataAccess} (list$<$ \hyperlink{struct_data_access}{DataAccess} $\ast$ $>$ $\ast$dlist)
+\item 
+void \hyperlink{class_i_ductteip_task_aa9fae61a11236066513118d19ebd22b0}{dump} (char c=' ')
+\item 
+bool \hyperlink{class_i_ductteip_task_ab92791950ee2fe51cf1005421cb87695}{isFinished} ()
+\item 
+int \hyperlink{class_i_ductteip_task_a7422e06ba861c73d6e00907a4f905aef}{getState} ()
+\item 
+void \hyperlink{class_i_ductteip_task_a1bf76470ba95aee4ed77d059144be07f}{setState} (int s)
+\item 
+void \hyperlink{class_i_ductteip_task_a29e56abf2e5991acc91462c1bbdb1511}{setName} (string n)
+\item 
+int \hyperlink{class_i_ductteip_task_ae517fed47c21ca466216d17ece9ab41c}{getPackSize} ()
+\item 
+bool \hyperlink{class_i_ductteip_task_af7aba4ca30458f6d2c7bb2834406198f}{canBeCleared} ()
+\item 
+bool \hyperlink{class_i_ductteip_task_a2fb81b703881918d054382d6894f0a77}{isUpgrading} ()
+\item 
+void \hyperlink{class_i_ductteip_task_ae4ef33df082b9727f281fdaa1896bb89}{upgradeData} (char)
+\item 
+bool \hyperlink{class_i_ductteip_task_ad30ebd78861e6d0e7647a79393ccbcab}{canRun} (char c=' ')
+\item 
+void \hyperlink{class_i_ductteip_task_abef058563393dffda702745c2503998f}{setFinished} (bool f)
+\item 
+void \hyperlink{class_i_ductteip_task_abe3d6c79a56e71982297a88ff9a0921c}{run} ()
+\item 
+int \hyperlink{class_i_ductteip_task_a6f946dcbf504460e1a0de2672bcff1c2}{serialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+\hyperlink{struct_message_buffer}{MessageBuffer} $\ast$ \hyperlink{class_i_ductteip_task_ace530f277583106811b9955fa1977f9d}{serialize} ()
+\item 
+void \hyperlink{class_i_ductteip_task_a035d61635b69e2682c7361e3a07f610e}{deserialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+void \hyperlink{class_i_ductteip_task_a17aaf798213e43023a50f854fa236953}{setExported} (bool f)
+\item 
+bool \hyperlink{class_i_ductteip_task_af4805b045773376b86d6183048477eee}{isExported} ()
+\item 
+void \hyperlink{class_i_ductteip_task_a886387bf17236ca511f9e772fd33a961}{setImported} (bool f)
+\item 
+bool \hyperlink{class_i_ductteip_task_a5b644c2fc03f581eb1b1b077a4bae8e0}{isImported} ()
+\item 
+bool \hyperlink{class_i_ductteip_task_a91d7a4855bd1f2b82608c4da8f4dd778}{isRunning} ()
+\item 
+void \hyperlink{class_i_ductteip_task_ab388f79a34057d17d41286f57db4a288}{runPropagateTask} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 37 of file task.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8}{
+\index{IDuctteipTask@{IDuctteipTask}!TaskState@{TaskState}}
+\index{TaskState@{TaskState}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{TaskState}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf IDuctteipTask::TaskState}}}
+\label{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{WaitForData@{WaitForData}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!WaitForData@{WaitForData}}\item[{\em 
+\hypertarget{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a4f35a0ab665e980d0f9a3547abcc909c}{
+WaitForData}
+\label{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a4f35a0ab665e980d0f9a3547abcc909c}
+}]\index{Running@{Running}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!Running@{Running}}\item[{\em 
+\hypertarget{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a7e8dca5fd69a1c6780acce2f551e04ee}{
+Running}
+\label{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a7e8dca5fd69a1c6780acce2f551e04ee}
+}]\index{Finished@{Finished}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!Finished@{Finished}}\item[{\em 
+\hypertarget{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a2e345507c799f0cae7c77b35496aef1a}{
+Finished}
+\label{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a2e345507c799f0cae7c77b35496aef1a}
+}]\index{UpgradingData@{UpgradingData}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!UpgradingData@{UpgradingData}}\item[{\em 
+\hypertarget{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a25d5dc05079079201f84b137e4b9a3a8}{
+UpgradingData}
+\label{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a25d5dc05079079201f84b137e4b9a3a8}
+}]\index{CanBeCleared@{CanBeCleared}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!CanBeCleared@{CanBeCleared}}\item[{\em 
+\hypertarget{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a1dd648383ed6b8a4132bf17552ed97b1}{
+CanBeCleared}
+\label{class_i_ductteip_task_aa73f68557d24801eba9ab1ca61a6d8b8a1dd648383ed6b8a4132bf17552ed97b1}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 57 of file task.hpp.\hypertarget{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0}{
+\index{IDuctteipTask@{IDuctteipTask}!TaskType@{TaskType}}
+\index{TaskType@{TaskType}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{TaskType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf IDuctteipTask::TaskType}}}
+\label{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{NormalTask@{NormalTask}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!NormalTask@{NormalTask}}\item[{\em 
+\hypertarget{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0a8e4e71fb86fb7236ab752d5a860c8548}{
+NormalTask}
+\label{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0a8e4e71fb86fb7236ab752d5a860c8548}
+}]\index{PropagateTask@{PropagateTask}!IDuctteipTask@{IDuctteipTask}}\index{IDuctteipTask@{IDuctteipTask}!PropagateTask@{PropagateTask}}\item[{\em 
+\hypertarget{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0a92cdf4ae80eb4c524b00cbbb3a9a2e0f}{
+PropagateTask}
+\label{class_i_ductteip_task_a7f8f5e47d9590cb18a31f1b2860154d0a92cdf4ae80eb4c524b00cbbb3a9a2e0f}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 53 of file task.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_i_ductteip_task_af6e8ba2a01f02e8a354831083d27d6c5}{
+\index{IDuctteipTask@{IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\index{IDuctteipTask@{IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{IDuctteipTask}]{\setlength{\rightskip}{0pt plus 5cm}IDuctteipTask::IDuctteipTask ({\bf IContext} $\ast$ {\em context}, \/  string {\em \_\-name}, \/  unsigned long {\em \_\-key}, \/  int {\em \_\-host}, \/  list$<$ {\bf DataAccess} $\ast$ $>$ $\ast$ {\em dlist})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_af6e8ba2a01f02e8a354831083d27d6c5}
+
+
+Definition at line 65 of file task.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_i_ductteip_task_af6e8ba2a01f02e8a354831083d27d6c5_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a3cd60ba06a40fc003699bc87ec8c2f54}{
+\index{IDuctteipTask@{IDuctteipTask}!$\sim$IDuctteipTask@{$\sim$IDuctteipTask}}
+\index{$\sim$IDuctteipTask@{$\sim$IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{$\sim$IDuctteipTask}]{\setlength{\rightskip}{0pt plus 5cm}IDuctteipTask::$\sim$IDuctteipTask ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a3cd60ba06a40fc003699bc87ec8c2f54}
+
+
+Definition at line 89 of file task.hpp.\hypertarget{class_i_ductteip_task_ac3e5ee9cc9a149d2d1fdcaf4f9bb6d4e}{
+\index{IDuctteipTask@{IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\index{IDuctteipTask@{IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{IDuctteipTask}]{\setlength{\rightskip}{0pt plus 5cm}IDuctteipTask::IDuctteipTask ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ac3e5ee9cc9a149d2d1fdcaf4f9bb6d4e}
+
+
+Definition at line 98 of file task.hpp.\hypertarget{class_i_ductteip_task_a9829e9023aab8fa4bc8e54f0064fff9a}{
+\index{IDuctteipTask@{IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\index{IDuctteipTask@{IDuctteipTask}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{IDuctteipTask}]{\setlength{\rightskip}{0pt plus 5cm}IDuctteipTask::IDuctteipTask ({\bf PropagateInfo} $\ast$ {\em P})}}
+\label{class_i_ductteip_task_a9829e9023aab8fa4bc8e54f0064fff9a}
+
+
+Definition at line 751 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_a9829e9023aab8fa4bc8e54f0064fff9a_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_ductteip_task_af7aba4ca30458f6d2c7bb2834406198f}{
+\index{IDuctteipTask@{IDuctteipTask}!canBeCleared@{canBeCleared}}
+\index{canBeCleared@{canBeCleared}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{canBeCleared}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::canBeCleared ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_af7aba4ca30458f6d2c7bb2834406198f}
+
+
+Definition at line 173 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_af7aba4ca30458f6d2c7bb2834406198f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ad30ebd78861e6d0e7647a79393ccbcab}{
+\index{IDuctteipTask@{IDuctteipTask}!canRun@{canRun}}
+\index{canRun@{canRun}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{canRun}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::canRun (char {\em c} = {\ttfamily '~'})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ad30ebd78861e6d0e7647a79393ccbcab}
+
+
+Definition at line 177 of file task.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_i_ductteip_task_ad30ebd78861e6d0e7647a79393ccbcab_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=165pt]{class_i_ductteip_task_ad30ebd78861e6d0e7647a79393ccbcab_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_aac8c7bc01da3981e2080293b4337f576}{
+\index{IDuctteipTask@{IDuctteipTask}!createSyncHandle@{createSyncHandle}}
+\index{createSyncHandle@{createSyncHandle}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{createSyncHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::createSyncHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_aac8c7bc01da3981e2080293b4337f576}
+
+
+Definition at line 112 of file task.hpp.\hypertarget{class_i_ductteip_task_a035d61635b69e2682c7361e3a07f610e}{
+\index{IDuctteipTask@{IDuctteipTask}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{deserialize}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::deserialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})}}
+\label{class_i_ductteip_task_a035d61635b69e2682c7361e3a07f610e}
+
+
+Definition at line 791 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_a035d61635b69e2682c7361e3a07f610e_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_aa9fae61a11236066513118d19ebd22b0}{
+\index{IDuctteipTask@{IDuctteipTask}!dump@{dump}}
+\index{dump@{dump}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::dump (char {\em c} = {\ttfamily '~'})}}
+\label{class_i_ductteip_task_aa9fae61a11236066513118d19ebd22b0}
+
+
+Definition at line 739 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_aa9fae61a11236066513118d19ebd22b0_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{class_i_ductteip_task_aa9fae61a11236066513118d19ebd22b0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ab3ea4b7cc3e270b83a4b75655b4efa57}{
+\index{IDuctteipTask@{IDuctteipTask}!dumpDataAccess@{dumpDataAccess}}
+\index{dumpDataAccess@{dumpDataAccess}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{dumpDataAccess}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::dumpDataAccess (list$<$ {\bf DataAccess} $\ast$ $>$ $\ast$ {\em dlist})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ab3ea4b7cc3e270b83a4b75655b4efa57}
+
+
+Definition at line 141 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{class_i_ductteip_task_ab3ea4b7cc3e270b83a4b75655b4efa57_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a9c7685d69efbb5b72a303138dd96521d}{
+\index{IDuctteipTask@{IDuctteipTask}!getCommHandle@{getCommHandle}}
+\index{getCommHandle@{getCommHandle}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getCommHandle}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long IDuctteipTask::getCommHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a9c7685d69efbb5b72a303138dd96521d}
+
+
+Definition at line 135 of file task.hpp.\hypertarget{class_i_ductteip_task_a403052cd9aa617520ccf192f79b862b9}{
+\index{IDuctteipTask@{IDuctteipTask}!getDataAccess@{getDataAccess}}
+\index{getDataAccess@{getDataAccess}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getDataAccess}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IDuctteipTask::getDataAccess (int {\em index})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a403052cd9aa617520ccf192f79b862b9}
+
+
+Definition at line 116 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{class_i_ductteip_task_a403052cd9aa617520ccf192f79b862b9_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a57d9c01e2a2d7603a46b18b9b7391228}{
+\index{IDuctteipTask@{IDuctteipTask}!getDataAccessList@{getDataAccessList}}
+\index{getDataAccessList@{getDataAccessList}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getDataAccessList}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf DataAccess} $\ast$$>$$\ast$ IDuctteipTask::getDataAccessList ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a57d9c01e2a2d7603a46b18b9b7391228}
+
+
+Definition at line 138 of file task.hpp.\hypertarget{class_i_ductteip_task_ab4eb87b3c109c4a5c8a74c928ea3b8b5}{
+\index{IDuctteipTask@{IDuctteipTask}!getHandle@{getHandle}}
+\index{getHandle@{getHandle}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TaskHandle} IDuctteipTask::getHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ab4eb87b3c109c4a5c8a74c928ea3b8b5}
+
+
+Definition at line 132 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_ab4eb87b3c109c4a5c8a74c928ea3b8b5_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_aff5c45921ef7de2e0a0261477fdbd323}{
+\index{IDuctteipTask@{IDuctteipTask}!getHost@{getHost}}
+\index{getHost@{getHost}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int IDuctteipTask::getHost ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_aff5c45921ef7de2e0a0261477fdbd323}
+
+
+Definition at line 127 of file task.hpp.\hypertarget{class_i_ductteip_task_adfbcbcb284c9dba335ce519bc27d4ff1}{
+\index{IDuctteipTask@{IDuctteipTask}!getKey@{getKey}}
+\index{getKey@{getKey}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getKey}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long IDuctteipTask::getKey ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_adfbcbcb284c9dba335ce519bc27d4ff1}
+
+
+Definition at line 129 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_i_ductteip_task_adfbcbcb284c9dba335ce519bc27d4ff1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_aff428fcafc7ce7f6aa9f281febead30a}{
+\index{IDuctteipTask@{IDuctteipTask}!getName@{getName}}
+\index{getName@{getName}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getName}]{\setlength{\rightskip}{0pt plus 5cm}string IDuctteipTask::getName ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_aff428fcafc7ce7f6aa9f281febead30a}
+
+
+Definition at line 128 of file task.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=129pt]{class_i_ductteip_task_aff428fcafc7ce7f6aa9f281febead30a_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_aff428fcafc7ce7f6aa9f281febead30a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ae517fed47c21ca466216d17ece9ab41c}{
+\index{IDuctteipTask@{IDuctteipTask}!getPackSize@{getPackSize}}
+\index{getPackSize@{getPackSize}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getPackSize}]{\setlength{\rightskip}{0pt plus 5cm}int IDuctteipTask::getPackSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ae517fed47c21ca466216d17ece9ab41c}
+
+
+Definition at line 164 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_i_ductteip_task_ae517fed47c21ca466216d17ece9ab41c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a7422e06ba861c73d6e00907a4f905aef}{
+\index{IDuctteipTask@{IDuctteipTask}!getState@{getState}}
+\index{getState@{getState}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getState}]{\setlength{\rightskip}{0pt plus 5cm}int IDuctteipTask::getState ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a7422e06ba861c73d6e00907a4f905aef}
+
+
+Definition at line 157 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{class_i_ductteip_task_a7422e06ba861c73d6e00907a4f905aef_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_aed04ae7b68a5456ab60617c639da4f45}{
+\index{IDuctteipTask@{IDuctteipTask}!getSyncHandle@{getSyncHandle}}
+\index{getSyncHandle@{getSyncHandle}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getSyncHandle}]{\setlength{\rightskip}{0pt plus 5cm}Handle$<${\bf Options}$>$$\ast$ IDuctteipTask::getSyncHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_aed04ae7b68a5456ab60617c639da4f45}
+
+
+Definition at line 114 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{class_i_ductteip_task_aed04ae7b68a5456ab60617c639da4f45_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a1f3ee21dbaeab6688bcc6bda4a9355ca}{
+\index{IDuctteipTask@{IDuctteipTask}!getTaskFinishMutex@{getTaskFinishMutex}}
+\index{getTaskFinishMutex@{getTaskFinishMutex}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{getTaskFinishMutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t$\ast$ IDuctteipTask::getTaskFinishMutex ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a1f3ee21dbaeab6688bcc6bda4a9355ca}
+
+
+Definition at line 108 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=375pt]{class_i_ductteip_task_a1f3ee21dbaeab6688bcc6bda4a9355ca_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_af4805b045773376b86d6183048477eee}{
+\index{IDuctteipTask@{IDuctteipTask}!isExported@{isExported}}
+\index{isExported@{isExported}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{isExported}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::isExported ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_af4805b045773376b86d6183048477eee}
+
+
+Definition at line 231 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=257pt]{class_i_ductteip_task_af4805b045773376b86d6183048477eee_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ab92791950ee2fe51cf1005421cb87695}{
+\index{IDuctteipTask@{IDuctteipTask}!isFinished@{isFinished}}
+\index{isFinished@{isFinished}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{isFinished}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::isFinished ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ab92791950ee2fe51cf1005421cb87695}
+
+
+Definition at line 156 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{class_i_ductteip_task_ab92791950ee2fe51cf1005421cb87695_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a5b644c2fc03f581eb1b1b077a4bae8e0}{
+\index{IDuctteipTask@{IDuctteipTask}!isImported@{isImported}}
+\index{isImported@{isImported}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{isImported}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::isImported ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a5b644c2fc03f581eb1b1b077a4bae8e0}
+
+
+Definition at line 235 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{class_i_ductteip_task_a5b644c2fc03f581eb1b1b077a4bae8e0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a91d7a4855bd1f2b82608c4da8f4dd778}{
+\index{IDuctteipTask@{IDuctteipTask}!isRunning@{isRunning}}
+\index{isRunning@{isRunning}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{isRunning}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::isRunning ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a91d7a4855bd1f2b82608c4da8f4dd778}
+
+
+Definition at line 236 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{class_i_ductteip_task_a91d7a4855bd1f2b82608c4da8f4dd778_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a2fb81b703881918d054382d6894f0a77}{
+\index{IDuctteipTask@{IDuctteipTask}!isUpgrading@{isUpgrading}}
+\index{isUpgrading@{isUpgrading}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{isUpgrading}]{\setlength{\rightskip}{0pt plus 5cm}bool IDuctteipTask::isUpgrading ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a2fb81b703881918d054382d6894f0a77}
+
+
+Definition at line 174 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{class_i_ductteip_task_a2fb81b703881918d054382d6894f0a77_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_abe3d6c79a56e71982297a88ff9a0921c}{
+\index{IDuctteipTask@{IDuctteipTask}!run@{run}}
+\index{run@{run}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::run ()}}
+\label{class_i_ductteip_task_abe3d6c79a56e71982297a88ff9a0921c}
+
+
+Definition at line 813 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_abe3d6c79a56e71982297a88ff9a0921c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{class_i_ductteip_task_abe3d6c79a56e71982297a88ff9a0921c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ab388f79a34057d17d41286f57db4a288}{
+\index{IDuctteipTask@{IDuctteipTask}!runPropagateTask@{runPropagateTask}}
+\index{runPropagateTask@{runPropagateTask}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{runPropagateTask}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::runPropagateTask ()}}
+\label{class_i_ductteip_task_ab388f79a34057d17d41286f57db4a288}
+
+
+Definition at line 763 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_ab388f79a34057d17d41286f57db4a288_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{class_i_ductteip_task_ab388f79a34057d17d41286f57db4a288_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ace530f277583106811b9955fa1977f9d}{
+\index{IDuctteipTask@{IDuctteipTask}!serialize@{serialize}}
+\index{serialize@{serialize}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MessageBuffer} $\ast$ IDuctteipTask::serialize ()}}
+\label{class_i_ductteip_task_ace530f277583106811b9955fa1977f9d}
+
+
+Definition at line 769 of file context.hpp.\hypertarget{class_i_ductteip_task_a6f946dcbf504460e1a0de2672bcff1c2}{
+\index{IDuctteipTask@{IDuctteipTask}!serialize@{serialize}}
+\index{serialize@{serialize}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}int IDuctteipTask::serialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})}}
+\label{class_i_ductteip_task_a6f946dcbf504460e1a0de2672bcff1c2}
+
+
+Definition at line 775 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{class_i_ductteip_task_a6f946dcbf504460e1a0de2672bcff1c2_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{class_i_ductteip_task_a6f946dcbf504460e1a0de2672bcff1c2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_ad0ae24379f4794c3363d1e94a1299c03}{
+\index{IDuctteipTask@{IDuctteipTask}!setCommHandle@{setCommHandle}}
+\index{setCommHandle@{setCommHandle}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setCommHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setCommHandle (unsigned long {\em h})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_ad0ae24379f4794c3363d1e94a1299c03}
+
+
+Definition at line 134 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{class_i_ductteip_task_ad0ae24379f4794c3363d1e94a1299c03_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a17aaf798213e43023a50f854fa236953}{
+\index{IDuctteipTask@{IDuctteipTask}!setExported@{setExported}}
+\index{setExported@{setExported}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setExported}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setExported (bool {\em f})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a17aaf798213e43023a50f854fa236953}
+
+
+Definition at line 229 of file task.hpp.\hypertarget{class_i_ductteip_task_abef058563393dffda702745c2503998f}{
+\index{IDuctteipTask@{IDuctteipTask}!setFinished@{setFinished}}
+\index{setFinished@{setFinished}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setFinished}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setFinished (bool {\em f})}}
+\label{class_i_ductteip_task_abef058563393dffda702745c2503998f}
+
+
+Definition at line 828 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_abef058563393dffda702745c2503998f_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_abef058563393dffda702745c2503998f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a1f1f64d2c28f10f03516d242e3674a7f}{
+\index{IDuctteipTask@{IDuctteipTask}!setHandle@{setHandle}}
+\index{setHandle@{setHandle}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setHandle ({\bf TaskHandle} {\em h})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a1f1f64d2c28f10f03516d242e3674a7f}
+
+
+Definition at line 131 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_a1f1f64d2c28f10f03516d242e3674a7f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_abbdb78cf7dc2e655b704e42fd344f4fb}{
+\index{IDuctteipTask@{IDuctteipTask}!setHost@{setHost}}
+\index{setHost@{setHost}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setHost}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setHost (int {\em h})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_abbdb78cf7dc2e655b704e42fd344f4fb}
+
+
+Definition at line 126 of file task.hpp.\hypertarget{class_i_ductteip_task_a886387bf17236ca511f9e772fd33a961}{
+\index{IDuctteipTask@{IDuctteipTask}!setImported@{setImported}}
+\index{setImported@{setImported}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setImported}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setImported (bool {\em f})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a886387bf17236ca511f9e772fd33a961}
+
+
+Definition at line 233 of file task.hpp.\hypertarget{class_i_ductteip_task_a29e56abf2e5991acc91462c1bbdb1511}{
+\index{IDuctteipTask@{IDuctteipTask}!setName@{setName}}
+\index{setName@{setName}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setName}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setName (string {\em n})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a29e56abf2e5991acc91462c1bbdb1511}
+
+
+Definition at line 160 of file task.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_ductteip_task_a29e56abf2e5991acc91462c1bbdb1511_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_ductteip_task_a1bf76470ba95aee4ed77d059144be07f}{
+\index{IDuctteipTask@{IDuctteipTask}!setState@{setState}}
+\index{setState@{setState}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{setState}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::setState (int {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_ductteip_task_a1bf76470ba95aee4ed77d059144be07f}
+
+
+Definition at line 158 of file task.hpp.\hypertarget{class_i_ductteip_task_ae4ef33df082b9727f281fdaa1896bb89}{
+\index{IDuctteipTask@{IDuctteipTask}!upgradeData@{upgradeData}}
+\index{upgradeData@{upgradeData}!IDuctteipTask@{IDuctteipTask}}
+\subsubsection[{upgradeData}]{\setlength{\rightskip}{0pt plus 5cm}void IDuctteipTask::upgradeData (char {\em c})}}
+\label{class_i_ductteip_task_ae4ef33df082b9727f281fdaa1896bb89}
+
+
+Definition at line 838 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=390pt]{class_i_ductteip_task_ae4ef33df082b9727f281fdaa1896bb89_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{task_8hpp}{task.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,25 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_ductteip_log.html#a9a010d4387f7f74b848d5c36aaacd501" title="DuctteipLog::addEventEnd" alt="" coords="216,59,395,88"/>
+<area shape="rect" id="node21" href="$class_ductteip_log.html#a0edeefb537663709b3d284e60ed51b96" title="DuctteipLog::addEventNumber" alt="" coords="205,112,405,141"/>
+<area shape="rect" id="node23" href="$class_ductteip_log.html#a6d0afadbba975c706ef756a3ba23fe47" title="DuctteipLog::addEventStart" alt="" coords="215,165,396,195"/>
+<area shape="rect" id="node26" href="$class_i_network.html#a49a4daa697317d6fc065897a7926c26c" title="INetwork::canTerminate" alt="" coords="224,219,387,248"/>
+<area shape="rect" id="node28" href="$classengine.html#a1b418ba0ce7d9614cd03a30ab119456a" title="engine::elapsedTime" alt="" coords="235,272,376,301"/>
+<area shape="rect" id="node30" href="$class_i_network.html#a24bd475422706998cbee500825728d55" title="INetwork::get_host_count" alt="" coords="220,325,391,355"/>
+<area shape="rect" id="node32" href="$classengine.html#abe97f2997638c312c34128fd581472dd" title="engine::getUnfinishedTasks" alt="" coords="213,379,397,408"/>
+<area shape="rect" id="node36" href="$classengine.html#ab711383a9b6380efdc76eabc98f628de" title="engine::isAnyUnfinishedListener" alt="" coords="201,459,409,488"/>
+<area shape="rect" id="node5" href="$class_ductteip_log.html#a2038f71b600647a1899da3a0022f9fc1" title="DuctteipLog::addEvent" alt="" coords="479,112,633,141"/>
+<area shape="rect" id="node7" href="$class_ductteip_log.html#a080df86b3f7167341da836494af41822" title="DuctteipLog::getEventName" alt="" coords="717,5,904,35"/>
+<area shape="rect" id="node9" href="$class_i_ductteip_task.html#ab4eb87b3c109c4a5c8a74c928ea3b8b5" title="IDuctteipTask::getHandle" alt="" coords="725,59,896,88"/>
+<area shape="rect" id="node11" href="$class_i_ductteip_task.html#aff428fcafc7ce7f6aa9f281febead30a" title="IDuctteipTask::getName" alt="" coords="728,112,893,141"/>
+<area shape="rect" id="node15" href="$class_ductteip_log.html#a3f2679d12c317c14c06ac0a23243cb6a" title="DuctteipLog::updateCommStats" alt="" coords="707,165,915,195"/>
+<area shape="rect" id="node17" href="$class_ductteip_log.html#a10e6b8ed2cea31010e9937b5d0f5e685" title="DuctteipLog::updateStatisticsPair" alt="" coords="703,219,919,248"/>
+<area shape="rect" id="node13" href="$task_8hpp.html#ae15bb970511620732fc931105472c762" title="to_string" alt="" coords="1047,112,1119,141"/>
+<area shape="rect" id="node19" href="$class_ductteip_log.html#acca92822b7606cc0c5d384a3d96c7950" title="DuctteipLog::isSequentialPairEvent" alt="" coords="969,219,1196,248"/>
+<area shape="rect" id="node34" href="$class_i_ductteip_task.html#af7aba4ca30458f6d2c7bb2834406198f" title="IDuctteipTask::canBeCleared" alt="" coords="459,365,653,395"/>
+<area shape="rect" id="node38" href="$class_i_listener.html#ae53c9b5bd1067445dd09804efd04ea5c" title="IListener::dump" alt="" coords="500,419,612,448"/>
+<area shape="rect" id="node46" href="$class_i_listener.html#af0cb8b56c305486c399dc60427864ef4" title="IListener::isDataSent" alt="" coords="484,472,628,501"/>
+<area shape="rect" id="node48" href="$class_i_listener.html#aef5dea3b4b1ca6d3b14b3f5340514c0a" title="IListener::isReceived" alt="" coords="484,525,628,555"/>
+<area shape="rect" id="node40" href="$struct_data_version.html#a03b5b85b2c309989eb96c2248b0dedfa" title="DataVersion::dump" alt="" coords="744,419,877,448"/>
+<area shape="rect" id="node42" href="$struct_data_version.html#a09ef74f4b532a991d2a05982d012d524" title="DataVersion::dumpString" alt="" coords="999,419,1167,448"/>
+<area shape="rect" id="node44" href="$struct_context_prefix.html#ab31c3c3cafc8c6ddf9d755184b7bc678" title="ContextPrefix::toString" alt="" coords="1245,419,1400,448"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_task_propagate_policy.html#af5be0fe1cf14a044035d62b5b40c2093" title="TaskPropagatePolicy::isAllowed" alt="" coords="277,5,488,35"/>
+<area shape="rect" id="node5" href="$class_task_add_policy.html#a80261d7262611c29d2b483e4e73cc204" title="TaskAddPolicy::isAllowed" alt="" coords="296,59,469,88"/>
+<area shape="rect" id="node7" href="$class_context_host_policy.html#aa10ca0985dfed1351b9ef69fbe97f1f4" title="ContextHostPolicy::isAllowed" alt="" coords="285,112,480,141"/>
+</map>

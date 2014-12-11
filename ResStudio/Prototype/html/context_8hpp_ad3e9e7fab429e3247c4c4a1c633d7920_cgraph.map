@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_global_context.html#ac14dc301fa7de1207472da6f515a2f1f" title="GlobalContext::canAllEnter" alt="" coords="180,5,359,35"/>
+<area shape="rect" id="node7" href="$class_context_header.html#a06591e7f14d53be75366e52e991792f7" title="ContextHeader::clear" alt="" coords="196,59,343,88"/>
+<area shape="rect" id="node9" href="$class_global_context.html#a0f3857165a2d4571d6ae82b86c6becbe" title="GlobalContext::createPropagateTasks" alt="" coords="148,112,391,141"/>
+<area shape="rect" id="node13" href="$class_global_context.html#a3f1200ddc2119935fac3b8b4ef5143d1" title="GlobalContext::getLevelString" alt="" coords="801,139,996,168"/>
+<area shape="rect" id="node15" href="$class_global_context.html#a67e7eba1f3ea2ff2cc9d321a64f8d2b4" title="GlobalContext::endContext" alt="" coords="180,216,359,245"/>
+<area shape="rect" id="node17" href="$class_global_context.html#acede5d21ec0546c5a97ee5752960183a" title="GlobalContext::getHeader" alt="" coords="183,269,356,299"/>
+<area shape="rect" id="node20" href="$class_global_context.html#a2afcc7411f13bee3be175887de0d5365" title="GlobalContext::upLevel" alt="" coords="191,323,348,352"/>
+<area shape="rect" id="node5" href="$class_context_host_policy.html#a78e3cff62d65667d5b4ea715b411a2c8" title="ContextHostPolicy::canAllEnter" alt="" coords="493,5,699,35"/>
+<area shape="rect" id="node11" href="$class_global_context.html#a24052ad1a783fc8860d47f6da220c321" title="GlobalContext::createPropagateTasksFromRange" alt="" coords="440,112,752,141"/>
+</map>

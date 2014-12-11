@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_global_context.html#a82ec626cc456bb864bf2376e2bda621f" title="GlobalContext::getDataByHandle" alt="" coords="197,32,413,61"/>
+<area shape="rect" id="node17" href="$class_i_data.html#a87b7baa5c42fd4c2b36875141030880d" title="IData::getName" alt="" coords="248,85,363,115"/>
+<area shape="rect" id="node5" href="$class_global_context.html#abed42c65852eb40358a222c34108c65a" title="GlobalContext::getContextByHandle" alt="" coords="461,5,696,35"/>
+<area shape="rect" id="node7" href="$class_i_context.html#a9e05e14cdde2f0b5a0ed3349815cb974" title="IContext::getDataByHandle" alt="" coords="488,59,669,88"/>
+<area shape="rect" id="node9" href="$class_i_data.html#a78a571407788130ebe382f51c3774605" title="IData::getDataByHandle" alt="" coords="744,32,909,61"/>
+<area shape="rect" id="node15" href="$class_i_context.html#a607d8609c589bfa7937b5a8313c61d04" title="IContext::getName" alt="" coords="760,85,893,115"/>
+<area shape="rect" id="node11" href="$class_i_context.html#a63664480f4eede6b3a5ab572dd454160" title="IContext::getContextHandle" alt="" coords="959,5,1143,35"/>
+<area shape="rect" id="node13" href="$class_i_data.html#a07c124c61dac722dded4c78d45be5cd2" title="IData::getDataHandle" alt="" coords="976,59,1125,88"/>
+</map>

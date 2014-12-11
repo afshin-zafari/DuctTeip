@@ -1,0 +1,317 @@
+\hypertarget{class_i_network}{
+\section{INetwork Class Reference}
+\label{class_i_network}\index{INetwork@{INetwork}}
+}
+
+
+{\ttfamily \#include $<$network.hpp$>$}Inheritance diagram for INetwork:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_i_network__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual unsigned long \hyperlink{class_i_network_a4996a6c20805f604c5afff707313ed4e}{send} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int destination, bool wait=false)=0
+\item 
+virtual int \hyperlink{class_i_network_a6578b7160209dfc342be9b5658621625}{receive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int source, bool wait=true)=0
+\item 
+virtual bool \hyperlink{class_i_network_a4cf6eb047a7d028c3c4c023b59293061}{isAnySendCompleted} (int $\ast$, unsigned long $\ast$)=0
+\item 
+virtual bool \hyperlink{class_i_network_a9e465b7489fd53410d3cb9ed532c4894}{isAnyPostCompleted} (int $\ast$, unsigned long $\ast$)=0
+\item 
+virtual bool \hyperlink{class_i_network_af6f98db34182f9ab4d705619eaabde2b}{isLastReceiveCompleted} (bool $\ast$)=0
+\item 
+virtual int \hyperlink{class_i_network_ab653bd28450c18a74826d06069ed3ed1}{probe} (int $\ast$tag, int $\ast$, int $\ast$, bool)=0
+\item 
+virtual int \hyperlink{class_i_network_a85b398c3932251d6c0d9698004eb01e7}{probeTags} (int $\ast$tag, int, int $\ast$, int $\ast$, int $\ast$)=0
+\item 
+virtual int \hyperlink{class_i_network_a5c706262a4275f321687a189686a2b81}{initialize} (int, char $\ast$$\ast$)=0
+\item 
+virtual int \hyperlink{class_i_network_a667e56ba7f3713c949f84573ae710a85}{finish} ()=0
+\item 
+virtual int \hyperlink{class_i_network_aef01bb260a8e60c7c9085b381cf86f13}{get\_\-host\_\-id} ()=0
+\item 
+virtual int \hyperlink{class_i_network_a24bd475422706998cbee500825728d55}{get\_\-host\_\-count} ()=0
+\item 
+virtual bool \hyperlink{class_i_network_aad8a4fcd575712d1ef795f1133e17916}{canMultiThread} ()=0
+\item 
+virtual bool \hyperlink{class_i_network_a49a4daa697317d6fc065897a7926c26c}{canTerminate} ()=0
+\item 
+virtual void \hyperlink{class_i_network_abed2c6be14fae042cc0308f3967a3bd0}{barrier} ()=0
+\item 
+virtual void \hyperlink{class_i_network_a6a9104cce9246feb6b8fc08b15e7c171}{initialize} ()=0
+\item 
+virtual void \hyperlink{class_i_network_a062d228ccf152a98c8255bda414d956d}{getEventBlocking} (int $\ast$, unsigned long $\ast$)=0
+\item 
+virtual unsigned long \hyperlink{class_i_network_aa1b87ec0d7a1f6d6a2956f05afcc3c81}{postDataReceive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$, int, int, int, unsigned long)=0
+\item 
+virtual unsigned long \hyperlink{class_i_network_a60a1f567df811d09fc1774bc439ea349}{postListenerReceive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$, int, int, int)=0
+\item 
+virtual unsigned long \hyperlink{class_i_network_ae8381635a24542ac374056c15613daeb}{postTerminateReceive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$, int, int, int)=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 5 of file network.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_network_abed2c6be14fae042cc0308f3967a3bd0}{
+\index{INetwork@{INetwork}!barrier@{barrier}}
+\index{barrier@{barrier}!INetwork@{INetwork}}
+\subsubsection[{barrier}]{\setlength{\rightskip}{0pt plus 5cm}virtual void INetwork::barrier ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_abed2c6be14fae042cc0308f3967a3bd0}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_ad52e37d83780b3f42ab18c3314c9d54f}{MPIComm}.\hypertarget{class_i_network_aad8a4fcd575712d1ef795f1133e17916}{
+\index{INetwork@{INetwork}!canMultiThread@{canMultiThread}}
+\index{canMultiThread@{canMultiThread}!INetwork@{INetwork}}
+\subsubsection[{canMultiThread}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool INetwork::canMultiThread ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_aad8a4fcd575712d1ef795f1133e17916}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a42d5d0b9d3a804931b2a58c468e08d0d}{MPIComm}.\hypertarget{class_i_network_a49a4daa697317d6fc065897a7926c26c}{
+\index{INetwork@{INetwork}!canTerminate@{canTerminate}}
+\index{canTerminate@{canTerminate}!INetwork@{INetwork}}
+\subsubsection[{canTerminate}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool INetwork::canTerminate ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a49a4daa697317d6fc065897a7926c26c}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_ae9829165ffcff61c0faea65b30e9a8c1}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{class_i_network_a49a4daa697317d6fc065897a7926c26c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a667e56ba7f3713c949f84573ae710a85}{
+\index{INetwork@{INetwork}!finish@{finish}}
+\index{finish@{finish}!INetwork@{INetwork}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::finish ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a667e56ba7f3713c949f84573ae710a85}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a96c71e22fbaac04771dffb5791e06692}{MPIComm}, and \hyperlink{class_simulate_comm_aab86214be629c432b2fd0922afa6ba6c}{SimulateComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{class_i_network_a667e56ba7f3713c949f84573ae710a85_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a24bd475422706998cbee500825728d55}{
+\index{INetwork@{INetwork}!get\_\-host\_\-count@{get\_\-host\_\-count}}
+\index{get\_\-host\_\-count@{get\_\-host\_\-count}!INetwork@{INetwork}}
+\subsubsection[{get\_\-host\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::get\_\-host\_\-count ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a24bd475422706998cbee500825728d55}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a991f93012b8d83f7ca54fc780555c683}{MPIComm}, and \hyperlink{class_simulate_comm_abce134f416c691a6910fcf6601ee8829}{SimulateComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_network_a24bd475422706998cbee500825728d55_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_aef01bb260a8e60c7c9085b381cf86f13}{
+\index{INetwork@{INetwork}!get\_\-host\_\-id@{get\_\-host\_\-id}}
+\index{get\_\-host\_\-id@{get\_\-host\_\-id}!INetwork@{INetwork}}
+\subsubsection[{get\_\-host\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::get\_\-host\_\-id ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_aef01bb260a8e60c7c9085b381cf86f13}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a856e93fd17d9e20104590440088b4049}{MPIComm}, and \hyperlink{class_simulate_comm_a0cc18f43f08d707c300466e9e1a59184}{SimulateComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{class_i_network_aef01bb260a8e60c7c9085b381cf86f13_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a062d228ccf152a98c8255bda414d956d}{
+\index{INetwork@{INetwork}!getEventBlocking@{getEventBlocking}}
+\index{getEventBlocking@{getEventBlocking}!INetwork@{INetwork}}
+\subsubsection[{getEventBlocking}]{\setlength{\rightskip}{0pt plus 5cm}virtual void INetwork::getEventBlocking (int $\ast$, \/  unsigned long $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a062d228ccf152a98c8255bda414d956d}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a973e8bc1426f2ac24f86036909eb2407}{MPIComm}.\hypertarget{class_i_network_a6a9104cce9246feb6b8fc08b15e7c171}{
+\index{INetwork@{INetwork}!initialize@{initialize}}
+\index{initialize@{initialize}!INetwork@{INetwork}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}virtual void INetwork::initialize ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a6a9104cce9246feb6b8fc08b15e7c171}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_aa21508c017028ad002b01cdecc10a247}{MPIComm}.\hypertarget{class_i_network_a5c706262a4275f321687a189686a2b81}{
+\index{INetwork@{INetwork}!initialize@{initialize}}
+\index{initialize@{initialize}!INetwork@{INetwork}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::initialize (int, \/  char $\ast$$\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a5c706262a4275f321687a189686a2b81}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_afd22e4e486b60da08f0b783c18ca0e2b}{MPIComm}, and \hyperlink{class_simulate_comm_a7086d3778f9c2d01d0425c4d940a57d1}{SimulateComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{class_i_network_a5c706262a4275f321687a189686a2b81_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a9e465b7489fd53410d3cb9ed532c4894}{
+\index{INetwork@{INetwork}!isAnyPostCompleted@{isAnyPostCompleted}}
+\index{isAnyPostCompleted@{isAnyPostCompleted}!INetwork@{INetwork}}
+\subsubsection[{isAnyPostCompleted}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool INetwork::isAnyPostCompleted (int $\ast$, \/  unsigned long $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a9e465b7489fd53410d3cb9ed532c4894}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a897fbe8d99735dec4088197b9c4f2a23}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{class_i_network_a9e465b7489fd53410d3cb9ed532c4894_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a4cf6eb047a7d028c3c4c023b59293061}{
+\index{INetwork@{INetwork}!isAnySendCompleted@{isAnySendCompleted}}
+\index{isAnySendCompleted@{isAnySendCompleted}!INetwork@{INetwork}}
+\subsubsection[{isAnySendCompleted}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool INetwork::isAnySendCompleted (int $\ast$, \/  unsigned long $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a4cf6eb047a7d028c3c4c023b59293061}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_ab56666a8c492a8d53065def42a488d72}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_i_network_a4cf6eb047a7d028c3c4c023b59293061_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_af6f98db34182f9ab4d705619eaabde2b}{
+\index{INetwork@{INetwork}!isLastReceiveCompleted@{isLastReceiveCompleted}}
+\index{isLastReceiveCompleted@{isLastReceiveCompleted}!INetwork@{INetwork}}
+\subsubsection[{isLastReceiveCompleted}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool INetwork::isLastReceiveCompleted (bool $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_af6f98db34182f9ab4d705619eaabde2b}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a26ebe2409a5fea582918a00896c067e9}{MPIComm}.\hypertarget{class_i_network_aa1b87ec0d7a1f6d6a2956f05afcc3c81}{
+\index{INetwork@{INetwork}!postDataReceive@{postDataReceive}}
+\index{postDataReceive@{postDataReceive}!INetwork@{INetwork}}
+\subsubsection[{postDataReceive}]{\setlength{\rightskip}{0pt plus 5cm}virtual unsigned long INetwork::postDataReceive ({\bf byte} $\ast$, \/  int, \/  int, \/  int, \/  unsigned {\em long})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_aa1b87ec0d7a1f6d6a2956f05afcc3c81}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_adac7de30f89639b574623e73c16fc0d6}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_i_network_aa1b87ec0d7a1f6d6a2956f05afcc3c81_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a60a1f567df811d09fc1774bc439ea349}{
+\index{INetwork@{INetwork}!postListenerReceive@{postListenerReceive}}
+\index{postListenerReceive@{postListenerReceive}!INetwork@{INetwork}}
+\subsubsection[{postListenerReceive}]{\setlength{\rightskip}{0pt plus 5cm}virtual unsigned long INetwork::postListenerReceive ({\bf byte} $\ast$, \/  int, \/  int, \/  int)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a60a1f567df811d09fc1774bc439ea349}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a37121a71b4636a713e4b3b0655efbc6e}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=382pt]{class_i_network_a60a1f567df811d09fc1774bc439ea349_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_ae8381635a24542ac374056c15613daeb}{
+\index{INetwork@{INetwork}!postTerminateReceive@{postTerminateReceive}}
+\index{postTerminateReceive@{postTerminateReceive}!INetwork@{INetwork}}
+\subsubsection[{postTerminateReceive}]{\setlength{\rightskip}{0pt plus 5cm}virtual unsigned long INetwork::postTerminateReceive ({\bf byte} $\ast$, \/  int, \/  int, \/  int)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_ae8381635a24542ac374056c15613daeb}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a15aa65ec7dcb1da5fa042fd6d98f1578}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_network_ae8381635a24542ac374056c15613daeb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_ab653bd28450c18a74826d06069ed3ed1}{
+\index{INetwork@{INetwork}!probe@{probe}}
+\index{probe@{probe}!INetwork@{INetwork}}
+\subsubsection[{probe}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::probe (int $\ast$ {\em tag}, \/  int $\ast$, \/  int $\ast$, \/  bool)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_ab653bd28450c18a74826d06069ed3ed1}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a1c1a72b9cf6cac8a5af0e8dc6a085c87}{MPIComm}.\hypertarget{class_i_network_a85b398c3932251d6c0d9698004eb01e7}{
+\index{INetwork@{INetwork}!probeTags@{probeTags}}
+\index{probeTags@{probeTags}!INetwork@{INetwork}}
+\subsubsection[{probeTags}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::probeTags (int $\ast$ {\em tag}, \/  int, \/  int $\ast$, \/  int $\ast$, \/  int $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a85b398c3932251d6c0d9698004eb01e7}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a5e2fdc3d30c9e2ef04fc81fa99e8cd3f}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=143pt]{class_i_network_a85b398c3932251d6c0d9698004eb01e7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a6578b7160209dfc342be9b5658621625}{
+\index{INetwork@{INetwork}!receive@{receive}}
+\index{receive@{receive}!INetwork@{INetwork}}
+\subsubsection[{receive}]{\setlength{\rightskip}{0pt plus 5cm}virtual int INetwork::receive ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em source}, \/  bool {\em wait} = {\ttfamily true})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a6578b7160209dfc342be9b5658621625}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_abdd86a365a50571e7a46e8593c45977b}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{class_i_network_a6578b7160209dfc342be9b5658621625_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_network_a4996a6c20805f604c5afff707313ed4e}{
+\index{INetwork@{INetwork}!send@{send}}
+\index{send@{send}!INetwork@{INetwork}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}virtual unsigned long INetwork::send ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em destination}, \/  bool {\em wait} = {\ttfamily false})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_network_a4996a6c20805f604c5afff707313ed4e}
+
+
+Implemented in \hyperlink{class_m_p_i_comm_a878df4e9c57f117f192a8bfee009ff94}{MPIComm}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_network_a4996a6c20805f604c5afff707313ed4e_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{network_8hpp}{network.hpp}\end{DoxyCompactItemize}

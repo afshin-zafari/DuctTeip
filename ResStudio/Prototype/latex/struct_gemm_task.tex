@@ -1,0 +1,119 @@
+\hypertarget{struct_gemm_task}{
+\section{GemmTask Struct Reference}
+\label{struct_gemm_task}\index{GemmTask@{GemmTask}}
+}
+
+
+{\ttfamily \#include $<$chol\_\-fact.hpp$>$}Collaboration diagram for GemmTask:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=394pt]{struct_gemm_task__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_gemm_task_a9cd60061ae88b345e70ece76d5a36b5a}{GemmTask} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task\_\-, Handle$<$ \hyperlink{struct_options}{Options} $>$ \&h1, Handle$<$ \hyperlink{struct_options}{Options} $>$ \&h2, Handle$<$ \hyperlink{struct_options}{Options} $>$ \&h3, bool trans\_\-b=false, bool decrease\_\-c=true)
+\item 
+void \hyperlink{struct_gemm_task_a3b8ea26b6bf1116c292dc40b5f759386}{run} ()
+\item 
+string \hyperlink{struct_gemm_task_ac4724446924cdcf9cb5b2cbf9c01b4fd}{get\_\-name} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$ \hyperlink{struct_gemm_task_a1ff91e561ce824a648516638e3b89fb2}{dt\_\-task}
+\item 
+bool \hyperlink{struct_gemm_task_ae8b3fec03227068a541cb25ef4e9ed60}{b\_\-trans}
+\item 
+bool \hyperlink{struct_gemm_task_ad557fa1b97cac4870423c0ed9449edc0}{c\_\-decrease}
+\item 
+string \hyperlink{struct_gemm_task_aeac5a3c852d1c101388988f3ec20465a}{log\_\-name}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 276 of file chol\_\-fact.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{struct_gemm_task_a9cd60061ae88b345e70ece76d5a36b5a}{
+\index{GemmTask@{GemmTask}!GemmTask@{GemmTask}}
+\index{GemmTask@{GemmTask}!GemmTask@{GemmTask}}
+\subsubsection[{GemmTask}]{\setlength{\rightskip}{0pt plus 5cm}GemmTask::GemmTask ({\bf IDuctteipTask} $\ast$ {\em task\_\-}, \/  Handle$<$ {\bf Options} $>$ \& {\em h1}, \/  Handle$<$ {\bf Options} $>$ \& {\em h2}, \/  Handle$<$ {\bf Options} $>$ \& {\em h3}, \/  bool {\em trans\_\-b} = {\ttfamily false}, \/  bool {\em decrease\_\-c} = {\ttfamily true})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_gemm_task_a9cd60061ae88b345e70ece76d5a36b5a}
+
+
+Definition at line 280 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{struct_gemm_task_a9cd60061ae88b345e70ece76d5a36b5a_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{struct_gemm_task_ac4724446924cdcf9cb5b2cbf9c01b4fd}{
+\index{GemmTask@{GemmTask}!get\_\-name@{get\_\-name}}
+\index{get\_\-name@{get\_\-name}!GemmTask@{GemmTask}}
+\subsubsection[{get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}string GemmTask::get\_\-name ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_gemm_task_ac4724446924cdcf9cb5b2cbf9c01b4fd}
+
+
+Definition at line 357 of file chol\_\-fact.hpp.\hypertarget{struct_gemm_task_a3b8ea26b6bf1116c292dc40b5f759386}{
+\index{GemmTask@{GemmTask}!run@{run}}
+\index{run@{run}!GemmTask@{GemmTask}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void GemmTask::run ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_gemm_task_a3b8ea26b6bf1116c292dc40b5f759386}
+
+
+Definition at line 299 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{struct_gemm_task_a3b8ea26b6bf1116c292dc40b5f759386_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{struct_gemm_task_ae8b3fec03227068a541cb25ef4e9ed60}{
+\index{GemmTask@{GemmTask}!b\_\-trans@{b\_\-trans}}
+\index{b\_\-trans@{b\_\-trans}!GemmTask@{GemmTask}}
+\subsubsection[{b\_\-trans}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf GemmTask::b\_\-trans}}}
+\label{struct_gemm_task_ae8b3fec03227068a541cb25ef4e9ed60}
+
+
+Definition at line 278 of file chol\_\-fact.hpp.\hypertarget{struct_gemm_task_ad557fa1b97cac4870423c0ed9449edc0}{
+\index{GemmTask@{GemmTask}!c\_\-decrease@{c\_\-decrease}}
+\index{c\_\-decrease@{c\_\-decrease}!GemmTask@{GemmTask}}
+\subsubsection[{c\_\-decrease}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf GemmTask::c\_\-decrease}}}
+\label{struct_gemm_task_ad557fa1b97cac4870423c0ed9449edc0}
+
+
+Definition at line 278 of file chol\_\-fact.hpp.\hypertarget{struct_gemm_task_a1ff91e561ce824a648516638e3b89fb2}{
+\index{GemmTask@{GemmTask}!dt\_\-task@{dt\_\-task}}
+\index{dt\_\-task@{dt\_\-task}!GemmTask@{GemmTask}}
+\subsubsection[{dt\_\-task}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IDuctteipTask}$\ast$ {\bf GemmTask::dt\_\-task}}}
+\label{struct_gemm_task_a1ff91e561ce824a648516638e3b89fb2}
+
+
+Definition at line 277 of file chol\_\-fact.hpp.\hypertarget{struct_gemm_task_aeac5a3c852d1c101388988f3ec20465a}{
+\index{GemmTask@{GemmTask}!log\_\-name@{log\_\-name}}
+\index{log\_\-name@{log\_\-name}!GemmTask@{GemmTask}}
+\subsubsection[{log\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf GemmTask::log\_\-name}}}
+\label{struct_gemm_task_aeac5a3c852d1c101388988f3ec20465a}
+
+
+Definition at line 279 of file chol\_\-fact.hpp.
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{chol__fact_8hpp}{chol\_\-fact.hpp}\end{DoxyCompactItemize}

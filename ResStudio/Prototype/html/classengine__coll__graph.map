@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_config.html" title="Config" alt="" coords="5,213,64,243"/>
+<area shape="rect" id="node6" href="$class_memory_manager.html" title="MemoryManager" alt="" coords="267,213,384,243"/>
+<area shape="rect" id="node8" href="$class_mail_box.html" title="MailBox" alt="" coords="408,213,477,243"/>
+<area shape="rect" id="node10" href="$struct_mail_box_event.html" title="MailBoxEvent" alt="" coords="277,101,379,131"/>
+<area shape="rect" id="node12" href="$struct_memory_item.html" title="MemoryItem" alt="" coords="281,5,375,35"/>
+<area shape="rect" id="node14" href="$class_i_network.html" title="INetwork" alt="" coords="459,101,533,131"/>
+</map>

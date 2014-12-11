@@ -1,0 +1,235 @@
+\hypertarget{class_context_host_policy}{
+\section{ContextHostPolicy Class Reference}
+\label{class_context_host_policy}\index{ContextHostPolicy@{ContextHostPolicy}}
+}
+
+
+{\ttfamily \#include $<$hostpolicy.hpp$>$}Inheritance diagram for ContextHostPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{class_context_host_policy__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for ContextHostPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{class_context_host_policy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1}{chpType} \{ \hyperlink{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1a39048ccb3419ff4d10c0fb37662b0ce3}{PROC\_\-GROUP\_\-CYCLIC} = 1, 
+\hyperlink{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1ad393362f6d0433881a2fa716cbda27e4}{ALL\_\-ENTER} = 2
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_context_host_policy_a6e46676fe884df637db21b89ca698966}{ContextHostPolicy} (\hyperlink{class_process_grid}{ProcessGrid} $\ast$pg)
+\item 
+\hyperlink{class_context_host_policy_aadf1b0bd209574d0b3a6c17dbdfed5eb}{ContextHostPolicy} (\hyperlink{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1}{chpType} c, \hyperlink{class_process_grid}{ProcessGrid} \&pg)
+\item 
+int \hyperlink{class_context_host_policy_a463cff37397e882a9e7d164c7d33527e}{getHost} (\hyperlink{class_i_context}{IContext} $\ast$context)
+\item 
+bool \hyperlink{class_context_host_policy_ada4604e88c103b12a8d2a2a8c533dada}{isAllowed} (\hyperlink{class_context_host_policy}{ContextHostPolicy} $\ast$, int)
+\item 
+bool \hyperlink{class_context_host_policy_aa10ca0985dfed1351b9ef69fbe97f1f4}{isAllowed} (\hyperlink{class_i_context}{IContext} $\ast$, \hyperlink{class_context_header}{ContextHeader} $\ast$)
+\item 
+bool \hyperlink{class_context_host_policy_a78e3cff62d65667d5b4ea715b411a2c8}{canAllEnter} ()
+\item 
+void \hyperlink{class_context_host_policy_a46740f08a26323e21734995fa08c4c0c}{setGroupCount} (int l1, int l2, int l3=1)
+\item 
+void \hyperlink{class_context_host_policy_a7705f176010456efe3dfed9cbb351e2b}{setGroupCounter} (int c)
+\item 
+int \hyperlink{class_context_host_policy_a4281d32782181a79b2000f28fbb1b771}{getGroupCounter} ()
+\item 
+void \hyperlink{class_context_host_policy_aff4f859ac0102e7ad268f17aff1b0259}{getHostRange} (int $\ast$lower, int $\ast$upper)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 43 of file hostpolicy.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1}{
+\index{ContextHostPolicy@{ContextHostPolicy}!chpType@{chpType}}
+\index{chpType@{chpType}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{chpType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ContextHostPolicy::chpType}}}
+\label{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{PROC\_\-GROUP\_\-CYCLIC@{PROC\_\-GROUP\_\-CYCLIC}!ContextHostPolicy@{ContextHostPolicy}}\index{ContextHostPolicy@{ContextHostPolicy}!PROC\_\-GROUP\_\-CYCLIC@{PROC\_\-GROUP\_\-CYCLIC}}\item[{\em 
+\hypertarget{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1a39048ccb3419ff4d10c0fb37662b0ce3}{
+PROC\_\-GROUP\_\-CYCLIC}
+\label{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1a39048ccb3419ff4d10c0fb37662b0ce3}
+}]\index{ALL\_\-ENTER@{ALL\_\-ENTER}!ContextHostPolicy@{ContextHostPolicy}}\index{ContextHostPolicy@{ContextHostPolicy}!ALL\_\-ENTER@{ALL\_\-ENTER}}\item[{\em 
+\hypertarget{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1ad393362f6d0433881a2fa716cbda27e4}{
+ALL\_\-ENTER}
+\label{class_context_host_policy_a8050b2efb974f28cbabe561cb04989a1ad393362f6d0433881a2fa716cbda27e4}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 46 of file hostpolicy.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_context_host_policy_a6e46676fe884df637db21b89ca698966}{
+\index{ContextHostPolicy@{ContextHostPolicy}!ContextHostPolicy@{ContextHostPolicy}}
+\index{ContextHostPolicy@{ContextHostPolicy}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{ContextHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}ContextHostPolicy::ContextHostPolicy ({\bf ProcessGrid} $\ast$ {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_a6e46676fe884df637db21b89ca698966}
+
+
+Definition at line 56 of file hostpolicy.hpp.\hypertarget{class_context_host_policy_aadf1b0bd209574d0b3a6c17dbdfed5eb}{
+\index{ContextHostPolicy@{ContextHostPolicy}!ContextHostPolicy@{ContextHostPolicy}}
+\index{ContextHostPolicy@{ContextHostPolicy}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{ContextHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}ContextHostPolicy::ContextHostPolicy ({\bf chpType} {\em c}, \/  {\bf ProcessGrid} \& {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_aadf1b0bd209574d0b3a6c17dbdfed5eb}
+
+
+Definition at line 57 of file hostpolicy.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_context_host_policy_a78e3cff62d65667d5b4ea715b411a2c8}{
+\index{ContextHostPolicy@{ContextHostPolicy}!canAllEnter@{canAllEnter}}
+\index{canAllEnter@{canAllEnter}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{canAllEnter}]{\setlength{\rightskip}{0pt plus 5cm}bool ContextHostPolicy::canAllEnter ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_a78e3cff62d65667d5b4ea715b411a2c8}
+
+
+Definition at line 61 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{class_context_host_policy_a78e3cff62d65667d5b4ea715b411a2c8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_context_host_policy_a4281d32782181a79b2000f28fbb1b771}{
+\index{ContextHostPolicy@{ContextHostPolicy}!getGroupCounter@{getGroupCounter}}
+\index{getGroupCounter@{getGroupCounter}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{getGroupCounter}]{\setlength{\rightskip}{0pt plus 5cm}int ContextHostPolicy::getGroupCounter ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_a4281d32782181a79b2000f28fbb1b771}
+
+
+Definition at line 68 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{class_context_host_policy_a4281d32782181a79b2000f28fbb1b771_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_context_host_policy_a463cff37397e882a9e7d164c7d33527e}{
+\index{ContextHostPolicy@{ContextHostPolicy}!getHost@{getHost}}
+\index{getHost@{getHost}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int ContextHostPolicy::getHost ({\bf IContext} $\ast$ {\em context})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_a463cff37397e882a9e7d164c7d33527e}
+
+
+Definition at line 58 of file hostpolicy.hpp.\hypertarget{class_context_host_policy_aff4f859ac0102e7ad268f17aff1b0259}{
+\index{ContextHostPolicy@{ContextHostPolicy}!getHostRange@{getHostRange}}
+\index{getHostRange@{getHostRange}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{getHostRange}]{\setlength{\rightskip}{0pt plus 5cm}void ContextHostPolicy::getHostRange (int $\ast$ {\em lower}, \/  int $\ast$ {\em upper})}}
+\label{class_context_host_policy_aff4f859ac0102e7ad268f17aff1b0259}
+
+
+Definition at line 511 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{class_context_host_policy_aff4f859ac0102e7ad268f17aff1b0259_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{class_context_host_policy_aff4f859ac0102e7ad268f17aff1b0259_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_context_host_policy_aa10ca0985dfed1351b9ef69fbe97f1f4}{
+\index{ContextHostPolicy@{ContextHostPolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}bool ContextHostPolicy::isAllowed ({\bf IContext} $\ast$ {\em ctx}, \/  {\bf ContextHeader} $\ast$ {\em hdr})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_context_host_policy_aa10ca0985dfed1351b9ef69fbe97f1f4}
+
+
+Reimplemented from \hyperlink{class_i_host_policy_a5200e3143a640e492438361a3fd2626a}{IHostPolicy}.
+
+Definition at line 475 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{class_context_host_policy_aa10ca0985dfed1351b9ef69fbe97f1f4_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_context_host_policy_ada4604e88c103b12a8d2a2a8c533dada}{
+\index{ContextHostPolicy@{ContextHostPolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}bool ContextHostPolicy::isAllowed ({\bf ContextHostPolicy} $\ast$, \/  int)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_ada4604e88c103b12a8d2a2a8c533dada}
+
+
+Definition at line 59 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_context_host_policy_ada4604e88c103b12a8d2a2a8c533dada_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_context_host_policy_a46740f08a26323e21734995fa08c4c0c}{
+\index{ContextHostPolicy@{ContextHostPolicy}!setGroupCount@{setGroupCount}}
+\index{setGroupCount@{setGroupCount}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{setGroupCount}]{\setlength{\rightskip}{0pt plus 5cm}void ContextHostPolicy::setGroupCount (int {\em l1}, \/  int {\em l2}, \/  int {\em l3} = {\ttfamily 1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_a46740f08a26323e21734995fa08c4c0c}
+
+
+Definition at line 62 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{class_context_host_policy_a46740f08a26323e21734995fa08c4c0c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_context_host_policy_a7705f176010456efe3dfed9cbb351e2b}{
+\index{ContextHostPolicy@{ContextHostPolicy}!setGroupCounter@{setGroupCounter}}
+\index{setGroupCounter@{setGroupCounter}!ContextHostPolicy@{ContextHostPolicy}}
+\subsubsection[{setGroupCounter}]{\setlength{\rightskip}{0pt plus 5cm}void ContextHostPolicy::setGroupCounter (int {\em c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_context_host_policy_a7705f176010456efe3dfed9cbb351e2b}
+
+
+Definition at line 67 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{class_context_host_policy_a7705f176010456efe3dfed9cbb351e2b_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{hostpolicy_8hpp}{hostpolicy.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,1012 @@
+\hypertarget{class_ductteip_log}{
+\section{DuctteipLog Class Reference}
+\label{class_ductteip_log}\index{DuctteipLog@{DuctteipLog}}
+}
+
+
+{\ttfamily \#include $<$dt\_\-log.hpp$>$}Collaboration diagram for DuctteipLog:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=112pt]{class_ductteip_log__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries load}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981b}{event\_\-t} \{ \par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba23d94f63d17369f641db2e0712b61d37}{DataDefined}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba2a10b7553029408b3c628bd2f847d44e}{DataPartitioned}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba9d4bade5a86b3dbfc31fb64bd929c2c9}{Populated}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba37a028fdce816e830de2bfecbdf01d07}{TaskDefined}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1e430e99b7fa829f9bc837157819d1d0}{ReadTask}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1d97314c59fae98ef06738440fa285ec}{TaskSent}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba9fc27f9f3cb1964c26a62c58918f98f5}{ListenerDefined}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba153cdb8717f3654db494e0794de03c66}{ListenerSent}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba61d99aa927968a06165b1e64ac4e49f8}{TaskReceived}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacbb57913765d405a6deaf5f22e9eb9a7}{ListenerReceived}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4272a2344431db84d4b69d7d1298ccbe}{DataReceived}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1bc85a03cbcefe1fcee2bb0ed17f58b3}{DataSendCompleted}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba08d192840cd2de69f4bb7e5ad7f94a30}{TaskSendCompleted}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3854c3db96b714e9368688f3748ec5fb}{ListenerSendCompleted}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981baffaf01d4b3a67747966e9e8315f2b5b4}{CheckedForListener}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4abed904914b7d1b355c56cb6191ab65}{CheckedForTask}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bafaac86b29a73ad0c4da64a310968a1ae}{CheckedForRun}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacccc1ad91796bc36f0c973c0322ce191}{SuperGlueTaskDefine}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3aa8d6f8b5d35e4f4871958a72908a68}{Executed}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3e4f069d2a962a0bb1c6c2bbffb97ec5}{RunTimeVersionUpgraded}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bae074c319c430a4780c2bac06b825dfc8}{Woken}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba28e45255007b63e9d2ae72a2175f8241}{DataSent}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba8317393d1eca4e0fb3d111ecf903419e}{SkipOverhead}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacfbabc9e1dc1077e731c2c01a5da4384}{MPITestSent}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba6800d5a9cc456b16a03c18e5c9375fe4}{MPIReceive}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981babd3a6cbf90b5190901180b49b0febadb}{MPIProbed}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981baba5e518a206f0d3b51e04e938e836999}{AnySendCompleted}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba6a5f4b467a37a7510a123d72f3822f00}{LastReceiveCompleted}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bab1f30d8ea014fca95c8e17bc9e0a5b29}{MailboxGetEvent}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba09a2fd8a714c0762c77a1aa873fd1e62}{MailboxProcessed}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4958a8dcc849661e8eb645589758caae}{WorkProcessed}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981badedcab355c5a0965c21be0985e0ec4b8}{CheckedForTerminate}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba369f6a25e8583c12b45810fda18cdd1b}{CommFinish}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba096ab04d7f3307c3a39e4e87cd7e1967}{ProgramExecution}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba80091832a68bce3cc855d8d16e47bfa3}{EventsWork}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bad33c3c02abff701f13aeb5eeb619e86c}{TaskExported}, 
+\par
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba8f103bb03f26838dd64bebf3c5c6a23f}{TaskImported}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba071c4d5a28045599919a2932923c2a34}{DataExported}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981babe0cb11768268430fd6f1e82116ecc5f}{DataImported}, 
+\hyperlink{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba26289d4c950ce307530fc76c49396a19}{NumberOfEvents}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ductteip_log_a96b0e451e6c8ea07d1b2aa7b2650da10}{$\sim$DuctteipLog} ()
+\item 
+\hyperlink{class_ductteip_log_a55c3b05ea27df799f28f4ecb14be5e17}{DuctteipLog} ()
+\item 
+void \hyperlink{class_ductteip_log_a10e6b8ed2cea31010e9937b5d0f5e685}{updateStatisticsPair} (int e)
+\item 
+string \hyperlink{class_ductteip_log_a080df86b3f7167341da836494af41822}{getEventName} (int event)
+\item 
+void \hyperlink{class_ductteip_log_a2038f71b600647a1899da3a0022f9fc1}{addEvent} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task, int event, int dest=-\/1)
+\item 
+void \hyperlink{class_ductteip_log_abdacf59e313a1e510c76e84c22082287}{addEvent} (\hyperlink{class_i_data}{IData} $\ast$data, int event, int dest=-\/1)
+\item 
+void \hyperlink{class_ductteip_log_afb6106d874d89989c58027cc1ac569e4}{addEvent} (\hyperlink{classengine}{engine} $\ast$eng, int event)
+\item 
+void \hyperlink{class_ductteip_log_a1bbfbd418561ea58f630f3c5f57694c8}{addEvent} (\hyperlink{class_i_listener}{IListener} $\ast$listener, int event, int dest=-\/1)
+\item 
+void \hyperlink{class_ductteip_log_adfbc05d93e6d90fc9a2f5a4e74578095}{addEvent} (string text, int event)
+\item 
+void \hyperlink{class_ductteip_log_a0edeefb537663709b3d284e60ed51b96}{addEventNumber} (unsigned long num, int e)
+\item 
+void \hyperlink{class_ductteip_log_aa67193a1a86d6f269cd1313c2c96a625}{setParams} (int nodes\_\-, long DataPackSize\_\-, long ListenerPackSize\_\-, long TaskPackSize\_\-)
+\item 
+void \hyperlink{class_ductteip_log_a3f2679d12c317c14c06ac0a23243cb6a}{updateCommStats} (int event, int dest)
+\item 
+void \hyperlink{class_ductteip_log_a6d0afadbba975c706ef756a3ba23fe47}{addEventStart} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task, int event)
+\item 
+void \hyperlink{class_ductteip_log_a8dca88c37b6ae7b96a58ce6d04053fd9}{addEventStart} (\hyperlink{class_i_data}{IData} $\ast$data, int event)
+\item 
+void \hyperlink{class_ductteip_log_ab89eac3be95eb5663a8f752413f6b0d0}{addEventStart} (\hyperlink{classengine}{engine} $\ast$eng, int event)
+\item 
+void \hyperlink{class_ductteip_log_aeb089df178933400cffbbf46a1352e69}{addEventStart} (\hyperlink{class_i_listener}{IListener} $\ast$listener, int event)
+\item 
+void \hyperlink{class_ductteip_log_a0a24d89a29b40756975c3190f011b30f}{addEventStart} (string text, int event)
+\item 
+void \hyperlink{class_ductteip_log_a9a010d4387f7f74b848d5c36aaacd501}{addEventEnd} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task, int event)
+\item 
+void \hyperlink{class_ductteip_log_a03ef2af6f52a01927e841df2399e995e}{addEventEnd} (\hyperlink{class_i_data}{IData} $\ast$data, int event)
+\item 
+void \hyperlink{class_ductteip_log_a97b60b9f85253cdb916a0b2fed7b02ef}{addEventEnd} (\hyperlink{classengine}{engine} $\ast$eng, int event)
+\item 
+void \hyperlink{class_ductteip_log_a549a774edcd230c2e47b21e78133a168}{addEventEnd} (\hyperlink{class_i_listener}{IListener} $\ast$listener, int event)
+\item 
+void \hyperlink{class_ductteip_log_a0a536783ee78831d30dc9dd6d41a674f}{addEventEnd} (string text, int event)
+\item 
+void \hyperlink{class_ductteip_log_a8c685fe96e233dfc3f2be278cdc6d340}{updateStatistics} (int e, \hyperlink{basic_8hpp_ac0ec6c8e4757751eaaa618bbf62ab6c9}{TimeUnit} length)
+\item 
+bool \hyperlink{class_ductteip_log_acca92822b7606cc0c5d384a3d96c7950}{isSequentialPairEvent} (int e)
+\item 
+bool \hyperlink{class_ductteip_log_a9dcfe59dfa97907c6464456bafe1fb7d}{isPairEvent} (int e)
+\item 
+void \hyperlink{class_ductteip_log_a91792b3bdcea6336ee43c7da8872879f}{filterEvent} (\hyperlink{struct_event_info}{EventInfo} $\ast$e)
+\item 
+void \hyperlink{class_ductteip_log_a3062026052a3d861e37f7703808b4e29}{mergePairEvents} ()
+\item 
+void \hyperlink{class_ductteip_log_ade6cb12a251c5e220725999980b16566}{dump} (long sg\_\-task\_\-count)
+\item 
+void \hyperlink{class_ductteip_log_a7f6153345afe4d8ecf0e4f066c77fb33}{dumpStatistics} ()
+\item 
+void \hyperlink{class_ductteip_log_a8a3a26ac412cb874ea28fb9ea8a42535}{logExportTask} (long count)
+\item 
+void \hyperlink{class_ductteip_log_adcec387e3a205d72e92baba0ea3019c1}{logImportTask} (long count)
+\item 
+void \hyperlink{class_ductteip_log_acd0bf80ce85006d33a78318bd79a060a}{logLoadChange} (long ld)
+\item 
+void \hyperlink{class_ductteip_log_a4e66deabb0265c848d13f6dc99cd52e0}{dumpLoad} (list$<$ load $\ast$ $>$ lst, char $\ast$s)
+\item 
+void \hyperlink{class_ductteip_log_a26e1bca52b880675a247a54cca4a6b1f}{dumpLoads} ()
+\item 
+void \hyperlink{class_ductteip_log_af6f835d866e252bb637b95f75e816835}{dumpSimulationResults} (long sg\_\-task\_\-count)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned long \hyperlink{class_ductteip_log_ae26d79785cddd22afd0ef968ed54cdba}{N}
+\item 
+unsigned long \hyperlink{class_ductteip_log_a3cc06c9c2b21c0a3fa306e32b7935d18}{NB}
+\item 
+unsigned long \hyperlink{class_ductteip_log_a12b797b756a43b05d3cd088678a42a0e}{nb}
+\item 
+unsigned long \hyperlink{class_ductteip_log_a6009ec1dd40a5e1e6244ac6294ba5cf3}{p}
+\item 
+unsigned long \hyperlink{class_ductteip_log_a200ae8fc4dd3645f8227adc0f5fd16aa}{q}
+\item 
+unsigned long \hyperlink{class_ductteip_log_a1495cf729c4097e29382d4566257fb2d}{cores}
+\item 
+\hyperlink{struct_statistics}{Statistics} \hyperlink{class_ductteip_log_aef20239edd3dbb2d80ce65be13689f20}{stats} \mbox{[}NumberOfEvents\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 80 of file dt\_\-log.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981b}{
+\index{DuctteipLog@{DuctteipLog}!event\_\-t@{event\_\-t}}
+\index{event\_\-t@{event\_\-t}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{event\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DuctteipLog::event\_\-t}}}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981b}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{DataDefined@{DataDefined}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataDefined@{DataDefined}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba23d94f63d17369f641db2e0712b61d37}{
+DataDefined}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba23d94f63d17369f641db2e0712b61d37}
+}]\index{DataPartitioned@{DataPartitioned}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataPartitioned@{DataPartitioned}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba2a10b7553029408b3c628bd2f847d44e}{
+DataPartitioned}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba2a10b7553029408b3c628bd2f847d44e}
+}]\index{Populated@{Populated}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!Populated@{Populated}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba9d4bade5a86b3dbfc31fb64bd929c2c9}{
+Populated}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba9d4bade5a86b3dbfc31fb64bd929c2c9}
+}]\index{TaskDefined@{TaskDefined}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!TaskDefined@{TaskDefined}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba37a028fdce816e830de2bfecbdf01d07}{
+TaskDefined}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba37a028fdce816e830de2bfecbdf01d07}
+}]\index{ReadTask@{ReadTask}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!ReadTask@{ReadTask}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1e430e99b7fa829f9bc837157819d1d0}{
+ReadTask}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1e430e99b7fa829f9bc837157819d1d0}
+}]\index{TaskSent@{TaskSent}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!TaskSent@{TaskSent}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1d97314c59fae98ef06738440fa285ec}{
+TaskSent}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1d97314c59fae98ef06738440fa285ec}
+}]\index{ListenerDefined@{ListenerDefined}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!ListenerDefined@{ListenerDefined}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba9fc27f9f3cb1964c26a62c58918f98f5}{
+ListenerDefined}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba9fc27f9f3cb1964c26a62c58918f98f5}
+}]\index{ListenerSent@{ListenerSent}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!ListenerSent@{ListenerSent}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba153cdb8717f3654db494e0794de03c66}{
+ListenerSent}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba153cdb8717f3654db494e0794de03c66}
+}]\index{TaskReceived@{TaskReceived}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!TaskReceived@{TaskReceived}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba61d99aa927968a06165b1e64ac4e49f8}{
+TaskReceived}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba61d99aa927968a06165b1e64ac4e49f8}
+}]\index{ListenerReceived@{ListenerReceived}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!ListenerReceived@{ListenerReceived}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacbb57913765d405a6deaf5f22e9eb9a7}{
+ListenerReceived}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacbb57913765d405a6deaf5f22e9eb9a7}
+}]\index{DataReceived@{DataReceived}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataReceived@{DataReceived}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4272a2344431db84d4b69d7d1298ccbe}{
+DataReceived}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4272a2344431db84d4b69d7d1298ccbe}
+}]\index{DataSendCompleted@{DataSendCompleted}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataSendCompleted@{DataSendCompleted}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1bc85a03cbcefe1fcee2bb0ed17f58b3}{
+DataSendCompleted}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba1bc85a03cbcefe1fcee2bb0ed17f58b3}
+}]\index{TaskSendCompleted@{TaskSendCompleted}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!TaskSendCompleted@{TaskSendCompleted}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba08d192840cd2de69f4bb7e5ad7f94a30}{
+TaskSendCompleted}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba08d192840cd2de69f4bb7e5ad7f94a30}
+}]\index{ListenerSendCompleted@{ListenerSendCompleted}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!ListenerSendCompleted@{ListenerSendCompleted}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3854c3db96b714e9368688f3748ec5fb}{
+ListenerSendCompleted}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3854c3db96b714e9368688f3748ec5fb}
+}]\index{CheckedForListener@{CheckedForListener}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!CheckedForListener@{CheckedForListener}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981baffaf01d4b3a67747966e9e8315f2b5b4}{
+CheckedForListener}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981baffaf01d4b3a67747966e9e8315f2b5b4}
+}]\index{CheckedForTask@{CheckedForTask}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!CheckedForTask@{CheckedForTask}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4abed904914b7d1b355c56cb6191ab65}{
+CheckedForTask}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4abed904914b7d1b355c56cb6191ab65}
+}]\index{CheckedForRun@{CheckedForRun}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!CheckedForRun@{CheckedForRun}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bafaac86b29a73ad0c4da64a310968a1ae}{
+CheckedForRun}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bafaac86b29a73ad0c4da64a310968a1ae}
+}]\index{SuperGlueTaskDefine@{SuperGlueTaskDefine}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!SuperGlueTaskDefine@{SuperGlueTaskDefine}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacccc1ad91796bc36f0c973c0322ce191}{
+SuperGlueTaskDefine}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacccc1ad91796bc36f0c973c0322ce191}
+}]\index{Executed@{Executed}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!Executed@{Executed}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3aa8d6f8b5d35e4f4871958a72908a68}{
+Executed}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3aa8d6f8b5d35e4f4871958a72908a68}
+}]\index{RunTimeVersionUpgraded@{RunTimeVersionUpgraded}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!RunTimeVersionUpgraded@{RunTimeVersionUpgraded}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3e4f069d2a962a0bb1c6c2bbffb97ec5}{
+RunTimeVersionUpgraded}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba3e4f069d2a962a0bb1c6c2bbffb97ec5}
+}]\index{Woken@{Woken}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!Woken@{Woken}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bae074c319c430a4780c2bac06b825dfc8}{
+Woken}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bae074c319c430a4780c2bac06b825dfc8}
+}]\index{DataSent@{DataSent}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataSent@{DataSent}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba28e45255007b63e9d2ae72a2175f8241}{
+DataSent}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba28e45255007b63e9d2ae72a2175f8241}
+}]\index{SkipOverhead@{SkipOverhead}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!SkipOverhead@{SkipOverhead}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba8317393d1eca4e0fb3d111ecf903419e}{
+SkipOverhead}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba8317393d1eca4e0fb3d111ecf903419e}
+}]\index{MPITestSent@{MPITestSent}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!MPITestSent@{MPITestSent}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacfbabc9e1dc1077e731c2c01a5da4384}{
+MPITestSent}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bacfbabc9e1dc1077e731c2c01a5da4384}
+}]\index{MPIReceive@{MPIReceive}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!MPIReceive@{MPIReceive}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba6800d5a9cc456b16a03c18e5c9375fe4}{
+MPIReceive}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba6800d5a9cc456b16a03c18e5c9375fe4}
+}]\index{MPIProbed@{MPIProbed}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!MPIProbed@{MPIProbed}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981babd3a6cbf90b5190901180b49b0febadb}{
+MPIProbed}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981babd3a6cbf90b5190901180b49b0febadb}
+}]\index{AnySendCompleted@{AnySendCompleted}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!AnySendCompleted@{AnySendCompleted}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981baba5e518a206f0d3b51e04e938e836999}{
+AnySendCompleted}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981baba5e518a206f0d3b51e04e938e836999}
+}]\index{LastReceiveCompleted@{LastReceiveCompleted}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!LastReceiveCompleted@{LastReceiveCompleted}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba6a5f4b467a37a7510a123d72f3822f00}{
+LastReceiveCompleted}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba6a5f4b467a37a7510a123d72f3822f00}
+}]\index{MailboxGetEvent@{MailboxGetEvent}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!MailboxGetEvent@{MailboxGetEvent}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bab1f30d8ea014fca95c8e17bc9e0a5b29}{
+MailboxGetEvent}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bab1f30d8ea014fca95c8e17bc9e0a5b29}
+}]\index{MailboxProcessed@{MailboxProcessed}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!MailboxProcessed@{MailboxProcessed}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba09a2fd8a714c0762c77a1aa873fd1e62}{
+MailboxProcessed}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba09a2fd8a714c0762c77a1aa873fd1e62}
+}]\index{WorkProcessed@{WorkProcessed}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!WorkProcessed@{WorkProcessed}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4958a8dcc849661e8eb645589758caae}{
+WorkProcessed}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba4958a8dcc849661e8eb645589758caae}
+}]\index{CheckedForTerminate@{CheckedForTerminate}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!CheckedForTerminate@{CheckedForTerminate}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981badedcab355c5a0965c21be0985e0ec4b8}{
+CheckedForTerminate}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981badedcab355c5a0965c21be0985e0ec4b8}
+}]\index{CommFinish@{CommFinish}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!CommFinish@{CommFinish}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba369f6a25e8583c12b45810fda18cdd1b}{
+CommFinish}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba369f6a25e8583c12b45810fda18cdd1b}
+}]\index{ProgramExecution@{ProgramExecution}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!ProgramExecution@{ProgramExecution}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba096ab04d7f3307c3a39e4e87cd7e1967}{
+ProgramExecution}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba096ab04d7f3307c3a39e4e87cd7e1967}
+}]\index{EventsWork@{EventsWork}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!EventsWork@{EventsWork}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba80091832a68bce3cc855d8d16e47bfa3}{
+EventsWork}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba80091832a68bce3cc855d8d16e47bfa3}
+}]\index{TaskExported@{TaskExported}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!TaskExported@{TaskExported}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bad33c3c02abff701f13aeb5eeb619e86c}{
+TaskExported}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981bad33c3c02abff701f13aeb5eeb619e86c}
+}]\index{TaskImported@{TaskImported}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!TaskImported@{TaskImported}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba8f103bb03f26838dd64bebf3c5c6a23f}{
+TaskImported}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba8f103bb03f26838dd64bebf3c5c6a23f}
+}]\index{DataExported@{DataExported}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataExported@{DataExported}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba071c4d5a28045599919a2932923c2a34}{
+DataExported}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba071c4d5a28045599919a2932923c2a34}
+}]\index{DataImported@{DataImported}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!DataImported@{DataImported}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981babe0cb11768268430fd6f1e82116ecc5f}{
+DataImported}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981babe0cb11768268430fd6f1e82116ecc5f}
+}]\index{NumberOfEvents@{NumberOfEvents}!DuctteipLog@{DuctteipLog}}\index{DuctteipLog@{DuctteipLog}!NumberOfEvents@{NumberOfEvents}}\item[{\em 
+\hypertarget{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba26289d4c950ce307530fc76c49396a19}{
+NumberOfEvents}
+\label{class_ductteip_log_a2d4f772da028bd358802f7cbe58c981ba26289d4c950ce307530fc76c49396a19}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 96 of file dt\_\-log.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ductteip_log_a96b0e451e6c8ea07d1b2aa7b2650da10}{
+\index{DuctteipLog@{DuctteipLog}!$\sim$DuctteipLog@{$\sim$DuctteipLog}}
+\index{$\sim$DuctteipLog@{$\sim$DuctteipLog}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{$\sim$DuctteipLog}]{\setlength{\rightskip}{0pt plus 5cm}DuctteipLog::$\sim$DuctteipLog ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a96b0e451e6c8ea07d1b2aa7b2650da10}
+
+
+Definition at line 140 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_a55c3b05ea27df799f28f4ecb14be5e17}{
+\index{DuctteipLog@{DuctteipLog}!DuctteipLog@{DuctteipLog}}
+\index{DuctteipLog@{DuctteipLog}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{DuctteipLog}]{\setlength{\rightskip}{0pt plus 5cm}DuctteipLog::DuctteipLog ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a55c3b05ea27df799f28f4ecb14be5e17}
+
+
+Definition at line 143 of file dt\_\-log.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ductteip_log_adfbc05d93e6d90fc9a2f5a4e74578095}{
+\index{DuctteipLog@{DuctteipLog}!addEvent@{addEvent}}
+\index{addEvent@{addEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEvent}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEvent (string {\em text}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_adfbc05d93e6d90fc9a2f5a4e74578095}
+
+
+Definition at line 277 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_ductteip_log_adfbc05d93e6d90fc9a2f5a4e74578095_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a1bbfbd418561ea58f630f3c5f57694c8}{
+\index{DuctteipLog@{DuctteipLog}!addEvent@{addEvent}}
+\index{addEvent@{addEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEvent}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEvent ({\bf IListener} $\ast$ {\em listener}, \/  int {\em event}, \/  int {\em dest} = {\ttfamily -\/1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a1bbfbd418561ea58f630f3c5f57694c8}
+
+
+Definition at line 260 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_ductteip_log_a1bbfbd418561ea58f630f3c5f57694c8_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_afb6106d874d89989c58027cc1ac569e4}{
+\index{DuctteipLog@{DuctteipLog}!addEvent@{addEvent}}
+\index{addEvent@{addEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEvent}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEvent ({\bf engine} $\ast$ {\em eng}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_afb6106d874d89989c58027cc1ac569e4}
+
+
+Definition at line 247 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_ductteip_log_afb6106d874d89989c58027cc1ac569e4_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_abdacf59e313a1e510c76e84c22082287}{
+\index{DuctteipLog@{DuctteipLog}!addEvent@{addEvent}}
+\index{addEvent@{addEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEvent}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEvent ({\bf IData} $\ast$ {\em data}, \/  int {\em event}, \/  int {\em dest} = {\ttfamily -\/1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_abdacf59e313a1e510c76e84c22082287}
+
+
+Definition at line 230 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_ductteip_log_abdacf59e313a1e510c76e84c22082287_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a2038f71b600647a1899da3a0022f9fc1}{
+\index{DuctteipLog@{DuctteipLog}!addEvent@{addEvent}}
+\index{addEvent@{addEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEvent}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEvent ({\bf IDuctteipTask} $\ast$ {\em task}, \/  int {\em event}, \/  int {\em dest} = {\ttfamily -\/1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a2038f71b600647a1899da3a0022f9fc1}
+
+
+Definition at line 217 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_ductteip_log_a2038f71b600647a1899da3a0022f9fc1_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_ductteip_log_a2038f71b600647a1899da3a0022f9fc1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a0a536783ee78831d30dc9dd6d41a674f}{
+\index{DuctteipLog@{DuctteipLog}!addEventEnd@{addEventEnd}}
+\index{addEventEnd@{addEventEnd}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventEnd}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventEnd (string {\em text}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a0a536783ee78831d30dc9dd6d41a674f}
+
+
+Definition at line 331 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=369pt]{class_ductteip_log_a0a536783ee78831d30dc9dd6d41a674f_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a549a774edcd230c2e47b21e78133a168}{
+\index{DuctteipLog@{DuctteipLog}!addEventEnd@{addEventEnd}}
+\index{addEventEnd@{addEventEnd}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventEnd}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventEnd ({\bf IListener} $\ast$ {\em listener}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a549a774edcd230c2e47b21e78133a168}
+
+
+Definition at line 330 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=369pt]{class_ductteip_log_a549a774edcd230c2e47b21e78133a168_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a97b60b9f85253cdb916a0b2fed7b02ef}{
+\index{DuctteipLog@{DuctteipLog}!addEventEnd@{addEventEnd}}
+\index{addEventEnd@{addEventEnd}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventEnd}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventEnd ({\bf engine} $\ast$ {\em eng}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a97b60b9f85253cdb916a0b2fed7b02ef}
+
+
+Definition at line 329 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=369pt]{class_ductteip_log_a97b60b9f85253cdb916a0b2fed7b02ef_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a03ef2af6f52a01927e841df2399e995e}{
+\index{DuctteipLog@{DuctteipLog}!addEventEnd@{addEventEnd}}
+\index{addEventEnd@{addEventEnd}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventEnd}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventEnd ({\bf IData} $\ast$ {\em data}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a03ef2af6f52a01927e841df2399e995e}
+
+
+Definition at line 328 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=369pt]{class_ductteip_log_a03ef2af6f52a01927e841df2399e995e_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a9a010d4387f7f74b848d5c36aaacd501}{
+\index{DuctteipLog@{DuctteipLog}!addEventEnd@{addEventEnd}}
+\index{addEventEnd@{addEventEnd}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventEnd}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventEnd ({\bf IDuctteipTask} $\ast$ {\em task}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a9a010d4387f7f74b848d5c36aaacd501}
+
+
+Definition at line 327 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=369pt]{class_ductteip_log_a9a010d4387f7f74b848d5c36aaacd501_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_ductteip_log_a9a010d4387f7f74b848d5c36aaacd501_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a0edeefb537663709b3d284e60ed51b96}{
+\index{DuctteipLog@{DuctteipLog}!addEventNumber@{addEventNumber}}
+\index{addEventNumber@{addEventNumber}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventNumber}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventNumber (unsigned long {\em num}, \/  int {\em e})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a0edeefb537663709b3d284e60ed51b96}
+
+
+Definition at line 288 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=353pt]{class_ductteip_log_a0edeefb537663709b3d284e60ed51b96_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a0a24d89a29b40756975c3190f011b30f}{
+\index{DuctteipLog@{DuctteipLog}!addEventStart@{addEventStart}}
+\index{addEventStart@{addEventStart}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventStart}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventStart (string {\em text}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a0a24d89a29b40756975c3190f011b30f}
+
+
+Definition at line 325 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=371pt]{class_ductteip_log_a0a24d89a29b40756975c3190f011b30f_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_aeb089df178933400cffbbf46a1352e69}{
+\index{DuctteipLog@{DuctteipLog}!addEventStart@{addEventStart}}
+\index{addEventStart@{addEventStart}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventStart}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventStart ({\bf IListener} $\ast$ {\em listener}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_aeb089df178933400cffbbf46a1352e69}
+
+
+Definition at line 324 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=371pt]{class_ductteip_log_aeb089df178933400cffbbf46a1352e69_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_ab89eac3be95eb5663a8f752413f6b0d0}{
+\index{DuctteipLog@{DuctteipLog}!addEventStart@{addEventStart}}
+\index{addEventStart@{addEventStart}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventStart}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventStart ({\bf engine} $\ast$ {\em eng}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_ab89eac3be95eb5663a8f752413f6b0d0}
+
+
+Definition at line 323 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=371pt]{class_ductteip_log_ab89eac3be95eb5663a8f752413f6b0d0_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a8dca88c37b6ae7b96a58ce6d04053fd9}{
+\index{DuctteipLog@{DuctteipLog}!addEventStart@{addEventStart}}
+\index{addEventStart@{addEventStart}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventStart}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventStart ({\bf IData} $\ast$ {\em data}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a8dca88c37b6ae7b96a58ce6d04053fd9}
+
+
+Definition at line 322 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=371pt]{class_ductteip_log_a8dca88c37b6ae7b96a58ce6d04053fd9_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a6d0afadbba975c706ef756a3ba23fe47}{
+\index{DuctteipLog@{DuctteipLog}!addEventStart@{addEventStart}}
+\index{addEventStart@{addEventStart}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{addEventStart}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::addEventStart ({\bf IDuctteipTask} $\ast$ {\em task}, \/  int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a6d0afadbba975c706ef756a3ba23fe47}
+
+
+Definition at line 321 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=371pt]{class_ductteip_log_a6d0afadbba975c706ef756a3ba23fe47_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=418pt]{class_ductteip_log_a6d0afadbba975c706ef756a3ba23fe47_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_ade6cb12a251c5e220725999980b16566}{
+\index{DuctteipLog@{DuctteipLog}!dump@{dump}}
+\index{dump@{dump}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::dump (long {\em sg\_\-task\_\-count})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_ade6cb12a251c5e220725999980b16566}
+
+
+Definition at line 452 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{class_ductteip_log_ade6cb12a251c5e220725999980b16566_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{class_ductteip_log_ade6cb12a251c5e220725999980b16566_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a4e66deabb0265c848d13f6dc99cd52e0}{
+\index{DuctteipLog@{DuctteipLog}!dumpLoad@{dumpLoad}}
+\index{dumpLoad@{dumpLoad}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{dumpLoad}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::dumpLoad (list$<$ load $\ast$ $>$ {\em lst}, \/  char $\ast$ {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a4e66deabb0265c848d13f6dc99cd52e0}
+
+
+Definition at line 527 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=395pt]{class_ductteip_log_a4e66deabb0265c848d13f6dc99cd52e0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a26e1bca52b880675a247a54cca4a6b1f}{
+\index{DuctteipLog@{DuctteipLog}!dumpLoads@{dumpLoads}}
+\index{dumpLoads@{dumpLoads}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{dumpLoads}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::dumpLoads ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a26e1bca52b880675a247a54cca4a6b1f}
+
+
+Definition at line 537 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=163pt]{class_ductteip_log_a26e1bca52b880675a247a54cca4a6b1f_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=317pt]{class_ductteip_log_a26e1bca52b880675a247a54cca4a6b1f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_af6f835d866e252bb637b95f75e816835}{
+\index{DuctteipLog@{DuctteipLog}!dumpSimulationResults@{dumpSimulationResults}}
+\index{dumpSimulationResults@{dumpSimulationResults}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{dumpSimulationResults}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::dumpSimulationResults (long {\em sg\_\-task\_\-count})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_af6f835d866e252bb637b95f75e816835}
+
+
+Definition at line 547 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=344pt]{class_ductteip_log_af6f835d866e252bb637b95f75e816835_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a7f6153345afe4d8ecf0e4f066c77fb33}{
+\index{DuctteipLog@{DuctteipLog}!dumpStatistics@{dumpStatistics}}
+\index{dumpStatistics@{dumpStatistics}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{dumpStatistics}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::dumpStatistics ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a7f6153345afe4d8ecf0e4f066c77fb33}
+
+
+Definition at line 484 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{class_ductteip_log_a7f6153345afe4d8ecf0e4f066c77fb33_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{class_ductteip_log_a7f6153345afe4d8ecf0e4f066c77fb33_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a91792b3bdcea6336ee43c7da8872879f}{
+\index{DuctteipLog@{DuctteipLog}!filterEvent@{filterEvent}}
+\index{filterEvent@{filterEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{filterEvent}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::filterEvent ({\bf EventInfo} $\ast$ {\em e})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a91792b3bdcea6336ee43c7da8872879f}
+
+
+Definition at line 394 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{class_ductteip_log_a91792b3bdcea6336ee43c7da8872879f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a080df86b3f7167341da836494af41822}{
+\index{DuctteipLog@{DuctteipLog}!getEventName@{getEventName}}
+\index{getEventName@{getEventName}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{getEventName}]{\setlength{\rightskip}{0pt plus 5cm}string DuctteipLog::getEventName (int {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a080df86b3f7167341da836494af41822}
+
+
+Definition at line 171 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_ductteip_log_a080df86b3f7167341da836494af41822_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a9dcfe59dfa97907c6464456bafe1fb7d}{
+\index{DuctteipLog@{DuctteipLog}!isPairEvent@{isPairEvent}}
+\index{isPairEvent@{isPairEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{isPairEvent}]{\setlength{\rightskip}{0pt plus 5cm}bool DuctteipLog::isPairEvent (int {\em e})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a9dcfe59dfa97907c6464456bafe1fb7d}
+
+
+Definition at line 366 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=410pt]{class_ductteip_log_a9dcfe59dfa97907c6464456bafe1fb7d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_acca92822b7606cc0c5d384a3d96c7950}{
+\index{DuctteipLog@{DuctteipLog}!isSequentialPairEvent@{isSequentialPairEvent}}
+\index{isSequentialPairEvent@{isSequentialPairEvent}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{isSequentialPairEvent}]{\setlength{\rightskip}{0pt plus 5cm}bool DuctteipLog::isSequentialPairEvent (int {\em e})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_acca92822b7606cc0c5d384a3d96c7950}
+
+
+Definition at line 342 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_ductteip_log_acca92822b7606cc0c5d384a3d96c7950_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a8a3a26ac412cb874ea28fb9ea8a42535}{
+\index{DuctteipLog@{DuctteipLog}!logExportTask@{logExportTask}}
+\index{logExportTask@{logExportTask}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{logExportTask}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::logExportTask (long {\em count})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a8a3a26ac412cb874ea28fb9ea8a42535}
+
+
+Definition at line 512 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{class_ductteip_log_a8a3a26ac412cb874ea28fb9ea8a42535_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_adcec387e3a205d72e92baba0ea3019c1}{
+\index{DuctteipLog@{DuctteipLog}!logImportTask@{logImportTask}}
+\index{logImportTask@{logImportTask}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{logImportTask}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::logImportTask (long {\em count})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_adcec387e3a205d72e92baba0ea3019c1}
+
+
+Definition at line 517 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{class_ductteip_log_adcec387e3a205d72e92baba0ea3019c1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_acd0bf80ce85006d33a78318bd79a060a}{
+\index{DuctteipLog@{DuctteipLog}!logLoadChange@{logLoadChange}}
+\index{logLoadChange@{logLoadChange}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{logLoadChange}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::logLoadChange (long {\em ld})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_acd0bf80ce85006d33a78318bd79a060a}
+
+
+Definition at line 522 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{class_ductteip_log_acd0bf80ce85006d33a78318bd79a060a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a3062026052a3d861e37f7703808b4e29}{
+\index{DuctteipLog@{DuctteipLog}!mergePairEvents@{mergePairEvents}}
+\index{mergePairEvents@{mergePairEvents}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{mergePairEvents}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::mergePairEvents ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a3062026052a3d861e37f7703808b4e29}
+
+
+Definition at line 422 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{class_ductteip_log_a3062026052a3d861e37f7703808b4e29_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_aa67193a1a86d6f269cd1313c2c96a625}{
+\index{DuctteipLog@{DuctteipLog}!setParams@{setParams}}
+\index{setParams@{setParams}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{setParams}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::setParams (int {\em nodes\_\-}, \/  long {\em DataPackSize\_\-}, \/  long {\em ListenerPackSize\_\-}, \/  long {\em TaskPackSize\_\-})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_aa67193a1a86d6f269cd1313c2c96a625}
+
+
+Definition at line 294 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=185pt]{class_ductteip_log_aa67193a1a86d6f269cd1313c2c96a625_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a3f2679d12c317c14c06ac0a23243cb6a}{
+\index{DuctteipLog@{DuctteipLog}!updateCommStats@{updateCommStats}}
+\index{updateCommStats@{updateCommStats}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{updateCommStats}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::updateCommStats (int {\em event}, \/  int {\em dest})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a3f2679d12c317c14c06ac0a23243cb6a}
+
+
+Definition at line 308 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_ductteip_log_a3f2679d12c317c14c06ac0a23243cb6a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a8c685fe96e233dfc3f2be278cdc6d340}{
+\index{DuctteipLog@{DuctteipLog}!updateStatistics@{updateStatistics}}
+\index{updateStatistics@{updateStatistics}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{updateStatistics}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::updateStatistics (int {\em e}, \/  {\bf TimeUnit} {\em length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a8c685fe96e233dfc3f2be278cdc6d340}
+
+
+Definition at line 333 of file dt\_\-log.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{class_ductteip_log_a8c685fe96e233dfc3f2be278cdc6d340_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_ductteip_log_a10e6b8ed2cea31010e9937b5d0f5e685}{
+\index{DuctteipLog@{DuctteipLog}!updateStatisticsPair@{updateStatisticsPair}}
+\index{updateStatisticsPair@{updateStatisticsPair}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{updateStatisticsPair}]{\setlength{\rightskip}{0pt plus 5cm}void DuctteipLog::updateStatisticsPair (int {\em e})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_ductteip_log_a10e6b8ed2cea31010e9937b5d0f5e685}
+
+
+Definition at line 152 of file dt\_\-log.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{class_ductteip_log_a10e6b8ed2cea31010e9937b5d0f5e685_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_ductteip_log_a10e6b8ed2cea31010e9937b5d0f5e685_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_ductteip_log_a1495cf729c4097e29382d4566257fb2d}{
+\index{DuctteipLog@{DuctteipLog}!cores@{cores}}
+\index{cores@{cores}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{cores}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf DuctteipLog::cores}}}
+\label{class_ductteip_log_a1495cf729c4097e29382d4566257fb2d}
+
+
+Definition at line 95 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_ae26d79785cddd22afd0ef968ed54cdba}{
+\index{DuctteipLog@{DuctteipLog}!N@{N}}
+\index{N@{N}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{N}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf DuctteipLog::N}}}
+\label{class_ductteip_log_ae26d79785cddd22afd0ef968ed54cdba}
+
+
+Definition at line 95 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_a12b797b756a43b05d3cd088678a42a0e}{
+\index{DuctteipLog@{DuctteipLog}!nb@{nb}}
+\index{nb@{nb}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{nb}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf DuctteipLog::nb}}}
+\label{class_ductteip_log_a12b797b756a43b05d3cd088678a42a0e}
+
+
+Definition at line 95 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_a3cc06c9c2b21c0a3fa306e32b7935d18}{
+\index{DuctteipLog@{DuctteipLog}!NB@{NB}}
+\index{NB@{NB}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{NB}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf DuctteipLog::NB}}}
+\label{class_ductteip_log_a3cc06c9c2b21c0a3fa306e32b7935d18}
+
+
+Definition at line 95 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_a6009ec1dd40a5e1e6244ac6294ba5cf3}{
+\index{DuctteipLog@{DuctteipLog}!p@{p}}
+\index{p@{p}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{p}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf DuctteipLog::p}}}
+\label{class_ductteip_log_a6009ec1dd40a5e1e6244ac6294ba5cf3}
+
+
+Definition at line 95 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_a200ae8fc4dd3645f8227adc0f5fd16aa}{
+\index{DuctteipLog@{DuctteipLog}!q@{q}}
+\index{q@{q}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{q}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf DuctteipLog::q}}}
+\label{class_ductteip_log_a200ae8fc4dd3645f8227adc0f5fd16aa}
+
+
+Definition at line 95 of file dt\_\-log.hpp.\hypertarget{class_ductteip_log_aef20239edd3dbb2d80ce65be13689f20}{
+\index{DuctteipLog@{DuctteipLog}!stats@{stats}}
+\index{stats@{stats}!DuctteipLog@{DuctteipLog}}
+\subsubsection[{stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Statistics} {\bf DuctteipLog::stats}\mbox{[}NumberOfEvents\mbox{]}}}
+\label{class_ductteip_log_aef20239edd3dbb2d80ce65be13689f20}
+
+
+Definition at line 138 of file dt\_\-log.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dt__log_8hpp}{dt\_\-log.hpp}\end{DoxyCompactItemize}

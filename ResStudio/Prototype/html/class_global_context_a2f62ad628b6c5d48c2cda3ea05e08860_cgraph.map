@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classengine.html#a9d0024f21ae5fa522fefdd38eade0a2e" title="engine::addPropagateTask" alt="" coords="297,59,473,88"/>
+<area shape="rect" id="node9" href="$struct_propagate_info.html#a7dd786107e3f53d7b24d7482709a3347" title="PropagateInfo::deserialize" alt="" coords="299,112,472,141"/>
+<area shape="rect" id="node5" href="$class_i_ductteip_task.html#a1f1f64d2c28f10f03516d242e3674a7f" title="IDuctteipTask::setHandle" alt="" coords="547,5,717,35"/>
+<area shape="rect" id="node7" href="$class_i_ductteip_task.html#a29e56abf2e5991acc91462c1bbdb1511" title="IDuctteipTask::setName" alt="" coords="549,59,715,88"/>
+<area shape="rect" id="node11" href="$struct_propagate_info.html#a8ae3a3e60a3ecec9a24e2d8ff3af8c57" title="PropagateInfo::deserializeContext" alt="" coords="523,112,741,141"/>
+</map>

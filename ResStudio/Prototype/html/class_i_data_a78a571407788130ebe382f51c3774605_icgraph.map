@@ -1,0 +1,23 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_context.html#a9e05e14cdde2f0b5a0ed3349815cb974" title="IContext::getDataByHandle" alt="" coords="220,245,401,275"/>
+<area shape="rect" id="node5" href="$class_global_context.html#a82ec626cc456bb864bf2376e2bda621f" title="GlobalContext::getDataByHandle" alt="" coords="451,219,667,248"/>
+<area shape="rect" id="node43" href="$class_i_context.html#aebeefdc5ccb54aeb883e79665ddf2513" title="IContext::getDataByHandle" alt="" coords="468,272,649,301"/>
+<area shape="rect" id="node7" href="$class_i_listener.html#a893f2f48814ce66437c6f2add51c8b8d" title="IListener::deserialize" alt="" coords="755,5,896,35"/>
+<area shape="rect" id="node11" href="$class_i_ductteip_task.html#a035d61635b69e2682c7361e3a07f610e" title="IDuctteipTask::deserialize" alt="" coords="739,59,912,88"/>
+<area shape="rect" id="node13" href="$struct_propagate_info.html#a87392639ebf09cbb6bb70edf7dc4c1aa" title="PropagateInfo::dump" alt="" coords="755,112,896,141"/>
+<area shape="rect" id="node21" href="$class_global_context.html#a6a4ed0adbb91872d956babaf32e3466c" title="GlobalContext::dumpPropagations" alt="" coords="715,165,936,195"/>
+<area shape="rect" id="node27" href="$class_i_ductteip_task.html#a9829e9023aab8fa4bc8e54f0064fff9a" title="IDuctteipTask::IDuctteipTask" alt="" coords="728,219,923,248"/>
+<area shape="rect" id="node29" href="$classengine.html#af65fff57c4729b10421eaa064a254d64" title="engine::importedData" alt="" coords="752,272,899,301"/>
+<area shape="rect" id="node31" href="$classengine.html#ab244f803ac3edc7ec1341e9b9a11ca33" title="engine::receivedData" alt="" coords="753,325,897,355"/>
+<area shape="rect" id="node33" href="$class_i_ductteip_task.html#ab388f79a34057d17d41286f57db4a288" title="IDuctteipTask::runPropagateTask" alt="" coords="716,379,935,408"/>
+<area shape="rect" id="node41" href="$class_i_data.html#a75c651eb04ef64c699e24dfc0db2bfd4" title="IData::testHandles" alt="" coords="760,432,891,461"/>
+<area shape="rect" id="node9" href="$classengine.html#ae0b940ebb7f5104cc2757bc9c92d0708" title="engine::receivedListener" alt="" coords="1021,5,1184,35"/>
+<area shape="rect" id="node15" href="$class_i_ductteip_task.html#aa9fae61a11236066513118d19ebd22b0" title="IDuctteipTask::dump" alt="" coords="1031,112,1175,141"/>
+<area shape="rect" id="node17" href="$classengine.html#a8e205e47882728401e1b71805ddf802a" title="engine::dumpTasks" alt="" coords="1291,59,1427,88"/>
+<area shape="rect" id="node19" href="$classengine.html#ab64370db1774805a8fbe041bdde1a01c" title="engine::exportTask" alt="" coords="1292,112,1425,141"/>
+<area shape="rect" id="node23" href="$class_global_context.html#ab7a7663698431c03044fb91223a8b0df" title="GlobalContext::sendPropagateTasks" alt="" coords="985,165,1220,195"/>
+<area shape="rect" id="node25" href="$context_8hpp.html#acc758e315b7ee2179a56281208faef24" title="begin_context" alt="" coords="1308,165,1409,195"/>
+<area shape="rect" id="node35" href="$class_i_ductteip_task.html#abe3d6c79a56e71982297a88ff9a0921c" title="IDuctteipTask::run" alt="" coords="1037,379,1168,408"/>
+<area shape="rect" id="node37" href="$classengine.html#ad5b326de03b791ffb0846bbcc18d4252" title="engine::runFirstActiveTask" alt="" coords="1269,379,1448,408"/>
+<area shape="rect" id="node39" href="$class_i_data.html#a24f0723eb905accf62461f50a4487b33" title="IData::checkAfterUpgrade" alt="" coords="1497,379,1671,408"/>
+</map>

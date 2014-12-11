@@ -1,0 +1,22 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_partition.html#aeabe76c45c274addb15c435f13c2c7e8" title="Partition::dump" alt="" coords="299,245,408,275"/>
+<area shape="rect" id="node5" href="$class_partition.html#ac675bc154e0d7fb01bf9db46196165ba" title="Partition::getBlock" alt="" coords="289,299,417,328"/>
+<area shape="rect" id="node27" href="$class_i_data.html#a513a1ad05e427af81ca7c34291826efb" title="IData::getContentAddress" alt="" coords="267,432,440,461"/>
+<area shape="rect" id="node39" href="$class_partition.html#a5ca98c67580ef12ca1b2376638fb9714" title="Partition::partitionRectangle" alt="" coords="263,485,444,515"/>
+<area shape="rect" id="node41" href="$class_partition.html#a8ca97963e7769bec5e7c59f9e4660427" title="Partition::setBaseMemory" alt="" coords="267,539,440,568"/>
+<area shape="rect" id="node7" href="$class_partition.html#ae9748490144ee2cbf5ca2e2fdb355f64" title="Partition::X_B" alt="" coords="528,5,629,35"/>
+<area shape="rect" id="node9" href="$class_partition.html#a439ac208be8dbee772f9fe167a95581b" title="Partition::X_BS" alt="" coords="523,59,635,88"/>
+<area shape="rect" id="node11" href="$class_partition.html#a74faab4721aa4fa4c17a23c2c7589a1a" title="Partition::X_E" alt="" coords="528,112,629,141"/>
+<area shape="rect" id="node13" href="$class_partition.html#aae132939e5651020e0801bec2009d300" title="Partition::X_EB" alt="" coords="523,165,635,195"/>
+<area shape="rect" id="node15" href="$class_partition.html#a8d2849bb3bbea837ceca021ce9d6257a" title="Partition::X_ES" alt="" coords="523,219,635,248"/>
+<area shape="rect" id="node17" href="$class_partition.html#a99642b7ce0d0385ccbaa821918e816f0" title="Partition::Y_B" alt="" coords="528,272,629,301"/>
+<area shape="rect" id="node19" href="$class_partition.html#ad122861c613d170ffb610194b4bb3850" title="Partition::Y_BS" alt="" coords="523,325,635,355"/>
+<area shape="rect" id="node21" href="$class_partition.html#a3721344cfda08fbf4f0ee806082d0ac3" title="Partition::Y_E" alt="" coords="528,379,629,408"/>
+<area shape="rect" id="node23" href="$class_partition.html#a017cfca75cb8141fb3502d5a90a5e567" title="Partition::Y_EB" alt="" coords="523,432,635,461"/>
+<area shape="rect" id="node25" href="$class_partition.html#a618a4ee9a5432087b30e2e6ef4d951ce" title="Partition::Y_ES" alt="" coords="523,485,635,515"/>
+<area shape="rect" id="node29" href="$struct_memory_item.html#a8e5271126c1eb7d5d5b0d611149b67cf" title="MemoryItem::getAddress" alt="" coords="495,539,663,568"/>
+<area shape="rect" id="node31" href="$class_i_data.html#acf62b5fb26cf38c5a0b1480f8a548664" title="IData::getHeaderSize" alt="" coords="505,592,652,621"/>
+<area shape="rect" id="node33" href="$struct_data_version.html#a77899e6e8255693a00a56250c2d26572" title="DataVersion::getPackSize" alt="" coords="712,565,888,595"/>
+<area shape="rect" id="node37" href="$struct_data_handle.html#a5f555e8f89e12b36a6f831059fb10124" title="DataHandle::getPackSize" alt="" coords="713,619,887,648"/>
+<area shape="rect" id="node35" href="$struct_context_prefix.html#a6d30f468ca52d1dce17ee24804892d52" title="ContextPrefix::getPackSize" alt="" coords="936,565,1120,595"/>
+</map>

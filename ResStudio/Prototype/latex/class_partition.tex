@@ -1,0 +1,519 @@
+\hypertarget{class_partition}{
+\section{Partition$<$ ElementType $>$ Class Template Reference}
+\label{class_partition}\index{Partition@{Partition}}
+}
+
+
+{\ttfamily \#include $<$partition.hpp$>$}Collaboration diagram for Partition$<$ ElementType $>$:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{class_partition__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries Dimension}
+\item 
+struct {\bfseries MemoryUnit}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_partition_adbdfdfec715a01a053f5c6efeb4e10e3}{Partition} (int dim\_\-cnt=2, MemoryAlignment algn=COL\_\-MAJOR)
+\item 
+\hyperlink{class_partition_a5e6c9ebcc03fb273e0766abe77954813}{$\sim$Partition} ()
+\item 
+int \& \hyperlink{class_partition_a74faab4721aa4fa4c17a23c2c7589a1a}{X\_\-E} ()
+\item 
+int \& \hyperlink{class_partition_ae9748490144ee2cbf5ca2e2fdb355f64}{X\_\-B} ()
+\item 
+int \& \hyperlink{class_partition_a8d2849bb3bbea837ceca021ce9d6257a}{X\_\-ES} ()
+\item 
+int \& \hyperlink{class_partition_aae132939e5651020e0801bec2009d300}{X\_\-EB} ()
+\item 
+int \& \hyperlink{class_partition_a439ac208be8dbee772f9fe167a95581b}{X\_\-BS} ()
+\item 
+int \& \hyperlink{class_partition_a017cfca75cb8141fb3502d5a90a5e567}{Y\_\-EB} ()
+\item 
+int \& \hyperlink{class_partition_a618a4ee9a5432087b30e2e6ef4d951ce}{Y\_\-ES} ()
+\item 
+int \& \hyperlink{class_partition_ad122861c613d170ffb610194b4bb3850}{Y\_\-BS} ()
+\item 
+int \& \hyperlink{class_partition_a3721344cfda08fbf4f0ee806082d0ac3}{Y\_\-E} ()
+\item 
+int \& \hyperlink{class_partition_a99642b7ce0d0385ccbaa821918e816f0}{Y\_\-B} ()
+\item 
+ElementType $\ast$ \hyperlink{class_partition_a22be567d4a5505fa6134221000970704}{getAddressOfBlock} (int y, int x)
+\item 
+void \hyperlink{class_partition_aeabe76c45c274addb15c435f13c2c7e8}{dump} ()
+\item 
+void \hyperlink{class_partition_a38087382dbb5c22edcd3671aa65d872b}{dumpBlocks} ()
+\item 
+\hyperlink{class_partition}{Partition} $\ast$ \hyperlink{class_partition_ac675bc154e0d7fb01bf9db46196165ba}{getBlock} (int y, int x)
+\item 
+ElementType $\ast$ \hyperlink{class_partition_aad83ba7499b811fd266fdfd97d38204c}{getElementAt} (int y, int x)
+\item 
+ElementType $\ast$ \hyperlink{class_partition_a541241fa1ca1de2c82a43612e9774f00}{getElement} (int y, int x)
+\item 
+ElementType $\ast$ \hyperlink{class_partition_a3866b3ab8d6e114eb0835465f7418ceb}{getAddressOfElement} (int y, int x)
+\item 
+void \hyperlink{class_partition_a617c37139285d3b510144eb206a15549}{partitionSquare} (int n\_\-elem, int n\_\-blocks)
+\item 
+void \hyperlink{class_partition_a5ca98c67580ef12ca1b2376638fb9714}{partitionRectangle} (int yn\_\-elem, int xn\_\-elem, int yn\_\-blocks, int xn\_\-blocks)
+\item 
+void \hyperlink{class_partition_a645aef56ca3bc0e0d059e9efb0301f97}{setElementsInfoX} (int count, int stride=0)
+\item 
+void \hyperlink{class_partition_a67f73cecff570475924b28cad0a77e6c}{setElementsInfoY} (int count, int stride=0)
+\item 
+void \hyperlink{class_partition_aa5dc8e134f02dadb839fa5cf50506ec0}{setElementsInfo} (int dim, int count, int stride)
+\item 
+void \hyperlink{class_partition_ad974cd0110425d8c8975908953847d61}{setBlocksInfoX} (int count, int stride)
+\item 
+void \hyperlink{class_partition_a6b287b25306db5bd66df1dc1a55ba6a0}{setBlocksInfoY} (int count, int stride)
+\item 
+void \hyperlink{class_partition_a96a9021fbce8a82ff167ec8cffa5d9d2}{setBlocksInfo} (int dim, int count, int stride)
+\item 
+void \hyperlink{class_partition_a8ca97963e7769bec5e7c59f9e4660427}{setBaseMemory} (ElementType $\ast$mem, int size)
+\item 
+ElementType $\ast$ \hyperlink{class_partition_a09cdb296f21b866f576556e0b7d5c85b}{getBaseMemory} ()
+\item 
+int \hyperlink{class_partition_a38b3de8d91758c1b15082601d949bb85}{getMemorySize} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class ElementType$>$ class Partition$<$ ElementType $>$}
+
+
+
+Definition at line 10 of file partition.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_partition_adbdfdfec715a01a053f5c6efeb4e10e3}{
+\index{Partition@{Partition}!Partition@{Partition}}
+\index{Partition@{Partition}!Partition@{Partition}}
+\subsubsection[{Partition}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ {\bf Partition}$<$ ElementType $>$::{\bf Partition} (int {\em dim\_\-cnt} = {\ttfamily 2}, \/  MemoryAlignment {\em algn} = {\ttfamily COL\_\-MAJOR})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_adbdfdfec715a01a053f5c6efeb4e10e3}
+
+
+Definition at line 24 of file partition.hpp.\hypertarget{class_partition_a5e6c9ebcc03fb273e0766abe77954813}{
+\index{Partition@{Partition}!$\sim$Partition@{$\sim$Partition}}
+\index{$\sim$Partition@{$\sim$Partition}!Partition@{Partition}}
+\subsubsection[{$\sim$Partition}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ {\bf Partition}$<$ ElementType $>$::$\sim${\bf Partition} ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a5e6c9ebcc03fb273e0766abe77954813}
+
+
+Definition at line 33 of file partition.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_partition_aeabe76c45c274addb15c435f13c2c7e8}{
+\index{Partition@{Partition}!dump@{dump}}
+\index{dump@{dump}!Partition@{Partition}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::dump ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_aeabe76c45c274addb15c435f13c2c7e8}
+
+
+Definition at line 67 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{class_partition_aeabe76c45c274addb15c435f13c2c7e8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a38087382dbb5c22edcd3671aa65d872b}{
+\index{Partition@{Partition}!dumpBlocks@{dumpBlocks}}
+\index{dumpBlocks@{dumpBlocks}!Partition@{Partition}}
+\subsubsection[{dumpBlocks}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::dumpBlocks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a38087382dbb5c22edcd3671aa65d872b}
+
+
+Definition at line 83 of file partition.hpp.\hypertarget{class_partition_a22be567d4a5505fa6134221000970704}{
+\index{Partition@{Partition}!getAddressOfBlock@{getAddressOfBlock}}
+\index{getAddressOfBlock@{getAddressOfBlock}!Partition@{Partition}}
+\subsubsection[{getAddressOfBlock}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ ElementType$\ast$ {\bf Partition}$<$ ElementType $>$::getAddressOfBlock (int {\em y}, \/  int {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a22be567d4a5505fa6134221000970704}
+
+
+Definition at line 54 of file partition.hpp.\hypertarget{class_partition_a3866b3ab8d6e114eb0835465f7418ceb}{
+\index{Partition@{Partition}!getAddressOfElement@{getAddressOfElement}}
+\index{getAddressOfElement@{getAddressOfElement}!Partition@{Partition}}
+\subsubsection[{getAddressOfElement}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ ElementType$\ast$ {\bf Partition}$<$ ElementType $>$::getAddressOfElement (int {\em y}, \/  int {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a3866b3ab8d6e114eb0835465f7418ceb}
+
+
+Definition at line 115 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{class_partition_a3866b3ab8d6e114eb0835465f7418ceb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a09cdb296f21b866f576556e0b7d5c85b}{
+\index{Partition@{Partition}!getBaseMemory@{getBaseMemory}}
+\index{getBaseMemory@{getBaseMemory}!Partition@{Partition}}
+\subsubsection[{getBaseMemory}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ ElementType$\ast$ {\bf Partition}$<$ ElementType $>$::getBaseMemory ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a09cdb296f21b866f576556e0b7d5c85b}
+
+
+Definition at line 208 of file partition.hpp.\hypertarget{class_partition_ac675bc154e0d7fb01bf9db46196165ba}{
+\index{Partition@{Partition}!getBlock@{getBlock}}
+\index{getBlock@{getBlock}!Partition@{Partition}}
+\subsubsection[{getBlock}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType $>$ {\bf Partition}$<$ ElementType $>$ $\ast$ {\bf Partition}$<$ ElementType $>$::getBlock (int {\em y}, \/  int {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_ac675bc154e0d7fb01bf9db46196165ba}
+
+
+Definition at line 1032 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=131pt]{class_partition_ac675bc154e0d7fb01bf9db46196165ba_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{class_partition_ac675bc154e0d7fb01bf9db46196165ba_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a541241fa1ca1de2c82a43612e9774f00}{
+\index{Partition@{Partition}!getElement@{getElement}}
+\index{getElement@{getElement}!Partition@{Partition}}
+\subsubsection[{getElement}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ ElementType$\ast$ {\bf Partition}$<$ ElementType $>$::getElement (int {\em y}, \/  int {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a541241fa1ca1de2c82a43612e9774f00}
+
+
+Definition at line 102 of file partition.hpp.\hypertarget{class_partition_aad83ba7499b811fd266fdfd97d38204c}{
+\index{Partition@{Partition}!getElementAt@{getElementAt}}
+\index{getElementAt@{getElementAt}!Partition@{Partition}}
+\subsubsection[{getElementAt}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ ElementType$\ast$ {\bf Partition}$<$ ElementType $>$::getElementAt (int {\em y}, \/  int {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_aad83ba7499b811fd266fdfd97d38204c}
+
+
+Definition at line 96 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{class_partition_aad83ba7499b811fd266fdfd97d38204c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a38b3de8d91758c1b15082601d949bb85}{
+\index{Partition@{Partition}!getMemorySize@{getMemorySize}}
+\index{getMemorySize@{getMemorySize}!Partition@{Partition}}
+\subsubsection[{getMemorySize}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int {\bf Partition}$<$ ElementType $>$::getMemorySize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a38b3de8d91758c1b15082601d949bb85}
+
+
+Definition at line 209 of file partition.hpp.\hypertarget{class_partition_a5ca98c67580ef12ca1b2376638fb9714}{
+\index{Partition@{Partition}!partitionRectangle@{partitionRectangle}}
+\index{partitionRectangle@{partitionRectangle}!Partition@{Partition}}
+\subsubsection[{partitionRectangle}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::partitionRectangle (int {\em yn\_\-elem}, \/  int {\em xn\_\-elem}, \/  int {\em yn\_\-blocks}, \/  int {\em xn\_\-blocks})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a5ca98c67580ef12ca1b2376638fb9714}
+
+
+Definition at line 150 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{class_partition_a5ca98c67580ef12ca1b2376638fb9714_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a617c37139285d3b510144eb206a15549}{
+\index{Partition@{Partition}!partitionSquare@{partitionSquare}}
+\index{partitionSquare@{partitionSquare}!Partition@{Partition}}
+\subsubsection[{partitionSquare}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::partitionSquare (int {\em n\_\-elem}, \/  int {\em n\_\-blocks})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a617c37139285d3b510144eb206a15549}
+
+
+Definition at line 137 of file partition.hpp.\hypertarget{class_partition_a8ca97963e7769bec5e7c59f9e4660427}{
+\index{Partition@{Partition}!setBaseMemory@{setBaseMemory}}
+\index{setBaseMemory@{setBaseMemory}!Partition@{Partition}}
+\subsubsection[{setBaseMemory}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setBaseMemory (ElementType $\ast$ {\em mem}, \/  int {\em size})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a8ca97963e7769bec5e7c59f9e4660427}
+
+
+Definition at line 204 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{class_partition_a8ca97963e7769bec5e7c59f9e4660427_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a96a9021fbce8a82ff167ec8cffa5d9d2}{
+\index{Partition@{Partition}!setBlocksInfo@{setBlocksInfo}}
+\index{setBlocksInfo@{setBlocksInfo}!Partition@{Partition}}
+\subsubsection[{setBlocksInfo}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setBlocksInfo (int {\em dim}, \/  int {\em count}, \/  int {\em stride})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a96a9021fbce8a82ff167ec8cffa5d9d2}
+
+
+Definition at line 199 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{class_partition_a96a9021fbce8a82ff167ec8cffa5d9d2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_ad974cd0110425d8c8975908953847d61}{
+\index{Partition@{Partition}!setBlocksInfoX@{setBlocksInfoX}}
+\index{setBlocksInfoX@{setBlocksInfoX}!Partition@{Partition}}
+\subsubsection[{setBlocksInfoX}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setBlocksInfoX (int {\em count}, \/  int {\em stride})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_ad974cd0110425d8c8975908953847d61}
+
+
+Definition at line 191 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{class_partition_ad974cd0110425d8c8975908953847d61_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a6b287b25306db5bd66df1dc1a55ba6a0}{
+\index{Partition@{Partition}!setBlocksInfoY@{setBlocksInfoY}}
+\index{setBlocksInfoY@{setBlocksInfoY}!Partition@{Partition}}
+\subsubsection[{setBlocksInfoY}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setBlocksInfoY (int {\em count}, \/  int {\em stride})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a6b287b25306db5bd66df1dc1a55ba6a0}
+
+
+Definition at line 195 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{class_partition_a6b287b25306db5bd66df1dc1a55ba6a0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_aa5dc8e134f02dadb839fa5cf50506ec0}{
+\index{Partition@{Partition}!setElementsInfo@{setElementsInfo}}
+\index{setElementsInfo@{setElementsInfo}!Partition@{Partition}}
+\subsubsection[{setElementsInfo}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setElementsInfo (int {\em dim}, \/  int {\em count}, \/  int {\em stride})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_aa5dc8e134f02dadb839fa5cf50506ec0}
+
+
+Definition at line 186 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{class_partition_aa5dc8e134f02dadb839fa5cf50506ec0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a645aef56ca3bc0e0d059e9efb0301f97}{
+\index{Partition@{Partition}!setElementsInfoX@{setElementsInfoX}}
+\index{setElementsInfoX@{setElementsInfoX}!Partition@{Partition}}
+\subsubsection[{setElementsInfoX}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setElementsInfoX (int {\em count}, \/  int {\em stride} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a645aef56ca3bc0e0d059e9efb0301f97}
+
+
+Definition at line 168 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_partition_a645aef56ca3bc0e0d059e9efb0301f97_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a67f73cecff570475924b28cad0a77e6c}{
+\index{Partition@{Partition}!setElementsInfoY@{setElementsInfoY}}
+\index{setElementsInfoY@{setElementsInfoY}!Partition@{Partition}}
+\subsubsection[{setElementsInfoY}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ void {\bf Partition}$<$ ElementType $>$::setElementsInfoY (int {\em count}, \/  int {\em stride} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a67f73cecff570475924b28cad0a77e6c}
+
+
+Definition at line 177 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_partition_a67f73cecff570475924b28cad0a77e6c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_ae9748490144ee2cbf5ca2e2fdb355f64}{
+\index{Partition@{Partition}!X\_\-B@{X\_\-B}}
+\index{X\_\-B@{X\_\-B}!Partition@{Partition}}
+\subsubsection[{X\_\-B}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::X\_\-B ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_ae9748490144ee2cbf5ca2e2fdb355f64}
+
+
+Definition at line 44 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_partition_ae9748490144ee2cbf5ca2e2fdb355f64_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a439ac208be8dbee772f9fe167a95581b}{
+\index{Partition@{Partition}!X\_\-BS@{X\_\-BS}}
+\index{X\_\-BS@{X\_\-BS}!Partition@{Partition}}
+\subsubsection[{X\_\-BS}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::X\_\-BS ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a439ac208be8dbee772f9fe167a95581b}
+
+
+Definition at line 47 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=396pt]{class_partition_a439ac208be8dbee772f9fe167a95581b_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a74faab4721aa4fa4c17a23c2c7589a1a}{
+\index{Partition@{Partition}!X\_\-E@{X\_\-E}}
+\index{X\_\-E@{X\_\-E}!Partition@{Partition}}
+\subsubsection[{X\_\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::X\_\-E ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a74faab4721aa4fa4c17a23c2c7589a1a}
+
+
+Definition at line 43 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_partition_a74faab4721aa4fa4c17a23c2c7589a1a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_aae132939e5651020e0801bec2009d300}{
+\index{Partition@{Partition}!X\_\-EB@{X\_\-EB}}
+\index{X\_\-EB@{X\_\-EB}!Partition@{Partition}}
+\subsubsection[{X\_\-EB}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::X\_\-EB ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_aae132939e5651020e0801bec2009d300}
+
+
+Definition at line 46 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_partition_aae132939e5651020e0801bec2009d300_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a8d2849bb3bbea837ceca021ce9d6257a}{
+\index{Partition@{Partition}!X\_\-ES@{X\_\-ES}}
+\index{X\_\-ES@{X\_\-ES}!Partition@{Partition}}
+\subsubsection[{X\_\-ES}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::X\_\-ES ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a8d2849bb3bbea837ceca021ce9d6257a}
+
+
+Definition at line 45 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=396pt]{class_partition_a8d2849bb3bbea837ceca021ce9d6257a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a99642b7ce0d0385ccbaa821918e816f0}{
+\index{Partition@{Partition}!Y\_\-B@{Y\_\-B}}
+\index{Y\_\-B@{Y\_\-B}!Partition@{Partition}}
+\subsubsection[{Y\_\-B}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::Y\_\-B ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a99642b7ce0d0385ccbaa821918e816f0}
+
+
+Definition at line 52 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_partition_a99642b7ce0d0385ccbaa821918e816f0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_ad122861c613d170ffb610194b4bb3850}{
+\index{Partition@{Partition}!Y\_\-BS@{Y\_\-BS}}
+\index{Y\_\-BS@{Y\_\-BS}!Partition@{Partition}}
+\subsubsection[{Y\_\-BS}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::Y\_\-BS ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_ad122861c613d170ffb610194b4bb3850}
+
+
+Definition at line 50 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=396pt]{class_partition_ad122861c613d170ffb610194b4bb3850_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a3721344cfda08fbf4f0ee806082d0ac3}{
+\index{Partition@{Partition}!Y\_\-E@{Y\_\-E}}
+\index{Y\_\-E@{Y\_\-E}!Partition@{Partition}}
+\subsubsection[{Y\_\-E}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::Y\_\-E ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a3721344cfda08fbf4f0ee806082d0ac3}
+
+
+Definition at line 51 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_partition_a3721344cfda08fbf4f0ee806082d0ac3_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a017cfca75cb8141fb3502d5a90a5e567}{
+\index{Partition@{Partition}!Y\_\-EB@{Y\_\-EB}}
+\index{Y\_\-EB@{Y\_\-EB}!Partition@{Partition}}
+\subsubsection[{Y\_\-EB}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::Y\_\-EB ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a017cfca75cb8141fb3502d5a90a5e567}
+
+
+Definition at line 48 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_partition_a017cfca75cb8141fb3502d5a90a5e567_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_partition_a618a4ee9a5432087b30e2e6ef4d951ce}{
+\index{Partition@{Partition}!Y\_\-ES@{Y\_\-ES}}
+\index{Y\_\-ES@{Y\_\-ES}!Partition@{Partition}}
+\subsubsection[{Y\_\-ES}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class ElementType$>$ int\& {\bf Partition}$<$ ElementType $>$::Y\_\-ES ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_partition_a618a4ee9a5432087b30e2e6ef4d951ce}
+
+
+Definition at line 49 of file partition.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=396pt]{class_partition_a618a4ee9a5432087b30e2e6ef4d951ce_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{partition_8hpp}{partition.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

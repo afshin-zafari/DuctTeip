@@ -1,0 +1,129 @@
+\hypertarget{class_task_propagate_policy}{
+\section{TaskPropagatePolicy Class Reference}
+\label{class_task_propagate_policy}\index{TaskPropagatePolicy@{TaskPropagatePolicy}}
+}
+
+
+{\ttfamily \#include $<$hostpolicy.hpp$>$}Inheritance diagram for TaskPropagatePolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{class_task_propagate_policy__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for TaskPropagatePolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{class_task_propagate_policy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fd}{tppType} \{ \hyperlink{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fda2d48d7fee629a2535833a384ae1a30ad}{GROUP\_\-LEADER} = 1, 
+\hyperlink{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fda59cd907f4d363e9b2cb3f2b96baad3e9}{ALL\_\-CYCLIC}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_task_propagate_policy_aec820f83379ecb6be2fb180f59db893b}{TaskPropagatePolicy} (\hyperlink{class_process_grid}{ProcessGrid} $\ast$pg)
+\item 
+\hyperlink{class_task_propagate_policy_afd45667da097ff87f11f8a63d396f5c6}{TaskPropagatePolicy} (\hyperlink{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fd}{tppType} tpp, \hyperlink{class_process_grid}{ProcessGrid} \&pg)
+\item 
+int \hyperlink{class_task_propagate_policy_a7fb05d7f6392bbe12c1d071d4dd529d7}{getHost} (list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ in\_\-data, list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ out\_\-data)
+\item 
+bool \hyperlink{class_task_propagate_policy_af5be0fe1cf14a044035d62b5b40c2093}{isAllowed} (\hyperlink{class_context_host_policy}{ContextHostPolicy} $\ast$hpContext, int \hyperlink{mpi__comm_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me})
+\item 
+bool \hyperlink{class_task_propagate_policy_a5dda297fceb4379ba92f8e2e0e899f2a}{isAllowed} (\hyperlink{class_i_context}{IContext} $\ast$hpContext, \hyperlink{class_context_header}{ContextHeader} $\ast$)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 148 of file hostpolicy.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fd}{
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!tppType@{tppType}}
+\index{tppType@{tppType}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\subsubsection[{tppType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf TaskPropagatePolicy::tppType}}}
+\label{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fd}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{GROUP\_\-LEADER@{GROUP\_\-LEADER}!TaskPropagatePolicy@{TaskPropagatePolicy}}\index{TaskPropagatePolicy@{TaskPropagatePolicy}!GROUP\_\-LEADER@{GROUP\_\-LEADER}}\item[{\em 
+\hypertarget{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fda2d48d7fee629a2535833a384ae1a30ad}{
+GROUP\_\-LEADER}
+\label{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fda2d48d7fee629a2535833a384ae1a30ad}
+}]\index{ALL\_\-CYCLIC@{ALL\_\-CYCLIC}!TaskPropagatePolicy@{TaskPropagatePolicy}}\index{TaskPropagatePolicy@{TaskPropagatePolicy}!ALL\_\-CYCLIC@{ALL\_\-CYCLIC}}\item[{\em 
+\hypertarget{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fda59cd907f4d363e9b2cb3f2b96baad3e9}{
+ALL\_\-CYCLIC}
+\label{class_task_propagate_policy_a6c683eb92ff5d4fb9ea0b083732c13fda59cd907f4d363e9b2cb3f2b96baad3e9}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 151 of file hostpolicy.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_task_propagate_policy_aec820f83379ecb6be2fb180f59db893b}{
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\subsubsection[{TaskPropagatePolicy}]{\setlength{\rightskip}{0pt plus 5cm}TaskPropagatePolicy::TaskPropagatePolicy ({\bf ProcessGrid} $\ast$ {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_propagate_policy_aec820f83379ecb6be2fb180f59db893b}
+
+
+Definition at line 159 of file hostpolicy.hpp.\hypertarget{class_task_propagate_policy_afd45667da097ff87f11f8a63d396f5c6}{
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\subsubsection[{TaskPropagatePolicy}]{\setlength{\rightskip}{0pt plus 5cm}TaskPropagatePolicy::TaskPropagatePolicy ({\bf tppType} {\em tpp}, \/  {\bf ProcessGrid} \& {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_propagate_policy_afd45667da097ff87f11f8a63d396f5c6}
+
+
+Definition at line 160 of file hostpolicy.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_task_propagate_policy_a7fb05d7f6392bbe12c1d071d4dd529d7}{
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!getHost@{getHost}}
+\index{getHost@{getHost}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int TaskPropagatePolicy::getHost (list$<$ {\bf IData} $\ast$ $>$ {\em in\_\-data}, \/  list$<$ {\bf IData} $\ast$ $>$ {\em out\_\-data})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_task_propagate_policy_a7fb05d7f6392bbe12c1d071d4dd529d7}
+
+
+Definition at line 161 of file hostpolicy.hpp.\hypertarget{class_task_propagate_policy_a5dda297fceb4379ba92f8e2e0e899f2a}{
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}bool TaskPropagatePolicy::isAllowed ({\bf IContext} $\ast$ {\em hpContext}, \/  {\bf ContextHeader} $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_task_propagate_policy_a5dda297fceb4379ba92f8e2e0e899f2a}
+
+
+Reimplemented from \hyperlink{class_i_host_policy_a5200e3143a640e492438361a3fd2626a}{IHostPolicy}.
+
+Definition at line 163 of file hostpolicy.hpp.\hypertarget{class_task_propagate_policy_af5be0fe1cf14a044035d62b5b40c2093}{
+\index{TaskPropagatePolicy@{TaskPropagatePolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!TaskPropagatePolicy@{TaskPropagatePolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}bool TaskPropagatePolicy::isAllowed ({\bf ContextHostPolicy} $\ast$ {\em hpContext}, \/  int {\em me})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{class_task_propagate_policy_af5be0fe1cf14a044035d62b5b40c2093}
+
+
+Reimplemented from \hyperlink{class_i_host_policy_ad7665cb96e008e8f189201662ae32736}{IHostPolicy}.
+
+Definition at line 589 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{class_task_propagate_policy_af5be0fe1cf14a044035d62b5b40c2093_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{hostpolicy_8hpp}{hostpolicy.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

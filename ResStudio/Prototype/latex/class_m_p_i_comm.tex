@@ -1,0 +1,365 @@
+\hypertarget{class_m_p_i_comm}{
+\section{MPIComm Class Reference}
+\label{class_m_p_i_comm}\index{MPIComm@{MPIComm}}
+}
+
+
+{\ttfamily \#include $<$mpi\_\-comm.hpp$>$}Inheritance diagram for MPIComm:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=108pt]{class_m_p_i_comm__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for MPIComm:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=108pt]{class_m_p_i_comm__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_m_p_i_comm_a2795c73e5730d893f195efa58e06ee8d}{MPIComm} ()
+\item 
+void \hyperlink{class_m_p_i_comm_aa21508c017028ad002b01cdecc10a247}{initialize} ()
+\item 
+\hyperlink{class_m_p_i_comm_a675ded15d2ea6e5fda6d31826c5e402f}{$\sim$MPIComm} ()
+\item 
+bool \hyperlink{class_m_p_i_comm_ae9829165ffcff61c0faea65b30e9a8c1}{canTerminate} ()
+\item 
+unsigned long \hyperlink{class_m_p_i_comm_a878df4e9c57f117f192a8bfee009ff94}{send} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int dest, bool wait=false)
+\item 
+unsigned long \hyperlink{class_m_p_i_comm_adac7de30f89639b574623e73c16fc0d6}{postDataReceive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int source, unsigned long key)
+\item 
+unsigned long \hyperlink{class_m_p_i_comm_a37121a71b4636a713e4b3b0655efbc6e}{postListenerReceive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int source)
+\item 
+unsigned long \hyperlink{class_m_p_i_comm_a15aa65ec7dcb1da5fa042fd6d98f1578}{postTerminateReceive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int source)
+\item 
+bool \hyperlink{class_m_p_i_comm_ace0d0f43b30dcb479d387c7d39735cd9}{isAnyDataPostCompleted} (int $\ast$tag, unsigned long $\ast$handle)
+\item 
+bool \hyperlink{class_m_p_i_comm_ae34314bc322812be2fa99db0ad1687a2}{isAnyListenerPostCompleted} (int $\ast$tag, unsigned long $\ast$handle)
+\item 
+bool \hyperlink{class_m_p_i_comm_a0e84bad56ed23e721626ac1273a90670}{isAnyTerminatePostCompleted} (int $\ast$tag, unsigned long $\ast$handle)
+\item 
+bool \hyperlink{class_m_p_i_comm_a897fbe8d99735dec4088197b9c4f2a23}{isAnyPostCompleted} (int $\ast$tag, unsigned long $\ast$handle)
+\item 
+int \hyperlink{class_m_p_i_comm_abdd86a365a50571e7a46e8593c45977b}{receive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int source, bool wait=true)
+\item 
+bool \hyperlink{class_m_p_i_comm_a26ebe2409a5fea582918a00896c067e9}{isLastReceiveCompleted} (bool $\ast$is\_\-any)
+\item 
+bool \hyperlink{class_m_p_i_comm_ab56666a8c492a8d53065def42a488d72}{isAnySendCompleted} (int $\ast$tag, unsigned long $\ast$handle)
+\item 
+int \hyperlink{class_m_p_i_comm_a1c1a72b9cf6cac8a5af0e8dc6a085c87}{probe} (int $\ast$tag, int $\ast$source, int $\ast$length, bool wait)
+\item 
+int \hyperlink{class_m_p_i_comm_a5e2fdc3d30c9e2ef04fc81fa99e8cd3f}{probeTags} (int $\ast$tag, int n, int $\ast$source, int $\ast$length, int $\ast$outtag)
+\item 
+int \hyperlink{class_m_p_i_comm_afd22e4e486b60da08f0b783c18ca0e2b}{initialize} (int argc, char $\ast$$\ast$argv)
+\item 
+int \hyperlink{class_m_p_i_comm_a96c71e22fbaac04771dffb5791e06692}{finish} ()
+\item 
+int \hyperlink{class_m_p_i_comm_a856e93fd17d9e20104590440088b4049}{get\_\-host\_\-id} ()
+\item 
+int \hyperlink{class_m_p_i_comm_a991f93012b8d83f7ca54fc780555c683}{get\_\-host\_\-count} ()
+\item 
+bool \hyperlink{class_m_p_i_comm_a42d5d0b9d3a804931b2a58c468e08d0d}{canMultiThread} ()
+\item 
+void \hyperlink{class_m_p_i_comm_ad52e37d83780b3f42ab18c3314c9d54f}{barrier} ()
+\item 
+void \hyperlink{class_m_p_i_comm_a56487e629b2877138f00cb01dfcfee08}{getRequestList} (\hyperlink{struct_request_list}{RequestList} $\ast$req\_\-list)
+\item 
+void \hyperlink{class_m_p_i_comm_a973e8bc1426f2ac24f86036909eb2407}{getEventBlocking} (int $\ast$tag, unsigned long $\ast$handle)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 34 of file mpi\_\-comm.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_m_p_i_comm_a2795c73e5730d893f195efa58e06ee8d}{
+\index{MPIComm@{MPIComm}!MPIComm@{MPIComm}}
+\index{MPIComm@{MPIComm}!MPIComm@{MPIComm}}
+\subsubsection[{MPIComm}]{\setlength{\rightskip}{0pt plus 5cm}MPIComm::MPIComm ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_m_p_i_comm_a2795c73e5730d893f195efa58e06ee8d}
+
+
+Definition at line 46 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a675ded15d2ea6e5fda6d31826c5e402f}{
+\index{MPIComm@{MPIComm}!$\sim$MPIComm@{$\sim$MPIComm}}
+\index{$\sim$MPIComm@{$\sim$MPIComm}!MPIComm@{MPIComm}}
+\subsubsection[{$\sim$MPIComm}]{\setlength{\rightskip}{0pt plus 5cm}MPIComm::$\sim$MPIComm ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_m_p_i_comm_a675ded15d2ea6e5fda6d31826c5e402f}
+
+
+Definition at line 65 of file mpi\_\-comm.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_m_p_i_comm_ad52e37d83780b3f42ab18c3314c9d54f}{
+\index{MPIComm@{MPIComm}!barrier@{barrier}}
+\index{barrier@{barrier}!MPIComm@{MPIComm}}
+\subsubsection[{barrier}]{\setlength{\rightskip}{0pt plus 5cm}void MPIComm::barrier ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_ad52e37d83780b3f42ab18c3314c9d54f}
+
+
+Implements \hyperlink{class_i_network_abed2c6be14fae042cc0308f3967a3bd0}{INetwork}.
+
+Definition at line 389 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a42d5d0b9d3a804931b2a58c468e08d0d}{
+\index{MPIComm@{MPIComm}!canMultiThread@{canMultiThread}}
+\index{canMultiThread@{canMultiThread}!MPIComm@{MPIComm}}
+\subsubsection[{canMultiThread}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::canMultiThread ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a42d5d0b9d3a804931b2a58c468e08d0d}
+
+
+Implements \hyperlink{class_i_network_aad8a4fcd575712d1ef795f1133e17916}{INetwork}.
+
+Definition at line 387 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_ae9829165ffcff61c0faea65b30e9a8c1}{
+\index{MPIComm@{MPIComm}!canTerminate@{canTerminate}}
+\index{canTerminate@{canTerminate}!MPIComm@{MPIComm}}
+\subsubsection[{canTerminate}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::canTerminate ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_ae9829165ffcff61c0faea65b30e9a8c1}
+
+
+Implements \hyperlink{class_i_network_a49a4daa697317d6fc065897a7926c26c}{INetwork}.
+
+Definition at line 71 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a96c71e22fbaac04771dffb5791e06692}{
+\index{MPIComm@{MPIComm}!finish@{finish}}
+\index{finish@{finish}!MPIComm@{MPIComm}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::finish ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a96c71e22fbaac04771dffb5791e06692}
+
+
+Implements \hyperlink{class_i_network_a667e56ba7f3713c949f84573ae710a85}{INetwork}.
+
+Definition at line 345 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a991f93012b8d83f7ca54fc780555c683}{
+\index{MPIComm@{MPIComm}!get\_\-host\_\-count@{get\_\-host\_\-count}}
+\index{get\_\-host\_\-count@{get\_\-host\_\-count}!MPIComm@{MPIComm}}
+\subsubsection[{get\_\-host\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::get\_\-host\_\-count ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a991f93012b8d83f7ca54fc780555c683}
+
+
+Implements \hyperlink{class_i_network_a24bd475422706998cbee500825728d55}{INetwork}.
+
+Definition at line 381 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a856e93fd17d9e20104590440088b4049}{
+\index{MPIComm@{MPIComm}!get\_\-host\_\-id@{get\_\-host\_\-id}}
+\index{get\_\-host\_\-id@{get\_\-host\_\-id}!MPIComm@{MPIComm}}
+\subsubsection[{get\_\-host\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::get\_\-host\_\-id ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a856e93fd17d9e20104590440088b4049}
+
+
+Implements \hyperlink{class_i_network_aef01bb260a8e60c7c9085b381cf86f13}{INetwork}.
+
+Definition at line 375 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a973e8bc1426f2ac24f86036909eb2407}{
+\index{MPIComm@{MPIComm}!getEventBlocking@{getEventBlocking}}
+\index{getEventBlocking@{getEventBlocking}!MPIComm@{MPIComm}}
+\subsubsection[{getEventBlocking}]{\setlength{\rightskip}{0pt plus 5cm}void MPIComm::getEventBlocking (int $\ast$ {\em tag}, \/  unsigned long $\ast$ {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a973e8bc1426f2ac24f86036909eb2407}
+
+
+Implements \hyperlink{class_i_network_a062d228ccf152a98c8255bda414d956d}{INetwork}.
+
+Definition at line 431 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a56487e629b2877138f00cb01dfcfee08}{
+\index{MPIComm@{MPIComm}!getRequestList@{getRequestList}}
+\index{getRequestList@{getRequestList}!MPIComm@{MPIComm}}
+\subsubsection[{getRequestList}]{\setlength{\rightskip}{0pt plus 5cm}void MPIComm::getRequestList ({\bf RequestList} $\ast$ {\em req\_\-list})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_m_p_i_comm_a56487e629b2877138f00cb01dfcfee08}
+
+
+Definition at line 391 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_afd22e4e486b60da08f0b783c18ca0e2b}{
+\index{MPIComm@{MPIComm}!initialize@{initialize}}
+\index{initialize@{initialize}!MPIComm@{MPIComm}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::initialize (int {\em argc}, \/  char $\ast$$\ast$ {\em argv})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_afd22e4e486b60da08f0b783c18ca0e2b}
+
+
+Implements \hyperlink{class_i_network_a5c706262a4275f321687a189686a2b81}{INetwork}.
+
+Definition at line 343 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_aa21508c017028ad002b01cdecc10a247}{
+\index{MPIComm@{MPIComm}!initialize@{initialize}}
+\index{initialize@{initialize}!MPIComm@{MPIComm}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}void MPIComm::initialize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_aa21508c017028ad002b01cdecc10a247}
+
+
+Implements \hyperlink{class_i_network_a6a9104cce9246feb6b8fc08b15e7c171}{INetwork}.
+
+Definition at line 47 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_ace0d0f43b30dcb479d387c7d39735cd9}{
+\index{MPIComm@{MPIComm}!isAnyDataPostCompleted@{isAnyDataPostCompleted}}
+\index{isAnyDataPostCompleted@{isAnyDataPostCompleted}!MPIComm@{MPIComm}}
+\subsubsection[{isAnyDataPostCompleted}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::isAnyDataPostCompleted (int $\ast$ {\em tag}, \/  unsigned long $\ast$ {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_m_p_i_comm_ace0d0f43b30dcb479d387c7d39735cd9}
+
+
+Definition at line 145 of file mpi\_\-comm.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{class_m_p_i_comm_ace0d0f43b30dcb479d387c7d39735cd9_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_ae34314bc322812be2fa99db0ad1687a2}{
+\index{MPIComm@{MPIComm}!isAnyListenerPostCompleted@{isAnyListenerPostCompleted}}
+\index{isAnyListenerPostCompleted@{isAnyListenerPostCompleted}!MPIComm@{MPIComm}}
+\subsubsection[{isAnyListenerPostCompleted}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::isAnyListenerPostCompleted (int $\ast$ {\em tag}, \/  unsigned long $\ast$ {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_m_p_i_comm_ae34314bc322812be2fa99db0ad1687a2}
+
+
+Definition at line 167 of file mpi\_\-comm.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_m_p_i_comm_ae34314bc322812be2fa99db0ad1687a2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_a897fbe8d99735dec4088197b9c4f2a23}{
+\index{MPIComm@{MPIComm}!isAnyPostCompleted@{isAnyPostCompleted}}
+\index{isAnyPostCompleted@{isAnyPostCompleted}!MPIComm@{MPIComm}}
+\subsubsection[{isAnyPostCompleted}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::isAnyPostCompleted (int $\ast$ {\em tag}, \/  unsigned long $\ast$ {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a897fbe8d99735dec4088197b9c4f2a23}
+
+
+Implements \hyperlink{class_i_network_a9e465b7489fd53410d3cb9ed532c4894}{INetwork}.
+
+Definition at line 217 of file mpi\_\-comm.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_m_p_i_comm_a897fbe8d99735dec4088197b9c4f2a23_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_ab56666a8c492a8d53065def42a488d72}{
+\index{MPIComm@{MPIComm}!isAnySendCompleted@{isAnySendCompleted}}
+\index{isAnySendCompleted@{isAnySendCompleted}!MPIComm@{MPIComm}}
+\subsubsection[{isAnySendCompleted}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::isAnySendCompleted (int $\ast$ {\em tag}, \/  unsigned long $\ast$ {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_ab56666a8c492a8d53065def42a488d72}
+
+
+Implements \hyperlink{class_i_network_a4cf6eb047a7d028c3c4c023b59293061}{INetwork}.
+
+Definition at line 276 of file mpi\_\-comm.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_m_p_i_comm_ab56666a8c492a8d53065def42a488d72_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_a0e84bad56ed23e721626ac1273a90670}{
+\index{MPIComm@{MPIComm}!isAnyTerminatePostCompleted@{isAnyTerminatePostCompleted}}
+\index{isAnyTerminatePostCompleted@{isAnyTerminatePostCompleted}!MPIComm@{MPIComm}}
+\subsubsection[{isAnyTerminatePostCompleted}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::isAnyTerminatePostCompleted (int $\ast$ {\em tag}, \/  unsigned long $\ast$ {\em handle})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_m_p_i_comm_a0e84bad56ed23e721626ac1273a90670}
+
+
+Definition at line 189 of file mpi\_\-comm.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{class_m_p_i_comm_a0e84bad56ed23e721626ac1273a90670_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_a26ebe2409a5fea582918a00896c067e9}{
+\index{MPIComm@{MPIComm}!isLastReceiveCompleted@{isLastReceiveCompleted}}
+\index{isLastReceiveCompleted@{isLastReceiveCompleted}!MPIComm@{MPIComm}}
+\subsubsection[{isLastReceiveCompleted}]{\setlength{\rightskip}{0pt plus 5cm}bool MPIComm::isLastReceiveCompleted (bool $\ast$ {\em is\_\-any})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a26ebe2409a5fea582918a00896c067e9}
+
+
+Implements \hyperlink{class_i_network_af6f98db34182f9ab4d705619eaabde2b}{INetwork}.
+
+Definition at line 256 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_adac7de30f89639b574623e73c16fc0d6}{
+\index{MPIComm@{MPIComm}!postDataReceive@{postDataReceive}}
+\index{postDataReceive@{postDataReceive}!MPIComm@{MPIComm}}
+\subsubsection[{postDataReceive}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MPIComm::postDataReceive ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em source}, \/  unsigned long {\em key})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_adac7de30f89639b574623e73c16fc0d6}
+
+
+Implements \hyperlink{class_i_network_aa1b87ec0d7a1f6d6a2956f05afcc3c81}{INetwork}.
+
+Definition at line 105 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a37121a71b4636a713e4b3b0655efbc6e}{
+\index{MPIComm@{MPIComm}!postListenerReceive@{postListenerReceive}}
+\index{postListenerReceive@{postListenerReceive}!MPIComm@{MPIComm}}
+\subsubsection[{postListenerReceive}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MPIComm::postListenerReceive ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em source})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a37121a71b4636a713e4b3b0655efbc6e}
+
+
+Implements \hyperlink{class_i_network_a60a1f567df811d09fc1774bc439ea349}{INetwork}.
+
+Definition at line 118 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a15aa65ec7dcb1da5fa042fd6d98f1578}{
+\index{MPIComm@{MPIComm}!postTerminateReceive@{postTerminateReceive}}
+\index{postTerminateReceive@{postTerminateReceive}!MPIComm@{MPIComm}}
+\subsubsection[{postTerminateReceive}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MPIComm::postTerminateReceive ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em source})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a15aa65ec7dcb1da5fa042fd6d98f1578}
+
+
+Implements \hyperlink{class_i_network_ae8381635a24542ac374056c15613daeb}{INetwork}.
+
+Definition at line 130 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_a1c1a72b9cf6cac8a5af0e8dc6a085c87}{
+\index{MPIComm@{MPIComm}!probe@{probe}}
+\index{probe@{probe}!MPIComm@{MPIComm}}
+\subsubsection[{probe}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::probe (int $\ast$ {\em tag}, \/  int $\ast$ {\em source}, \/  int $\ast$ {\em length}, \/  bool {\em wait})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a1c1a72b9cf6cac8a5af0e8dc6a085c87}
+
+
+Implements \hyperlink{class_i_network_ab653bd28450c18a74826d06069ed3ed1}{INetwork}.
+
+Definition at line 306 of file mpi\_\-comm.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_m_p_i_comm_a1c1a72b9cf6cac8a5af0e8dc6a085c87_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_a5e2fdc3d30c9e2ef04fc81fa99e8cd3f}{
+\index{MPIComm@{MPIComm}!probeTags@{probeTags}}
+\index{probeTags@{probeTags}!MPIComm@{MPIComm}}
+\subsubsection[{probeTags}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::probeTags (int $\ast$ {\em tag}, \/  int {\em n}, \/  int $\ast$ {\em source}, \/  int $\ast$ {\em length}, \/  int $\ast$ {\em outtag})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a5e2fdc3d30c9e2ef04fc81fa99e8cd3f}
+
+
+Implements \hyperlink{class_i_network_a85b398c3932251d6c0d9698004eb01e7}{INetwork}.
+
+Definition at line 326 of file mpi\_\-comm.hpp.\hypertarget{class_m_p_i_comm_abdd86a365a50571e7a46e8593c45977b}{
+\index{MPIComm@{MPIComm}!receive@{receive}}
+\index{receive@{receive}!MPIComm@{MPIComm}}
+\subsubsection[{receive}]{\setlength{\rightskip}{0pt plus 5cm}int MPIComm::receive ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em source}, \/  bool {\em wait} = {\ttfamily true})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_abdd86a365a50571e7a46e8593c45977b}
+
+
+Implements \hyperlink{class_i_network_a6578b7160209dfc342be9b5658621625}{INetwork}.
+
+Definition at line 231 of file mpi\_\-comm.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_m_p_i_comm_abdd86a365a50571e7a46e8593c45977b_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_m_p_i_comm_a878df4e9c57f117f192a8bfee009ff94}{
+\index{MPIComm@{MPIComm}!send@{send}}
+\index{send@{send}!MPIComm@{MPIComm}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long MPIComm::send ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em dest}, \/  bool {\em wait} = {\ttfamily false})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_m_p_i_comm_a878df4e9c57f117f192a8bfee009ff94}
+
+
+Implements \hyperlink{class_i_network_a4996a6c20805f604c5afff707313ed4e}{INetwork}.
+
+Definition at line 78 of file mpi\_\-comm.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mpi__comm_8hpp}{mpi\_\-comm.hpp}\end{DoxyCompactItemize}

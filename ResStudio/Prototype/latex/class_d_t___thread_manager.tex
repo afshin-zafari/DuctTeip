@@ -1,0 +1,122 @@
+\hypertarget{class_d_t___thread_manager}{
+\section{DT\_\-ThreadManager Class Reference}
+\label{class_d_t___thread_manager}\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}}
+}
+
+
+{\ttfamily \#include $<$dt\_\-thread\_\-manager.hpp$>$}Collaboration diagram for DT\_\-ThreadManager:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{class_d_t___thread_manager__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_d_t___thread_manager_a86af9f88b74723e4beb11a2712fc886e}{DT\_\-ThreadManager} ()
+\item 
+\hyperlink{class_d_t___thread_manager_a61ffab6d5cb0f849ddd3d2520fd69977}{$\sim$DT\_\-ThreadManager} ()
+\item 
+void \hyperlink{class_d_t___thread_manager_a1f08551848fe9b3e01c8575190bcd2b6}{initThread} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} t, void $\ast$(func)(void $\ast$), void $\ast$arg)
+\item 
+void \hyperlink{class_d_t___thread_manager_a47ec8fd514dd8abcc48765207b448b73}{signalThread} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} tn, \hyperlink{dt__thread__manager_8hpp_a361fdb317b7b93d2f291dc427f1862cc}{signal\_\-name} sig)
+\item 
+void \hyperlink{class_d_t___thread_manager_a9e4b737f0d47fd133023c117b44c2855}{notifyThread} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} tn)
+\item 
+int \hyperlink{class_d_t___thread_manager_aa8d8e388e11f0c3ecc8f7491dc53ca08}{syncTimed} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} tn, \hyperlink{dt__thread__manager_8hpp_a361fdb317b7b93d2f291dc427f1862cc}{signal\_\-name} sig)
+\item 
+int \hyperlink{class_d_t___thread_manager_adbab3141f1f3d1361673561aef9bfa79}{syncWith} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} tn, \hyperlink{dt__thread__manager_8hpp_a361fdb317b7b93d2f291dc427f1862cc}{signal\_\-name} sig)
+\item 
+void \hyperlink{class_d_t___thread_manager_a1890fa094ae872fb2ce0fb15a97447ee}{enterCriticalSection} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} tn, \hyperlink{dt__thread__manager_8hpp_a7cccada68fcdab42984f95781f489ca0}{section\_\-name} sec)
+\item 
+void \hyperlink{class_d_t___thread_manager_abc92eae259720a889d8b1e180cda5fd4}{exitCriticalSection} (\hyperlink{dt__thread__manager_8hpp_a628f2b964813f31419ba9c2430c9b5fb}{thread\_\-name} tn, \hyperlink{dt__thread__manager_8hpp_a7cccada68fcdab42984f95781f489ca0}{section\_\-name} sec)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 15 of file dt\_\-thread\_\-manager.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_d_t___thread_manager_a86af9f88b74723e4beb11a2712fc886e}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!DT\_\-ThreadManager@{DT\_\-ThreadManager}}
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{DT\_\-ThreadManager}]{\setlength{\rightskip}{0pt plus 5cm}DT\_\-ThreadManager::DT\_\-ThreadManager ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_a86af9f88b74723e4beb11a2712fc886e}
+
+
+Definition at line 36 of file dt\_\-thread\_\-manager.hpp.\hypertarget{class_d_t___thread_manager_a61ffab6d5cb0f849ddd3d2520fd69977}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!$\sim$DT\_\-ThreadManager@{$\sim$DT\_\-ThreadManager}}
+\index{$\sim$DT\_\-ThreadManager@{$\sim$DT\_\-ThreadManager}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{$\sim$DT\_\-ThreadManager}]{\setlength{\rightskip}{0pt plus 5cm}DT\_\-ThreadManager::$\sim$DT\_\-ThreadManager ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_a61ffab6d5cb0f849ddd3d2520fd69977}
+
+
+Definition at line 38 of file dt\_\-thread\_\-manager.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_d_t___thread_manager_a1890fa094ae872fb2ce0fb15a97447ee}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!enterCriticalSection@{enterCriticalSection}}
+\index{enterCriticalSection@{enterCriticalSection}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{enterCriticalSection}]{\setlength{\rightskip}{0pt plus 5cm}void DT\_\-ThreadManager::enterCriticalSection ({\bf thread\_\-name} {\em tn}, \/  {\bf section\_\-name} {\em sec})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_a1890fa094ae872fb2ce0fb15a97447ee}
+
+
+Definition at line 78 of file dt\_\-thread\_\-manager.hpp.\hypertarget{class_d_t___thread_manager_abc92eae259720a889d8b1e180cda5fd4}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!exitCriticalSection@{exitCriticalSection}}
+\index{exitCriticalSection@{exitCriticalSection}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{exitCriticalSection}]{\setlength{\rightskip}{0pt plus 5cm}void DT\_\-ThreadManager::exitCriticalSection ({\bf thread\_\-name} {\em tn}, \/  {\bf section\_\-name} {\em sec})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_abc92eae259720a889d8b1e180cda5fd4}
+
+
+Definition at line 82 of file dt\_\-thread\_\-manager.hpp.\hypertarget{class_d_t___thread_manager_a1f08551848fe9b3e01c8575190bcd2b6}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!initThread@{initThread}}
+\index{initThread@{initThread}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{initThread}]{\setlength{\rightskip}{0pt plus 5cm}void DT\_\-ThreadManager::initThread ({\bf thread\_\-name} {\em t}, \/  void $\ast$func)(void $\ast$, \/  void $\ast$ {\em arg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_a1f08551848fe9b3e01c8575190bcd2b6}
+
+
+Definition at line 40 of file dt\_\-thread\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{class_d_t___thread_manager_a1f08551848fe9b3e01c8575190bcd2b6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_d_t___thread_manager_a9e4b737f0d47fd133023c117b44c2855}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!notifyThread@{notifyThread}}
+\index{notifyThread@{notifyThread}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{notifyThread}]{\setlength{\rightskip}{0pt plus 5cm}void DT\_\-ThreadManager::notifyThread ({\bf thread\_\-name} {\em tn})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_a9e4b737f0d47fd133023c117b44c2855}
+
+
+Definition at line 63 of file dt\_\-thread\_\-manager.hpp.\hypertarget{class_d_t___thread_manager_a47ec8fd514dd8abcc48765207b448b73}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!signalThread@{signalThread}}
+\index{signalThread@{signalThread}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{signalThread}]{\setlength{\rightskip}{0pt plus 5cm}void DT\_\-ThreadManager::signalThread ({\bf thread\_\-name} {\em tn}, \/  {\bf signal\_\-name} {\em sig})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_a47ec8fd514dd8abcc48765207b448b73}
+
+
+Definition at line 59 of file dt\_\-thread\_\-manager.hpp.\hypertarget{class_d_t___thread_manager_aa8d8e388e11f0c3ecc8f7491dc53ca08}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!syncTimed@{syncTimed}}
+\index{syncTimed@{syncTimed}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{syncTimed}]{\setlength{\rightskip}{0pt plus 5cm}int DT\_\-ThreadManager::syncTimed ({\bf thread\_\-name} {\em tn}, \/  {\bf signal\_\-name} {\em sig})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_aa8d8e388e11f0c3ecc8f7491dc53ca08}
+
+
+Definition at line 67 of file dt\_\-thread\_\-manager.hpp.\hypertarget{class_d_t___thread_manager_adbab3141f1f3d1361673561aef9bfa79}{
+\index{DT\_\-ThreadManager@{DT\_\-ThreadManager}!syncWith@{syncWith}}
+\index{syncWith@{syncWith}!DT_ThreadManager@{DT\_\-ThreadManager}}
+\subsubsection[{syncWith}]{\setlength{\rightskip}{0pt plus 5cm}int DT\_\-ThreadManager::syncWith ({\bf thread\_\-name} {\em tn}, \/  {\bf signal\_\-name} {\em sig})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_d_t___thread_manager_adbab3141f1f3d1361673561aef9bfa79}
+
+
+Definition at line 74 of file dt\_\-thread\_\-manager.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dt__thread__manager_8hpp}{dt\_\-thread\_\-manager.hpp}\end{DoxyCompactItemize}

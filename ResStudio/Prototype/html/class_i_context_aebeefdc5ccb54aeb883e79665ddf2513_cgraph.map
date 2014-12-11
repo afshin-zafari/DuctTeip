@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_context.html#a9e05e14cdde2f0b5a0ed3349815cb974" title="IContext::getDataByHandle" alt="" coords="239,33,420,63"/>
+<area shape="rect" id="node11" href="$class_i_context.html#a607d8609c589bfa7937b5a8313c61d04" title="IContext::getName" alt="" coords="485,85,619,115"/>
+<area shape="rect" id="node5" href="$class_i_data.html#a78a571407788130ebe382f51c3774605" title="IData::getDataByHandle" alt="" coords="469,32,635,61"/>
+<area shape="rect" id="node7" href="$class_i_context.html#a63664480f4eede6b3a5ab572dd454160" title="IContext::getContextHandle" alt="" coords="684,5,868,35"/>
+<area shape="rect" id="node9" href="$class_i_data.html#a07c124c61dac722dded4c78d45be5cd2" title="IData::getDataHandle" alt="" coords="701,59,851,88"/>
+</map>

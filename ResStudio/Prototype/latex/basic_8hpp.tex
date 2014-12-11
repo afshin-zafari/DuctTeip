@@ -1,0 +1,618 @@
+\hypertarget{basic_8hpp}{
+\section{basic.hpp File Reference}
+\label{basic_8hpp}\index{basic.hpp@{basic.hpp}}
+}
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sys/time.h$>$}\par
+{\ttfamily \#include $<$assert.h$>$}\par
+{\ttfamily \#include $<$sched.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include \char`\"{}mpi.h\char`\"{}}\par
+Include dependency graph for basic.hpp:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=281pt]{basic_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=356pt]{basic_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_buffer}{Buffer}
+\item 
+struct \hyperlink{struct_message_buffer}{MessageBuffer}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{basic_8hpp_a0367d44d1df15e11c21b46b14f68c4c3}{registerAccess}~register\_\-access
+\item 
+\#define \hyperlink{basic_8hpp_a217b2a92112ef388123e82786ac5d243}{getAccess}~get\_\-access
+\item 
+\#define \hyperlink{basic_8hpp_a65a9642409f40304275931c775fa300e}{getHandle}~get\_\-handle
+\item 
+\#define \hyperlink{basic_8hpp_a1b0f4154052a00231883049b4433f7de}{ThreadManager}~SuperGlue
+\item 
+\#define \hyperlink{basic_8hpp_ad4903d64f3bce98bad0491b8caf3c0d7}{getTaskCount}~get\_\-task\_\-count
+\item 
+\#define \hyperlink{basic_8hpp_ae27d3cc90f3f3af29d3cb7b3397f22cb}{MPI\_\-WALL\_\-TIME}~1
+\item 
+\#define \hyperlink{basic_8hpp_aef7dca3a35602ee0298470da533cf1d9}{DLB\_\-DEBUG}~0
+\item 
+\#define \hyperlink{basic_8hpp_a9801023942be9301251f897b6e093441}{DLB\_\-BUSY\_\-TASKS}~5
+\item 
+\#define \hyperlink{basic_8hpp_a11f7af75a27dc15f9104f7bd2171a6e1}{DLB\_\-MODE}~1
+\item 
+\#define \hyperlink{basic_8hpp_ad72dbcf6d0153db1b8d8a58001feed83}{DEBUG}~0
+\item 
+\#define \hyperlink{basic_8hpp_ab5dc2b3c4719d3e883a94b6a71d10e73}{MAILBOX\_\-THREAD}~0
+\item 
+\#define \hyperlink{basic_8hpp_af61dc8dd41ad09d562f710fb9cfb1554}{TERMINATE\_\-TREE}~1
+\item 
+\#define \hyperlink{basic_8hpp_a19960f4c85cfe7a2ec217658fec6bea7}{THREAD\_\-INFO}(a)
+\item 
+\#define \hyperlink{basic_8hpp_a048d50b21a1bbec6cb19610c35c5b03e}{DUMP\_\-FLAG}~DEBUG
+\item 
+\#define \hyperlink{basic_8hpp_ab21f8ef3ba992efc1eda405bccdde69a}{EXPORT\_\-FLAG}~0
+\item 
+\#define \hyperlink{basic_8hpp_ad82dc13bc2f2cdd35dc8602b6a40b01e}{INSERT\_\-TASK\_\-FLAG}~DEBUG
+\item 
+\#define \hyperlink{basic_8hpp_aad3edae54a52ba521da45c5877db0510}{SKIP\_\-TASK\_\-FLAG}~DEBUG
+\item 
+\#define \hyperlink{basic_8hpp_a7baa2df2dc59e23e2d8872cc759d2999}{DATA\_\-UPGRADE\_\-FLAG}~DEBUG
+\item 
+\#define \hyperlink{basic_8hpp_aae36dea985537c9145d0ba9173a0b7a8}{KERNEL\_\-FLAG}~0
+\item 
+\#define \hyperlink{basic_8hpp_a277b41b0e99d2ef09f6f8a7945941105}{TERMINATE\_\-FLAG}~0
+\item 
+\#define \hyperlink{basic_8hpp_afbf7b6f2cf74043880e291a37f918d4a}{IRECV}~0
+\item 
+\#define \hyperlink{basic_8hpp_aa29abba7f38dd5b150e49b163fa80522}{OVERSUBSCRIBED}~0
+\item 
+\#define \hyperlink{basic_8hpp_ae3687aa4be7179bad53c75a1484ee9bf}{POSTPRINT}~1
+\item 
+\#define \hyperlink{basic_8hpp_a2fda5de92a55c8d89f4a033486c705da}{TRACE\_\-LOCATION}~printf(\char`\"{}\%s , \%d$\backslash$n\char`\"{},\_\-\_\-FILE\_\-\_\-,\_\-\_\-LINE\_\-\_\-);
+\item 
+\#define \hyperlink{basic_8hpp_a1df23165ea51ad95535d43b13413892c}{TRACE\_\-ALLOCATION}(a)
+\item 
+\#define \hyperlink{basic_8hpp_af433b05d8a466d0640f88d491e2b3339}{TRACE}(a)
+\item 
+\#define \hyperlink{basic_8hpp_ab26fafcd40c96c4594ce3a0544e91362}{TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS}~1000
+\item 
+\#define \hyperlink{basic_8hpp_a76071f67641c6300a180881de6df1e92}{MICRO\_\-SECONDS}~1000000
+\item 
+\#define \hyperlink{basic_8hpp_a285e82f4cc9527d1a40a4676bc753c98}{MILI\_\-SECONDS}~1000
+\item 
+\#define \hyperlink{basic_8hpp_a648194302b12659edb03111b84350269}{TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS}~1000000
+\item 
+\#define \hyperlink{basic_8hpp_a52a537f81e21614f69f23b47b1ae93e1}{TIME\_\-SCALE\_\-TO\_\-SECONDS}~1000000000
+\item 
+\#define \hyperlink{basic_8hpp_a01d4c8834420566804f361060f144094}{PRINT\_\-IF}(a)~if(a) printf
+\item 
+\#define \hyperlink{basic_8hpp_ab29f706a970bc382dbde0d9464940698}{export}(a, b)
+\item 
+\#define \hyperlink{basic_8hpp_a85b365d6bc3898a026f9fe50a64228a3}{export\_\-end}(a)
+\item 
+\#define \hyperlink{basic_8hpp_ae7d478d79105d2851aa864453b3a2f5f}{export\_\-prefix}
+\item 
+\#define \hyperlink{basic_8hpp_ae266b91094f4fb53c44119797911b963}{export\_\-int}(a)
+\item 
+\#define \hyperlink{basic_8hpp_a53287f390b1f05b230be6843e580dada}{export\_\-long}(a)
+\item 
+\#define \hyperlink{basic_8hpp_a875bebd78d00a53343d2e2714c85e13a}{export\_\-time}(a)
+\item 
+\#define \hyperlink{basic_8hpp_a677d796ca48e5242d8b12a7a4fe3c3d6}{export\_\-str}(a)
+\item 
+\#define \hyperlink{basic_8hpp_a746bfb061513dc778345d613cdebee13}{export\_\-info}(f, v)
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned char \hyperlink{basic_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte}
+\item 
+typedef unsigned long \hyperlink{basic_8hpp_ab6fdc9dc4abc71f4bdf430a00f9661c8}{ClockTimeUnit}
+\item 
+typedef unsigned long \hyperlink{basic_8hpp_ac0ec6c8e4757751eaaa618bbf62ab6c9}{TimeUnit}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38c}{verbs\_\-} \{ \par
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38caafda38ad053b1ef9030108a0cd0d766e}{V\_\-RCVD}, 
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cad2ef3847b90a11c0364ab53a7b9340ca}{V\_\-SEND}, 
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cae9a77c709480beb61c96f869c244a6ce}{V\_\-TERMINATED}, 
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38caf4411899835bd5acb84f32f102f451df}{V\_\-ADDED}, 
+\par
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38ca67839e83e1c3b43e8b5be36d94727879}{V\_\-CHECK\_\-DEP}, 
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cabde31f4818f0f63e301e592d17a4b85f}{V\_\-DUMP}, 
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38ca2857dddc246195b5d5dbb5d4ec3c5c4c}{V\_\-CHECK\_\-RDY}, 
+\hyperlink{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cad8c450d36052d1ae275541e9c95e13e8}{V\_\-REMOVE}
+ \}
+\item 
+enum \hyperlink{basic_8hpp_aef10afb905e0aff5fe0b92add673b857}{objects\_\-} \{ \hyperlink{basic_8hpp_aef10afb905e0aff5fe0b92add673b857a7a62e0296edd4ecd1c1a3a3985f15f40}{O\_\-TASK}, 
+\hyperlink{basic_8hpp_aef10afb905e0aff5fe0b92add673b857afd892a112036bd6279437db864f36c93}{O\_\-DATA}, 
+\hyperlink{basic_8hpp_aef10afb905e0aff5fe0b92add673b857a3d1be207f6ce6e1463990de4ab0c2efa}{O\_\-LSNR}, 
+\hyperlink{basic_8hpp_aef10afb905e0aff5fe0b92add673b857ab4fee0ff64b97b560a6231e46b3a5ea8}{O\_\-PROG}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\void \hyperlink{basic_8hpp_a8eedabc3fdeef0b7973412cf6a30e7d1}{copy} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$b, int \&o, T a)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \hyperlink{basic_8hpp_ac5bb447a4865adcf6a1c33a657d820c2}{paste} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$b, int \&o, T $\ast$a)
+\item 
+void \hyperlink{basic_8hpp_a18b7a861548515d01c332e31c026dfa2}{flushBuffer} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length)
+\item 
+string \hyperlink{basic_8hpp_a9b5bd9037cedbed2d6580464a8b69b57}{verb\_\-str} (int verb)
+\item 
+string \hyperlink{basic_8hpp_abdf0005814bbc8dfc4409ad689eca09b}{obj\_\-str} (int obj)
+\item 
+void \hyperlink{basic_8hpp_a6b45a613e8da00bd1d1156704401851b}{threadInfo} (int arg)
+\item 
+void \hyperlink{basic_8hpp_a5aacb623a2435186031070cf829281f9}{nanoSleep} (int n=1)
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{basic_8hpp_a7baa2df2dc59e23e2d8872cc759d2999}{
+\index{basic.hpp@{basic.hpp}!DATA\_\-UPGRADE\_\-FLAG@{DATA\_\-UPGRADE\_\-FLAG}}
+\index{DATA\_\-UPGRADE\_\-FLAG@{DATA\_\-UPGRADE\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{DATA\_\-UPGRADE\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define DATA\_\-UPGRADE\_\-FLAG~DEBUG}}
+\label{basic_8hpp_a7baa2df2dc59e23e2d8872cc759d2999}
+
+
+Definition at line 46 of file basic.hpp.\hypertarget{basic_8hpp_ad72dbcf6d0153db1b8d8a58001feed83}{
+\index{basic.hpp@{basic.hpp}!DEBUG@{DEBUG}}
+\index{DEBUG@{DEBUG}!basic.hpp@{basic.hpp}}
+\subsubsection[{DEBUG}]{\setlength{\rightskip}{0pt plus 5cm}\#define DEBUG~0}}
+\label{basic_8hpp_ad72dbcf6d0153db1b8d8a58001feed83}
+
+
+Definition at line 33 of file basic.hpp.\hypertarget{basic_8hpp_a9801023942be9301251f897b6e093441}{
+\index{basic.hpp@{basic.hpp}!DLB\_\-BUSY\_\-TASKS@{DLB\_\-BUSY\_\-TASKS}}
+\index{DLB\_\-BUSY\_\-TASKS@{DLB\_\-BUSY\_\-TASKS}!basic.hpp@{basic.hpp}}
+\subsubsection[{DLB\_\-BUSY\_\-TASKS}]{\setlength{\rightskip}{0pt plus 5cm}\#define DLB\_\-BUSY\_\-TASKS~5}}
+\label{basic_8hpp_a9801023942be9301251f897b6e093441}
+
+
+Definition at line 30 of file basic.hpp.\hypertarget{basic_8hpp_aef7dca3a35602ee0298470da533cf1d9}{
+\index{basic.hpp@{basic.hpp}!DLB\_\-DEBUG@{DLB\_\-DEBUG}}
+\index{DLB\_\-DEBUG@{DLB\_\-DEBUG}!basic.hpp@{basic.hpp}}
+\subsubsection[{DLB\_\-DEBUG}]{\setlength{\rightskip}{0pt plus 5cm}\#define DLB\_\-DEBUG~0}}
+\label{basic_8hpp_aef7dca3a35602ee0298470da533cf1d9}
+
+
+Definition at line 29 of file basic.hpp.\hypertarget{basic_8hpp_a11f7af75a27dc15f9104f7bd2171a6e1}{
+\index{basic.hpp@{basic.hpp}!DLB\_\-MODE@{DLB\_\-MODE}}
+\index{DLB\_\-MODE@{DLB\_\-MODE}!basic.hpp@{basic.hpp}}
+\subsubsection[{DLB\_\-MODE}]{\setlength{\rightskip}{0pt plus 5cm}\#define DLB\_\-MODE~1}}
+\label{basic_8hpp_a11f7af75a27dc15f9104f7bd2171a6e1}
+
+
+Definition at line 31 of file basic.hpp.\hypertarget{basic_8hpp_a048d50b21a1bbec6cb19610c35c5b03e}{
+\index{basic.hpp@{basic.hpp}!DUMP\_\-FLAG@{DUMP\_\-FLAG}}
+\index{DUMP\_\-FLAG@{DUMP\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{DUMP\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define DUMP\_\-FLAG~DEBUG}}
+\label{basic_8hpp_a048d50b21a1bbec6cb19610c35c5b03e}
+
+
+Definition at line 41 of file basic.hpp.\hypertarget{basic_8hpp_ab29f706a970bc382dbde0d9464940698}{
+\index{basic.hpp@{basic.hpp}!export@{export}}
+\index{export@{export}!basic.hpp@{basic.hpp}}
+\subsubsection[{export}]{\setlength{\rightskip}{0pt plus 5cm}\#define export(a, \/  b)}}
+\label{basic_8hpp_ab29f706a970bc382dbde0d9464940698}
+
+
+Definition at line 250 of file basic.hpp.\hypertarget{basic_8hpp_a85b365d6bc3898a026f9fe50a64228a3}{
+\index{basic.hpp@{basic.hpp}!export\_\-end@{export\_\-end}}
+\index{export\_\-end@{export\_\-end}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-end(a)}}
+\label{basic_8hpp_a85b365d6bc3898a026f9fe50a64228a3}
+
+
+Definition at line 251 of file basic.hpp.\hypertarget{basic_8hpp_ab21f8ef3ba992efc1eda405bccdde69a}{
+\index{basic.hpp@{basic.hpp}!EXPORT\_\-FLAG@{EXPORT\_\-FLAG}}
+\index{EXPORT\_\-FLAG@{EXPORT\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{EXPORT\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define EXPORT\_\-FLAG~0}}
+\label{basic_8hpp_ab21f8ef3ba992efc1eda405bccdde69a}
+
+
+Definition at line 42 of file basic.hpp.\hypertarget{basic_8hpp_a746bfb061513dc778345d613cdebee13}{
+\index{basic.hpp@{basic.hpp}!export\_\-info@{export\_\-info}}
+\index{export\_\-info@{export\_\-info}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-info}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-info(f, \/  v)}}
+\label{basic_8hpp_a746bfb061513dc778345d613cdebee13}
+
+
+Definition at line 257 of file basic.hpp.\hypertarget{basic_8hpp_ae266b91094f4fb53c44119797911b963}{
+\index{basic.hpp@{basic.hpp}!export\_\-int@{export\_\-int}}
+\index{export\_\-int@{export\_\-int}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-int}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-int(a)}}
+\label{basic_8hpp_ae266b91094f4fb53c44119797911b963}
+
+
+Definition at line 253 of file basic.hpp.\hypertarget{basic_8hpp_a53287f390b1f05b230be6843e580dada}{
+\index{basic.hpp@{basic.hpp}!export\_\-long@{export\_\-long}}
+\index{export\_\-long@{export\_\-long}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-long}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-long(a)}}
+\label{basic_8hpp_a53287f390b1f05b230be6843e580dada}
+
+
+Definition at line 254 of file basic.hpp.\hypertarget{basic_8hpp_ae7d478d79105d2851aa864453b3a2f5f}{
+\index{basic.hpp@{basic.hpp}!export\_\-prefix@{export\_\-prefix}}
+\index{export\_\-prefix@{export\_\-prefix}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-prefix}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-prefix}}
+\label{basic_8hpp_ae7d478d79105d2851aa864453b3a2f5f}
+
+
+Definition at line 252 of file basic.hpp.\hypertarget{basic_8hpp_a677d796ca48e5242d8b12a7a4fe3c3d6}{
+\index{basic.hpp@{basic.hpp}!export\_\-str@{export\_\-str}}
+\index{export\_\-str@{export\_\-str}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-str(a)}}
+\label{basic_8hpp_a677d796ca48e5242d8b12a7a4fe3c3d6}
+
+
+Definition at line 256 of file basic.hpp.\hypertarget{basic_8hpp_a875bebd78d00a53343d2e2714c85e13a}{
+\index{basic.hpp@{basic.hpp}!export\_\-time@{export\_\-time}}
+\index{export\_\-time@{export\_\-time}!basic.hpp@{basic.hpp}}
+\subsubsection[{export\_\-time}]{\setlength{\rightskip}{0pt plus 5cm}\#define export\_\-time(a)}}
+\label{basic_8hpp_a875bebd78d00a53343d2e2714c85e13a}
+
+
+Definition at line 255 of file basic.hpp.\hypertarget{basic_8hpp_a217b2a92112ef388123e82786ac5d243}{
+\index{basic.hpp@{basic.hpp}!getAccess@{getAccess}}
+\index{getAccess@{getAccess}!basic.hpp@{basic.hpp}}
+\subsubsection[{getAccess}]{\setlength{\rightskip}{0pt plus 5cm}\#define getAccess~get\_\-access}}
+\label{basic_8hpp_a217b2a92112ef388123e82786ac5d243}
+
+
+Definition at line 15 of file basic.hpp.\hypertarget{basic_8hpp_a65a9642409f40304275931c775fa300e}{
+\index{basic.hpp@{basic.hpp}!getHandle@{getHandle}}
+\index{getHandle@{getHandle}!basic.hpp@{basic.hpp}}
+\subsubsection[{getHandle}]{\setlength{\rightskip}{0pt plus 5cm}\#define getHandle~get\_\-handle}}
+\label{basic_8hpp_a65a9642409f40304275931c775fa300e}
+
+
+Definition at line 16 of file basic.hpp.\hypertarget{basic_8hpp_ad4903d64f3bce98bad0491b8caf3c0d7}{
+\index{basic.hpp@{basic.hpp}!getTaskCount@{getTaskCount}}
+\index{getTaskCount@{getTaskCount}!basic.hpp@{basic.hpp}}
+\subsubsection[{getTaskCount}]{\setlength{\rightskip}{0pt plus 5cm}\#define getTaskCount~get\_\-task\_\-count}}
+\label{basic_8hpp_ad4903d64f3bce98bad0491b8caf3c0d7}
+
+
+Definition at line 18 of file basic.hpp.\hypertarget{basic_8hpp_ad82dc13bc2f2cdd35dc8602b6a40b01e}{
+\index{basic.hpp@{basic.hpp}!INSERT\_\-TASK\_\-FLAG@{INSERT\_\-TASK\_\-FLAG}}
+\index{INSERT\_\-TASK\_\-FLAG@{INSERT\_\-TASK\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{INSERT\_\-TASK\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define INSERT\_\-TASK\_\-FLAG~DEBUG}}
+\label{basic_8hpp_ad82dc13bc2f2cdd35dc8602b6a40b01e}
+
+
+Definition at line 44 of file basic.hpp.\hypertarget{basic_8hpp_afbf7b6f2cf74043880e291a37f918d4a}{
+\index{basic.hpp@{basic.hpp}!IRECV@{IRECV}}
+\index{IRECV@{IRECV}!basic.hpp@{basic.hpp}}
+\subsubsection[{IRECV}]{\setlength{\rightskip}{0pt plus 5cm}\#define IRECV~0}}
+\label{basic_8hpp_afbf7b6f2cf74043880e291a37f918d4a}
+
+
+Definition at line 49 of file basic.hpp.\hypertarget{basic_8hpp_aae36dea985537c9145d0ba9173a0b7a8}{
+\index{basic.hpp@{basic.hpp}!KERNEL\_\-FLAG@{KERNEL\_\-FLAG}}
+\index{KERNEL\_\-FLAG@{KERNEL\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{KERNEL\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define KERNEL\_\-FLAG~0}}
+\label{basic_8hpp_aae36dea985537c9145d0ba9173a0b7a8}
+
+
+Definition at line 47 of file basic.hpp.\hypertarget{basic_8hpp_ab5dc2b3c4719d3e883a94b6a71d10e73}{
+\index{basic.hpp@{basic.hpp}!MAILBOX\_\-THREAD@{MAILBOX\_\-THREAD}}
+\index{MAILBOX\_\-THREAD@{MAILBOX\_\-THREAD}!basic.hpp@{basic.hpp}}
+\subsubsection[{MAILBOX\_\-THREAD}]{\setlength{\rightskip}{0pt plus 5cm}\#define MAILBOX\_\-THREAD~0}}
+\label{basic_8hpp_ab5dc2b3c4719d3e883a94b6a71d10e73}
+
+
+Definition at line 35 of file basic.hpp.\hypertarget{basic_8hpp_a76071f67641c6300a180881de6df1e92}{
+\index{basic.hpp@{basic.hpp}!MICRO\_\-SECONDS@{MICRO\_\-SECONDS}}
+\index{MICRO\_\-SECONDS@{MICRO\_\-SECONDS}!basic.hpp@{basic.hpp}}
+\subsubsection[{MICRO\_\-SECONDS}]{\setlength{\rightskip}{0pt plus 5cm}\#define MICRO\_\-SECONDS~1000000}}
+\label{basic_8hpp_a76071f67641c6300a180881de6df1e92}
+
+
+Definition at line 117 of file basic.hpp.\hypertarget{basic_8hpp_a285e82f4cc9527d1a40a4676bc753c98}{
+\index{basic.hpp@{basic.hpp}!MILI\_\-SECONDS@{MILI\_\-SECONDS}}
+\index{MILI\_\-SECONDS@{MILI\_\-SECONDS}!basic.hpp@{basic.hpp}}
+\subsubsection[{MILI\_\-SECONDS}]{\setlength{\rightskip}{0pt plus 5cm}\#define MILI\_\-SECONDS~1000}}
+\label{basic_8hpp_a285e82f4cc9527d1a40a4676bc753c98}
+
+
+Definition at line 118 of file basic.hpp.\hypertarget{basic_8hpp_ae27d3cc90f3f3af29d3cb7b3397f22cb}{
+\index{basic.hpp@{basic.hpp}!MPI\_\-WALL\_\-TIME@{MPI\_\-WALL\_\-TIME}}
+\index{MPI\_\-WALL\_\-TIME@{MPI\_\-WALL\_\-TIME}!basic.hpp@{basic.hpp}}
+\subsubsection[{MPI\_\-WALL\_\-TIME}]{\setlength{\rightskip}{0pt plus 5cm}\#define MPI\_\-WALL\_\-TIME~1}}
+\label{basic_8hpp_ae27d3cc90f3f3af29d3cb7b3397f22cb}
+
+
+Definition at line 20 of file basic.hpp.\hypertarget{basic_8hpp_aa29abba7f38dd5b150e49b163fa80522}{
+\index{basic.hpp@{basic.hpp}!OVERSUBSCRIBED@{OVERSUBSCRIBED}}
+\index{OVERSUBSCRIBED@{OVERSUBSCRIBED}!basic.hpp@{basic.hpp}}
+\subsubsection[{OVERSUBSCRIBED}]{\setlength{\rightskip}{0pt plus 5cm}\#define OVERSUBSCRIBED~0}}
+\label{basic_8hpp_aa29abba7f38dd5b150e49b163fa80522}
+
+
+Definition at line 50 of file basic.hpp.\hypertarget{basic_8hpp_ae3687aa4be7179bad53c75a1484ee9bf}{
+\index{basic.hpp@{basic.hpp}!POSTPRINT@{POSTPRINT}}
+\index{POSTPRINT@{POSTPRINT}!basic.hpp@{basic.hpp}}
+\subsubsection[{POSTPRINT}]{\setlength{\rightskip}{0pt plus 5cm}\#define POSTPRINT~1}}
+\label{basic_8hpp_ae3687aa4be7179bad53c75a1484ee9bf}
+
+
+Definition at line 51 of file basic.hpp.\hypertarget{basic_8hpp_a01d4c8834420566804f361060f144094}{
+\index{basic.hpp@{basic.hpp}!PRINT\_\-IF@{PRINT\_\-IF}}
+\index{PRINT\_\-IF@{PRINT\_\-IF}!basic.hpp@{basic.hpp}}
+\subsubsection[{PRINT\_\-IF}]{\setlength{\rightskip}{0pt plus 5cm}\#define PRINT\_\-IF(a)~if(a) printf}}
+\label{basic_8hpp_a01d4c8834420566804f361060f144094}
+
+
+Definition at line 227 of file basic.hpp.\hypertarget{basic_8hpp_a0367d44d1df15e11c21b46b14f68c4c3}{
+\index{basic.hpp@{basic.hpp}!registerAccess@{registerAccess}}
+\index{registerAccess@{registerAccess}!basic.hpp@{basic.hpp}}
+\subsubsection[{registerAccess}]{\setlength{\rightskip}{0pt plus 5cm}\#define registerAccess~register\_\-access}}
+\label{basic_8hpp_a0367d44d1df15e11c21b46b14f68c4c3}
+
+
+Definition at line 14 of file basic.hpp.\hypertarget{basic_8hpp_aad3edae54a52ba521da45c5877db0510}{
+\index{basic.hpp@{basic.hpp}!SKIP\_\-TASK\_\-FLAG@{SKIP\_\-TASK\_\-FLAG}}
+\index{SKIP\_\-TASK\_\-FLAG@{SKIP\_\-TASK\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{SKIP\_\-TASK\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define SKIP\_\-TASK\_\-FLAG~DEBUG}}
+\label{basic_8hpp_aad3edae54a52ba521da45c5877db0510}
+
+
+Definition at line 45 of file basic.hpp.\hypertarget{basic_8hpp_a277b41b0e99d2ef09f6f8a7945941105}{
+\index{basic.hpp@{basic.hpp}!TERMINATE\_\-FLAG@{TERMINATE\_\-FLAG}}
+\index{TERMINATE\_\-FLAG@{TERMINATE\_\-FLAG}!basic.hpp@{basic.hpp}}
+\subsubsection[{TERMINATE\_\-FLAG}]{\setlength{\rightskip}{0pt plus 5cm}\#define TERMINATE\_\-FLAG~0}}
+\label{basic_8hpp_a277b41b0e99d2ef09f6f8a7945941105}
+
+
+Definition at line 48 of file basic.hpp.\hypertarget{basic_8hpp_af61dc8dd41ad09d562f710fb9cfb1554}{
+\index{basic.hpp@{basic.hpp}!TERMINATE\_\-TREE@{TERMINATE\_\-TREE}}
+\index{TERMINATE\_\-TREE@{TERMINATE\_\-TREE}!basic.hpp@{basic.hpp}}
+\subsubsection[{TERMINATE\_\-TREE}]{\setlength{\rightskip}{0pt plus 5cm}\#define TERMINATE\_\-TREE~1}}
+\label{basic_8hpp_af61dc8dd41ad09d562f710fb9cfb1554}
+
+
+Definition at line 36 of file basic.hpp.\hypertarget{basic_8hpp_a19960f4c85cfe7a2ec217658fec6bea7}{
+\index{basic.hpp@{basic.hpp}!THREAD\_\-INFO@{THREAD\_\-INFO}}
+\index{THREAD\_\-INFO@{THREAD\_\-INFO}!basic.hpp@{basic.hpp}}
+\subsubsection[{THREAD\_\-INFO}]{\setlength{\rightskip}{0pt plus 5cm}\#define THREAD\_\-INFO(a)}}
+\label{basic_8hpp_a19960f4c85cfe7a2ec217658fec6bea7}
+
+
+Definition at line 39 of file basic.hpp.\hypertarget{basic_8hpp_a1b0f4154052a00231883049b4433f7de}{
+\index{basic.hpp@{basic.hpp}!ThreadManager@{ThreadManager}}
+\index{ThreadManager@{ThreadManager}!basic.hpp@{basic.hpp}}
+\subsubsection[{ThreadManager}]{\setlength{\rightskip}{0pt plus 5cm}\#define ThreadManager~SuperGlue}}
+\label{basic_8hpp_a1b0f4154052a00231883049b4433f7de}
+
+
+Definition at line 17 of file basic.hpp.\hypertarget{basic_8hpp_ab26fafcd40c96c4594ce3a0544e91362}{
+\index{basic.hpp@{basic.hpp}!TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS@{TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS}}
+\index{TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS@{TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS}!basic.hpp@{basic.hpp}}
+\subsubsection[{TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS}]{\setlength{\rightskip}{0pt plus 5cm}\#define TIME\_\-SCALE\_\-TO\_\-MICRO\_\-SECONDS~1000}}
+\label{basic_8hpp_ab26fafcd40c96c4594ce3a0544e91362}
+
+
+Definition at line 116 of file basic.hpp.\hypertarget{basic_8hpp_a648194302b12659edb03111b84350269}{
+\index{basic.hpp@{basic.hpp}!TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS@{TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS}}
+\index{TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS@{TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS}!basic.hpp@{basic.hpp}}
+\subsubsection[{TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS}]{\setlength{\rightskip}{0pt plus 5cm}\#define TIME\_\-SCALE\_\-TO\_\-MILI\_\-SECONDS~1000000}}
+\label{basic_8hpp_a648194302b12659edb03111b84350269}
+
+
+Definition at line 119 of file basic.hpp.\hypertarget{basic_8hpp_a52a537f81e21614f69f23b47b1ae93e1}{
+\index{basic.hpp@{basic.hpp}!TIME\_\-SCALE\_\-TO\_\-SECONDS@{TIME\_\-SCALE\_\-TO\_\-SECONDS}}
+\index{TIME\_\-SCALE\_\-TO\_\-SECONDS@{TIME\_\-SCALE\_\-TO\_\-SECONDS}!basic.hpp@{basic.hpp}}
+\subsubsection[{TIME\_\-SCALE\_\-TO\_\-SECONDS}]{\setlength{\rightskip}{0pt plus 5cm}\#define TIME\_\-SCALE\_\-TO\_\-SECONDS~1000000000}}
+\label{basic_8hpp_a52a537f81e21614f69f23b47b1ae93e1}
+
+
+Definition at line 120 of file basic.hpp.\hypertarget{basic_8hpp_af433b05d8a466d0640f88d491e2b3339}{
+\index{basic.hpp@{basic.hpp}!TRACE@{TRACE}}
+\index{TRACE@{TRACE}!basic.hpp@{basic.hpp}}
+\subsubsection[{TRACE}]{\setlength{\rightskip}{0pt plus 5cm}\#define TRACE(a)}}
+\label{basic_8hpp_af433b05d8a466d0640f88d491e2b3339}
+
+
+Definition at line 58 of file basic.hpp.\hypertarget{basic_8hpp_a1df23165ea51ad95535d43b13413892c}{
+\index{basic.hpp@{basic.hpp}!TRACE\_\-ALLOCATION@{TRACE\_\-ALLOCATION}}
+\index{TRACE\_\-ALLOCATION@{TRACE\_\-ALLOCATION}!basic.hpp@{basic.hpp}}
+\subsubsection[{TRACE\_\-ALLOCATION}]{\setlength{\rightskip}{0pt plus 5cm}\#define TRACE\_\-ALLOCATION(a)}}
+\label{basic_8hpp_a1df23165ea51ad95535d43b13413892c}
+
+
+Definition at line 56 of file basic.hpp.\hypertarget{basic_8hpp_a2fda5de92a55c8d89f4a033486c705da}{
+\index{basic.hpp@{basic.hpp}!TRACE\_\-LOCATION@{TRACE\_\-LOCATION}}
+\index{TRACE\_\-LOCATION@{TRACE\_\-LOCATION}!basic.hpp@{basic.hpp}}
+\subsubsection[{TRACE\_\-LOCATION}]{\setlength{\rightskip}{0pt plus 5cm}\#define TRACE\_\-LOCATION~printf(\char`\"{}\%s , \%d$\backslash$n\char`\"{},\_\-\_\-FILE\_\-\_\-,\_\-\_\-LINE\_\-\_\-);}}
+\label{basic_8hpp_a2fda5de92a55c8d89f4a033486c705da}
+
+
+Definition at line 53 of file basic.hpp.
+
+\subsection{Typedef Documentation}
+\hypertarget{basic_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{
+\index{basic.hpp@{basic.hpp}!byte@{byte}}
+\index{byte@{byte}!basic.hpp@{basic.hpp}}
+\subsubsection[{byte}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf byte}}}
+\label{basic_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}
+
+
+Definition at line 61 of file basic.hpp.\hypertarget{basic_8hpp_ab6fdc9dc4abc71f4bdf430a00f9661c8}{
+\index{basic.hpp@{basic.hpp}!ClockTimeUnit@{ClockTimeUnit}}
+\index{ClockTimeUnit@{ClockTimeUnit}!basic.hpp@{basic.hpp}}
+\subsubsection[{ClockTimeUnit}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf ClockTimeUnit}}}
+\label{basic_8hpp_ab6fdc9dc4abc71f4bdf430a00f9661c8}
+
+
+Definition at line 123 of file basic.hpp.\hypertarget{basic_8hpp_ac0ec6c8e4757751eaaa618bbf62ab6c9}{
+\index{basic.hpp@{basic.hpp}!TimeUnit@{TimeUnit}}
+\index{TimeUnit@{TimeUnit}!basic.hpp@{basic.hpp}}
+\subsubsection[{TimeUnit}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf TimeUnit}}}
+\label{basic_8hpp_ac0ec6c8e4757751eaaa618bbf62ab6c9}
+
+
+Definition at line 132 of file basic.hpp.
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{basic_8hpp_aef10afb905e0aff5fe0b92add673b857}{
+\index{basic.hpp@{basic.hpp}!objects\_\-@{objects\_\-}}
+\index{objects\_\-@{objects\_\-}!basic.hpp@{basic.hpp}}
+\subsubsection[{objects\_\-}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf objects\_\-}}}
+\label{basic_8hpp_aef10afb905e0aff5fe0b92add673b857}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{O\_\-TASK@{O\_\-TASK}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!O\_\-TASK@{O\_\-TASK}}\item[{\em 
+\hypertarget{basic_8hpp_aef10afb905e0aff5fe0b92add673b857a7a62e0296edd4ecd1c1a3a3985f15f40}{
+O\_\-TASK}
+\label{basic_8hpp_aef10afb905e0aff5fe0b92add673b857a7a62e0296edd4ecd1c1a3a3985f15f40}
+}]\index{O\_\-DATA@{O\_\-DATA}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!O\_\-DATA@{O\_\-DATA}}\item[{\em 
+\hypertarget{basic_8hpp_aef10afb905e0aff5fe0b92add673b857afd892a112036bd6279437db864f36c93}{
+O\_\-DATA}
+\label{basic_8hpp_aef10afb905e0aff5fe0b92add673b857afd892a112036bd6279437db864f36c93}
+}]\index{O\_\-LSNR@{O\_\-LSNR}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!O\_\-LSNR@{O\_\-LSNR}}\item[{\em 
+\hypertarget{basic_8hpp_aef10afb905e0aff5fe0b92add673b857a3d1be207f6ce6e1463990de4ab0c2efa}{
+O\_\-LSNR}
+\label{basic_8hpp_aef10afb905e0aff5fe0b92add673b857a3d1be207f6ce6e1463990de4ab0c2efa}
+}]\index{O\_\-PROG@{O\_\-PROG}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!O\_\-PROG@{O\_\-PROG}}\item[{\em 
+\hypertarget{basic_8hpp_aef10afb905e0aff5fe0b92add673b857ab4fee0ff64b97b560a6231e46b3a5ea8}{
+O\_\-PROG}
+\label{basic_8hpp_aef10afb905e0aff5fe0b92add673b857ab4fee0ff64b97b560a6231e46b3a5ea8}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 156 of file basic.hpp.\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38c}{
+\index{basic.hpp@{basic.hpp}!verbs\_\-@{verbs\_\-}}
+\index{verbs\_\-@{verbs\_\-}!basic.hpp@{basic.hpp}}
+\subsubsection[{verbs\_\-}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf verbs\_\-}}}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38c}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{V\_\-RCVD@{V\_\-RCVD}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-RCVD@{V\_\-RCVD}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38caafda38ad053b1ef9030108a0cd0d766e}{
+V\_\-RCVD}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38caafda38ad053b1ef9030108a0cd0d766e}
+}]\index{V\_\-SEND@{V\_\-SEND}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-SEND@{V\_\-SEND}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cad2ef3847b90a11c0364ab53a7b9340ca}{
+V\_\-SEND}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cad2ef3847b90a11c0364ab53a7b9340ca}
+}]\index{V\_\-TERMINATED@{V\_\-TERMINATED}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-TERMINATED@{V\_\-TERMINATED}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cae9a77c709480beb61c96f869c244a6ce}{
+V\_\-TERMINATED}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cae9a77c709480beb61c96f869c244a6ce}
+}]\index{V\_\-ADDED@{V\_\-ADDED}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-ADDED@{V\_\-ADDED}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38caf4411899835bd5acb84f32f102f451df}{
+V\_\-ADDED}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38caf4411899835bd5acb84f32f102f451df}
+}]\index{V\_\-CHECK\_\-DEP@{V\_\-CHECK\_\-DEP}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-CHECK\_\-DEP@{V\_\-CHECK\_\-DEP}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38ca67839e83e1c3b43e8b5be36d94727879}{
+V\_\-CHECK\_\-DEP}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38ca67839e83e1c3b43e8b5be36d94727879}
+}]\index{V\_\-DUMP@{V\_\-DUMP}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-DUMP@{V\_\-DUMP}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cabde31f4818f0f63e301e592d17a4b85f}{
+V\_\-DUMP}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cabde31f4818f0f63e301e592d17a4b85f}
+}]\index{V\_\-CHECK\_\-RDY@{V\_\-CHECK\_\-RDY}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-CHECK\_\-RDY@{V\_\-CHECK\_\-RDY}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38ca2857dddc246195b5d5dbb5d4ec3c5c4c}{
+V\_\-CHECK\_\-RDY}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38ca2857dddc246195b5d5dbb5d4ec3c5c4c}
+}]\index{V\_\-REMOVE@{V\_\-REMOVE}!basic.hpp@{basic.hpp}}\index{basic.hpp@{basic.hpp}!V\_\-REMOVE@{V\_\-REMOVE}}\item[{\em 
+\hypertarget{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cad8c450d36052d1ae275541e9c95e13e8}{
+V\_\-REMOVE}
+\label{basic_8hpp_aabffbfd6bcb49dce5baff9711d83f38cad8c450d36052d1ae275541e9c95e13e8}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 145 of file basic.hpp.
+
+\subsection{Function Documentation}
+\hypertarget{basic_8hpp_a8eedabc3fdeef0b7973412cf6a30e7d1}{
+\index{basic.hpp@{basic.hpp}!copy@{copy}}
+\index{copy@{copy}!basic.hpp@{basic.hpp}}
+\subsubsection[{copy}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ void copy ({\bf byte} $\ast$ {\em b}, \/  int \& {\em o}, \/  T {\em a})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{basic_8hpp_a8eedabc3fdeef0b7973412cf6a30e7d1}
+
+
+Definition at line 97 of file basic.hpp.\hypertarget{basic_8hpp_a18b7a861548515d01c332e31c026dfa2}{
+\index{basic.hpp@{basic.hpp}!flushBuffer@{flushBuffer}}
+\index{flushBuffer@{flushBuffer}!basic.hpp@{basic.hpp}}
+\subsubsection[{flushBuffer}]{\setlength{\rightskip}{0pt plus 5cm}void flushBuffer ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length})}}
+\label{basic_8hpp_a18b7a861548515d01c332e31c026dfa2}
+
+
+Definition at line 107 of file basic.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{basic_8hpp_a18b7a861548515d01c332e31c026dfa2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{basic_8hpp_a5aacb623a2435186031070cf829281f9}{
+\index{basic.hpp@{basic.hpp}!nanoSleep@{nanoSleep}}
+\index{nanoSleep@{nanoSleep}!basic.hpp@{basic.hpp}}
+\subsubsection[{nanoSleep}]{\setlength{\rightskip}{0pt plus 5cm}void nanoSleep (int {\em n} = {\ttfamily 1})}}
+\label{basic_8hpp_a5aacb623a2435186031070cf829281f9}
+
+
+Definition at line 218 of file basic.hpp.\hypertarget{basic_8hpp_abdf0005814bbc8dfc4409ad689eca09b}{
+\index{basic.hpp@{basic.hpp}!obj\_\-str@{obj\_\-str}}
+\index{obj\_\-str@{obj\_\-str}!basic.hpp@{basic.hpp}}
+\subsubsection[{obj\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}string obj\_\-str (int {\em obj})}}
+\label{basic_8hpp_abdf0005814bbc8dfc4409ad689eca09b}
+
+
+Definition at line 186 of file basic.hpp.\hypertarget{basic_8hpp_ac5bb447a4865adcf6a1c33a657d820c2}{
+\index{basic.hpp@{basic.hpp}!paste@{paste}}
+\index{paste@{paste}!basic.hpp@{basic.hpp}}
+\subsubsection[{paste}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ void paste ({\bf byte} $\ast$ {\em b}, \/  int \& {\em o}, \/  T $\ast$ {\em a})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{basic_8hpp_ac5bb447a4865adcf6a1c33a657d820c2}
+
+
+Definition at line 102 of file basic.hpp.\hypertarget{basic_8hpp_a6b45a613e8da00bd1d1156704401851b}{
+\index{basic.hpp@{basic.hpp}!threadInfo@{threadInfo}}
+\index{threadInfo@{threadInfo}!basic.hpp@{basic.hpp}}
+\subsubsection[{threadInfo}]{\setlength{\rightskip}{0pt plus 5cm}void threadInfo (int {\em arg})}}
+\label{basic_8hpp_a6b45a613e8da00bd1d1156704401851b}
+
+
+Definition at line 202 of file basic.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{basic_8hpp_a6b45a613e8da00bd1d1156704401851b_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{basic_8hpp_a9b5bd9037cedbed2d6580464a8b69b57}{
+\index{basic.hpp@{basic.hpp}!verb\_\-str@{verb\_\-str}}
+\index{verb\_\-str@{verb\_\-str}!basic.hpp@{basic.hpp}}
+\subsubsection[{verb\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}string verb\_\-str (int {\em verb})}}
+\label{basic_8hpp_a9b5bd9037cedbed2d6580464a8b69b57}
+
+
+Definition at line 163 of file basic.hpp.

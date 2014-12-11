@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_gemm_task.html#a9cd60061ae88b345e70ece76d5a36b5a" title="GemmTask::GemmTask" alt="" coords="257,5,423,35"/>
+<area shape="rect" id="node5" href="$struct_potrf_task.html#a91fdd6aa7f492dad620f3c10addf5c06" title="PotrfTask::PotrfTask" alt="" coords="268,59,412,88"/>
+<area shape="rect" id="node7" href="$struct_sync_task.html#a3ebb63e8654c8892c1ff2262e4ab345b" title="SyncTask::SyncTask" alt="" coords="267,112,413,141"/>
+<area shape="rect" id="node9" href="$struct_syrk_task.html#a6c05d54b933ad7852df53801c91d56c9" title="SyrkTask::SyrkTask" alt="" coords="269,165,411,195"/>
+<area shape="rect" id="node11" href="$struct_trsm_task.html#a4c2b483737bcde446760a92ce1947640" title="TrsmTask::TrsmTask" alt="" coords="267,219,413,248"/>
+</map>

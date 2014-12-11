@@ -1,0 +1,808 @@
+\hypertarget{classengine}{
+\section{engine Class Reference}
+\label{classengine}\index{engine@{engine}}
+}
+
+
+{\ttfamily \#include $<$engine.hpp$>$}Collaboration diagram for engine:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{classengine__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bfseries DLB\_\-Statistics}
+\item 
+struct {\bfseries TimeDLB}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classengine_aaffbfa4e20b4b627f2336eb6b40db348}{engine} ()
+\item 
+void \hyperlink{classengine_ac26f49a93305875e96b66807e9344f7d}{initComm} ()
+\item 
+\hyperlink{classengine_aa3557f06618b07672ae2350091d42577}{$\sim$engine} ()
+\item 
+void \hyperlink{classengine_aeac567ab02fa33c70071131e0ba5e25a}{setSkips} (long st, long sw, long sm, long to)
+\item 
+ThreadManager$<$ \hyperlink{struct_options}{Options} $>$ $\ast$ \hyperlink{classengine_a728694d16eb4a744fe56b39fed8eac85}{getThrdManager} ()
+\item 
+int \hyperlink{classengine_ac6030a50a4319513af7be72385d7837c}{getLocalNumBlocks} ()
+\item 
+\hyperlink{task_8hpp_a189c327d368d47849e32f5dfcb3c5f45}{TaskHandle} \hyperlink{classengine_aa22a2fc88b7283b840e6db1e45dbdd5b}{addTask} (\hyperlink{class_i_context}{IContext} $\ast$context, string task\_\-name, unsigned long key, int task\_\-host, list$<$ \hyperlink{struct_data_access}{DataAccess} $\ast$ $>$ $\ast$data\_\-access)
+\item 
+void \hyperlink{classengine_a8e205e47882728401e1b71805ddf802a}{dumpTasks} ()
+\item 
+void \hyperlink{classengine_a8cca3e07a3c37e5f7af11da6a81f16c5}{sendPropagateTask} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int size, int dest\_\-host)
+\item 
+void \hyperlink{classengine_a9d0024f21ae5fa522fefdd38eade0a2e}{addPropagateTask} (\hyperlink{struct_propagate_info}{PropagateInfo} $\ast$P)
+\item 
+void \hyperlink{classengine_a21127e8807bf1984daa2806e056aef9c}{receivePropagateTask} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int len)
+\item 
+void \hyperlink{classengine_a6db82799db55ccddd3d79093eeb3a16b}{sendTask} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task, int destination)
+\item 
+void \hyperlink{classengine_ab64370db1774805a8fbe041bdde1a01c}{exportTask} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task, int destination)
+\item 
+void \hyperlink{classengine_ae0b940ebb7f5104cc2757bc9c92d0708}{receivedListener} (\hyperlink{struct_mail_box_event}{MailBoxEvent} $\ast$event)
+\item 
+void \hyperlink{classengine_ab244f803ac3edc7ec1341e9b9a11ca33}{receivedData} (\hyperlink{struct_mail_box_event}{MailBoxEvent} $\ast$event, \hyperlink{struct_memory_item}{MemoryItem} $\ast$)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{classengine_af65fff57c4729b10421eaa064a254d64}{importedData} (\hyperlink{struct_mail_box_event}{MailBoxEvent} $\ast$event, \hyperlink{struct_memory_item}{MemoryItem} $\ast$)
+\item 
+void \hyperlink{classengine_a01a2f71979b984b73bd95cf00629a71a}{waitForTaskFinish} ()
+\item 
+void \hyperlink{classengine_abe42ab122f70fe47049ad8c1170651a4}{finalize} ()
+\item 
+void \hyperlink{classengine_a9bc79f83757312b0ff06a7cfbe0c1c65}{globalSync} ()
+\item 
+\hyperlink{basic_8hpp_ac0ec6c8e4757751eaaa618bbf62ab6c9}{TimeUnit} \hyperlink{classengine_a1b418ba0ce7d9614cd03a30ab119456a}{elapsedTime} (int scale)
+\item 
+void \hyperlink{classengine_aa53319327cf7350b84bb928214e3dae0}{dumpTime} (char c=' ')
+\item 
+bool \hyperlink{classengine_ab711383a9b6380efdc76eabc98f628de}{isAnyUnfinishedListener} ()
+\item 
+long \hyperlink{classengine_abe97f2997638c312c34128fd581472dd}{getUnfinishedTasks} ()
+\item 
+bool \hyperlink{classengine_acf7ab54eb2e616e471686ec14157c9e7}{canTerminate} ()
+\item 
+int \hyperlink{classengine_a9897b8efc6acb6c6bcdd888ed4d67c96}{getTaskCount} ()
+\item 
+void \hyperlink{classengine_a2e4cd5ddf1d94f2e937d224c933608dd}{show\_\-affinity} ()
+\item 
+void \hyperlink{classengine_ab44d977af665ec74444db0b781d765c7}{setConfig} (\hyperlink{class_config}{Config} $\ast$cfg\_\-)
+\item 
+void \hyperlink{classengine_af66d8ac03cdba8d98a79eb424622c25d}{prepareReceives} ()
+\item 
+void \hyperlink{classengine_ad485fec9e6edc79fd24065e98736c290}{doProcess} ()
+\item 
+void \hyperlink{classengine_a18d1d14ee93df029db2216460a8ac6f4}{putWorkForDataReady} (list$<$ \hyperlink{struct_data_access}{DataAccess} $\ast$ $>$ $\ast$data\_\-list)
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{classengine_a99ae6156ee65044d03d61a3776ef2f99}{newDataMemory} ()
+\item 
+void \hyperlink{classengine_ad5b326de03b791ffb0846bbcc18d4252}{runFirstActiveTask} ()
+\item 
+bool \hyperlink{classengine_a8ddaa23b1b3357279a2e932d0603d547}{isInList} (vector$<$ int $>$ \&L, int v)
+\item 
+int \hyperlink{classengine_aa8a57f2a78fcc700597dec842cf537df}{getRandomNodeEx} ()
+\item 
+int \hyperlink{classengine_a2156b4ae876cbd9345642b9cd580cf1f}{getRandomNodeOld} (int exclude=-\/1)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{classengine_a4e7f59155ec8ac715c490a7006489d76}{doProcessLoop} (void $\ast$p)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 92 of file engine.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classengine_aaffbfa4e20b4b627f2336eb6b40db348}{
+\index{engine@{engine}!engine@{engine}}
+\index{engine@{engine}!engine@{engine}}
+\subsubsection[{engine}]{\setlength{\rightskip}{0pt plus 5cm}engine::engine ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_aaffbfa4e20b4b627f2336eb6b40db348}
+
+
+Definition at line 133 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classengine_aaffbfa4e20b4b627f2336eb6b40db348_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_aa3557f06618b07672ae2350091d42577}{
+\index{engine@{engine}!$\sim$engine@{$\sim$engine}}
+\index{$\sim$engine@{$\sim$engine}!engine@{engine}}
+\subsubsection[{$\sim$engine}]{\setlength{\rightskip}{0pt plus 5cm}engine::$\sim$engine ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_aa3557f06618b07672ae2350091d42577}
+
+
+Definition at line 157 of file engine.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{classengine_a9d0024f21ae5fa522fefdd38eade0a2e}{
+\index{engine@{engine}!addPropagateTask@{addPropagateTask}}
+\index{addPropagateTask@{addPropagateTask}!engine@{engine}}
+\subsubsection[{addPropagateTask}]{\setlength{\rightskip}{0pt plus 5cm}void engine::addPropagateTask ({\bf PropagateInfo} $\ast$ {\em P})}}
+\label{classengine_a9d0024f21ae5fa522fefdd38eade0a2e}
+
+
+Definition at line 879 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=171pt]{classengine_a9d0024f21ae5fa522fefdd38eade0a2e_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=364pt]{classengine_a9d0024f21ae5fa522fefdd38eade0a2e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_aa22a2fc88b7283b840e6db1e45dbdd5b}{
+\index{engine@{engine}!addTask@{addTask}}
+\index{addTask@{addTask}!engine@{engine}}
+\subsubsection[{addTask}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TaskHandle} engine::addTask ({\bf IContext} $\ast$ {\em context}, \/  string {\em task\_\-name}, \/  unsigned long {\em key}, \/  int {\em task\_\-host}, \/  list$<$ {\bf DataAccess} $\ast$ $>$ $\ast$ {\em data\_\-access})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_aa22a2fc88b7283b840e6db1e45dbdd5b}
+
+
+Definition at line 174 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_aa22a2fc88b7283b840e6db1e45dbdd5b_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{classengine_aa22a2fc88b7283b840e6db1e45dbdd5b_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_acf7ab54eb2e616e471686ec14157c9e7}{
+\index{engine@{engine}!canTerminate@{canTerminate}}
+\index{canTerminate@{canTerminate}!engine@{engine}}
+\subsubsection[{canTerminate}]{\setlength{\rightskip}{0pt plus 5cm}bool engine::canTerminate ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_acf7ab54eb2e616e471686ec14157c9e7}
+
+
+Definition at line 377 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_acf7ab54eb2e616e471686ec14157c9e7_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{classengine_acf7ab54eb2e616e471686ec14157c9e7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ad485fec9e6edc79fd24065e98736c290}{
+\index{engine@{engine}!doProcess@{doProcess}}
+\index{doProcess@{doProcess}!engine@{engine}}
+\subsubsection[{doProcess}]{\setlength{\rightskip}{0pt plus 5cm}void engine::doProcess ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ad485fec9e6edc79fd24065e98736c290}
+
+
+Definition at line 500 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_ad485fec9e6edc79fd24065e98736c290_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=108pt]{classengine_ad485fec9e6edc79fd24065e98736c290_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a4e7f59155ec8ac715c490a7006489d76}{
+\index{engine@{engine}!doProcessLoop@{doProcessLoop}}
+\index{doProcessLoop@{doProcessLoop}!engine@{engine}}
+\subsubsection[{doProcessLoop}]{\setlength{\rightskip}{0pt plus 5cm}static void$\ast$ engine::doProcessLoop (void $\ast$ {\em p})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, static\mbox{]}}}}
+\label{classengine_a4e7f59155ec8ac715c490a7006489d76}
+
+
+Definition at line 532 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_a4e7f59155ec8ac715c490a7006489d76_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classengine_a4e7f59155ec8ac715c490a7006489d76_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a8e205e47882728401e1b71805ddf802a}{
+\index{engine@{engine}!dumpTasks@{dumpTasks}}
+\index{dumpTasks@{dumpTasks}!engine@{engine}}
+\subsubsection[{dumpTasks}]{\setlength{\rightskip}{0pt plus 5cm}void engine::dumpTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a8e205e47882728401e1b71805ddf802a}
+
+
+Definition at line 202 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_a8e205e47882728401e1b71805ddf802a_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_aa53319327cf7350b84bb928214e3dae0}{
+\index{engine@{engine}!dumpTime@{dumpTime}}
+\index{dumpTime@{dumpTime}!engine@{engine}}
+\subsubsection[{dumpTime}]{\setlength{\rightskip}{0pt plus 5cm}void engine::dumpTime (char {\em c} = {\ttfamily '~'})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_aa53319327cf7350b84bb928214e3dae0}
+
+
+Definition at line 341 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=143pt]{classengine_aa53319327cf7350b84bb928214e3dae0_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{classengine_aa53319327cf7350b84bb928214e3dae0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a1b418ba0ce7d9614cd03a30ab119456a}{
+\index{engine@{engine}!elapsedTime@{elapsedTime}}
+\index{elapsedTime@{elapsedTime}!engine@{engine}}
+\subsubsection[{elapsedTime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf TimeUnit} engine::elapsedTime (int {\em scale})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a1b418ba0ce7d9614cd03a30ab119456a}
+
+
+Definition at line 336 of file engine.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=352pt]{classengine_a1b418ba0ce7d9614cd03a30ab119456a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ab64370db1774805a8fbe041bdde1a01c}{
+\index{engine@{engine}!exportTask@{exportTask}}
+\index{exportTask@{exportTask}!engine@{engine}}
+\subsubsection[{exportTask}]{\setlength{\rightskip}{0pt plus 5cm}void engine::exportTask ({\bf IDuctteipTask} $\ast$ {\em task}, \/  int {\em destination})}}
+\label{classengine_ab64370db1774805a8fbe041bdde1a01c}
+
+
+Definition at line 897 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_ab64370db1774805a8fbe041bdde1a01c_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_abe42ab122f70fe47049ad8c1170651a4}{
+\index{engine@{engine}!finalize@{finalize}}
+\index{finalize@{finalize}!engine@{engine}}
+\subsubsection[{finalize}]{\setlength{\rightskip}{0pt plus 5cm}void engine::finalize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_abe42ab122f70fe47049ad8c1170651a4}
+
+
+Definition at line 301 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_abe42ab122f70fe47049ad8c1170651a4_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=100pt]{classengine_abe42ab122f70fe47049ad8c1170651a4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ac6030a50a4319513af7be72385d7837c}{
+\index{engine@{engine}!getLocalNumBlocks@{getLocalNumBlocks}}
+\index{getLocalNumBlocks@{getLocalNumBlocks}!engine@{engine}}
+\subsubsection[{getLocalNumBlocks}]{\setlength{\rightskip}{0pt plus 5cm}int engine::getLocalNumBlocks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ac6030a50a4319513af7be72385d7837c}
+
+
+Definition at line 171 of file engine.hpp.\hypertarget{classengine_aa8a57f2a78fcc700597dec842cf537df}{
+\index{engine@{engine}!getRandomNodeEx@{getRandomNodeEx}}
+\index{getRandomNodeEx@{getRandomNodeEx}!engine@{engine}}
+\subsubsection[{getRandomNodeEx}]{\setlength{\rightskip}{0pt plus 5cm}int engine::getRandomNodeEx ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_aa8a57f2a78fcc700597dec842cf537df}
+
+
+Definition at line 2203 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=174pt]{classengine_aa8a57f2a78fcc700597dec842cf537df_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a2156b4ae876cbd9345642b9cd580cf1f}{
+\index{engine@{engine}!getRandomNodeOld@{getRandomNodeOld}}
+\index{getRandomNodeOld@{getRandomNodeOld}!engine@{engine}}
+\subsubsection[{getRandomNodeOld}]{\setlength{\rightskip}{0pt plus 5cm}int engine::getRandomNodeOld (int {\em exclude} = {\ttfamily -\/1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a2156b4ae876cbd9345642b9cd580cf1f}
+
+
+Definition at line 2222 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{classengine_a2156b4ae876cbd9345642b9cd580cf1f_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a9897b8efc6acb6c6bcdd888ed4d67c96}{
+\index{engine@{engine}!getTaskCount@{getTaskCount}}
+\index{getTaskCount@{getTaskCount}!engine@{engine}}
+\subsubsection[{getTaskCount}]{\setlength{\rightskip}{0pt plus 5cm}int engine::getTaskCount ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a9897b8efc6acb6c6bcdd888ed4d67c96}
+
+
+Definition at line 426 of file engine.hpp.\hypertarget{classengine_a728694d16eb4a744fe56b39fed8eac85}{
+\index{engine@{engine}!getThrdManager@{getThrdManager}}
+\index{getThrdManager@{getThrdManager}!engine@{engine}}
+\subsubsection[{getThrdManager}]{\setlength{\rightskip}{0pt plus 5cm}ThreadManager$<${\bf Options}$>$$\ast$ engine::getThrdManager ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a728694d16eb4a744fe56b39fed8eac85}
+
+
+Definition at line 170 of file engine.hpp.\hypertarget{classengine_abe97f2997638c312c34128fd581472dd}{
+\index{engine@{engine}!getUnfinishedTasks@{getUnfinishedTasks}}
+\index{getUnfinishedTasks@{getUnfinishedTasks}!engine@{engine}}
+\subsubsection[{getUnfinishedTasks}]{\setlength{\rightskip}{0pt plus 5cm}long engine::getUnfinishedTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_abe97f2997638c312c34128fd581472dd}
+
+
+Definition at line 360 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{classengine_abe97f2997638c312c34128fd581472dd_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_abe97f2997638c312c34128fd581472dd_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a9bc79f83757312b0ff06a7cfbe0c1c65}{
+\index{engine@{engine}!globalSync@{globalSync}}
+\index{globalSync@{globalSync}!engine@{engine}}
+\subsubsection[{globalSync}]{\setlength{\rightskip}{0pt plus 5cm}void engine::globalSync ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a9bc79f83757312b0ff06a7cfbe0c1c65}
+
+
+Definition at line 316 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_a9bc79f83757312b0ff06a7cfbe0c1c65_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{classengine_a9bc79f83757312b0ff06a7cfbe0c1c65_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_af65fff57c4729b10421eaa064a254d64}{
+\index{engine@{engine}!importedData@{importedData}}
+\index{importedData@{importedData}!engine@{engine}}
+\subsubsection[{importedData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData} $\ast$ engine::importedData ({\bf MailBoxEvent} $\ast$ {\em event}, \/  {\bf MemoryItem} $\ast$ {\em mi})}}
+\label{classengine_af65fff57c4729b10421eaa064a254d64}
+
+
+Definition at line 924 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_af65fff57c4729b10421eaa064a254d64_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ac26f49a93305875e96b66807e9344f7d}{
+\index{engine@{engine}!initComm@{initComm}}
+\index{initComm@{initComm}!engine@{engine}}
+\subsubsection[{initComm}]{\setlength{\rightskip}{0pt plus 5cm}void engine::initComm ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ac26f49a93305875e96b66807e9344f7d}
+
+
+Definition at line 150 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{classengine_ac26f49a93305875e96b66807e9344f7d_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=127pt]{classengine_ac26f49a93305875e96b66807e9344f7d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ab711383a9b6380efdc76eabc98f628de}{
+\index{engine@{engine}!isAnyUnfinishedListener@{isAnyUnfinishedListener}}
+\index{isAnyUnfinishedListener@{isAnyUnfinishedListener}!engine@{engine}}
+\subsubsection[{isAnyUnfinishedListener}]{\setlength{\rightskip}{0pt plus 5cm}bool engine::isAnyUnfinishedListener ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ab711383a9b6380efdc76eabc98f628de}
+
+
+Definition at line 346 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{classengine_ab711383a9b6380efdc76eabc98f628de_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=356pt]{classengine_ab711383a9b6380efdc76eabc98f628de_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a8ddaa23b1b3357279a2e932d0603d547}{
+\index{engine@{engine}!isInList@{isInList}}
+\index{isInList@{isInList}!engine@{engine}}
+\subsubsection[{isInList}]{\setlength{\rightskip}{0pt plus 5cm}bool engine::isInList (vector$<$ int $>$ \& {\em L}, \/  int {\em v})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a8ddaa23b1b3357279a2e932d0603d547}
+
+
+Definition at line 2195 of file engine.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{classengine_a8ddaa23b1b3357279a2e932d0603d547_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a99ae6156ee65044d03d61a3776ef2f99}{
+\index{engine@{engine}!newDataMemory@{newDataMemory}}
+\index{newDataMemory@{newDataMemory}!engine@{engine}}
+\subsubsection[{newDataMemory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ engine::newDataMemory ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a99ae6156ee65044d03d61a3776ef2f99}
+
+
+Definition at line 569 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=379pt]{classengine_a99ae6156ee65044d03d61a3776ef2f99_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{classengine_a99ae6156ee65044d03d61a3776ef2f99_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_af66d8ac03cdba8d98a79eb424622c25d}{
+\index{engine@{engine}!prepareReceives@{prepareReceives}}
+\index{prepareReceives@{prepareReceives}!engine@{engine}}
+\subsubsection[{prepareReceives}]{\setlength{\rightskip}{0pt plus 5cm}void engine::prepareReceives ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_af66d8ac03cdba8d98a79eb424622c25d}
+
+
+Definition at line 483 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=408pt]{classengine_af66d8ac03cdba8d98a79eb424622c25d_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=189pt]{classengine_af66d8ac03cdba8d98a79eb424622c25d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a18d1d14ee93df029db2216460a8ac6f4}{
+\index{engine@{engine}!putWorkForDataReady@{putWorkForDataReady}}
+\index{putWorkForDataReady@{putWorkForDataReady}!engine@{engine}}
+\subsubsection[{putWorkForDataReady}]{\setlength{\rightskip}{0pt plus 5cm}void engine::putWorkForDataReady (list$<$ {\bf DataAccess} $\ast$ $>$ $\ast$ {\em data\_\-list})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a18d1d14ee93df029db2216460a8ac6f4}
+
+
+Definition at line 561 of file engine.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{classengine_a18d1d14ee93df029db2216460a8ac6f4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ab244f803ac3edc7ec1341e9b9a11ca33}{
+\index{engine@{engine}!receivedData@{receivedData}}
+\index{receivedData@{receivedData}!engine@{engine}}
+\subsubsection[{receivedData}]{\setlength{\rightskip}{0pt plus 5cm}void engine::receivedData ({\bf MailBoxEvent} $\ast$ {\em event}, \/  {\bf MemoryItem} $\ast$ {\em mi})}}
+\label{classengine_ab244f803ac3edc7ec1341e9b9a11ca33}
+
+
+Definition at line 906 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_ab244f803ac3edc7ec1341e9b9a11ca33_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ae0b940ebb7f5104cc2757bc9c92d0708}{
+\index{engine@{engine}!receivedListener@{receivedListener}}
+\index{receivedListener@{receivedListener}!engine@{engine}}
+\subsubsection[{receivedListener}]{\setlength{\rightskip}{0pt plus 5cm}void engine::receivedListener ({\bf MailBoxEvent} $\ast$ {\em event})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ae0b940ebb7f5104cc2757bc9c92d0708}
+
+
+Definition at line 222 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_ae0b940ebb7f5104cc2757bc9c92d0708_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a21127e8807bf1984daa2806e056aef9c}{
+\index{engine@{engine}!receivePropagateTask@{receivePropagateTask}}
+\index{receivePropagateTask@{receivePropagateTask}!engine@{engine}}
+\subsubsection[{receivePropagateTask}]{\setlength{\rightskip}{0pt plus 5cm}void engine::receivePropagateTask ({\bf byte} $\ast$ {\em buffer}, \/  int {\em len})}}
+\label{classengine_a21127e8807bf1984daa2806e056aef9c}
+
+
+Definition at line 872 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{classengine_a21127e8807bf1984daa2806e056aef9c_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ad5b326de03b791ffb0846bbcc18d4252}{
+\index{engine@{engine}!runFirstActiveTask@{runFirstActiveTask}}
+\index{runFirstActiveTask@{runFirstActiveTask}!engine@{engine}}
+\subsubsection[{runFirstActiveTask}]{\setlength{\rightskip}{0pt plus 5cm}void engine::runFirstActiveTask ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ad5b326de03b791ffb0846bbcc18d4252}
+
+
+Definition at line 913 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{classengine_ad5b326de03b791ffb0846bbcc18d4252_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classengine_ad5b326de03b791ffb0846bbcc18d4252_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a8cca3e07a3c37e5f7af11da6a81f16c5}{
+\index{engine@{engine}!sendPropagateTask@{sendPropagateTask}}
+\index{sendPropagateTask@{sendPropagateTask}!engine@{engine}}
+\subsubsection[{sendPropagateTask}]{\setlength{\rightskip}{0pt plus 5cm}void engine::sendPropagateTask ({\bf byte} $\ast$ {\em buffer}, \/  int {\em size}, \/  int {\em dest\_\-host})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a8cca3e07a3c37e5f7af11da6a81f16c5}
+
+
+Definition at line 211 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=209pt]{classengine_a8cca3e07a3c37e5f7af11da6a81f16c5_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=361pt]{classengine_a8cca3e07a3c37e5f7af11da6a81f16c5_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a6db82799db55ccddd3d79093eeb3a16b}{
+\index{engine@{engine}!sendTask@{sendTask}}
+\index{sendTask@{sendTask}!engine@{engine}}
+\subsubsection[{sendTask}]{\setlength{\rightskip}{0pt plus 5cm}void engine::sendTask ({\bf IDuctteipTask} $\ast$ {\em task}, \/  int {\em destination})}}
+\label{classengine_a6db82799db55ccddd3d79093eeb3a16b}
+
+
+Definition at line 890 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=370pt]{classengine_a6db82799db55ccddd3d79093eeb3a16b_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_ab44d977af665ec74444db0b781d765c7}{
+\index{engine@{engine}!setConfig@{setConfig}}
+\index{setConfig@{setConfig}!engine@{engine}}
+\subsubsection[{setConfig}]{\setlength{\rightskip}{0pt plus 5cm}void engine::setConfig ({\bf Config} $\ast$ {\em cfg\_\-})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_ab44d977af665ec74444db0b781d765c7}
+
+
+Definition at line 452 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=328pt]{classengine_ab44d977af665ec74444db0b781d765c7_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=106pt]{classengine_ab44d977af665ec74444db0b781d765c7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_aeac567ab02fa33c70071131e0ba5e25a}{
+\index{engine@{engine}!setSkips@{setSkips}}
+\index{setSkips@{setSkips}!engine@{engine}}
+\subsubsection[{setSkips}]{\setlength{\rightskip}{0pt plus 5cm}void engine::setSkips (long {\em st}, \/  long {\em sw}, \/  long {\em sm}, \/  long {\em to})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_aeac567ab02fa33c70071131e0ba5e25a}
+
+
+Definition at line 163 of file engine.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=104pt]{classengine_aeac567ab02fa33c70071131e0ba5e25a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a2e4cd5ddf1d94f2e937d224c933608dd}{
+\index{engine@{engine}!show\_\-affinity@{show\_\-affinity}}
+\index{show\_\-affinity@{show\_\-affinity}!engine@{engine}}
+\subsubsection[{show\_\-affinity}]{\setlength{\rightskip}{0pt plus 5cm}void engine::show\_\-affinity ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a2e4cd5ddf1d94f2e937d224c933608dd}
+
+
+Definition at line 428 of file engine.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classengine_a2e4cd5ddf1d94f2e937d224c933608dd_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{classengine_a01a2f71979b984b73bd95cf00629a71a}{
+\index{engine@{engine}!waitForTaskFinish@{waitForTaskFinish}}
+\index{waitForTaskFinish@{waitForTaskFinish}!engine@{engine}}
+\subsubsection[{waitForTaskFinish}]{\setlength{\rightskip}{0pt plus 5cm}void engine::waitForTaskFinish ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classengine_a01a2f71979b984b73bd95cf00629a71a}
+
+
+Definition at line 253 of file engine.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{classengine_a01a2f71979b984b73bd95cf00629a71a_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{classengine_a01a2f71979b984b73bd95cf00629a71a_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{engine_8hpp}{engine.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,195 @@
+\hypertarget{struct_mail_box_event}{
+\section{MailBoxEvent Struct Reference}
+\label{struct_mail_box_event}\index{MailBoxEvent@{MailBoxEvent}}
+}
+
+
+{\ttfamily \#include $<$mailbox.hpp$>$}Collaboration diagram for MailBoxEvent:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=120pt]{struct_mail_box_event__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbec}{EventDirection} \{ \hyperlink{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbeca529850a3716905f03cbc5ca10da7885a}{Received}, 
+\hyperlink{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbeca2a4d4b0717a4d028e8e9ceadb33d9281}{Sent}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_mail_box_event_a187ea286cc518a6840118ef2298fd62c}{MailBoxEvent} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$b, int l, int t, int s)
+\item 
+void \hyperlink{struct_mail_box_event_abb0f7e669caa868825f47ab2798ca1ca}{setMemoryItem} (\hyperlink{struct_memory_item}{MemoryItem} $\ast$m)
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{struct_mail_box_event_a1b6dc78ff4c77136d16ff11871a2a2d8}{getMemoryItem} ()
+\item 
+\hyperlink{struct_mail_box_event_abb298cbe0ee701d863fed2d0a9f59641}{MailBoxEvent} ()
+\item 
+\hyperlink{struct_mail_box_event_a15b0b506d91c8961389a9e922522da04}{$\sim$MailBoxEvent} ()
+\item 
+\hyperlink{struct_mail_box_event}{MailBoxEvent} \& \hyperlink{struct_mail_box_event_a3515dd1068f31081552c20ead7fbcdb2}{operator=} (\hyperlink{struct_mail_box_event}{MailBoxEvent} \&rhs)
+\item 
+void \hyperlink{struct_mail_box_event_a7ddaceefa5b710b8c28bf185c91b8b5e}{dump} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{struct_mail_box_event_a751424d60431ff9008322bfe1f981008}{direction}
+\item 
+\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$ \hyperlink{struct_mail_box_event_af985444da7a2549b64fe4bacc1a68ab1}{buffer}
+\item 
+int \hyperlink{struct_mail_box_event_a70601308260beb76601c24e5cf49c866}{length}
+\item 
+unsigned long \hyperlink{struct_mail_box_event_a514bc3bba3344150482f1d9242ab4a69}{handle}
+\item 
+int \hyperlink{struct_mail_box_event_a2f5ed3c05ac0ca2ef5fc4ec7e3128390}{tag}
+\item 
+int \hyperlink{struct_mail_box_event_aa36d737e6dcc60e6c6ffc7741ec65331}{host}
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{struct_mail_box_event_a7c43c5a6b7311a0d9a69964d28a07eb2}{memory}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 9 of file mailbox.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbec}{
+\index{MailBoxEvent@{MailBoxEvent}!EventDirection@{EventDirection}}
+\index{EventDirection@{EventDirection}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{EventDirection}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf MailBoxEvent::EventDirection}}}
+\label{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbec}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{Received@{Received}!MailBoxEvent@{MailBoxEvent}}\index{MailBoxEvent@{MailBoxEvent}!Received@{Received}}\item[{\em 
+\hypertarget{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbeca529850a3716905f03cbc5ca10da7885a}{
+Received}
+\label{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbeca529850a3716905f03cbc5ca10da7885a}
+}]\index{Sent@{Sent}!MailBoxEvent@{MailBoxEvent}}\index{MailBoxEvent@{MailBoxEvent}!Sent@{Sent}}\item[{\em 
+\hypertarget{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbeca2a4d4b0717a4d028e8e9ceadb33d9281}{
+Sent}
+\label{struct_mail_box_event_a6c002ae6d74d407ec5b7a4a59dc6fbeca2a4d4b0717a4d028e8e9ceadb33d9281}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 11 of file mailbox.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{struct_mail_box_event_a187ea286cc518a6840118ef2298fd62c}{
+\index{MailBoxEvent@{MailBoxEvent}!MailBoxEvent@{MailBoxEvent}}
+\index{MailBoxEvent@{MailBoxEvent}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{MailBoxEvent}]{\setlength{\rightskip}{0pt plus 5cm}MailBoxEvent::MailBoxEvent ({\bf byte} $\ast$ {\em b}, \/  int {\em l}, \/  int {\em t}, \/  int {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_a187ea286cc518a6840118ef2298fd62c}
+
+
+Definition at line 22 of file mailbox.hpp.\hypertarget{struct_mail_box_event_abb298cbe0ee701d863fed2d0a9f59641}{
+\index{MailBoxEvent@{MailBoxEvent}!MailBoxEvent@{MailBoxEvent}}
+\index{MailBoxEvent@{MailBoxEvent}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{MailBoxEvent}]{\setlength{\rightskip}{0pt plus 5cm}MailBoxEvent::MailBoxEvent ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_abb298cbe0ee701d863fed2d0a9f59641}
+
+
+Definition at line 32 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a15b0b506d91c8961389a9e922522da04}{
+\index{MailBoxEvent@{MailBoxEvent}!$\sim$MailBoxEvent@{$\sim$MailBoxEvent}}
+\index{$\sim$MailBoxEvent@{$\sim$MailBoxEvent}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{$\sim$MailBoxEvent}]{\setlength{\rightskip}{0pt plus 5cm}MailBoxEvent::$\sim$MailBoxEvent ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_a15b0b506d91c8961389a9e922522da04}
+
+
+Definition at line 34 of file mailbox.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{struct_mail_box_event_a7ddaceefa5b710b8c28bf185c91b8b5e}{
+\index{MailBoxEvent@{MailBoxEvent}!dump@{dump}}
+\index{dump@{dump}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void MailBoxEvent::dump ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_a7ddaceefa5b710b8c28bf185c91b8b5e}
+
+
+Definition at line 47 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a1b6dc78ff4c77136d16ff11871a2a2d8}{
+\index{MailBoxEvent@{MailBoxEvent}!getMemoryItem@{getMemoryItem}}
+\index{getMemoryItem@{getMemoryItem}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{getMemoryItem}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ MailBoxEvent::getMemoryItem ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_a1b6dc78ff4c77136d16ff11871a2a2d8}
+
+
+Definition at line 30 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a3515dd1068f31081552c20ead7fbcdb2}{
+\index{MailBoxEvent@{MailBoxEvent}!operator=@{operator=}}
+\index{operator=@{operator=}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MailBoxEvent}\& MailBoxEvent::operator= ({\bf MailBoxEvent} \& {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_a3515dd1068f31081552c20ead7fbcdb2}
+
+
+Definition at line 36 of file mailbox.hpp.\hypertarget{struct_mail_box_event_abb0f7e669caa868825f47ab2798ca1ca}{
+\index{MailBoxEvent@{MailBoxEvent}!setMemoryItem@{setMemoryItem}}
+\index{setMemoryItem@{setMemoryItem}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{setMemoryItem}]{\setlength{\rightskip}{0pt plus 5cm}void MailBoxEvent::setMemoryItem ({\bf MemoryItem} $\ast$ {\em m})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_mail_box_event_abb0f7e669caa868825f47ab2798ca1ca}
+
+
+Definition at line 28 of file mailbox.hpp.
+
+\subsection{Member Data Documentation}
+\hypertarget{struct_mail_box_event_af985444da7a2549b64fe4bacc1a68ab1}{
+\index{MailBoxEvent@{MailBoxEvent}!buffer@{buffer}}
+\index{buffer@{buffer}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{buffer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf byte}$\ast$ {\bf MailBoxEvent::buffer}}}
+\label{struct_mail_box_event_af985444da7a2549b64fe4bacc1a68ab1}
+
+
+Definition at line 14 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a751424d60431ff9008322bfe1f981008}{
+\index{MailBoxEvent@{MailBoxEvent}!direction@{direction}}
+\index{direction@{direction}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{direction}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf MailBoxEvent::direction}}}
+\label{struct_mail_box_event_a751424d60431ff9008322bfe1f981008}
+
+
+Definition at line 12 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a514bc3bba3344150482f1d9242ab4a69}{
+\index{MailBoxEvent@{MailBoxEvent}!handle@{handle}}
+\index{handle@{handle}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{handle}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long {\bf MailBoxEvent::handle}}}
+\label{struct_mail_box_event_a514bc3bba3344150482f1d9242ab4a69}
+
+
+Definition at line 17 of file mailbox.hpp.\hypertarget{struct_mail_box_event_aa36d737e6dcc60e6c6ffc7741ec65331}{
+\index{MailBoxEvent@{MailBoxEvent}!host@{host}}
+\index{host@{host}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{host}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf MailBoxEvent::host}}}
+\label{struct_mail_box_event_aa36d737e6dcc60e6c6ffc7741ec65331}
+
+
+Definition at line 19 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a70601308260beb76601c24e5cf49c866}{
+\index{MailBoxEvent@{MailBoxEvent}!length@{length}}
+\index{length@{length}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf MailBoxEvent::length}}}
+\label{struct_mail_box_event_a70601308260beb76601c24e5cf49c866}
+
+
+Definition at line 15 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a7c43c5a6b7311a0d9a69964d28a07eb2}{
+\index{MailBoxEvent@{MailBoxEvent}!memory@{memory}}
+\index{memory@{memory}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{memory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ {\bf MailBoxEvent::memory}}}
+\label{struct_mail_box_event_a7c43c5a6b7311a0d9a69964d28a07eb2}
+
+
+Definition at line 20 of file mailbox.hpp.\hypertarget{struct_mail_box_event_a2f5ed3c05ac0ca2ef5fc4ec7e3128390}{
+\index{MailBoxEvent@{MailBoxEvent}!tag@{tag}}
+\index{tag@{tag}!MailBoxEvent@{MailBoxEvent}}
+\subsubsection[{tag}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf MailBoxEvent::tag}}}
+\label{struct_mail_box_event_a2f5ed3c05ac0ca2ef5fc4ec7e3128390}
+
+
+Definition at line 19 of file mailbox.hpp.
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mailbox_8hpp}{mailbox.hpp}\end{DoxyCompactItemize}

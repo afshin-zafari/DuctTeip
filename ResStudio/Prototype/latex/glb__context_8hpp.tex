@@ -1,0 +1,148 @@
+\hypertarget{glb__context_8hpp}{
+\section{glb\_\-context.hpp File Reference}
+\label{glb__context_8hpp}\index{glb\_\-context.hpp@{glb\_\-context.hpp}}
+}
+{\ttfamily \#include $<$list$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sstream$>$}\par
+{\ttfamily \#include \char`\"{}data.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}config.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}engine.hpp\char`\"{}}\par
+Include dependency graph for glb\_\-context.hpp:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{glb__context_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=80pt]{glb__context_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_propagate_info}{PropagateInfo}
+\item 
+struct \hyperlink{struct_level_info}{LevelInfo}
+\item 
+class \hyperlink{class_context_header}{ContextHeader}
+\item 
+struct \hyperlink{struct_task_kernel}{TaskKernel}
+\item 
+class \hyperlink{class_global_context}{GlobalContext}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{glb__context_8hpp_aa52be5d15d2fc877379023060f38f4fb}{DONT\_\-CARE\_\-COUNTER}~-\/1
+\item 
+\#define \hyperlink{glb__context_8hpp_a6a280d22d0c0a1a724df9b6f801ba7aa}{BEGIN\_\-CONTEXT\_\-EX}(counter, func, r1, r2, w)~\{bool \_\-b\_\- = begin\_\-context(this,r1,r2,w,counter,0,1) ; if ( !\_\-b\_\-) \{func;\} else\{
+\item 
+\#define \hyperlink{glb__context_8hpp_a43e5e2856ea0d10263d2e1e4cd73c351}{END\_\-CONTEXT\_\-EX}()~\}end\_\-context(this);\}
+\item 
+\#define \hyperlink{glb__context_8hpp_afb8b44f68218ce86b052718a24ad03e4}{BEGIN\_\-CONTEXT\_\-ALL}(counter, from, to, r1, r2, w)~if(begin\_\-context(this,r1,r2,w,counter,from,to))\{
+\item 
+\#define \hyperlink{glb__context_8hpp_a1c11912d6c885944b22ec834c5c858f3}{BEGIN\_\-CONTEXT\_\-BY}(counter, a, b, c)~if(begin\_\-context(this,a,b,c,counter,0,1))\{
+\item 
+\#define \hyperlink{glb__context_8hpp_aa7c5e607a3d841bc8d5b37b29a1fc160}{BEGIN\_\-CONTEXT}(a, b, c)~if(begin\_\-context(this,a,b,c,DONT\_\-CARE\_\-COUNTER,0,1))\{
+\item 
+\#define \hyperlink{glb__context_8hpp_a17f3293421842c61f08f3d502097135d}{END\_\-CONTEXT}()~\}end\_\-context(this);
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned long int \hyperlink{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{ContextHandle}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classengine}{engine} \hyperlink{glb__context_8hpp_a821b880716b43e9c71b142880c2a5f4b}{dtEngine}
+\item 
+int \hyperlink{glb__context_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me}
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{glb__context_8hpp_aa7c5e607a3d841bc8d5b37b29a1fc160}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!BEGIN\_\-CONTEXT@{BEGIN\_\-CONTEXT}}
+\index{BEGIN\_\-CONTEXT@{BEGIN\_\-CONTEXT}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{BEGIN\_\-CONTEXT}]{\setlength{\rightskip}{0pt plus 5cm}\#define BEGIN\_\-CONTEXT(a, \/  b, \/  c)~if(begin\_\-context(this,a,b,c,DONT\_\-CARE\_\-COUNTER,0,1))\{}}
+\label{glb__context_8hpp_aa7c5e607a3d841bc8d5b37b29a1fc160}
+
+
+Definition at line 89 of file glb\_\-context.hpp.\hypertarget{glb__context_8hpp_afb8b44f68218ce86b052718a24ad03e4}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!BEGIN\_\-CONTEXT\_\-ALL@{BEGIN\_\-CONTEXT\_\-ALL}}
+\index{BEGIN\_\-CONTEXT\_\-ALL@{BEGIN\_\-CONTEXT\_\-ALL}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{BEGIN\_\-CONTEXT\_\-ALL}]{\setlength{\rightskip}{0pt plus 5cm}\#define BEGIN\_\-CONTEXT\_\-ALL(counter, \/  from, \/  to, \/  r1, \/  r2, \/  w)~if(begin\_\-context(this,r1,r2,w,counter,from,to))\{}}
+\label{glb__context_8hpp_afb8b44f68218ce86b052718a24ad03e4}
+
+
+Definition at line 87 of file glb\_\-context.hpp.\hypertarget{glb__context_8hpp_a1c11912d6c885944b22ec834c5c858f3}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!BEGIN\_\-CONTEXT\_\-BY@{BEGIN\_\-CONTEXT\_\-BY}}
+\index{BEGIN\_\-CONTEXT\_\-BY@{BEGIN\_\-CONTEXT\_\-BY}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{BEGIN\_\-CONTEXT\_\-BY}]{\setlength{\rightskip}{0pt plus 5cm}\#define BEGIN\_\-CONTEXT\_\-BY(counter, \/  a, \/  b, \/  c)~if(begin\_\-context(this,a,b,c,counter,0,1))\{}}
+\label{glb__context_8hpp_a1c11912d6c885944b22ec834c5c858f3}
+
+
+Definition at line 88 of file glb\_\-context.hpp.\hypertarget{glb__context_8hpp_a6a280d22d0c0a1a724df9b6f801ba7aa}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!BEGIN\_\-CONTEXT\_\-EX@{BEGIN\_\-CONTEXT\_\-EX}}
+\index{BEGIN\_\-CONTEXT\_\-EX@{BEGIN\_\-CONTEXT\_\-EX}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{BEGIN\_\-CONTEXT\_\-EX}]{\setlength{\rightskip}{0pt plus 5cm}\#define BEGIN\_\-CONTEXT\_\-EX(counter, \/  func, \/  r1, \/  r2, \/  w)~\{bool \_\-b\_\- = begin\_\-context(this,r1,r2,w,counter,0,1) ; if ( !\_\-b\_\-) \{func;\} else\{}}
+\label{glb__context_8hpp_a6a280d22d0c0a1a724df9b6f801ba7aa}
+
+
+Definition at line 85 of file glb\_\-context.hpp.\hypertarget{glb__context_8hpp_aa52be5d15d2fc877379023060f38f4fb}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!DONT\_\-CARE\_\-COUNTER@{DONT\_\-CARE\_\-COUNTER}}
+\index{DONT\_\-CARE\_\-COUNTER@{DONT\_\-CARE\_\-COUNTER}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{DONT\_\-CARE\_\-COUNTER}]{\setlength{\rightskip}{0pt plus 5cm}\#define DONT\_\-CARE\_\-COUNTER~-\/1}}
+\label{glb__context_8hpp_aa52be5d15d2fc877379023060f38f4fb}
+
+
+Definition at line 84 of file glb\_\-context.hpp.\hypertarget{glb__context_8hpp_a17f3293421842c61f08f3d502097135d}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!END\_\-CONTEXT@{END\_\-CONTEXT}}
+\index{END\_\-CONTEXT@{END\_\-CONTEXT}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{END\_\-CONTEXT}]{\setlength{\rightskip}{0pt plus 5cm}\#define END\_\-CONTEXT()~\}end\_\-context(this);}}
+\label{glb__context_8hpp_a17f3293421842c61f08f3d502097135d}
+
+
+Definition at line 90 of file glb\_\-context.hpp.\hypertarget{glb__context_8hpp_a43e5e2856ea0d10263d2e1e4cd73c351}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!END\_\-CONTEXT\_\-EX@{END\_\-CONTEXT\_\-EX}}
+\index{END\_\-CONTEXT\_\-EX@{END\_\-CONTEXT\_\-EX}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{END\_\-CONTEXT\_\-EX}]{\setlength{\rightskip}{0pt plus 5cm}\#define END\_\-CONTEXT\_\-EX()~\}end\_\-context(this);\}}}
+\label{glb__context_8hpp_a43e5e2856ea0d10263d2e1e4cd73c351}
+
+
+Definition at line 86 of file glb\_\-context.hpp.
+
+\subsection{Typedef Documentation}
+\hypertarget{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!ContextHandle@{ContextHandle}}
+\index{ContextHandle@{ContextHandle}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{ContextHandle}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long int {\bf ContextHandle}}}
+\label{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}
+
+
+Definition at line 81 of file glb\_\-context.hpp.
+
+\subsection{Variable Documentation}
+\hypertarget{glb__context_8hpp_a821b880716b43e9c71b142880c2a5f4b}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!dtEngine@{dtEngine}}
+\index{dtEngine@{dtEngine}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{dtEngine}]{\setlength{\rightskip}{0pt plus 5cm}{\bf engine} {\bf dtEngine}}}
+\label{glb__context_8hpp_a821b880716b43e9c71b142880c2a5f4b}
+
+
+Definition at line 21 of file context.hpp.\hypertarget{glb__context_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{
+\index{glb\_\-context.hpp@{glb\_\-context.hpp}!me@{me}}
+\index{me@{me}!glb_context.hpp@{glb\_\-context.hpp}}
+\subsubsection[{me}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf me}}}
+\label{glb__context_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}
+
+
+Definition at line 23 of file context.hpp.

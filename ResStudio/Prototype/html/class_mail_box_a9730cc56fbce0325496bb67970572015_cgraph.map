@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_mail_box.html#a1fb17b7247e23d29fc0f51e980717acf" title="MailBox::getLRNeighbors" alt="" coords="332,5,503,35"/>
+<area shape="rect" id="node7" href="$class_mail_box.html#a45435c4ffb07fe13da0bcdacdde49bb6" title="MailBox::prepareTerminateReceiveForHost" alt="" coords="281,59,553,88"/>
+<area shape="rect" id="node5" href="$class_i_network.html#a24bd475422706998cbee500825728d55" title="INetwork::get_host_count" alt="" coords="625,5,796,35"/>
+<area shape="rect" id="node9" href="$class_mail_box.html#a541c1f871502eec356801ed5657f56c3" title="MailBox::dumpPosts" alt="" coords="640,59,781,88"/>
+<area shape="rect" id="node11" href="$class_i_network.html#ae8381635a24542ac374056c15613daeb" title="INetwork::postTerminateReceive" alt="" coords="604,112,817,141"/>
+</map>

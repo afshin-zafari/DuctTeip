@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classengine.html#acf7ab54eb2e616e471686ec14157c9e7" title="engine::canTerminate" alt="" coords="531,5,677,35"/>
+<area shape="rect" id="node14" href="$class_mail_box.html#a1fb17b7247e23d29fc0f51e980717acf" title="MailBox::getLRNeighbors" alt="" coords="249,57,420,87"/>
+<area shape="rect" id="node21" href="$classengine.html#aa8a57f2a78fcc700597dec842cf537df" title="engine::getRandomNodeEx" alt="" coords="244,111,425,140"/>
+<area shape="rect" id="node23" href="$classengine.html#a2156b4ae876cbd9345642b9cd580cf1f" title="engine::getRandomNodeOld" alt="" coords="241,164,428,193"/>
+<area shape="rect" id="node25" href="$class_mail_box.html#aa9c92ef9ed35dbd1ebc4aae5f16876bd" title="MailBox::prepareListenerReceive" alt="" coords="228,217,441,247"/>
+<area shape="rect" id="node5" href="$classengine.html#a4e7f59155ec8ac715c490a7006489d76" title="engine::doProcessLoop" alt="" coords="771,5,928,35"/>
+<area shape="rect" id="node7" href="$classengine.html#ad485fec9e6edc79fd24065e98736c290" title="engine::doProcess" alt="" coords="981,59,1112,88"/>
+<area shape="rect" id="node11" href="$classengine.html#abe42ab122f70fe47049ad8c1170651a4" title="engine::finalize" alt="" coords="992,5,1101,35"/>
+<area shape="rect" id="node9" href="$test__task__gen_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="1160,32,1211,61"/>
+<area shape="rect" id="node16" href="$class_mail_box.html#a9730cc56fbce0325496bb67970572015" title="MailBox::prepareTerminateReceive" alt="" coords="491,59,717,88"/>
+<area shape="rect" id="node18" href="$classengine.html#af66d8ac03cdba8d98a79eb424622c25d" title="engine::prepareReceives" alt="" coords="767,59,932,88"/>
+<area shape="rect" id="node28" href="$classengine.html#ae0b940ebb7f5104cc2757bc9c92d0708" title="engine::receivedListener" alt="" coords="523,217,685,247"/>
+</map>

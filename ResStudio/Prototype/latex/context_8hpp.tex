@@ -1,0 +1,207 @@
+\hypertarget{context_8hpp}{
+\section{context.hpp File Reference}
+\label{context_8hpp}\index{context.hpp@{context.hpp}}
+}
+{\ttfamily \#include $<$string$>$}\par
+{\ttfamily \#include $<$cstdio$>$}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include $<$list$>$}\par
+{\ttfamily \#include \char`\"{}config.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}procgrid.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}hostpolicy.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}data.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}glb\_\-context.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}engine.hpp\char`\"{}}\par
+Include dependency graph for context.hpp:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{context_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=80pt]{context_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_i_context}{IContext}
+\item 
+class \hyperlink{class_context}{Context}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{context_8hpp_a2a1d2ca63db326792cd81d98cb2f2522}{DATA\_\-LISTENER}~0
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{context_8hpp_acc758e315b7ee2179a56281208faef24}{begin\_\-context} (\hyperlink{class_i_context}{IContext} $\ast$curCtx, \hyperlink{struct_data_range}{DataRange} $\ast$r1, \hyperlink{struct_data_range}{DataRange} $\ast$r2, \hyperlink{struct_data_range}{DataRange} $\ast$w, int counter, int from, int to)
+\item 
+void \hyperlink{context_8hpp_ad3e9e7fab429e3247c4c4a1c633d7920}{end\_\-context} (\hyperlink{class_i_context}{IContext} $\ast$curCtx)
+\item 
+void \hyperlink{context_8hpp_a2cb5214266e53cf936ec7ff5502fc1e4}{AddTask} (\hyperlink{class_i_context}{IContext} $\ast$ctx, char $\ast$s, unsigned long key, \hyperlink{class_i_data}{IData} $\ast$d1, \hyperlink{class_i_data}{IData} $\ast$d2, \hyperlink{class_i_data}{IData} $\ast$d3)
+\item 
+void \hyperlink{context_8hpp_a60352480279ffaad102d08783942e4e9}{AddTask} (\hyperlink{class_i_context}{IContext} $\ast$ctx, char $\ast$s, unsigned long key, \hyperlink{class_i_data}{IData} $\ast$d1)
+\item 
+void \hyperlink{context_8hpp_a766f3457e29c5a7757b5baed89f2f894}{AddTask} (\hyperlink{class_i_context}{IContext} $\ast$ctx, char $\ast$s, unsigned long key, \hyperlink{class_i_data}{IData} $\ast$d1, \hyperlink{class_i_data}{IData} $\ast$d2)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_global_context}{GlobalContext} \hyperlink{context_8hpp_ab985ed6582dc01a65dcca73fdd238f6b}{glbCtx}
+\item 
+\hyperlink{classengine}{engine} \hyperlink{context_8hpp_a821b880716b43e9c71b142880c2a5f4b}{dtEngine}
+\item 
+int \hyperlink{context_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me}
+\item 
+int \hyperlink{context_8hpp_aad880fc4455c253781e8968f2239d56f}{version}
+\item 
+int \hyperlink{context_8hpp_a3fc7ce4e53beaaf18198c05f97845d4b}{simulation}
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{context_8hpp_a2a1d2ca63db326792cd81d98cb2f2522}{
+\index{context.hpp@{context.hpp}!DATA\_\-LISTENER@{DATA\_\-LISTENER}}
+\index{DATA\_\-LISTENER@{DATA\_\-LISTENER}!context.hpp@{context.hpp}}
+\subsubsection[{DATA\_\-LISTENER}]{\setlength{\rightskip}{0pt plus 5cm}\#define DATA\_\-LISTENER~0}}
+\label{context_8hpp_a2a1d2ca63db326792cd81d98cb2f2522}
+
+
+Definition at line 1080 of file context.hpp.
+
+\subsection{Function Documentation}
+\hypertarget{context_8hpp_a766f3457e29c5a7757b5baed89f2f894}{
+\index{context.hpp@{context.hpp}!AddTask@{AddTask}}
+\index{AddTask@{AddTask}!context.hpp@{context.hpp}}
+\subsubsection[{AddTask}]{\setlength{\rightskip}{0pt plus 5cm}void AddTask ({\bf IContext} $\ast$ {\em ctx}, \/  char $\ast$ {\em s}, \/  unsigned long {\em key}, \/  {\bf IData} $\ast$ {\em d1}, \/  {\bf IData} $\ast$ {\em d2})}}
+\label{context_8hpp_a766f3457e29c5a7757b5baed89f2f894}
+
+
+Definition at line 736 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{context_8hpp_a766f3457e29c5a7757b5baed89f2f894_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{context_8hpp_a60352480279ffaad102d08783942e4e9}{
+\index{context.hpp@{context.hpp}!AddTask@{AddTask}}
+\index{AddTask@{AddTask}!context.hpp@{context.hpp}}
+\subsubsection[{AddTask}]{\setlength{\rightskip}{0pt plus 5cm}void AddTask ({\bf IContext} $\ast$ {\em ctx}, \/  char $\ast$ {\em s}, \/  unsigned long {\em key}, \/  {\bf IData} $\ast$ {\em d1})}}
+\label{context_8hpp_a60352480279ffaad102d08783942e4e9}
+
+
+Definition at line 735 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{context_8hpp_a60352480279ffaad102d08783942e4e9_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{context_8hpp_a2cb5214266e53cf936ec7ff5502fc1e4}{
+\index{context.hpp@{context.hpp}!AddTask@{AddTask}}
+\index{AddTask@{AddTask}!context.hpp@{context.hpp}}
+\subsubsection[{AddTask}]{\setlength{\rightskip}{0pt plus 5cm}void AddTask ({\bf IContext} $\ast$ {\em ctx}, \/  char $\ast$ {\em s}, \/  unsigned long {\em key}, \/  {\bf IData} $\ast$ {\em d1}, \/  {\bf IData} $\ast$ {\em d2}, \/  {\bf IData} $\ast$ {\em d3})}}
+\label{context_8hpp_a2cb5214266e53cf936ec7ff5502fc1e4}
+
+
+Definition at line 652 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{context_8hpp_a2cb5214266e53cf936ec7ff5502fc1e4_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{context_8hpp_a2cb5214266e53cf936ec7ff5502fc1e4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{context_8hpp_acc758e315b7ee2179a56281208faef24}{
+\index{context.hpp@{context.hpp}!begin\_\-context@{begin\_\-context}}
+\index{begin\_\-context@{begin\_\-context}!context.hpp@{context.hpp}}
+\subsubsection[{begin\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}bool begin\_\-context ({\bf IContext} $\ast$ {\em curCtx}, \/  {\bf DataRange} $\ast$ {\em r1}, \/  {\bf DataRange} $\ast$ {\em r2}, \/  {\bf DataRange} $\ast$ {\em w}, \/  int {\em counter}, \/  int {\em from}, \/  int {\em to})}}
+\label{context_8hpp_acc758e315b7ee2179a56281208faef24}
+
+
+Definition at line 604 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{context_8hpp_acc758e315b7ee2179a56281208faef24_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{context_8hpp_ad3e9e7fab429e3247c4c4a1c633d7920}{
+\index{context.hpp@{context.hpp}!end\_\-context@{end\_\-context}}
+\index{end\_\-context@{end\_\-context}!context.hpp@{context.hpp}}
+\subsubsection[{end\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}void end\_\-context ({\bf IContext} $\ast$ {\em curCtx})}}
+\label{context_8hpp_ad3e9e7fab429e3247c4c4a1c633d7920}
+
+
+Definition at line 636 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=394pt]{context_8hpp_ad3e9e7fab429e3247c4c4a1c633d7920_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\hypertarget{context_8hpp_a821b880716b43e9c71b142880c2a5f4b}{
+\index{context.hpp@{context.hpp}!dtEngine@{dtEngine}}
+\index{dtEngine@{dtEngine}!context.hpp@{context.hpp}}
+\subsubsection[{dtEngine}]{\setlength{\rightskip}{0pt plus 5cm}{\bf engine} {\bf dtEngine}}}
+\label{context_8hpp_a821b880716b43e9c71b142880c2a5f4b}
+
+
+Definition at line 21 of file context.hpp.\hypertarget{context_8hpp_ab985ed6582dc01a65dcca73fdd238f6b}{
+\index{context.hpp@{context.hpp}!glbCtx@{glbCtx}}
+\index{glbCtx@{glbCtx}!context.hpp@{context.hpp}}
+\subsubsection[{glbCtx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf GlobalContext} {\bf glbCtx}}}
+\label{context_8hpp_ab985ed6582dc01a65dcca73fdd238f6b}
+
+
+Definition at line 20 of file context.hpp.\hypertarget{context_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{
+\index{context.hpp@{context.hpp}!me@{me}}
+\index{me@{me}!context.hpp@{context.hpp}}
+\subsubsection[{me}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf me}}}
+\label{context_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}
+
+
+Definition at line 23 of file context.hpp.\hypertarget{context_8hpp_a3fc7ce4e53beaaf18198c05f97845d4b}{
+\index{context.hpp@{context.hpp}!simulation@{simulation}}
+\index{simulation@{simulation}!context.hpp@{context.hpp}}
+\subsubsection[{simulation}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf simulation}}}
+\label{context_8hpp_a3fc7ce4e53beaaf18198c05f97845d4b}
+
+
+Definition at line 23 of file context.hpp.\hypertarget{context_8hpp_aad880fc4455c253781e8968f2239d56f}{
+\index{context.hpp@{context.hpp}!version@{version}}
+\index{version@{version}!context.hpp@{context.hpp}}
+\subsubsection[{version}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf version}}}
+\label{context_8hpp_aad880fc4455c253781e8968f2239d56f}
+
+
+Definition at line 23 of file context.hpp.

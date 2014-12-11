@@ -1,0 +1,26 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_global_context.html#a6a4ed0adbb91872d956babaf32e3466c" title="GlobalContext::dumpPropagations" alt="" coords="295,85,516,115"/>
+<area shape="rect" id="node21" href="$class_global_context.html#a8770ae3435a92b44cdc1286e1668c9c8" title="GlobalContext::getDataHostPolicy" alt="" coords="295,139,516,168"/>
+<area shape="rect" id="node23" href="$class_i_host_policy.html#ab759310a417532f33b513fbe1ac6aea8" title="IHostPolicy::getHost" alt="" coords="333,192,477,221"/>
+<area shape="rect" id="node29" href="$class_global_context.html#a3f1200ddc2119935fac3b8b4ef5143d1" title="GlobalContext::getLevelString" alt="" coords="308,245,503,275"/>
+<area shape="rect" id="node31" href="$class_global_context.html#ab6ed24acc55b88a93b7498acbccf6141" title="GlobalContext::packPropagateTask" alt="" coords="291,299,520,328"/>
+<area shape="rect" id="node5" href="$class_global_context.html#a82ec626cc456bb864bf2376e2bda621f" title="GlobalContext::getDataByHandle" alt="" coords="568,32,784,61"/>
+<area shape="rect" id="node19" href="$class_i_data.html#a87b7baa5c42fd4c2b36875141030880d" title="IData::getName" alt="" coords="619,85,733,115"/>
+<area shape="rect" id="node7" href="$class_global_context.html#abed42c65852eb40358a222c34108c65a" title="GlobalContext::getContextByHandle" alt="" coords="832,5,1067,35"/>
+<area shape="rect" id="node9" href="$class_i_context.html#a9e05e14cdde2f0b5a0ed3349815cb974" title="IContext::getDataByHandle" alt="" coords="859,59,1040,88"/>
+<area shape="rect" id="node11" href="$class_i_data.html#a78a571407788130ebe382f51c3774605" title="IData::getDataByHandle" alt="" coords="1115,32,1280,61"/>
+<area shape="rect" id="node17" href="$class_i_context.html#a607d8609c589bfa7937b5a8313c61d04" title="IContext::getName" alt="" coords="1131,85,1264,115"/>
+<area shape="rect" id="node13" href="$class_i_context.html#a63664480f4eede6b3a5ab572dd454160" title="IContext::getContextHandle" alt="" coords="1329,5,1513,35"/>
+<area shape="rect" id="node15" href="$class_i_data.html#a07c124c61dac722dded4c78d45be5cd2" title="IData::getDataHandle" alt="" coords="1347,59,1496,88"/>
+<area shape="rect" id="node25" href="$class_process_grid.html#a26a8d106c761c8989309b8ca4fed0e7a" title="ProcessGrid::getProcessor" alt="" coords="587,139,765,168"/>
+<area shape="rect" id="node27" href="$class_process_grid.html#aba5b11a3a2274d287d46785b8752ac73" title="ProcessGrid::getProcessorCount" alt="" coords="569,192,783,221"/>
+<area shape="rect" id="node33" href="$classengine.html#a9d0024f21ae5fa522fefdd38eade0a2e" title="engine::addPropagateTask" alt="" coords="588,245,764,275"/>
+<area shape="rect" id="node39" href="$class_global_context.html#a9348325efe41d1edae48c4313d07dc1a" title="GlobalContext::incrementCounter" alt="" coords="568,299,784,328"/>
+<area shape="rect" id="node41" href="$classengine.html#a8cca3e07a3c37e5f7af11da6a81f16c5" title="engine::sendPropagateTask" alt="" coords="584,352,768,381"/>
+<area shape="rect" id="node47" href="$struct_propagate_info.html#ac7242171f175704c50333d053aa72c72" title="PropagateInfo::serialize" alt="" coords="597,405,755,435"/>
+<area shape="rect" id="node35" href="$class_i_ductteip_task.html#a1f1f64d2c28f10f03516d242e3674a7f" title="IDuctteipTask::setHandle" alt="" coords="864,219,1035,248"/>
+<area shape="rect" id="node37" href="$class_i_ductteip_task.html#a29e56abf2e5991acc91462c1bbdb1511" title="IDuctteipTask::setName" alt="" coords="867,272,1032,301"/>
+<area shape="rect" id="node43" href="$class_mail_box.html#ae6b86c4b322220e0a416dadec6e50877" title="MailBox::send" alt="" coords="897,352,1001,381"/>
+<area shape="rect" id="node45" href="$class_i_network.html#a4996a6c20805f604c5afff707313ed4e" title="INetwork::send" alt="" coords="1143,352,1252,381"/>
+<area shape="rect" id="node49" href="$struct_propagate_info.html#a22a3541d5c61ed5e6db3aeaf8c4a2f82" title="PropagateInfo::serializeContext" alt="" coords="847,405,1052,435"/>
+</map>

@@ -1,0 +1,1639 @@
+\hypertarget{class_i_data}{
+\section{IData Class Reference}
+\label{class_i_data}\index{IData@{IData}}
+}
+
+
+{\ttfamily \#include $<$data.hpp$>$}Inheritance diagram for IData:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=84pt]{class_i_data__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for IData:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_i_data__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_i_data_a771c62d4a9d89ea755b61734fb41e372}{AccessType} \{ \hyperlink{class_i_data_a771c62d4a9d89ea755b61734fb41e372ab0001574263456e6fbf9b4355353484c}{READ} =  1, 
+\hyperlink{class_i_data_a771c62d4a9d89ea755b61734fb41e372aed5606f3868a90a4b31155ebdf63ed82}{WRITE} =  2, 
+\hyperlink{class_i_data_a771c62d4a9d89ea755b61734fb41e372ae74284405073e2c093007eb686e565fa}{SCALAR} = 64
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_i_data_a75fd2d8c81d6a34679ebc3222d8339a2}{IData} ()
+\item 
+\hyperlink{class_i_data_a7f41e876d5c6c19e5b77ca480b3978b3}{IData} (string \_\-name, int m, int n, \hyperlink{class_i_context}{IContext} $\ast$ctx)
+\item 
+\hyperlink{class_i_data_a30ce868ac52a0fc576606b9c98da125f}{$\sim$IData} ()
+\item 
+string \hyperlink{class_i_data_a87b7baa5c42fd4c2b36875141030880d}{getName} ()
+\item 
+\hyperlink{class_i_context}{IContext} $\ast$ \hyperlink{class_i_data_af014d3691bd00c551cf4a36371ef80ec}{getParent} ()
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_data_a44b0310e7c4e7ddd9a9656f857b7d382}{getParentData} ()
+\item 
+void \hyperlink{class_i_data_a4442a7d48bf3e6653216f8eada3f26a2}{setParent} (\hyperlink{class_i_context}{IContext} $\ast$p)
+\item 
+\hyperlink{struct_data_version}{DataVersion} \& \hyperlink{class_i_data_a60fc8394c65d93631d9c321b505f37d7}{getWriteVersion} ()
+\item 
+\hyperlink{struct_data_version}{DataVersion} \& \hyperlink{class_i_data_a0c16a5178f9f66eb3df346b82fbd9608}{getReadVersion} ()
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_i_data_a9b586d8ceb8ebb508165851dae75cad2}{getDataHostPolicy} ()
+\item 
+void \hyperlink{class_i_data_ae65b99c98bd1dcb8c86dd2f8d2a4f9dd}{setDataHostPolicy} (\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$hp)
+\item 
+void \hyperlink{class_i_data_a7e8587fe8eee5211a393f20752712bbc}{setDataHandle} (\hyperlink{struct_data_handle}{DataHandle} $\ast$d)
+\item 
+\hyperlink{struct_data_handle}{DataHandle} $\ast$ \hyperlink{class_i_data_a07c124c61dac722dded4c78d45be5cd2}{getDataHandle} ()
+\item 
+unsigned long \hyperlink{class_i_data_af0448989fa9d551acfb8ead2523a32e5}{getDataHandleID} ()
+\item 
+void \hyperlink{class_i_data_aa3f5c7ae906943db0780856ba3d53a33}{allocateMemory} ()
+\item 
+void \hyperlink{class_i_data_a6249481688df51d60d6e6dbf68fb69f2}{prepareMemory} ()
+\item 
+void \hyperlink{class_i_data_a305f24b50e8e46c4cc3722954e2be4c6}{addTask} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$)
+\item 
+void \hyperlink{class_i_data_a24f0723eb905accf62461f50a4487b33}{checkAfterUpgrade} (list$<$ \hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$ $>$ \&, \hyperlink{class_mail_box}{MailBox} $\ast$, char debug=' ')
+\item 
+\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$ \hyperlink{class_i_data_aa47c48488508421dfab3f8b2c226401e}{getHeaderAddress} ()
+\item 
+double $\ast$ \hyperlink{class_i_data_a513a1ad05e427af81ca7c34291826efb}{getContentAddress} ()
+\item 
+void \hyperlink{class_i_data_a6a6c0f1bebc3a8c52cdd858e29a965f6}{setDataMemory} (\hyperlink{struct_memory_item}{MemoryItem} $\ast$mi)
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{class_i_data_a1fa868533294d82de9491e5ee179dc2e}{getDataMemory} ()
+\item 
+void \hyperlink{class_i_data_a80cee3fcea65aff356ddceeece06dc9f}{setLocalNumBlocks} (int mb, int nb)
+\item 
+int \hyperlink{class_i_data_abec8adf5974fa4f9cd543a165a0e2775}{getXLocalNumBlocks} ()
+\item 
+int \hyperlink{class_i_data_ada0ea19f911989ef0fc3f75f2337867d}{getYLocalNumBlocks} ()
+\item 
+int \hyperlink{class_i_data_ab19625c3bf4ba2a2b1b5c3a6ab4ef3ce}{getXLocalDimension} ()
+\item 
+int \hyperlink{class_i_data_a50f82afec95e867e638b2f3f23dd68ed}{getYLocalDimension} ()
+\item 
+Handle$<$ \hyperlink{struct_options}{Options} $>$ $\ast$$\ast$ \hyperlink{class_i_data_afbc48e6b22a12e8bcd7694c5613bf866}{createSuperGlueHandles} ()
+\item 
+bool \hyperlink{class_i_data_a37f03e8f2b04b4f54c6b5768f52c0845}{isDataSent} (int \_\-host, \hyperlink{struct_data_version}{DataVersion} \hyperlink{context_8hpp_aad880fc4455c253781e8968f2239d56f}{version})
+\item 
+void \hyperlink{class_i_data_ac1422d1f14938dc89f4fabd7fdc90e9a}{dataIsSent} (int \_\-host)
+\item 
+void \hyperlink{class_i_data_aee488e868fa96b016a0f546fc485f6d7}{listenerAdded} (\hyperlink{class_i_listener}{DataListener} $\ast$, int host, \hyperlink{struct_data_version}{DataVersion} \hyperlink{context_8hpp_aad880fc4455c253781e8968f2239d56f}{version})
+\item 
+\hyperlink{struct_data_version}{DataVersion} \hyperlink{class_i_data_af9db5134f13b3c512451eb412c1f5daf}{getRunTimeVersion} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} type)
+\item 
+void \hyperlink{class_i_data_af915b3633d8d539f6aa16aa0657cfc18}{setRunTimeVersion} (string to\_\-ctx, int to\_\-version)
+\item 
+void \hyperlink{class_i_data_a1abf008f5376563bffe458d81033efde}{deleteListenersForOldVersions} ()
+\item 
+void \hyperlink{class_i_data_af2d4e7dff291b828c12a41728ed74d4e}{incrementRunTimeVersion} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} type, int v=1)
+\item 
+int \hyperlink{class_i_data_ae7dd611bb647deae870c56208e58db08}{getHost} ()
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_data_a940f8e672154c6375ea3370206a19c27}{operator()} (const int i, const int j=0)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_data_ade99450acac298c2323fa3fac89b4c8f}{operator\mbox{[}$\,$\mbox{]}} (const int i)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_data_a7c40c89c675a4b52bfc1511fbe36a375}{operator\&} (void)
+\item 
+double \hyperlink{class_i_data_ae766e303b50d3af4cbfd8c3dad4672c1}{getElement} (int row, int col=0)
+\item 
+void \hyperlink{class_i_data_a968b912f4fd9053481f2c29c96471efa}{setElement} (int row, int col, double v)
+\item 
+void \hyperlink{class_i_data_a2e42247007317b7451d50eb562a8ead1}{dumpElements} ()
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_data_a78a571407788130ebe382f51c3774605}{getDataByHandle} (\hyperlink{struct_data_handle}{DataHandle} $\ast$in\_\-dh)
+\item 
+\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$ \hyperlink{class_i_data_ac463fd8cadcd1d6ecd5955c25dbe9176}{serialize} ()
+\item 
+void \hyperlink{class_i_data_a4c6b52cc869cd389399fd4d9ac9b3979}{serialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+void \hyperlink{class_i_data_a1ab1fff22b5ba4cd4fb93cd09007dda6}{deserialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length, \hyperlink{struct_memory_item}{MemoryItem} $\ast$mi, bool header\_\-only=true)
+\item 
+int \hyperlink{class_i_data_a32479396ae443e9e80f6517fd1e20f35}{getContentSize} ()
+\item 
+void \hyperlink{class_i_data_a640ef011d2cef11627d21ad5b6ab2cdb}{setContentSize} (long s)
+\item 
+int \hyperlink{class_i_data_acf62b5fb26cf38c5a0b1480f8a548664}{getHeaderSize} ()
+\item 
+int \hyperlink{class_i_data_a98eb397df8b3cd27711801cb4c9e14ed}{getPackSize} ()
+\item 
+void \hyperlink{class_i_data_a75c651eb04ef64c699e24dfc0db2bfd4}{testHandles} ()
+\item 
+bool \hyperlink{class_i_data_a11fc47fc59754a19a489c464be31330e}{isOwnedBy} (int p)
+\item 
+void \hyperlink{class_i_data_a8593d60d0456b7904241d3a722db3acc}{incrementVersion} (\hyperlink{class_i_data_a771c62d4a9d89ea755b61734fb41e372}{AccessType} a)
+\item 
+void \hyperlink{class_i_data_aae35cd74cf8b062a958959d606d73f29}{dump} (char ch=' ')
+\item 
+string \hyperlink{class_i_data_ae7530342c87faddc0e0042990b15dcc5}{dumpVersionString} ()
+\item 
+void \hyperlink{class_i_data_a63c73bb8fa3a68e744b1fcad38508f0c}{dumpVersion} ()
+\item 
+void \hyperlink{class_i_data_afd0e370c302dddc1983eece576059a80}{addToVersion} (\hyperlink{class_i_data_a771c62d4a9d89ea755b61734fb41e372}{AccessType} axs, int v)
+\item 
+void \hyperlink{class_i_data_a9924a4023a9fedf223a74abfd96c72a0}{setPartition} (int \_\-mb, int \_\-nb)
+\item 
+void \hyperlink{class_i_data_ae8281ff366e454072b7b1f95034ac7b9}{resetVersion} ()
+\item 
+\hyperlink{class_coordinate}{Coordinate} \hyperlink{class_i_data_afe763d3746eda6f5814b162455abd8e5}{getBlockIdx} ()
+\item 
+\hyperlink{struct_data_range}{DataRange} $\ast$ \hyperlink{class_i_data_aeb28080b1fd90c8b6260b1bfce948b47}{RowSlice} (int r, int i, int j)
+\item 
+\hyperlink{struct_data_range}{DataRange} $\ast$ \hyperlink{class_i_data_a649b1ad6a0cfff3c7e2e89557375ea11}{ColSlice} (int c, int i, int j)
+\item 
+\hyperlink{struct_data_range}{DataRange} $\ast$ \hyperlink{class_i_data_afd2f082f1a693a282be04789ded13032}{Region} (int fr, int tr, int fc, int tc)
+\item 
+\hyperlink{struct_data_range}{DataRange} $\ast$ \hyperlink{class_i_data_a01298b83fbbb3a79261c7d11b64ba5d1}{Cell} (int i, int j)
+\item 
+\hyperlink{struct_data_range}{DataRange} $\ast$ \hyperlink{class_i_data_aee2a0f1d0d749dc8a2380e4ae5e84c62}{All} ()
+\item 
+list$<$ \hyperlink{class_i_listener}{IListener} $\ast$ $>$ \& \hyperlink{class_i_data_add4d3e831a14c7676edebe3b4579f3a6}{getListeners} ()
+\item 
+list$<$ \hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$ $>$ \& \hyperlink{class_i_data_afbe3ea7201cffde99df8905830911b43}{getTasks} ()
+\item 
+void \hyperlink{class_i_data_a5208ed47b42d73d60384d882d23c43ce}{dumpCheckSum} (char c='i')
+\item 
+bool \hyperlink{class_i_data_af8a6d0f3f71d376613234b4d896c95e3}{isExportedTo} (int p)
+\item 
+void \hyperlink{class_i_data_ae0c98c07c7ae883a54ac57df37c3bb3b}{setExportedTo} (int p)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_i_data_a66ed7cf77dc3382dfd6fcd81dc18e8df}{name}
+\item 
+int \hyperlink{class_i_data_ae61dc22b2bb9c233eb93d891af16d220}{N}
+\item 
+int \hyperlink{class_i_data_aebf70e773a06212897c33d7512f9d344}{M}
+\item 
+int \hyperlink{class_i_data_a170ac177a6048467713780cd3605e88e}{Nb}
+\item 
+int \hyperlink{class_i_data_a68696027e7617a3480fd0ae0a70df7fc}{Mb}
+\item 
+\hyperlink{class_coordinate}{Coordinate} \hyperlink{class_i_data_a79e707470ffc0e3cb3b7a64a2ed3c6d3}{blk}
+\item 
+vector$<$ vector$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ $>$ $\ast$ \hyperlink{class_i_data_a952b0193f67329eccb52f4f6552a8b38}{dataView}
+\item 
+\hyperlink{struct_data_version}{DataVersion} \hyperlink{class_i_data_a6c41904f79abd83d922d00557a56d151}{gt\_\-read\_\-version}
+\item 
+\hyperlink{struct_data_version}{DataVersion} \hyperlink{class_i_data_a61d3d27cb7379fc3b1666a11b39dda2d}{gt\_\-write\_\-version}
+\item 
+\hyperlink{struct_data_version}{DataVersion} \hyperlink{class_i_data_a62fa408732cc79c91cc5af22ff52f5bd}{rt\_\-read\_\-version}
+\item 
+\hyperlink{struct_data_version}{DataVersion} \hyperlink{class_i_data_a633fad3f15a6898694a85dd74c94d89a}{rt\_\-write\_\-version}
+\item 
+\hyperlink{class_i_context}{IContext} $\ast$ \hyperlink{class_i_data_a5ecc5b90d72d8b3d8a4a1af9de9fb71c}{parent\_\-context}
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_data_a4815f73848733b3ff225821b3d7431ea}{parent\_\-data}
+\item 
+\hyperlink{class_i_host_policy}{IHostPolicy} $\ast$ \hyperlink{class_i_data_a4c5003567bfc7b0e63f10b693858fa5c}{hpData}
+\item 
+\hyperlink{struct_data_handle}{DataHandle} $\ast$ \hyperlink{class_i_data_abd6a79717af4efae6236df2bf35f11a7}{my\_\-data\_\-handle}
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{class_i_data_aabd7b42672ec3479c2e6a77fac395789}{data\_\-memory}
+\item 
+list$<$ \hyperlink{class_i_listener}{IListener} $\ast$ $>$ \hyperlink{class_i_data_aa7d44f5d83938ee056221867600fd7db}{listeners}
+\item 
+list$<$ \hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$ $>$ \hyperlink{class_i_data_a319a3f8f7280bab52ddea7843f5398f1}{tasks\_\-list}
+\item 
+int \hyperlink{class_i_data_a521517b4c122b1260851e3cec3f8e83f}{local\_\-n}
+\item 
+int \hyperlink{class_i_data_aff1391e4b21d315fe742aca22bfa5aed}{local\_\-m}
+\item 
+int \hyperlink{class_i_data_a918da97f18b81ef440a65c7cde8f3438}{local\_\-nb}
+\item 
+int \hyperlink{class_i_data_a3158c94ab8af22d09004ff24c3db8205}{local\_\-mb}
+\item 
+int \hyperlink{class_i_data_a15b74bcf67e36b559c1fdbf5192206b8}{content\_\-size}
+\item 
+\hyperlink{class_partition}{Partition}$<$ double $>$ $\ast$ \hyperlink{class_i_data_a97916f47cd9feed0aad32c066172536f}{dtPartition}
+\item 
+Handle$<$ \hyperlink{struct_options}{Options} $>$ $\ast$$\ast$ \hyperlink{class_i_data_a409bcb0fb45a8d4fadc214780ad15470}{hM}
+\item 
+bool \hyperlink{class_i_data_abbfc199f238d3fe16d66bbfc18e74ad4}{partial}
+\item 
+list$<$ int $>$ \hyperlink{class_i_data_aed01ed7d506a222e39f110b2498e4e08}{exported\_\-nodes}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 288 of file data.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_i_data_a771c62d4a9d89ea755b61734fb41e372}{
+\index{IData@{IData}!AccessType@{AccessType}}
+\index{AccessType@{AccessType}!IData@{IData}}
+\subsubsection[{AccessType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf IData::AccessType}}}
+\label{class_i_data_a771c62d4a9d89ea755b61734fb41e372}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{READ@{READ}!IData@{IData}}\index{IData@{IData}!READ@{READ}}\item[{\em 
+\hypertarget{class_i_data_a771c62d4a9d89ea755b61734fb41e372ab0001574263456e6fbf9b4355353484c}{
+READ}
+\label{class_i_data_a771c62d4a9d89ea755b61734fb41e372ab0001574263456e6fbf9b4355353484c}
+}]\index{WRITE@{WRITE}!IData@{IData}}\index{IData@{IData}!WRITE@{WRITE}}\item[{\em 
+\hypertarget{class_i_data_a771c62d4a9d89ea755b61734fb41e372aed5606f3868a90a4b31155ebdf63ed82}{
+WRITE}
+\label{class_i_data_a771c62d4a9d89ea755b61734fb41e372aed5606f3868a90a4b31155ebdf63ed82}
+}]\index{SCALAR@{SCALAR}!IData@{IData}}\index{IData@{IData}!SCALAR@{SCALAR}}\item[{\em 
+\hypertarget{class_i_data_a771c62d4a9d89ea755b61734fb41e372ae74284405073e2c093007eb686e565fa}{
+SCALAR}
+\label{class_i_data_a771c62d4a9d89ea755b61734fb41e372ae74284405073e2c093007eb686e565fa}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 311 of file data.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_i_data_a75fd2d8c81d6a34679ebc3222d8339a2}{
+\index{IData@{IData}!IData@{IData}}
+\index{IData@{IData}!IData@{IData}}
+\subsubsection[{IData}]{\setlength{\rightskip}{0pt plus 5cm}IData::IData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a75fd2d8c81d6a34679ebc3222d8339a2}
+
+
+Definition at line 313 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=195pt]{class_i_data_a75fd2d8c81d6a34679ebc3222d8339a2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a7f41e876d5c6c19e5b77ca480b3978b3}{
+\index{IData@{IData}!IData@{IData}}
+\index{IData@{IData}!IData@{IData}}
+\subsubsection[{IData}]{\setlength{\rightskip}{0pt plus 5cm}IData::IData (string {\em \_\-name}, \/  int {\em m}, \/  int {\em n}, \/  {\bf IContext} $\ast$ {\em ctx})}}
+\label{class_i_data_a7f41e876d5c6c19e5b77ca480b3978b3}
+
+
+Definition at line 307 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a7f41e876d5c6c19e5b77ca480b3978b3_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a30ce868ac52a0fc576606b9c98da125f}{
+\index{IData@{IData}!$\sim$IData@{$\sim$IData}}
+\index{$\sim$IData@{$\sim$IData}!IData@{IData}}
+\subsubsection[{$\sim$IData}]{\setlength{\rightskip}{0pt plus 5cm}IData::$\sim$IData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a30ce868ac52a0fc576606b9c98da125f}
+
+
+Definition at line 323 of file data.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_data_a305f24b50e8e46c4cc3722954e2be4c6}{
+\index{IData@{IData}!addTask@{addTask}}
+\index{addTask@{addTask}!IData@{IData}}
+\subsubsection[{addTask}]{\setlength{\rightskip}{0pt plus 5cm}void IData::addTask ({\bf IDuctteipTask} $\ast$ {\em task})}}
+\label{class_i_data_a305f24b50e8e46c4cc3722954e2be4c6}
+
+
+Definition at line 1114 of file context.hpp.\hypertarget{class_i_data_afd0e370c302dddc1983eece576059a80}{
+\index{IData@{IData}!addToVersion@{addToVersion}}
+\index{addToVersion@{addToVersion}!IData@{IData}}
+\subsubsection[{addToVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IData::addToVersion ({\bf AccessType} {\em axs}, \/  int {\em v})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_afd0e370c302dddc1983eece576059a80}
+
+
+Definition at line 594 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_afd0e370c302dddc1983eece576059a80_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_aee2a0f1d0d749dc8a2380e4ae5e84c62}{
+\index{IData@{IData}!All@{All}}
+\index{All@{All}!IData@{IData}}
+\subsubsection[{All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataRange}$\ast$ IData::All ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_aee2a0f1d0d749dc8a2380e4ae5e84c62}
+
+
+Definition at line 654 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{class_i_data_aee2a0f1d0d749dc8a2380e4ae5e84c62_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_aa3f5c7ae906943db0780856ba3d53a33}{
+\index{IData@{IData}!allocateMemory@{allocateMemory}}
+\index{allocateMemory@{allocateMemory}!IData@{IData}}
+\subsubsection[{allocateMemory}]{\setlength{\rightskip}{0pt plus 5cm}void IData::allocateMemory ()}}
+\label{class_i_data_aa3f5c7ae906943db0780856ba3d53a33}
+
+
+Definition at line 1067 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_aa3f5c7ae906943db0780856ba3d53a33_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{class_i_data_aa3f5c7ae906943db0780856ba3d53a33_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a01298b83fbbb3a79261c7d11b64ba5d1}{
+\index{IData@{IData}!Cell@{Cell}}
+\index{Cell@{Cell}!IData@{IData}}
+\subsubsection[{Cell}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataRange}$\ast$ IData::Cell (int {\em i}, \/  int {\em j})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a01298b83fbbb3a79261c7d11b64ba5d1}
+
+
+Definition at line 644 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{class_i_data_a01298b83fbbb3a79261c7d11b64ba5d1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a24f0723eb905accf62461f50a4487b33}{
+\index{IData@{IData}!checkAfterUpgrade@{checkAfterUpgrade}}
+\index{checkAfterUpgrade@{checkAfterUpgrade}!IData@{IData}}
+\subsubsection[{checkAfterUpgrade}]{\setlength{\rightskip}{0pt plus 5cm}void IData::checkAfterUpgrade (list$<$ {\bf IDuctteipTask} $\ast$ $>$ \& {\em running\_\-tasks}, \/  {\bf MailBox} $\ast$ {\em mailbox}, \/  char {\em debug} = {\ttfamily '~'})}}
+\label{class_i_data_a24f0723eb905accf62461f50a4487b33}
+
+
+Definition at line 1160 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a24f0723eb905accf62461f50a4487b33_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a649b1ad6a0cfff3c7e2e89557375ea11}{
+\index{IData@{IData}!ColSlice@{ColSlice}}
+\index{ColSlice@{ColSlice}!IData@{IData}}
+\subsubsection[{ColSlice}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataRange}$\ast$ IData::ColSlice (int {\em c}, \/  int {\em i}, \/  int {\em j})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a649b1ad6a0cfff3c7e2e89557375ea11}
+
+
+Definition at line 624 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{class_i_data_a649b1ad6a0cfff3c7e2e89557375ea11_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_afbc48e6b22a12e8bcd7694c5613bf866}{
+\index{IData@{IData}!createSuperGlueHandles@{createSuperGlueHandles}}
+\index{createSuperGlueHandles@{createSuperGlueHandles}!IData@{IData}}
+\subsubsection[{createSuperGlueHandles}]{\setlength{\rightskip}{0pt plus 5cm}Handle$<${\bf Options}$>$$\ast$$\ast$ IData::createSuperGlueHandles ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_afbc48e6b22a12e8bcd7694c5613bf866}
+
+
+Definition at line 388 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_afbc48e6b22a12e8bcd7694c5613bf866_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{class_i_data_afbc48e6b22a12e8bcd7694c5613bf866_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ac1422d1f14938dc89f4fabd7fdc90e9a}{
+\index{IData@{IData}!dataIsSent@{dataIsSent}}
+\index{dataIsSent@{dataIsSent}!IData@{IData}}
+\subsubsection[{dataIsSent}]{\setlength{\rightskip}{0pt plus 5cm}void IData::dataIsSent (int {\em \_\-host})}}
+\label{class_i_data_ac1422d1f14938dc89f4fabd7fdc90e9a}
+
+
+Definition at line 1094 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_ac1422d1f14938dc89f4fabd7fdc90e9a_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a1abf008f5376563bffe458d81033efde}{
+\index{IData@{IData}!deleteListenersForOldVersions@{deleteListenersForOldVersions}}
+\index{deleteListenersForOldVersions@{deleteListenersForOldVersions}!IData@{IData}}
+\subsubsection[{deleteListenersForOldVersions}]{\setlength{\rightskip}{0pt plus 5cm}void IData::deleteListenersForOldVersions ()}}
+\label{class_i_data_a1abf008f5376563bffe458d81033efde}
+
+
+Definition at line 1146 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=360pt]{class_i_data_a1abf008f5376563bffe458d81033efde_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a1ab1fff22b5ba4cd4fb93cd09007dda6}{
+\index{IData@{IData}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!IData@{IData}}
+\subsubsection[{deserialize}]{\setlength{\rightskip}{0pt plus 5cm}void IData::deserialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length}, \/  {\bf MemoryItem} $\ast$ {\em mi}, \/  bool {\em header\_\-only} = {\ttfamily true})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a1ab1fff22b5ba4cd4fb93cd09007dda6}
+
+
+Definition at line 513 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=407pt]{class_i_data_a1ab1fff22b5ba4cd4fb93cd09007dda6_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{class_i_data_a1ab1fff22b5ba4cd4fb93cd09007dda6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_aae35cd74cf8b062a958959d606d73f29}{
+\index{IData@{IData}!dump@{dump}}
+\index{dump@{dump}!IData@{IData}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void IData::dump (char {\em ch} = {\ttfamily '~'})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_aae35cd74cf8b062a958959d606d73f29}
+
+
+Definition at line 553 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=395pt]{class_i_data_aae35cd74cf8b062a958959d606d73f29_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{class_i_data_aae35cd74cf8b062a958959d606d73f29_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a5208ed47b42d73d60384d882d23c43ce}{
+\index{IData@{IData}!dumpCheckSum@{dumpCheckSum}}
+\index{dumpCheckSum@{dumpCheckSum}!IData@{IData}}
+\subsubsection[{dumpCheckSum}]{\setlength{\rightskip}{0pt plus 5cm}void IData::dumpCheckSum (char {\em c} = {\ttfamily 'i'})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a5208ed47b42d73d60384d882d23c43ce}
+
+
+Definition at line 666 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=419pt]{class_i_data_a5208ed47b42d73d60384d882d23c43ce_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a2e42247007317b7451d50eb562a8ead1}{
+\index{IData@{IData}!dumpElements@{dumpElements}}
+\index{dumpElements@{dumpElements}!IData@{IData}}
+\subsubsection[{dumpElements}]{\setlength{\rightskip}{0pt plus 5cm}void IData::dumpElements ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a2e42247007317b7451d50eb562a8ead1}
+
+
+Definition at line 478 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=415pt]{class_i_data_a2e42247007317b7451d50eb562a8ead1_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a63c73bb8fa3a68e744b1fcad38508f0c}{
+\index{IData@{IData}!dumpVersion@{dumpVersion}}
+\index{dumpVersion@{dumpVersion}!IData@{IData}}
+\subsubsection[{dumpVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IData::dumpVersion ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a63c73bb8fa3a68e744b1fcad38508f0c}
+
+
+Definition at line 580 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{class_i_data_a63c73bb8fa3a68e744b1fcad38508f0c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{class_i_data_a63c73bb8fa3a68e744b1fcad38508f0c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ae7530342c87faddc0e0042990b15dcc5}{
+\index{IData@{IData}!dumpVersionString@{dumpVersionString}}
+\index{dumpVersionString@{dumpVersionString}!IData@{IData}}
+\subsubsection[{dumpVersionString}]{\setlength{\rightskip}{0pt plus 5cm}string IData::dumpVersionString ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ae7530342c87faddc0e0042990b15dcc5}
+
+
+Definition at line 571 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{class_i_data_ae7530342c87faddc0e0042990b15dcc5_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_afe763d3746eda6f5814b162455abd8e5}{
+\index{IData@{IData}!getBlockIdx@{getBlockIdx}}
+\index{getBlockIdx@{getBlockIdx}!IData@{IData}}
+\subsubsection[{getBlockIdx}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Coordinate} IData::getBlockIdx ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_afe763d3746eda6f5814b162455abd8e5}
+
+
+Definition at line 612 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{class_i_data_afe763d3746eda6f5814b162455abd8e5_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a513a1ad05e427af81ca7c34291826efb}{
+\index{IData@{IData}!getContentAddress@{getContentAddress}}
+\index{getContentAddress@{getContentAddress}!IData@{IData}}
+\subsubsection[{getContentAddress}]{\setlength{\rightskip}{0pt plus 5cm}double$\ast$ IData::getContentAddress ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a513a1ad05e427af81ca7c34291826efb}
+
+
+Definition at line 361 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{class_i_data_a513a1ad05e427af81ca7c34291826efb_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a513a1ad05e427af81ca7c34291826efb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a32479396ae443e9e80f6517fd1e20f35}{
+\index{IData@{IData}!getContentSize@{getContentSize}}
+\index{getContentSize@{getContentSize}!IData@{IData}}
+\subsubsection[{getContentSize}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getContentSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a32479396ae443e9e80f6517fd1e20f35}
+
+
+Definition at line 532 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{class_i_data_a32479396ae443e9e80f6517fd1e20f35_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a78a571407788130ebe382f51c3774605}{
+\index{IData@{IData}!getDataByHandle@{getDataByHandle}}
+\index{getDataByHandle@{getDataByHandle}!IData@{IData}}
+\subsubsection[{getDataByHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData} $\ast$ IData::getDataByHandle ({\bf DataHandle} $\ast$ {\em in\_\-dh})}}
+\label{class_i_data_a78a571407788130ebe382f51c3774605}
+
+
+Definition at line 359 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=172pt]{class_i_data_a78a571407788130ebe382f51c3774605_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a78a571407788130ebe382f51c3774605_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a07c124c61dac722dded4c78d45be5cd2}{
+\index{IData@{IData}!getDataHandle@{getDataHandle}}
+\index{getDataHandle@{getDataHandle}!IData@{IData}}
+\subsubsection[{getDataHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataHandle}$\ast$ IData::getDataHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a07c124c61dac722dded4c78d45be5cd2}
+
+
+Definition at line 349 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a07c124c61dac722dded4c78d45be5cd2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_af0448989fa9d551acfb8ead2523a32e5}{
+\index{IData@{IData}!getDataHandleID@{getDataHandleID}}
+\index{getDataHandleID@{getDataHandleID}!IData@{IData}}
+\subsubsection[{getDataHandleID}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long IData::getDataHandleID ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_af0448989fa9d551acfb8ead2523a32e5}
+
+
+Definition at line 350 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{class_i_data_af0448989fa9d551acfb8ead2523a32e5_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a9b586d8ceb8ebb508165851dae75cad2}{
+\index{IData@{IData}!getDataHostPolicy@{getDataHostPolicy}}
+\index{getDataHostPolicy@{getDataHostPolicy}!IData@{IData}}
+\subsubsection[{getDataHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ IData::getDataHostPolicy ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a9b586d8ceb8ebb508165851dae75cad2}
+
+
+Definition at line 346 of file data.hpp.\hypertarget{class_i_data_a1fa868533294d82de9491e5ee179dc2e}{
+\index{IData@{IData}!getDataMemory@{getDataMemory}}
+\index{getDataMemory@{getDataMemory}!IData@{IData}}
+\subsubsection[{getDataMemory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ IData::getDataMemory ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a1fa868533294d82de9491e5ee179dc2e}
+
+
+Definition at line 371 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_i_data_a1fa868533294d82de9491e5ee179dc2e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ae766e303b50d3af4cbfd8c3dad4672c1}{
+\index{IData@{IData}!getElement@{getElement}}
+\index{getElement@{getElement}!IData@{IData}}
+\subsubsection[{getElement}]{\setlength{\rightskip}{0pt plus 5cm}double IData::getElement (int {\em row}, \/  int {\em col} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ae766e303b50d3af4cbfd8c3dad4672c1}
+
+
+Definition at line 468 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{class_i_data_ae766e303b50d3af4cbfd8c3dad4672c1_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{class_i_data_ae766e303b50d3af4cbfd8c3dad4672c1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_aa47c48488508421dfab3f8b2c226401e}{
+\index{IData@{IData}!getHeaderAddress@{getHeaderAddress}}
+\index{getHeaderAddress@{getHeaderAddress}!IData@{IData}}
+\subsubsection[{getHeaderAddress}]{\setlength{\rightskip}{0pt plus 5cm}{\bf byte}$\ast$ IData::getHeaderAddress ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_aa47c48488508421dfab3f8b2c226401e}
+
+
+Definition at line 357 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_i_data_aa47c48488508421dfab3f8b2c226401e_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{class_i_data_aa47c48488508421dfab3f8b2c226401e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_acf62b5fb26cf38c5a0b1480f8a548664}{
+\index{IData@{IData}!getHeaderSize@{getHeaderSize}}
+\index{getHeaderSize@{getHeaderSize}!IData@{IData}}
+\subsubsection[{getHeaderSize}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getHeaderSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_acf62b5fb26cf38c5a0b1480f8a548664}
+
+
+Definition at line 538 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{class_i_data_acf62b5fb26cf38c5a0b1480f8a548664_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_acf62b5fb26cf38c5a0b1480f8a548664_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ae7dd611bb647deae870c56208e58db08}{
+\index{IData@{IData}!getHost@{getHost}}
+\index{getHost@{getHost}!IData@{IData}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getHost ()}}
+\label{class_i_data_ae7dd611bb647deae870c56208e58db08}
+
+
+Definition at line 341 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{class_i_data_ae7dd611bb647deae870c56208e58db08_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{class_i_data_ae7dd611bb647deae870c56208e58db08_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_add4d3e831a14c7676edebe3b4579f3a6}{
+\index{IData@{IData}!getListeners@{getListeners}}
+\index{getListeners@{getListeners}!IData@{IData}}
+\subsubsection[{getListeners}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IListener} $\ast$$>$\& IData::getListeners ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_add4d3e831a14c7676edebe3b4579f3a6}
+
+
+Definition at line 663 of file data.hpp.\hypertarget{class_i_data_a87b7baa5c42fd4c2b36875141030880d}{
+\index{IData@{IData}!getName@{getName}}
+\index{getName@{getName}!IData@{IData}}
+\subsubsection[{getName}]{\setlength{\rightskip}{0pt plus 5cm}string IData::getName ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a87b7baa5c42fd4c2b36875141030880d}
+
+
+Definition at line 340 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{class_i_data_a87b7baa5c42fd4c2b36875141030880d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a98eb397df8b3cd27711801cb4c9e14ed}{
+\index{IData@{IData}!getPackSize@{getPackSize}}
+\index{getPackSize@{getPackSize}!IData@{IData}}
+\subsubsection[{getPackSize}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getPackSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a98eb397df8b3cd27711801cb4c9e14ed}
+
+
+Definition at line 543 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=319pt]{class_i_data_a98eb397df8b3cd27711801cb4c9e14ed_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{class_i_data_a98eb397df8b3cd27711801cb4c9e14ed_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_af014d3691bd00c551cf4a36371ef80ec}{
+\index{IData@{IData}!getParent@{getParent}}
+\index{getParent@{getParent}!IData@{IData}}
+\subsubsection[{getParent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IContext}$\ast$ IData::getParent ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_af014d3691bd00c551cf4a36371ef80ec}
+
+
+Definition at line 341 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{class_i_data_af014d3691bd00c551cf4a36371ef80ec_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a44b0310e7c4e7ddd9a9656f857b7d382}{
+\index{IData@{IData}!getParentData@{getParentData}}
+\index{getParentData@{getParentData}!IData@{IData}}
+\subsubsection[{getParentData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IData::getParentData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a44b0310e7c4e7ddd9a9656f857b7d382}
+
+
+Definition at line 342 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{class_i_data_a44b0310e7c4e7ddd9a9656f857b7d382_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a0c16a5178f9f66eb3df346b82fbd9608}{
+\index{IData@{IData}!getReadVersion@{getReadVersion}}
+\index{getReadVersion@{getReadVersion}!IData@{IData}}
+\subsubsection[{getReadVersion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion}\& IData::getReadVersion ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a0c16a5178f9f66eb3df346b82fbd9608}
+
+
+Definition at line 345 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=269pt]{class_i_data_a0c16a5178f9f66eb3df346b82fbd9608_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_af9db5134f13b3c512451eb412c1f5daf}{
+\index{IData@{IData}!getRunTimeVersion@{getRunTimeVersion}}
+\index{getRunTimeVersion@{getRunTimeVersion}!IData@{IData}}
+\subsubsection[{getRunTimeVersion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion} IData::getRunTimeVersion ({\bf byte} {\em type})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_af9db5134f13b3c512451eb412c1f5daf}
+
+
+Definition at line 425 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{class_i_data_af9db5134f13b3c512451eb412c1f5daf_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_afbe3ea7201cffde99df8905830911b43}{
+\index{IData@{IData}!getTasks@{getTasks}}
+\index{getTasks@{getTasks}!IData@{IData}}
+\subsubsection[{getTasks}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IDuctteipTask} $\ast$$>$\& IData::getTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_afbe3ea7201cffde99df8905830911b43}
+
+
+Definition at line 664 of file data.hpp.\hypertarget{class_i_data_a60fc8394c65d93631d9c321b505f37d7}{
+\index{IData@{IData}!getWriteVersion@{getWriteVersion}}
+\index{getWriteVersion@{getWriteVersion}!IData@{IData}}
+\subsubsection[{getWriteVersion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion}\& IData::getWriteVersion ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a60fc8394c65d93631d9c321b505f37d7}
+
+
+Definition at line 344 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=269pt]{class_i_data_a60fc8394c65d93631d9c321b505f37d7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ab19625c3bf4ba2a2b1b5c3a6ab4ef3ce}{
+\index{IData@{IData}!getXLocalDimension@{getXLocalDimension}}
+\index{getXLocalDimension@{getXLocalDimension}!IData@{IData}}
+\subsubsection[{getXLocalDimension}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getXLocalDimension ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ab19625c3bf4ba2a2b1b5c3a6ab4ef3ce}
+
+
+Definition at line 384 of file data.hpp.\hypertarget{class_i_data_abec8adf5974fa4f9cd543a165a0e2775}{
+\index{IData@{IData}!getXLocalNumBlocks@{getXLocalNumBlocks}}
+\index{getXLocalNumBlocks@{getXLocalNumBlocks}!IData@{IData}}
+\subsubsection[{getXLocalNumBlocks}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getXLocalNumBlocks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_abec8adf5974fa4f9cd543a165a0e2775}
+
+
+Definition at line 380 of file data.hpp.\hypertarget{class_i_data_a50f82afec95e867e638b2f3f23dd68ed}{
+\index{IData@{IData}!getYLocalDimension@{getYLocalDimension}}
+\index{getYLocalDimension@{getYLocalDimension}!IData@{IData}}
+\subsubsection[{getYLocalDimension}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getYLocalDimension ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a50f82afec95e867e638b2f3f23dd68ed}
+
+
+Definition at line 386 of file data.hpp.\hypertarget{class_i_data_ada0ea19f911989ef0fc3f75f2337867d}{
+\index{IData@{IData}!getYLocalNumBlocks@{getYLocalNumBlocks}}
+\index{getYLocalNumBlocks@{getYLocalNumBlocks}!IData@{IData}}
+\subsubsection[{getYLocalNumBlocks}]{\setlength{\rightskip}{0pt plus 5cm}int IData::getYLocalNumBlocks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ada0ea19f911989ef0fc3f75f2337867d}
+
+
+Definition at line 382 of file data.hpp.\hypertarget{class_i_data_af2d4e7dff291b828c12a41728ed74d4e}{
+\index{IData@{IData}!incrementRunTimeVersion@{incrementRunTimeVersion}}
+\index{incrementRunTimeVersion@{incrementRunTimeVersion}!IData@{IData}}
+\subsubsection[{incrementRunTimeVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IData::incrementRunTimeVersion ({\bf byte} {\em type}, \/  int {\em v} = {\ttfamily 1})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_af2d4e7dff291b828c12a41728ed74d4e}
+
+
+Definition at line 442 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_af2d4e7dff291b828c12a41728ed74d4e_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_i_data_af2d4e7dff291b828c12a41728ed74d4e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a8593d60d0456b7904241d3a722db3acc}{
+\index{IData@{IData}!incrementVersion@{incrementVersion}}
+\index{incrementVersion@{incrementVersion}!IData@{IData}}
+\subsubsection[{incrementVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IData::incrementVersion ({\bf AccessType} {\em a})}}
+\label{class_i_data_a8593d60d0456b7904241d3a722db3acc}
+
+
+Definition at line 352 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{class_i_data_a8593d60d0456b7904241d3a722db3acc_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a37f03e8f2b04b4f54c6b5768f52c0845}{
+\index{IData@{IData}!isDataSent@{isDataSent}}
+\index{isDataSent@{isDataSent}!IData@{IData}}
+\subsubsection[{isDataSent}]{\setlength{\rightskip}{0pt plus 5cm}bool IData::isDataSent (int {\em \_\-host}, \/  {\bf DataVersion} {\em version})}}
+\label{class_i_data_a37f03e8f2b04b4f54c6b5768f52c0845}
+
+
+Definition at line 1081 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{class_i_data_a37f03e8f2b04b4f54c6b5768f52c0845_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{class_i_data_a37f03e8f2b04b4f54c6b5768f52c0845_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_af8a6d0f3f71d376613234b4d896c95e3}{
+\index{IData@{IData}!isExportedTo@{isExportedTo}}
+\index{isExportedTo@{isExportedTo}!IData@{IData}}
+\subsubsection[{isExportedTo}]{\setlength{\rightskip}{0pt plus 5cm}bool IData::isExportedTo (int {\em p})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_af8a6d0f3f71d376613234b4d896c95e3}
+
+
+Definition at line 677 of file data.hpp.\hypertarget{class_i_data_a11fc47fc59754a19a489c464be31330e}{
+\index{IData@{IData}!isOwnedBy@{isOwnedBy}}
+\index{isOwnedBy@{isOwnedBy}!IData@{IData}}
+\subsubsection[{isOwnedBy}]{\setlength{\rightskip}{0pt plus 5cm}bool IData::isOwnedBy (int {\em p})}}
+\label{class_i_data_a11fc47fc59754a19a489c464be31330e}
+
+
+Definition at line 328 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=242pt]{class_i_data_a11fc47fc59754a19a489c464be31330e_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{class_i_data_a11fc47fc59754a19a489c464be31330e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_aee488e868fa96b016a0f546fc485f6d7}{
+\index{IData@{IData}!listenerAdded@{listenerAdded}}
+\index{listenerAdded@{listenerAdded}!IData@{IData}}
+\subsubsection[{listenerAdded}]{\setlength{\rightskip}{0pt plus 5cm}void IData::listenerAdded ({\bf DataListener} $\ast$ {\em exlsnr}, \/  int {\em host}, \/  {\bf DataVersion} {\em version})}}
+\label{class_i_data_aee488e868fa96b016a0f546fc485f6d7}
+
+
+Definition at line 1119 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=323pt]{class_i_data_aee488e868fa96b016a0f546fc485f6d7_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{class_i_data_aee488e868fa96b016a0f546fc485f6d7_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a7c40c89c675a4b52bfc1511fbe36a375}{
+\index{IData@{IData}!operator\&@{operator\&}}
+\index{operator\&@{operator\&}!IData@{IData}}
+\subsubsection[{operator\&}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IData::operator\& (void)\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a7c40c89c675a4b52bfc1511fbe36a375}
+
+
+Definition at line 464 of file data.hpp.\hypertarget{class_i_data_a940f8e672154c6375ea3370206a19c27}{
+\index{IData@{IData}!operator()@{operator()}}
+\index{operator()@{operator()}!IData@{IData}}
+\subsubsection[{operator()}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IData::operator() (const int {\em i}, \/  const int {\em j} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a940f8e672154c6375ea3370206a19c27}
+
+
+Definition at line 458 of file data.hpp.\hypertarget{class_i_data_ade99450acac298c2323fa3fac89b4c8f}{
+\index{IData@{IData}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!IData@{IData}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IData::operator\mbox{[}$\,$\mbox{]} (const int {\em i})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ade99450acac298c2323fa3fac89b4c8f}
+
+
+Definition at line 461 of file data.hpp.\hypertarget{class_i_data_a6249481688df51d60d6e6dbf68fb69f2}{
+\index{IData@{IData}!prepareMemory@{prepareMemory}}
+\index{prepareMemory@{prepareMemory}!IData@{IData}}
+\subsubsection[{prepareMemory}]{\setlength{\rightskip}{0pt plus 5cm}void IData::prepareMemory ()}}
+\label{class_i_data_a6249481688df51d60d6e6dbf68fb69f2}
+
+
+Definition at line 221 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=419pt]{class_i_data_a6249481688df51d60d6e6dbf68fb69f2_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{class_i_data_a6249481688df51d60d6e6dbf68fb69f2_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_afd2f082f1a693a282be04789ded13032}{
+\index{IData@{IData}!Region@{Region}}
+\index{Region@{Region}!IData@{IData}}
+\subsubsection[{Region}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataRange}$\ast$ IData::Region (int {\em fr}, \/  int {\em tr}, \/  int {\em fc}, \/  int {\em tc})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_afd2f082f1a693a282be04789ded13032}
+
+
+Definition at line 634 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=143pt]{class_i_data_afd2f082f1a693a282be04789ded13032_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ae8281ff366e454072b7b1f95034ac7b9}{
+\index{IData@{IData}!resetVersion@{resetVersion}}
+\index{resetVersion@{resetVersion}!IData@{IData}}
+\subsubsection[{resetVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IData::resetVersion ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ae8281ff366e454072b7b1f95034ac7b9}
+
+
+Definition at line 604 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_ae8281ff366e454072b7b1f95034ac7b9_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_aeb28080b1fd90c8b6260b1bfce948b47}{
+\index{IData@{IData}!RowSlice@{RowSlice}}
+\index{RowSlice@{RowSlice}!IData@{IData}}
+\subsubsection[{RowSlice}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataRange}$\ast$ IData::RowSlice (int {\em r}, \/  int {\em i}, \/  int {\em j})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_aeb28080b1fd90c8b6260b1bfce948b47}
+
+
+Definition at line 614 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=149pt]{class_i_data_aeb28080b1fd90c8b6260b1bfce948b47_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a4c6b52cc869cd389399fd4d9ac9b3979}{
+\index{IData@{IData}!serialize@{serialize}}
+\index{serialize@{serialize}!IData@{IData}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}void IData::serialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a4c6b52cc869cd389399fd4d9ac9b3979}
+
+
+Definition at line 505 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{class_i_data_a4c6b52cc869cd389399fd4d9ac9b3979_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ac463fd8cadcd1d6ecd5955c25dbe9176}{
+\index{IData@{IData}!serialize@{serialize}}
+\index{serialize@{serialize}!IData@{IData}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf byte}$\ast$ IData::serialize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ac463fd8cadcd1d6ecd5955c25dbe9176}
+
+
+Definition at line 498 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=317pt]{class_i_data_ac463fd8cadcd1d6ecd5955c25dbe9176_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{class_i_data_ac463fd8cadcd1d6ecd5955c25dbe9176_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a640ef011d2cef11627d21ad5b6ab2cdb}{
+\index{IData@{IData}!setContentSize@{setContentSize}}
+\index{setContentSize@{setContentSize}!IData@{IData}}
+\subsubsection[{setContentSize}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setContentSize (long {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a640ef011d2cef11627d21ad5b6ab2cdb}
+
+
+Definition at line 536 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{class_i_data_a640ef011d2cef11627d21ad5b6ab2cdb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a7e8587fe8eee5211a393f20752712bbc}{
+\index{IData@{IData}!setDataHandle@{setDataHandle}}
+\index{setDataHandle@{setDataHandle}!IData@{IData}}
+\subsubsection[{setDataHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setDataHandle ({\bf DataHandle} $\ast$ {\em d})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a7e8587fe8eee5211a393f20752712bbc}
+
+
+Definition at line 348 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=132pt]{class_i_data_a7e8587fe8eee5211a393f20752712bbc_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ae65b99c98bd1dcb8c86dd2f8d2a4f9dd}{
+\index{IData@{IData}!setDataHostPolicy@{setDataHostPolicy}}
+\index{setDataHostPolicy@{setDataHostPolicy}!IData@{IData}}
+\subsubsection[{setDataHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setDataHostPolicy ({\bf IHostPolicy} $\ast$ {\em hp})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ae65b99c98bd1dcb8c86dd2f8d2a4f9dd}
+
+
+Definition at line 347 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=158pt]{class_i_data_ae65b99c98bd1dcb8c86dd2f8d2a4f9dd_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a6a6c0f1bebc3a8c52cdd858e29a965f6}{
+\index{IData@{IData}!setDataMemory@{setDataMemory}}
+\index{setDataMemory@{setDataMemory}!IData@{IData}}
+\subsubsection[{setDataMemory}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setDataMemory ({\bf MemoryItem} $\ast$ {\em mi})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a6a6c0f1bebc3a8c52cdd858e29a965f6}
+
+
+Definition at line 365 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=141pt]{class_i_data_a6a6c0f1bebc3a8c52cdd858e29a965f6_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{class_i_data_a6a6c0f1bebc3a8c52cdd858e29a965f6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a968b912f4fd9053481f2c29c96471efa}{
+\index{IData@{IData}!setElement@{setElement}}
+\index{setElement@{setElement}!IData@{IData}}
+\subsubsection[{setElement}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setElement (int {\em row}, \/  int {\em col}, \/  double {\em v})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a968b912f4fd9053481f2c29c96471efa}
+
+
+Definition at line 473 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{class_i_data_a968b912f4fd9053481f2c29c96471efa_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_ae0c98c07c7ae883a54ac57df37c3bb3b}{
+\index{IData@{IData}!setExportedTo@{setExportedTo}}
+\index{setExportedTo@{setExportedTo}!IData@{IData}}
+\subsubsection[{setExportedTo}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setExportedTo (int {\em p})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_ae0c98c07c7ae883a54ac57df37c3bb3b}
+
+
+Definition at line 686 of file data.hpp.\hypertarget{class_i_data_a80cee3fcea65aff356ddceeece06dc9f}{
+\index{IData@{IData}!setLocalNumBlocks@{setLocalNumBlocks}}
+\index{setLocalNumBlocks@{setLocalNumBlocks}!IData@{IData}}
+\subsubsection[{setLocalNumBlocks}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setLocalNumBlocks (int {\em mb}, \/  int {\em nb})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a80cee3fcea65aff356ddceeece06dc9f}
+
+
+Definition at line 375 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_i_data_a80cee3fcea65aff356ddceeece06dc9f_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a4442a7d48bf3e6653216f8eada3f26a2}{
+\index{IData@{IData}!setParent@{setParent}}
+\index{setParent@{setParent}!IData@{IData}}
+\subsubsection[{setParent}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setParent ({\bf IContext} $\ast$ {\em p})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_a4442a7d48bf3e6653216f8eada3f26a2}
+
+
+Definition at line 343 of file data.hpp.\hypertarget{class_i_data_a9924a4023a9fedf223a74abfd96c72a0}{
+\index{IData@{IData}!setPartition@{setPartition}}
+\index{setPartition@{setPartition}!IData@{IData}}
+\subsubsection[{setPartition}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setPartition (int {\em \_\-mb}, \/  int {\em \_\-nb})}}
+\label{class_i_data_a9924a4023a9fedf223a74abfd96c72a0}
+
+
+Definition at line 233 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a9924a4023a9fedf223a74abfd96c72a0_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=141pt]{class_i_data_a9924a4023a9fedf223a74abfd96c72a0_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_af915b3633d8d539f6aa16aa0657cfc18}{
+\index{IData@{IData}!setRunTimeVersion@{setRunTimeVersion}}
+\index{setRunTimeVersion@{setRunTimeVersion}!IData@{IData}}
+\subsubsection[{setRunTimeVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IData::setRunTimeVersion (string {\em to\_\-ctx}, \/  int {\em to\_\-version})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_data_af915b3633d8d539f6aa16aa0657cfc18}
+
+
+Definition at line 433 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{class_i_data_af915b3633d8d539f6aa16aa0657cfc18_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_af915b3633d8d539f6aa16aa0657cfc18_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_data_a75c651eb04ef64c699e24dfc0db2bfd4}{
+\index{IData@{IData}!testHandles@{testHandles}}
+\index{testHandles@{testHandles}!IData@{IData}}
+\subsubsection[{testHandles}]{\setlength{\rightskip}{0pt plus 5cm}void IData::testHandles ()}}
+\label{class_i_data_a75c651eb04ef64c699e24dfc0db2bfd4}
+
+
+Definition at line 376 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_data_a75c651eb04ef64c699e24dfc0db2bfd4_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_i_data_a79e707470ffc0e3cb3b7a64a2ed3c6d3}{
+\index{IData@{IData}!blk@{blk}}
+\index{blk@{blk}!IData@{IData}}
+\subsubsection[{blk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Coordinate} {\bf IData::blk}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a79e707470ffc0e3cb3b7a64a2ed3c6d3}
+
+
+Definition at line 293 of file data.hpp.\hypertarget{class_i_data_a15b74bcf67e36b559c1fdbf5192206b8}{
+\index{IData@{IData}!content\_\-size@{content\_\-size}}
+\index{content\_\-size@{content\_\-size}!IData@{IData}}
+\subsubsection[{content\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::content\_\-size}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a15b74bcf67e36b559c1fdbf5192206b8}
+
+
+Definition at line 304 of file data.hpp.\hypertarget{class_i_data_aabd7b42672ec3479c2e6a77fac395789}{
+\index{IData@{IData}!data\_\-memory@{data\_\-memory}}
+\index{data\_\-memory@{data\_\-memory}!IData@{IData}}
+\subsubsection[{data\_\-memory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ {\bf IData::data\_\-memory}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_aabd7b42672ec3479c2e6a77fac395789}
+
+
+Definition at line 301 of file data.hpp.\hypertarget{class_i_data_a952b0193f67329eccb52f4f6552a8b38}{
+\index{IData@{IData}!dataView@{dataView}}
+\index{dataView@{dataView}!IData@{IData}}
+\subsubsection[{dataView}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ vector$<${\bf IData}$\ast$$>$ $>$$\ast$ {\bf IData::dataView}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a952b0193f67329eccb52f4f6552a8b38}
+
+
+Definition at line 294 of file data.hpp.\hypertarget{class_i_data_a97916f47cd9feed0aad32c066172536f}{
+\index{IData@{IData}!dtPartition@{dtPartition}}
+\index{dtPartition@{dtPartition}!IData@{IData}}
+\subsubsection[{dtPartition}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Partition}$<$double$>$$\ast$ {\bf IData::dtPartition}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a97916f47cd9feed0aad32c066172536f}
+
+
+Definition at line 305 of file data.hpp.\hypertarget{class_i_data_aed01ed7d506a222e39f110b2498e4e08}{
+\index{IData@{IData}!exported\_\-nodes@{exported\_\-nodes}}
+\index{exported\_\-nodes@{exported\_\-nodes}!IData@{IData}}
+\subsubsection[{exported\_\-nodes}]{\setlength{\rightskip}{0pt plus 5cm}list$<$int$>$ {\bf IData::exported\_\-nodes}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_aed01ed7d506a222e39f110b2498e4e08}
+
+
+Definition at line 308 of file data.hpp.\hypertarget{class_i_data_a6c41904f79abd83d922d00557a56d151}{
+\index{IData@{IData}!gt\_\-read\_\-version@{gt\_\-read\_\-version}}
+\index{gt\_\-read\_\-version@{gt\_\-read\_\-version}!IData@{IData}}
+\subsubsection[{gt\_\-read\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion} {\bf IData::gt\_\-read\_\-version}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a6c41904f79abd83d922d00557a56d151}
+
+
+Definition at line 295 of file data.hpp.\hypertarget{class_i_data_a61d3d27cb7379fc3b1666a11b39dda2d}{
+\index{IData@{IData}!gt\_\-write\_\-version@{gt\_\-write\_\-version}}
+\index{gt\_\-write\_\-version@{gt\_\-write\_\-version}!IData@{IData}}
+\subsubsection[{gt\_\-write\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion} {\bf IData::gt\_\-write\_\-version}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a61d3d27cb7379fc3b1666a11b39dda2d}
+
+
+Definition at line 295 of file data.hpp.\hypertarget{class_i_data_a409bcb0fb45a8d4fadc214780ad15470}{
+\index{IData@{IData}!hM@{hM}}
+\index{hM@{hM}!IData@{IData}}
+\subsubsection[{hM}]{\setlength{\rightskip}{0pt plus 5cm}Handle$<${\bf Options}$>$$\ast$$\ast$ {\bf IData::hM}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a409bcb0fb45a8d4fadc214780ad15470}
+
+
+Definition at line 306 of file data.hpp.\hypertarget{class_i_data_a4c5003567bfc7b0e63f10b693858fa5c}{
+\index{IData@{IData}!hpData@{hpData}}
+\index{hpData@{hpData}!IData@{IData}}
+\subsubsection[{hpData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IHostPolicy}$\ast$ {\bf IData::hpData}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a4c5003567bfc7b0e63f10b693858fa5c}
+
+
+Definition at line 299 of file data.hpp.\hypertarget{class_i_data_aa7d44f5d83938ee056221867600fd7db}{
+\index{IData@{IData}!listeners@{listeners}}
+\index{listeners@{listeners}!IData@{IData}}
+\subsubsection[{listeners}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IListener} $\ast$$>$ {\bf IData::listeners}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_aa7d44f5d83938ee056221867600fd7db}
+
+
+Definition at line 302 of file data.hpp.\hypertarget{class_i_data_aff1391e4b21d315fe742aca22bfa5aed}{
+\index{IData@{IData}!local\_\-m@{local\_\-m}}
+\index{local\_\-m@{local\_\-m}!IData@{IData}}
+\subsubsection[{local\_\-m}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::local\_\-m}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_aff1391e4b21d315fe742aca22bfa5aed}
+
+
+Definition at line 304 of file data.hpp.\hypertarget{class_i_data_a3158c94ab8af22d09004ff24c3db8205}{
+\index{IData@{IData}!local\_\-mb@{local\_\-mb}}
+\index{local\_\-mb@{local\_\-mb}!IData@{IData}}
+\subsubsection[{local\_\-mb}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::local\_\-mb}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a3158c94ab8af22d09004ff24c3db8205}
+
+
+Definition at line 304 of file data.hpp.\hypertarget{class_i_data_a521517b4c122b1260851e3cec3f8e83f}{
+\index{IData@{IData}!local\_\-n@{local\_\-n}}
+\index{local\_\-n@{local\_\-n}!IData@{IData}}
+\subsubsection[{local\_\-n}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::local\_\-n}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a521517b4c122b1260851e3cec3f8e83f}
+
+
+Definition at line 304 of file data.hpp.\hypertarget{class_i_data_a918da97f18b81ef440a65c7cde8f3438}{
+\index{IData@{IData}!local\_\-nb@{local\_\-nb}}
+\index{local\_\-nb@{local\_\-nb}!IData@{IData}}
+\subsubsection[{local\_\-nb}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::local\_\-nb}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a918da97f18b81ef440a65c7cde8f3438}
+
+
+Definition at line 304 of file data.hpp.\hypertarget{class_i_data_aebf70e773a06212897c33d7512f9d344}{
+\index{IData@{IData}!M@{M}}
+\index{M@{M}!IData@{IData}}
+\subsubsection[{M}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::M}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_aebf70e773a06212897c33d7512f9d344}
+
+
+Definition at line 292 of file data.hpp.\hypertarget{class_i_data_a68696027e7617a3480fd0ae0a70df7fc}{
+\index{IData@{IData}!Mb@{Mb}}
+\index{Mb@{Mb}!IData@{IData}}
+\subsubsection[{Mb}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::Mb}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a68696027e7617a3480fd0ae0a70df7fc}
+
+
+Definition at line 292 of file data.hpp.\hypertarget{class_i_data_abd6a79717af4efae6236df2bf35f11a7}{
+\index{IData@{IData}!my\_\-data\_\-handle@{my\_\-data\_\-handle}}
+\index{my\_\-data\_\-handle@{my\_\-data\_\-handle}!IData@{IData}}
+\subsubsection[{my\_\-data\_\-handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataHandle}$\ast$ {\bf IData::my\_\-data\_\-handle}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_abd6a79717af4efae6236df2bf35f11a7}
+
+
+Definition at line 300 of file data.hpp.\hypertarget{class_i_data_ae61dc22b2bb9c233eb93d891af16d220}{
+\index{IData@{IData}!N@{N}}
+\index{N@{N}!IData@{IData}}
+\subsubsection[{N}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::N}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_ae61dc22b2bb9c233eb93d891af16d220}
+
+
+Definition at line 292 of file data.hpp.\hypertarget{class_i_data_a66ed7cf77dc3382dfd6fcd81dc18e8df}{
+\index{IData@{IData}!name@{name}}
+\index{name@{name}!IData@{IData}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf IData::name}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a66ed7cf77dc3382dfd6fcd81dc18e8df}
+
+
+Definition at line 291 of file data.hpp.\hypertarget{class_i_data_a170ac177a6048467713780cd3605e88e}{
+\index{IData@{IData}!Nb@{Nb}}
+\index{Nb@{Nb}!IData@{IData}}
+\subsubsection[{Nb}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf IData::Nb}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a170ac177a6048467713780cd3605e88e}
+
+
+Definition at line 292 of file data.hpp.\hypertarget{class_i_data_a5ecc5b90d72d8b3d8a4a1af9de9fb71c}{
+\index{IData@{IData}!parent\_\-context@{parent\_\-context}}
+\index{parent\_\-context@{parent\_\-context}!IData@{IData}}
+\subsubsection[{parent\_\-context}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IContext}$\ast$ {\bf IData::parent\_\-context}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a5ecc5b90d72d8b3d8a4a1af9de9fb71c}
+
+
+Definition at line 297 of file data.hpp.\hypertarget{class_i_data_a4815f73848733b3ff225821b3d7431ea}{
+\index{IData@{IData}!parent\_\-data@{parent\_\-data}}
+\index{parent\_\-data@{parent\_\-data}!IData@{IData}}
+\subsubsection[{parent\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ {\bf IData::parent\_\-data}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a4815f73848733b3ff225821b3d7431ea}
+
+
+Definition at line 298 of file data.hpp.\hypertarget{class_i_data_abbfc199f238d3fe16d66bbfc18e74ad4}{
+\index{IData@{IData}!partial@{partial}}
+\index{partial@{partial}!IData@{IData}}
+\subsubsection[{partial}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf IData::partial}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_abbfc199f238d3fe16d66bbfc18e74ad4}
+
+
+Definition at line 307 of file data.hpp.\hypertarget{class_i_data_a62fa408732cc79c91cc5af22ff52f5bd}{
+\index{IData@{IData}!rt\_\-read\_\-version@{rt\_\-read\_\-version}}
+\index{rt\_\-read\_\-version@{rt\_\-read\_\-version}!IData@{IData}}
+\subsubsection[{rt\_\-read\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion} {\bf IData::rt\_\-read\_\-version}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a62fa408732cc79c91cc5af22ff52f5bd}
+
+
+Definition at line 296 of file data.hpp.\hypertarget{class_i_data_a633fad3f15a6898694a85dd74c94d89a}{
+\index{IData@{IData}!rt\_\-write\_\-version@{rt\_\-write\_\-version}}
+\index{rt\_\-write\_\-version@{rt\_\-write\_\-version}!IData@{IData}}
+\subsubsection[{rt\_\-write\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion} {\bf IData::rt\_\-write\_\-version}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a633fad3f15a6898694a85dd74c94d89a}
+
+
+Definition at line 296 of file data.hpp.\hypertarget{class_i_data_a319a3f8f7280bab52ddea7843f5398f1}{
+\index{IData@{IData}!tasks\_\-list@{tasks\_\-list}}
+\index{tasks\_\-list@{tasks\_\-list}!IData@{IData}}
+\subsubsection[{tasks\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IDuctteipTask} $\ast$$>$ {\bf IData::tasks\_\-list}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_data_a319a3f8f7280bab52ddea7843f5398f1}
+
+
+Definition at line 303 of file data.hpp.
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{data_8hpp}{data.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

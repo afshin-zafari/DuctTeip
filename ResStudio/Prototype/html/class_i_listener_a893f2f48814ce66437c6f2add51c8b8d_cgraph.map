@@ -1,0 +1,17 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_data_version.html#ac5bce97d68ce11492781071558bb1191" title="DataVersion::deserialize" alt="" coords="224,5,387,35"/>
+<area shape="rect" id="node9" href="$struct_data_handle.html#a4abd5569c8a2cb0ff6fdca749765aa70" title="DataHandle::deserialize" alt="" coords="225,59,385,88"/>
+<area shape="rect" id="node11" href="$class_i_listener.html#ae53c9b5bd1067445dd09804efd04ea5c" title="IListener::dump" alt="" coords="249,112,361,141"/>
+<area shape="rect" id="node13" href="$struct_data_version.html#a03b5b85b2c309989eb96c2248b0dedfa" title="DataVersion::dump" alt="" coords="512,124,645,153"/>
+<area shape="rect" id="node20" href="$class_global_context.html#a82ec626cc456bb864bf2376e2bda621f" title="GlobalContext::getDataByHandle" alt="" coords="197,216,413,245"/>
+<area shape="rect" id="node5" href="$struct_context_prefix.html#aaacd69ff83b8a9788a603eaed58cd4e5" title="ContextPrefix::deserialize" alt="" coords="493,5,664,35"/>
+<area shape="rect" id="node7" href="$struct_context_prefix.html#af68366f850532d0a204ba1cbabc403cb" title="ContextPrefix::reset" alt="" coords="759,5,897,35"/>
+<area shape="rect" id="node15" href="$struct_data_version.html#a09ef74f4b532a991d2a05982d012d524" title="DataVersion::dumpString" alt="" coords="744,124,912,153"/>
+<area shape="rect" id="node17" href="$struct_context_prefix.html#ab31c3c3cafc8c6ddf9d755184b7bc678" title="ContextPrefix::toString" alt="" coords="976,124,1131,153"/>
+<area shape="rect" id="node22" href="$class_global_context.html#abed42c65852eb40358a222c34108c65a" title="GlobalContext::getContextByHandle" alt="" coords="461,191,696,220"/>
+<area shape="rect" id="node24" href="$class_i_context.html#a9e05e14cdde2f0b5a0ed3349815cb974" title="IContext::getDataByHandle" alt="" coords="488,244,669,273"/>
+<area shape="rect" id="node26" href="$class_i_data.html#a78a571407788130ebe382f51c3774605" title="IData::getDataByHandle" alt="" coords="745,203,911,232"/>
+<area shape="rect" id="node32" href="$class_i_context.html#a607d8609c589bfa7937b5a8313c61d04" title="IContext::getName" alt="" coords="761,256,895,285"/>
+<area shape="rect" id="node28" href="$class_i_context.html#a63664480f4eede6b3a5ab572dd454160" title="IContext::getContextHandle" alt="" coords="961,177,1145,207"/>
+<area shape="rect" id="node30" href="$class_i_data.html#a07c124c61dac722dded4c78d45be5cd2" title="IData::getDataHandle" alt="" coords="979,231,1128,260"/>
+</map>

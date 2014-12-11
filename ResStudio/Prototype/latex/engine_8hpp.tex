@@ -1,0 +1,110 @@
+\hypertarget{engine_8hpp}{
+\section{engine.hpp File Reference}
+\label{engine_8hpp}\index{engine.hpp@{engine.hpp}}
+}
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$sched.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$algorithm$>$}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include $<$iterator$>$}\par
+{\ttfamily \#include $<$dirent.h$>$}\par
+{\ttfamily \#include $<$cstdlib$>$}\par
+{\ttfamily \#include $<$cstdio$>$}\par
+{\ttfamily \#include $<$cassert$>$}\par
+{\ttfamily \#include \char`\"{}config.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}task.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}listener.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}mailbox.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}mpi\_\-comm.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}memory\_\-manager.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dt\_\-log.hpp\char`\"{}}\par
+Include dependency graph for engine.hpp:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{engine_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=96pt]{engine_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_duct_teip_work}{DuctTeipWork}
+\item 
+class \hyperlink{classengine}{engine}
+\item 
+struct {\bfseries engine::DLB\_\-Statistics}
+\item 
+struct {\bfseries engine::TimeDLB}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{engine_8hpp_a8017a12743a2e2600643cee50a810fa4}{logEvent}(a, b)
+\item 
+\#define \hyperlink{engine_8hpp_aad27cd18dbcb54c8aec7f7c9c5d1c3bc}{TIME\_\-DLB}~TimeDLB(this)
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned char \hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{engine_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me}
+\item 
+\hyperlink{class_ductteip_log}{DuctteipLog} \hyperlink{engine_8hpp_a2281e9cbd72942f0be829c845609e1c6}{dt\_\-log}
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{engine_8hpp_a8017a12743a2e2600643cee50a810fa4}{
+\index{engine.hpp@{engine.hpp}!logEvent@{logEvent}}
+\index{logEvent@{logEvent}!engine.hpp@{engine.hpp}}
+\subsubsection[{logEvent}]{\setlength{\rightskip}{0pt plus 5cm}\#define logEvent(a, \/  b)}}
+\label{engine_8hpp_a8017a12743a2e2600643cee50a810fa4}
+
+
+Definition at line 4 of file engine.hpp.\hypertarget{engine_8hpp_aad27cd18dbcb54c8aec7f7c9c5d1c3bc}{
+\index{engine.hpp@{engine.hpp}!TIME\_\-DLB@{TIME\_\-DLB}}
+\index{TIME\_\-DLB@{TIME\_\-DLB}!engine.hpp@{engine.hpp}}
+\subsubsection[{TIME\_\-DLB}]{\setlength{\rightskip}{0pt plus 5cm}\#define TIME\_\-DLB~TimeDLB(this)}}
+\label{engine_8hpp_aad27cd18dbcb54c8aec7f7c9c5d1c3bc}
+
+
+Definition at line 1779 of file engine.hpp.
+
+\subsection{Typedef Documentation}
+\hypertarget{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{
+\index{engine.hpp@{engine.hpp}!byte@{byte}}
+\index{byte@{byte}!engine.hpp@{engine.hpp}}
+\subsubsection[{byte}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf byte}}}
+\label{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}
+
+
+Definition at line 8 of file engine.hpp.
+
+\subsection{Variable Documentation}
+\hypertarget{engine_8hpp_a2281e9cbd72942f0be829c845609e1c6}{
+\index{engine.hpp@{engine.hpp}!dt\_\-log@{dt\_\-log}}
+\index{dt\_\-log@{dt\_\-log}!engine.hpp@{engine.hpp}}
+\subsubsection[{dt\_\-log}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DuctteipLog} {\bf dt\_\-log}}}
+\label{engine_8hpp_a2281e9cbd72942f0be829c845609e1c6}
+
+
+Definition at line 34 of file engine.hpp.\hypertarget{engine_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{
+\index{engine.hpp@{engine.hpp}!me@{me}}
+\index{me@{me}!engine.hpp@{engine.hpp}}
+\subsubsection[{me}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf me}}}
+\label{engine_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}
+
+
+Definition at line 23 of file context.hpp.

@@ -1,0 +1,340 @@
+\hypertarget{class_cholesky}{
+\section{Cholesky Class Reference}
+\label{class_cholesky}\index{Cholesky@{Cholesky}}
+}
+
+
+{\ttfamily \#include $<$chol\_\-fact.hpp$>$}Inheritance diagram for Cholesky:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=102pt]{class_cholesky__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for Cholesky:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_cholesky__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_cholesky_ae3a7112a8c31a3a11ce7ff63f8940f9d}{Cholesky} (\hyperlink{class_config}{Config} $\ast$cfg\_\-, \hyperlink{class_i_data}{IData} $\ast$inData=NULL)
+\item 
+\hyperlink{class_cholesky_aed950ac074bea0a0df52749af3944d6a}{$\sim$Cholesky} ()
+\item 
+void \hyperlink{class_cholesky_a91ddf85d95bbf73cb8e2cdb1ddfa7d4c}{dumpAllData} ()
+\item 
+void \hyperlink{class_cholesky_ae5281abaa5b986b2dc88fff04aed959c}{populateMatrice} ()
+\item 
+void \hyperlink{class_cholesky_a56a5e5399cd1dff87c123119fff14667}{checkCorrectness} ()
+\item 
+int \hyperlink{class_cholesky_a8e1c4a4d12d3989a41c09cafad8c8933}{del\_\-countTasks} ()
+\item 
+void \hyperlink{class_cholesky_adadbc20c3a9481c909c8143985fbf0e1}{generateTasks} ()
+\item 
+void \hyperlink{class_cholesky_a718109d74c3316742c6accccdb010a92}{generateTasksNoContext} ()
+\item 
+void \hyperlink{class_cholesky_ab025e03f8a91169e1945602f0020b61e}{runKernels} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task)
+\item 
+string \hyperlink{class_cholesky_abba68c13e63db6e4f3637e0d68af9c45}{getTaskName} (unsigned long key)
+\item 
+void \hyperlink{class_cholesky_a603fc15661c381e10c8f1fc535ec48e5}{potrf\_\-kernel} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task)
+\item 
+void \hyperlink{class_cholesky_ab0b681bba7b9c3f706d18a6d15fe905f}{trsm\_\-kernel} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task)
+\item 
+void \hyperlink{class_cholesky_aa448c6006ef1b072de230dc5427372e9}{syrk\_\-kernel} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task)
+\item 
+void \hyperlink{class_cholesky_a8891a656d18c8e11e8e26447cebc9348}{gemm\_\-kernel} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 360 of file chol\_\-fact.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_cholesky_ae3a7112a8c31a3a11ce7ff63f8940f9d}{
+\index{Cholesky@{Cholesky}!Cholesky@{Cholesky}}
+\index{Cholesky@{Cholesky}!Cholesky@{Cholesky}}
+\subsubsection[{Cholesky}]{\setlength{\rightskip}{0pt plus 5cm}Cholesky::Cholesky ({\bf Config} $\ast$ {\em cfg\_\-}, \/  {\bf IData} $\ast$ {\em inData} = {\ttfamily NULL})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_ae3a7112a8c31a3a11ce7ff63f8940f9d}
+
+
+Definition at line 384 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_ae3a7112a8c31a3a11ce7ff63f8940f9d_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_aed950ac074bea0a0df52749af3944d6a}{
+\index{Cholesky@{Cholesky}!$\sim$Cholesky@{$\sim$Cholesky}}
+\index{$\sim$Cholesky@{$\sim$Cholesky}!Cholesky@{Cholesky}}
+\subsubsection[{$\sim$Cholesky}]{\setlength{\rightskip}{0pt plus 5cm}Cholesky::$\sim$Cholesky ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_aed950ac074bea0a0df52749af3944d6a}
+
+
+Definition at line 404 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=141pt]{class_cholesky_aed950ac074bea0a0df52749af3944d6a_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_cholesky_a56a5e5399cd1dff87c123119fff14667}{
+\index{Cholesky@{Cholesky}!checkCorrectness@{checkCorrectness}}
+\index{checkCorrectness@{checkCorrectness}!Cholesky@{Cholesky}}
+\subsubsection[{checkCorrectness}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::checkCorrectness ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_a56a5e5399cd1dff87c123119fff14667}
+
+
+Definition at line 477 of file chol\_\-fact.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=131pt]{class_cholesky_a56a5e5399cd1dff87c123119fff14667_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_a8e1c4a4d12d3989a41c09cafad8c8933}{
+\index{Cholesky@{Cholesky}!del\_\-countTasks@{del\_\-countTasks}}
+\index{del\_\-countTasks@{del\_\-countTasks}!Cholesky@{Cholesky}}
+\subsubsection[{del\_\-countTasks}]{\setlength{\rightskip}{0pt plus 5cm}int Cholesky::del\_\-countTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_a8e1c4a4d12d3989a41c09cafad8c8933}
+
+
+Definition at line 507 of file chol\_\-fact.hpp.\hypertarget{class_cholesky_a91ddf85d95bbf73cb8e2cdb1ddfa7d4c}{
+\index{Cholesky@{Cholesky}!dumpAllData@{dumpAllData}}
+\index{dumpAllData@{dumpAllData}!Cholesky@{Cholesky}}
+\subsubsection[{dumpAllData}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::dumpAllData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_a91ddf85d95bbf73cb8e2cdb1ddfa7d4c}
+
+
+Definition at line 410 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{class_cholesky_a91ddf85d95bbf73cb8e2cdb1ddfa7d4c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{class_cholesky_a91ddf85d95bbf73cb8e2cdb1ddfa7d4c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_a8891a656d18c8e11e8e26447cebc9348}{
+\index{Cholesky@{Cholesky}!gemm\_\-kernel@{gemm\_\-kernel}}
+\index{gemm\_\-kernel@{gemm\_\-kernel}!Cholesky@{Cholesky}}
+\subsubsection[{gemm\_\-kernel}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::gemm\_\-kernel ({\bf IDuctteipTask} $\ast$ {\em task})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_a8891a656d18c8e11e8e26447cebc9348}
+
+
+Definition at line 710 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_a8891a656d18c8e11e8e26447cebc9348_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=156pt]{class_cholesky_a8891a656d18c8e11e8e26447cebc9348_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_adadbc20c3a9481c909c8143985fbf0e1}{
+\index{Cholesky@{Cholesky}!generateTasks@{generateTasks}}
+\index{generateTasks@{generateTasks}!Cholesky@{Cholesky}}
+\subsubsection[{generateTasks}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::generateTasks ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_adadbc20c3a9481c909c8143985fbf0e1}
+
+
+Definition at line 521 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_adadbc20c3a9481c909c8143985fbf0e1_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_a718109d74c3316742c6accccdb010a92}{
+\index{Cholesky@{Cholesky}!generateTasksNoContext@{generateTasksNoContext}}
+\index{generateTasksNoContext@{generateTasksNoContext}!Cholesky@{Cholesky}}
+\subsubsection[{generateTasksNoContext}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::generateTasksNoContext ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_a718109d74c3316742c6accccdb010a92}
+
+
+Definition at line 553 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_a718109d74c3316742c6accccdb010a92_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{class_cholesky_a718109d74c3316742c6accccdb010a92_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_abba68c13e63db6e4f3637e0d68af9c45}{
+\index{Cholesky@{Cholesky}!getTaskName@{getTaskName}}
+\index{getTaskName@{getTaskName}!Cholesky@{Cholesky}}
+\subsubsection[{getTaskName}]{\setlength{\rightskip}{0pt plus 5cm}string Cholesky::getTaskName (unsigned long {\em key})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_cholesky_abba68c13e63db6e4f3637e0d68af9c45}
+
+
+Implements \hyperlink{class_i_context_a8f811884fc095b04c6f6f7df5be5b51d}{IContext}.
+
+Definition at line 603 of file chol\_\-fact.hpp.\hypertarget{class_cholesky_ae5281abaa5b986b2dc88fff04aed959c}{
+\index{Cholesky@{Cholesky}!populateMatrice@{populateMatrice}}
+\index{populateMatrice@{populateMatrice}!Cholesky@{Cholesky}}
+\subsubsection[{populateMatrice}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::populateMatrice ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_ae5281abaa5b986b2dc88fff04aed959c}
+
+
+Definition at line 445 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_ae5281abaa5b986b2dc88fff04aed959c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=160pt]{class_cholesky_ae5281abaa5b986b2dc88fff04aed959c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_a603fc15661c381e10c8f1fc535ec48e5}{
+\index{Cholesky@{Cholesky}!potrf\_\-kernel@{potrf\_\-kernel}}
+\index{potrf\_\-kernel@{potrf\_\-kernel}!Cholesky@{Cholesky}}
+\subsubsection[{potrf\_\-kernel}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::potrf\_\-kernel ({\bf IDuctteipTask} $\ast$ {\em task})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_a603fc15661c381e10c8f1fc535ec48e5}
+
+
+Definition at line 634 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_a603fc15661c381e10c8f1fc535ec48e5_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_cholesky_a603fc15661c381e10c8f1fc535ec48e5_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_ab025e03f8a91169e1945602f0020b61e}{
+\index{Cholesky@{Cholesky}!runKernels@{runKernels}}
+\index{runKernels@{runKernels}!Cholesky@{Cholesky}}
+\subsubsection[{runKernels}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::runKernels ({\bf IDuctteipTask} $\ast$ {\em task})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_cholesky_ab025e03f8a91169e1945602f0020b61e}
+
+
+Implements \hyperlink{class_i_context_a7e432ff03dfc96f39e8343b28f17fb74}{IContext}.
+
+Definition at line 579 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_ab025e03f8a91169e1945602f0020b61e_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_aa448c6006ef1b072de230dc5427372e9}{
+\index{Cholesky@{Cholesky}!syrk\_\-kernel@{syrk\_\-kernel}}
+\index{syrk\_\-kernel@{syrk\_\-kernel}!Cholesky@{Cholesky}}
+\subsubsection[{syrk\_\-kernel}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::syrk\_\-kernel ({\bf IDuctteipTask} $\ast$ {\em task})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_aa448c6006ef1b072de230dc5427372e9}
+
+
+Definition at line 685 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_aa448c6006ef1b072de230dc5427372e9_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{class_cholesky_aa448c6006ef1b072de230dc5427372e9_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_cholesky_ab0b681bba7b9c3f706d18a6d15fe905f}{
+\index{Cholesky@{Cholesky}!trsm\_\-kernel@{trsm\_\-kernel}}
+\index{trsm\_\-kernel@{trsm\_\-kernel}!Cholesky@{Cholesky}}
+\subsubsection[{trsm\_\-kernel}]{\setlength{\rightskip}{0pt plus 5cm}void Cholesky::trsm\_\-kernel ({\bf IDuctteipTask} $\ast$ {\em task})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_cholesky_ab0b681bba7b9c3f706d18a6d15fe905f}
+
+
+Definition at line 660 of file chol\_\-fact.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_cholesky_ab0b681bba7b9c3f706d18a6d15fe905f_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_cholesky_ab0b681bba7b9c3f706d18a6d15fe905f_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{chol__fact_8hpp}{chol\_\-fact.hpp}\end{DoxyCompactItemize}

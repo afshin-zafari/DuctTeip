@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_global_context.html#ab6ed24acc55b88a93b7498acbccf6141" title="GlobalContext::packPropagateTask" alt="" coords="303,112,532,141"/>
+<area shape="rect" id="node23" href="$class_global_context.html#a2f62ad628b6c5d48c2cda3ea05e08860" title="GlobalContext::unpackPropagateTask" alt="" coords="296,165,539,195"/>
+<area shape="rect" id="node5" href="$classengine.html#a9d0024f21ae5fa522fefdd38eade0a2e" title="engine::addPropagateTask" alt="" coords="607,165,783,195"/>
+<area shape="rect" id="node11" href="$class_global_context.html#a9348325efe41d1edae48c4313d07dc1a" title="GlobalContext::incrementCounter" alt="" coords="587,112,803,141"/>
+<area shape="rect" id="node13" href="$classengine.html#a8cca3e07a3c37e5f7af11da6a81f16c5" title="engine::sendPropagateTask" alt="" coords="603,5,787,35"/>
+<area shape="rect" id="node19" href="$struct_propagate_info.html#ac7242171f175704c50333d053aa72c72" title="PropagateInfo::serialize" alt="" coords="616,59,773,88"/>
+<area shape="rect" id="node7" href="$class_i_ductteip_task.html#a1f1f64d2c28f10f03516d242e3674a7f" title="IDuctteipTask::setHandle" alt="" coords="875,165,1045,195"/>
+<area shape="rect" id="node9" href="$class_i_ductteip_task.html#a29e56abf2e5991acc91462c1bbdb1511" title="IDuctteipTask::setName" alt="" coords="877,112,1043,141"/>
+<area shape="rect" id="node15" href="$class_mail_box.html#ae6b86c4b322220e0a416dadec6e50877" title="MailBox::send" alt="" coords="908,5,1012,35"/>
+<area shape="rect" id="node17" href="$class_i_network.html#a4996a6c20805f604c5afff707313ed4e" title="INetwork::send" alt="" coords="1119,5,1228,35"/>
+<area shape="rect" id="node21" href="$struct_propagate_info.html#a22a3541d5c61ed5e6db3aeaf8c4a2f82" title="PropagateInfo::serializeContext" alt="" coords="857,59,1063,88"/>
+<area shape="rect" id="node26" href="$struct_propagate_info.html#a7dd786107e3f53d7b24d7482709a3347" title="PropagateInfo::deserialize" alt="" coords="608,219,781,248"/>
+<area shape="rect" id="node28" href="$struct_propagate_info.html#a8ae3a3e60a3ecec9a24e2d8ff3af8c57" title="PropagateInfo::deserializeContext" alt="" coords="851,219,1069,248"/>
+</map>

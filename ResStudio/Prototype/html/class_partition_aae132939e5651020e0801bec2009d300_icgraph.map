@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_partition.html#aeabe76c45c274addb15c435f13c2c7e8" title="Partition\&lt; double \&gt;::dump" alt="" coords="215,32,385,61"/>
+<area shape="rect" id="node5" href="$class_partition.html#a3866b3ab8d6e114eb0835465f7418ceb" title="Partition\&lt; double \&gt;::getAddressOfElement" alt="" coords="167,85,433,115"/>
+<area shape="rect" id="node7" href="$class_partition.html#ac675bc154e0d7fb01bf9db46196165ba" title="Partition::getBlock" alt="" coords="236,139,364,168"/>
+<area shape="rect" id="node28" href="$class_partition.html#a5ca98c67580ef12ca1b2376638fb9714" title="Partition\&lt; double \&gt;::partitionRectangle" alt="" coords="177,192,423,221"/>
+<area shape="rect" id="node30" href="$class_partition.html#a617c37139285d3b510144eb206a15549" title="Partition\&lt; double \&gt;::partitionSquare" alt="" coords="187,245,413,275"/>
+<area shape="rect" id="node9" href="$class_i_data.html#afbc48e6b22a12e8bcd7694c5613bf866" title="IData::createSuperGlueHandles" alt="" coords="507,85,712,115"/>
+<area shape="rect" id="node24" href="$class_partition.html#a38087382dbb5c22edcd3671aa65d872b" title="Partition\&lt; double \&gt;::dumpBlocks" alt="" coords="504,139,715,168"/>
+<area shape="rect" id="node26" href="$class_partition.html#a22be567d4a5505fa6134221000970704" title="Partition\&lt; double \&gt;::getAddressOfBlock" alt="" coords="483,192,736,221"/>
+<area shape="rect" id="node11" href="$class_cholesky.html#a8891a656d18c8e11e8e26447cebc9348" title="Cholesky::gemm_kernel" alt="" coords="784,5,947,35"/>
+<area shape="rect" id="node15" href="$class_cholesky.html#a603fc15661c381e10c8f1fc535ec48e5" title="Cholesky::potrf_kernel" alt="" coords="789,59,941,88"/>
+<area shape="rect" id="node18" href="$class_cholesky.html#aa448c6006ef1b072de230dc5427372e9" title="Cholesky::syrk_kernel" alt="" coords="789,112,941,141"/>
+<area shape="rect" id="node21" href="$class_cholesky.html#ab0b681bba7b9c3f706d18a6d15fe905f" title="Cholesky::trsm_kernel" alt="" coords="789,165,941,195"/>
+<area shape="rect" id="node13" href="$class_cholesky.html#ab025e03f8a91169e1945602f0020b61e" title="Cholesky::runKernels" alt="" coords="995,85,1141,115"/>
+</map>

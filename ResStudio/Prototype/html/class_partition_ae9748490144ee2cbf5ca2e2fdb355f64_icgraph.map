@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_partition.html#a38087382dbb5c22edcd3671aa65d872b" title="Partition\&lt; double \&gt;::dumpBlocks" alt="" coords="496,13,707,42"/>
+<area shape="rect" id="node5" href="$class_partition.html#a3866b3ab8d6e114eb0835465f7418ceb" title="Partition\&lt; double \&gt;::getAddressOfElement" alt="" coords="159,51,425,81"/>
+<area shape="rect" id="node7" href="$class_partition.html#ac675bc154e0d7fb01bf9db46196165ba" title="Partition::getBlock" alt="" coords="228,105,356,134"/>
+<area shape="rect" id="node27" href="$class_partition.html#a5ca98c67580ef12ca1b2376638fb9714" title="Partition\&lt; double \&gt;::partitionRectangle" alt="" coords="169,158,415,187"/>
+<area shape="rect" id="node29" href="$class_partition.html#a617c37139285d3b510144eb206a15549" title="Partition\&lt; double \&gt;::partitionSquare" alt="" coords="179,211,405,241"/>
+<area shape="rect" id="node9" href="$class_i_data.html#afbc48e6b22a12e8bcd7694c5613bf866" title="IData::createSuperGlueHandles" alt="" coords="499,91,704,121"/>
+<area shape="rect" id="node25" href="$class_partition.html#a22be567d4a5505fa6134221000970704" title="Partition\&lt; double \&gt;::getAddressOfBlock" alt="" coords="475,145,728,174"/>
+<area shape="rect" id="node11" href="$class_cholesky.html#a8891a656d18c8e11e8e26447cebc9348" title="Cholesky::gemm_kernel" alt="" coords="776,11,939,41"/>
+<area shape="rect" id="node15" href="$class_cholesky.html#a603fc15661c381e10c8f1fc535ec48e5" title="Cholesky::potrf_kernel" alt="" coords="781,65,933,94"/>
+<area shape="rect" id="node18" href="$class_cholesky.html#aa448c6006ef1b072de230dc5427372e9" title="Cholesky::syrk_kernel" alt="" coords="781,118,933,147"/>
+<area shape="rect" id="node21" href="$class_cholesky.html#ab0b681bba7b9c3f706d18a6d15fe905f" title="Cholesky::trsm_kernel" alt="" coords="781,171,933,201"/>
+<area shape="rect" id="node13" href="$class_cholesky.html#ab025e03f8a91169e1945602f0020b61e" title="Cholesky::runKernels" alt="" coords="987,91,1133,121"/>
+</map>

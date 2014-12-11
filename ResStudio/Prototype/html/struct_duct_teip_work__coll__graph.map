@@ -1,0 +1,19 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_i_ductteip_task.html" title="IDuctteipTask" alt="" coords="861,456,965,485"/>
+<area shape="rect" id="node4" href="$class_i_context.html" title="IContext" alt="" coords="737,213,809,243"/>
+<area shape="rect" id="node28" href="$class_i_data.html" title="IData" alt="" coords="412,360,465,389"/>
+<area shape="rect" id="node6" href="$class_config.html" title="Config" alt="" coords="744,117,803,147"/>
+<area shape="rect" id="node8" href="$class_process_grid.html" title="ProcessGrid" alt="" coords="595,117,688,147"/>
+<area shape="rect" id="node30" href="$class_i_host_policy.html" title="IHostPolicy" alt="" coords="508,213,599,243"/>
+<area shape="rect" id="node11" href="$struct_message_buffer.html" title="MessageBuffer" alt="" coords="1003,360,1112,389"/>
+<area shape="rect" id="node19" href="$class_i_listener.html" title="IListener" alt="" coords="821,552,893,581"/>
+<area shape="rect" id="node13" href="$struct_buffer.html" title="Buffer" alt="" coords="1029,213,1085,243"/>
+<area shape="rect" id="node15" href="$struct_propagate_info.html" title="PropagateInfo" alt="" coords="743,360,844,389"/>
+<area shape="rect" id="node17" href="$struct_data_handle.html" title="DataHandle" alt="" coords="623,213,713,243"/>
+<area shape="rect" id="node22" href="$struct_data_access.html" title="DataAccess" alt="" coords="392,456,485,485"/>
+<area shape="rect" id="node24" href="$struct_data_version.html" title="DataVersion" alt="" coords="9,213,103,243"/>
+<area shape="rect" id="node26" href="$struct_context_prefix.html" title="ContextPrefix" alt="" coords="5,117,107,147"/>
+<area shape="rect" id="node33" href="$class_coordinate.html" title="Coordinate" alt="" coords="127,213,212,243"/>
+<area shape="rect" id="node36" href="$struct_memory_item.html" title="MemoryItem" alt="" coords="236,213,329,243"/>
+<area shape="rect" id="node39" href="$class_partition.html" title="Partition\&lt; double \&gt;" alt="" coords="353,213,484,243"/>
+</map>

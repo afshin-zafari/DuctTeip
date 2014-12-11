@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classengine.html#a9d0024f21ae5fa522fefdd38eade0a2e" title="engine::addPropagateTask" alt="" coords="303,32,479,61"/>
+<area shape="rect" id="node9" href="$class_global_context.html#a9348325efe41d1edae48c4313d07dc1a" title="GlobalContext::incrementCounter" alt="" coords="283,85,499,115"/>
+<area shape="rect" id="node11" href="$classengine.html#a8cca3e07a3c37e5f7af11da6a81f16c5" title="engine::sendPropagateTask" alt="" coords="299,139,483,168"/>
+<area shape="rect" id="node17" href="$struct_propagate_info.html#ac7242171f175704c50333d053aa72c72" title="PropagateInfo::serialize" alt="" coords="312,192,469,221"/>
+<area shape="rect" id="node5" href="$class_i_ductteip_task.html#a1f1f64d2c28f10f03516d242e3674a7f" title="IDuctteipTask::setHandle" alt="" coords="564,5,735,35"/>
+<area shape="rect" id="node7" href="$class_i_ductteip_task.html#a29e56abf2e5991acc91462c1bbdb1511" title="IDuctteipTask::setName" alt="" coords="567,59,732,88"/>
+<area shape="rect" id="node13" href="$class_mail_box.html#ae6b86c4b322220e0a416dadec6e50877" title="MailBox::send" alt="" coords="597,139,701,168"/>
+<area shape="rect" id="node15" href="$class_i_network.html#a4996a6c20805f604c5afff707313ed4e" title="INetwork::send" alt="" coords="801,139,911,168"/>
+<area shape="rect" id="node19" href="$struct_propagate_info.html#a22a3541d5c61ed5e6db3aeaf8c4a2f82" title="PropagateInfo::serializeContext" alt="" coords="547,192,752,221"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_mail_box.html#a541c1f871502eec356801ed5657f56c3" title="MailBox::dumpPosts" alt="" coords="272,5,413,35"/>
+<area shape="rect" id="node5" href="$struct_memory_item.html#a8e5271126c1eb7d5d5b0d611149b67cf" title="MemoryItem::getAddress" alt="" coords="259,59,427,88"/>
+<area shape="rect" id="node7" href="$struct_memory_item.html#a1e478ad1487849ca6da2f5c6250a1580" title="MemoryItem::getSize" alt="" coords="269,112,416,141"/>
+<area shape="rect" id="node9" href="$class_i_network.html#aa1b87ec0d7a1f6d6a2956f05afcc3c81" title="INetwork::postDataReceive" alt="" coords="251,165,435,195"/>
+</map>

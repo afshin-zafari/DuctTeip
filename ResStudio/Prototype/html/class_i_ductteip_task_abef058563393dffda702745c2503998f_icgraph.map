@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_ductteip_task.html#ab388f79a34057d17d41286f57db4a288" title="IDuctteipTask::runPropagateTask" alt="" coords="232,5,451,35"/>
+<area shape="rect" id="node11" href="$struct_sync_task.html#a2abccd8a59e9080dff8e8b9fc2d11107" title="SyncTask::~SyncTask" alt="" coords="264,59,419,88"/>
+<area shape="rect" id="node5" href="$class_i_ductteip_task.html#abe3d6c79a56e71982297a88ff9a0921c" title="IDuctteipTask::run" alt="" coords="499,5,629,35"/>
+<area shape="rect" id="node7" href="$classengine.html#ad5b326de03b791ffb0846bbcc18d4252" title="engine::runFirstActiveTask" alt="" coords="677,5,856,35"/>
+<area shape="rect" id="node9" href="$class_i_data.html#a24f0723eb905accf62461f50a4487b33" title="IData::checkAfterUpgrade" alt="" coords="905,5,1079,35"/>
+</map>

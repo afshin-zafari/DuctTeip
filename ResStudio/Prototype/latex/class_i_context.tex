@@ -1,0 +1,558 @@
+\hypertarget{class_i_context}{
+\section{IContext Class Reference}
+\label{class_i_context}\index{IContext@{IContext}}
+}
+
+
+{\ttfamily \#include $<$context.hpp$>$}Inheritance diagram for IContext:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=102pt]{class_i_context__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for IContext:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{class_i_context__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_i_context_a46c1edfdc2c9ff7eb8f274f10d98949f}{IContext} (string \_\-name)
+\item 
+\hyperlink{class_i_context_a7a18ec7377bb445433ab130fa3259a6a}{$\sim$IContext} ()
+\item 
+virtual void \hyperlink{class_i_context_a7e432ff03dfc96f39e8343b28f17fb74}{runKernels} (\hyperlink{class_i_ductteip_task}{IDuctteipTask} $\ast$task)=0
+\item 
+virtual string \hyperlink{class_i_context_a8f811884fc095b04c6f6f7df5be5b51d}{getTaskName} (unsigned long)=0
+\item 
+string \hyperlink{class_i_context_a607d8609c589bfa7937b5a8313c61d04}{getName} ()
+\item 
+string \hyperlink{class_i_context_a6a8cf9340093917ffb41f8d812c26884}{getFullName} ()
+\item 
+void \hyperlink{class_i_context_aa590239dd58b3946bfd9fc3d6725eef8}{print\_\-name} (const char $\ast$s=\char`\"{}\char`\"{})
+\item 
+void \hyperlink{class_i_context_ae51caa1b552828bab3e5317c0efad541}{setContextHandle} (\hyperlink{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{ContextHandle} $\ast$c)
+\item 
+\hyperlink{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{ContextHandle} $\ast$ \hyperlink{class_i_context_a63664480f4eede6b3a5ab572dd454160}{getContextHandle} ()
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_context_a63b80af186cfc16907b72e8fdb3a7f11}{getDataFromList} (list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ dlist, int index)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_context_adc30ba64c308b29d60494a0d3ce26852}{getOutputData} (int index=0)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_context_a9e625b1922446c14cf63f712521788b4}{getInputData} (int index=0)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_context_ab62e24ee67cb0f7355a0671afd0cbe10}{getInOutData} (int index=0)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_context_a9e05e14cdde2f0b5a0ed3349815cb974}{getDataByHandle} (list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ dlist, \hyperlink{struct_data_handle}{DataHandle} $\ast$dh)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_context_aebeefdc5ccb54aeb883e79665ddf2513}{getDataByHandle} (\hyperlink{struct_data_handle}{DataHandle} $\ast$dh)
+\item 
+void \hyperlink{class_i_context_ae51615a53a707370e7aec0fe9fbf9c28}{setParent} (\hyperlink{class_i_context}{IContext} $\ast$\_\-p)
+\item 
+void \hyperlink{class_i_context_a67fac0019748ff482ce820affb8603e2}{traverse} ()
+\item 
+void \hyperlink{class_i_context_abd000624cf8693096672e84231136980}{addInputData} (\hyperlink{class_i_data}{IData} $\ast$\_\-d)
+\item 
+void \hyperlink{class_i_context_ad6edf24b50c7ef64bb01dbdd12c88e57}{addOutputData} (\hyperlink{class_i_data}{IData} $\ast$\_\-d)
+\item 
+void \hyperlink{class_i_context_a6e2967c610f62b1e3d1411982efeead6}{addInOutData} (\hyperlink{class_i_data}{IData} $\ast$\_\-d)
+\item 
+void \hyperlink{class_i_context_aa6dd00242c03b780fa3b2394288b00ad}{resetVersions} ()
+\item 
+void \hyperlink{class_i_context_a7f31c062cbdd616553a6c46a4422a1cb}{dumpDataVersions} (\hyperlink{class_context_header}{ContextHeader} $\ast$hdr=NULL)
+\item 
+void \hyperlink{class_i_context_a4448138448c7a2a17ed1cfc3896ac3cf}{testHandles} (list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ dlist)
+\item 
+void \hyperlink{class_i_context_adff746ec169ed33998d86aa306ee3d93}{testHandles} ()
+\item 
+\hyperlink{struct_data_handle}{DataHandle} $\ast$ \hyperlink{class_i_context_a2ef87189437c74906f961a523602b6c3}{createDataHandle} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_i_context_ae92fa26bc80aa6759c7410c2f933c68b}{name}
+\item 
+\hyperlink{class_i_context}{IContext} $\ast$ \hyperlink{class_i_context_aa97a20f038e5c3053c94f1a70779a0f1}{parent}
+\item 
+list$<$ \hyperlink{class_i_context}{IContext} $\ast$ $>$ \hyperlink{class_i_context_a4b81890185d165540acdeb1e012264be}{children}
+\item 
+list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ \hyperlink{class_i_context_a7284704610c7ea7cca699c8116feee0c}{inputData}
+\item 
+list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ \hyperlink{class_i_context_a7a37d0f4ea08c03624d14ae2860f077f}{outputData}
+\item 
+list$<$ \hyperlink{class_i_data}{IData} $\ast$ $>$ \hyperlink{class_i_context_a398973dc27b31e89a4b4ab0f701dfee5}{in\_\-outData}
+\item 
+\hyperlink{class_process_grid}{ProcessGrid} $\ast$ \hyperlink{class_i_context_a1155fe76cd858044298e22b7b83ab326}{PG}
+\item 
+\hyperlink{glb__context_8hpp_a5d74defbecaf11c4dbb0a4ce308e1c34}{ContextHandle} $\ast$ \hyperlink{class_i_context_a9eb34b3b3544c4186cce3296d444a9ac}{my\_\-context\_\-handle}
+\item 
+\hyperlink{class_config}{Config} $\ast$ \hyperlink{class_i_context_a8dcedbb370532b4cfd613fd1dae366c1}{cfg}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 28 of file context.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_i_context_a46c1edfdc2c9ff7eb8f274f10d98949f}{
+\index{IContext@{IContext}!IContext@{IContext}}
+\index{IContext@{IContext}!IContext@{IContext}}
+\subsubsection[{IContext}]{\setlength{\rightskip}{0pt plus 5cm}IContext::IContext (string {\em \_\-name})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a46c1edfdc2c9ff7eb8f274f10d98949f}
+
+
+Definition at line 41 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{class_i_context_a46c1edfdc2c9ff7eb8f274f10d98949f_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a7a18ec7377bb445433ab130fa3259a6a}{
+\index{IContext@{IContext}!$\sim$IContext@{$\sim$IContext}}
+\index{$\sim$IContext@{$\sim$IContext}!IContext@{IContext}}
+\subsubsection[{$\sim$IContext}]{\setlength{\rightskip}{0pt plus 5cm}IContext::$\sim$IContext ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a7a18ec7377bb445433ab130fa3259a6a}
+
+
+Definition at line 47 of file context.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_context_a6e2967c610f62b1e3d1411982efeead6}{
+\index{IContext@{IContext}!addInOutData@{addInOutData}}
+\index{addInOutData@{addInOutData}!IContext@{IContext}}
+\subsubsection[{addInOutData}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::addInOutData ({\bf IData} $\ast$ {\em \_\-d})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a6e2967c610f62b1e3d1411982efeead6}
+
+
+Definition at line 132 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{class_i_context_a6e2967c610f62b1e3d1411982efeead6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_abd000624cf8693096672e84231136980}{
+\index{IContext@{IContext}!addInputData@{addInputData}}
+\index{addInputData@{addInputData}!IContext@{IContext}}
+\subsubsection[{addInputData}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::addInputData ({\bf IData} $\ast$ {\em \_\-d})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_abd000624cf8693096672e84231136980}
+
+
+Definition at line 126 of file context.hpp.\hypertarget{class_i_context_ad6edf24b50c7ef64bb01dbdd12c88e57}{
+\index{IContext@{IContext}!addOutputData@{addOutputData}}
+\index{addOutputData@{addOutputData}!IContext@{IContext}}
+\subsubsection[{addOutputData}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::addOutputData ({\bf IData} $\ast$ {\em \_\-d})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_ad6edf24b50c7ef64bb01dbdd12c88e57}
+
+
+Definition at line 129 of file context.hpp.\hypertarget{class_i_context_a2ef87189437c74906f961a523602b6c3}{
+\index{IContext@{IContext}!createDataHandle@{createDataHandle}}
+\index{createDataHandle@{createDataHandle}!IContext@{IContext}}
+\subsubsection[{createDataHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataHandle}$\ast$ IContext::createDataHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a2ef87189437c74906f961a523602b6c3}
+
+
+Definition at line 200 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{class_i_context_a2ef87189437c74906f961a523602b6c3_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{class_i_context_a2ef87189437c74906f961a523602b6c3_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a7f31c062cbdd616553a6c46a4422a1cb}{
+\index{IContext@{IContext}!dumpDataVersions@{dumpDataVersions}}
+\index{dumpDataVersions@{dumpDataVersions}!IContext@{IContext}}
+\subsubsection[{dumpDataVersions}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::dumpDataVersions ({\bf ContextHeader} $\ast$ {\em hdr} = {\ttfamily NULL})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a7f31c062cbdd616553a6c46a4422a1cb}
+
+
+Definition at line 151 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{class_i_context_a7f31c062cbdd616553a6c46a4422a1cb_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a63664480f4eede6b3a5ab572dd454160}{
+\index{IContext@{IContext}!getContextHandle@{getContextHandle}}
+\index{getContextHandle@{getContextHandle}!IContext@{IContext}}
+\subsubsection[{getContextHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ContextHandle}$\ast$ IContext::getContextHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a63664480f4eede6b3a5ab572dd454160}
+
+
+Definition at line 64 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_context_a63664480f4eede6b3a5ab572dd454160_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_aebeefdc5ccb54aeb883e79665ddf2513}{
+\index{IContext@{IContext}!getDataByHandle@{getDataByHandle}}
+\index{getDataByHandle@{getDataByHandle}!IContext@{IContext}}
+\subsubsection[{getDataByHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IContext::getDataByHandle ({\bf DataHandle} $\ast$ {\em dh})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_aebeefdc5ccb54aeb883e79665ddf2513}
+
+
+Definition at line 96 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{class_i_context_aebeefdc5ccb54aeb883e79665ddf2513_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a9e05e14cdde2f0b5a0ed3349815cb974}{
+\index{IContext@{IContext}!getDataByHandle@{getDataByHandle}}
+\index{getDataByHandle@{getDataByHandle}!IContext@{IContext}}
+\subsubsection[{getDataByHandle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IContext::getDataByHandle (list$<$ {\bf IData} $\ast$ $>$ {\em dlist}, \/  {\bf DataHandle} $\ast$ {\em dh})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a9e05e14cdde2f0b5a0ed3349815cb974}
+
+
+Definition at line 85 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{class_i_context_a9e05e14cdde2f0b5a0ed3349815cb974_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_context_a9e05e14cdde2f0b5a0ed3349815cb974_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a63b80af186cfc16907b72e8fdb3a7f11}{
+\index{IContext@{IContext}!getDataFromList@{getDataFromList}}
+\index{getDataFromList@{getDataFromList}!IContext@{IContext}}
+\subsubsection[{getDataFromList}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IContext::getDataFromList (list$<$ {\bf IData} $\ast$ $>$ {\em dlist}, \/  int {\em index})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a63b80af186cfc16907b72e8fdb3a7f11}
+
+
+Definition at line 66 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=377pt]{class_i_context_a63b80af186cfc16907b72e8fdb3a7f11_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a6a8cf9340093917ffb41f8d812c26884}{
+\index{IContext@{IContext}!getFullName@{getFullName}}
+\index{getFullName@{getFullName}!IContext@{IContext}}
+\subsubsection[{getFullName}]{\setlength{\rightskip}{0pt plus 5cm}string IContext::getFullName ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a6a8cf9340093917ffb41f8d812c26884}
+
+
+Definition at line 61 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=148pt]{class_i_context_a6a8cf9340093917ffb41f8d812c26884_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_ab62e24ee67cb0f7355a0671afd0cbe10}{
+\index{IContext@{IContext}!getInOutData@{getInOutData}}
+\index{getInOutData@{getInOutData}!IContext@{IContext}}
+\subsubsection[{getInOutData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IContext::getInOutData (int {\em index} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_ab62e24ee67cb0f7355a0671afd0cbe10}
+
+
+Definition at line 80 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{class_i_context_ab62e24ee67cb0f7355a0671afd0cbe10_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{class_i_context_ab62e24ee67cb0f7355a0671afd0cbe10_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a9e625b1922446c14cf63f712521788b4}{
+\index{IContext@{IContext}!getInputData@{getInputData}}
+\index{getInputData@{getInputData}!IContext@{IContext}}
+\subsubsection[{getInputData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IContext::getInputData (int {\em index} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a9e625b1922446c14cf63f712521788b4}
+
+
+Definition at line 77 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=165pt]{class_i_context_a9e625b1922446c14cf63f712521788b4_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{class_i_context_a9e625b1922446c14cf63f712521788b4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a607d8609c589bfa7937b5a8313c61d04}{
+\index{IContext@{IContext}!getName@{getName}}
+\index{getName@{getName}!IContext@{IContext}}
+\subsubsection[{getName}]{\setlength{\rightskip}{0pt plus 5cm}string IContext::getName ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a607d8609c589bfa7937b5a8313c61d04}
+
+
+Definition at line 60 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_context_a607d8609c589bfa7937b5a8313c61d04_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_adc30ba64c308b29d60494a0d3ce26852}{
+\index{IContext@{IContext}!getOutputData@{getOutputData}}
+\index{getOutputData@{getOutputData}!IContext@{IContext}}
+\subsubsection[{getOutputData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IContext::getOutputData (int {\em index} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_adc30ba64c308b29d60494a0d3ce26852}
+
+
+Definition at line 74 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{class_i_context_adc30ba64c308b29d60494a0d3ce26852_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{class_i_context_adc30ba64c308b29d60494a0d3ce26852_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a8f811884fc095b04c6f6f7df5be5b51d}{
+\index{IContext@{IContext}!getTaskName@{getTaskName}}
+\index{getTaskName@{getTaskName}!IContext@{IContext}}
+\subsubsection[{getTaskName}]{\setlength{\rightskip}{0pt plus 5cm}virtual string IContext::getTaskName (unsigned {\em long})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_context_a8f811884fc095b04c6f6f7df5be5b51d}
+
+
+Implemented in \hyperlink{class_cholesky_abba68c13e63db6e4f3637e0d68af9c45}{Cholesky}.\hypertarget{class_i_context_aa590239dd58b3946bfd9fc3d6725eef8}{
+\index{IContext@{IContext}!print\_\-name@{print\_\-name}}
+\index{print\_\-name@{print\_\-name}!IContext@{IContext}}
+\subsubsection[{print\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::print\_\-name (const char $\ast$ {\em s} = {\ttfamily \char`\"{}\char`\"{}})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_aa590239dd58b3946bfd9fc3d6725eef8}
+
+
+Definition at line 62 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{class_i_context_aa590239dd58b3946bfd9fc3d6725eef8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_aa6dd00242c03b780fa3b2394288b00ad}{
+\index{IContext@{IContext}!resetVersions@{resetVersions}}
+\index{resetVersions@{resetVersions}!IContext@{IContext}}
+\subsubsection[{resetVersions}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::resetVersions ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_aa6dd00242c03b780fa3b2394288b00ad}
+
+
+Definition at line 135 of file context.hpp.\hypertarget{class_i_context_a7e432ff03dfc96f39e8343b28f17fb74}{
+\index{IContext@{IContext}!runKernels@{runKernels}}
+\index{runKernels@{runKernels}!IContext@{IContext}}
+\subsubsection[{runKernels}]{\setlength{\rightskip}{0pt plus 5cm}virtual void IContext::runKernels ({\bf IDuctteipTask} $\ast$ {\em task})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{class_i_context_a7e432ff03dfc96f39e8343b28f17fb74}
+
+
+Implemented in \hyperlink{class_cholesky_ab025e03f8a91169e1945602f0020b61e}{Cholesky}.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{class_i_context_a7e432ff03dfc96f39e8343b28f17fb74_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_ae51caa1b552828bab3e5317c0efad541}{
+\index{IContext@{IContext}!setContextHandle@{setContextHandle}}
+\index{setContextHandle@{setContextHandle}!IContext@{IContext}}
+\subsubsection[{setContextHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::setContextHandle ({\bf ContextHandle} $\ast$ {\em c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_ae51caa1b552828bab3e5317c0efad541}
+
+
+Definition at line 63 of file context.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{class_i_context_ae51caa1b552828bab3e5317c0efad541_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_ae51615a53a707370e7aec0fe9fbf9c28}{
+\index{IContext@{IContext}!setParent@{setParent}}
+\index{setParent@{setParent}!IContext@{IContext}}
+\subsubsection[{setParent}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::setParent ({\bf IContext} $\ast$ {\em \_\-p})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_ae51615a53a707370e7aec0fe9fbf9c28}
+
+
+Definition at line 113 of file context.hpp.\hypertarget{class_i_context_adff746ec169ed33998d86aa306ee3d93}{
+\index{IContext@{IContext}!testHandles@{testHandles}}
+\index{testHandles@{testHandles}!IContext@{IContext}}
+\subsubsection[{testHandles}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::testHandles ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_adff746ec169ed33998d86aa306ee3d93}
+
+
+Definition at line 189 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=185pt]{class_i_context_adff746ec169ed33998d86aa306ee3d93_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_context_a4448138448c7a2a17ed1cfc3896ac3cf}{
+\index{IContext@{IContext}!testHandles@{testHandles}}
+\index{testHandles@{testHandles}!IContext@{IContext}}
+\subsubsection[{testHandles}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::testHandles (list$<$ {\bf IData} $\ast$ $>$ {\em dlist})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a4448138448c7a2a17ed1cfc3896ac3cf}
+
+
+Definition at line 183 of file context.hpp.\hypertarget{class_i_context_a67fac0019748ff482ce820affb8603e2}{
+\index{IContext@{IContext}!traverse@{traverse}}
+\index{traverse@{traverse}!IContext@{IContext}}
+\subsubsection[{traverse}]{\setlength{\rightskip}{0pt plus 5cm}void IContext::traverse ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_context_a67fac0019748ff482ce820affb8603e2}
+
+
+Definition at line 117 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{class_i_context_a67fac0019748ff482ce820affb8603e2_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_i_context_a8dcedbb370532b4cfd613fd1dae366c1}{
+\index{IContext@{IContext}!cfg@{cfg}}
+\index{cfg@{cfg}!IContext@{IContext}}
+\subsubsection[{cfg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Config}$\ast$ {\bf IContext::cfg}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a8dcedbb370532b4cfd613fd1dae366c1}
+
+
+Definition at line 39 of file context.hpp.\hypertarget{class_i_context_a4b81890185d165540acdeb1e012264be}{
+\index{IContext@{IContext}!children@{children}}
+\index{children@{children}!IContext@{IContext}}
+\subsubsection[{children}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IContext}$\ast$$>$ {\bf IContext::children}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a4b81890185d165540acdeb1e012264be}
+
+
+Definition at line 33 of file context.hpp.\hypertarget{class_i_context_a398973dc27b31e89a4b4ab0f701dfee5}{
+\index{IContext@{IContext}!in\_\-outData@{in\_\-outData}}
+\index{in\_\-outData@{in\_\-outData}!IContext@{IContext}}
+\subsubsection[{in\_\-outData}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IData}$\ast$$>$ {\bf IContext::in\_\-outData}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a398973dc27b31e89a4b4ab0f701dfee5}
+
+
+Definition at line 34 of file context.hpp.\hypertarget{class_i_context_a7284704610c7ea7cca699c8116feee0c}{
+\index{IContext@{IContext}!inputData@{inputData}}
+\index{inputData@{inputData}!IContext@{IContext}}
+\subsubsection[{inputData}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IData}$\ast$$>$ {\bf IContext::inputData}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a7284704610c7ea7cca699c8116feee0c}
+
+
+Definition at line 34 of file context.hpp.\hypertarget{class_i_context_a9eb34b3b3544c4186cce3296d444a9ac}{
+\index{IContext@{IContext}!my\_\-context\_\-handle@{my\_\-context\_\-handle}}
+\index{my\_\-context\_\-handle@{my\_\-context\_\-handle}!IContext@{IContext}}
+\subsubsection[{my\_\-context\_\-handle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ContextHandle}$\ast$ {\bf IContext::my\_\-context\_\-handle}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a9eb34b3b3544c4186cce3296d444a9ac}
+
+
+Definition at line 38 of file context.hpp.\hypertarget{class_i_context_ae92fa26bc80aa6759c7410c2f933c68b}{
+\index{IContext@{IContext}!name@{name}}
+\index{name@{name}!IContext@{IContext}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf IContext::name}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_ae92fa26bc80aa6759c7410c2f933c68b}
+
+
+Definition at line 31 of file context.hpp.\hypertarget{class_i_context_a7a37d0f4ea08c03624d14ae2860f077f}{
+\index{IContext@{IContext}!outputData@{outputData}}
+\index{outputData@{outputData}!IContext@{IContext}}
+\subsubsection[{outputData}]{\setlength{\rightskip}{0pt plus 5cm}list$<${\bf IData}$\ast$$>$ {\bf IContext::outputData}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a7a37d0f4ea08c03624d14ae2860f077f}
+
+
+Definition at line 34 of file context.hpp.\hypertarget{class_i_context_aa97a20f038e5c3053c94f1a70779a0f1}{
+\index{IContext@{IContext}!parent@{parent}}
+\index{parent@{parent}!IContext@{IContext}}
+\subsubsection[{parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IContext}$\ast$ {\bf IContext::parent}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_aa97a20f038e5c3053c94f1a70779a0f1}
+
+
+Definition at line 32 of file context.hpp.\hypertarget{class_i_context_a1155fe76cd858044298e22b7b83ab326}{
+\index{IContext@{IContext}!PG@{PG}}
+\index{PG@{PG}!IContext@{IContext}}
+\subsubsection[{PG}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ProcessGrid}$\ast$ {\bf IContext::PG}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_context_a1155fe76cd858044298e22b7b83ab326}
+
+
+Definition at line 37 of file context.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

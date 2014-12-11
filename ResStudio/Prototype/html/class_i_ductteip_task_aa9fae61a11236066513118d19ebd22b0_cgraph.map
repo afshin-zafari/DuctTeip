@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_propagate_info.html#a87392639ebf09cbb6bb70edf7dc4c1aa" title="PropagateInfo::dump" alt="" coords="235,59,376,88"/>
+<area shape="rect" id="node21" href="$class_i_ductteip_task.html#ab3ea4b7cc3e270b83a4b75655b4efa57" title="IDuctteipTask::dumpDataAccess" alt="" coords="197,112,413,141"/>
+<area shape="rect" id="node5" href="$class_global_context.html#a82ec626cc456bb864bf2376e2bda621f" title="GlobalContext::getDataByHandle" alt="" coords="461,32,677,61"/>
+<area shape="rect" id="node19" href="$class_i_data.html#a87b7baa5c42fd4c2b36875141030880d" title="IData::getName" alt="" coords="512,85,627,115"/>
+<area shape="rect" id="node7" href="$class_global_context.html#abed42c65852eb40358a222c34108c65a" title="GlobalContext::getContextByHandle" alt="" coords="725,5,960,35"/>
+<area shape="rect" id="node9" href="$class_i_context.html#a9e05e14cdde2f0b5a0ed3349815cb974" title="IContext::getDataByHandle" alt="" coords="752,59,933,88"/>
+<area shape="rect" id="node11" href="$class_i_data.html#a78a571407788130ebe382f51c3774605" title="IData::getDataByHandle" alt="" coords="1008,32,1173,61"/>
+<area shape="rect" id="node17" href="$class_i_context.html#a607d8609c589bfa7937b5a8313c61d04" title="IContext::getName" alt="" coords="1024,85,1157,115"/>
+<area shape="rect" id="node13" href="$class_i_context.html#a63664480f4eede6b3a5ab572dd454160" title="IContext::getContextHandle" alt="" coords="1223,5,1407,35"/>
+<area shape="rect" id="node15" href="$class_i_data.html#a07c124c61dac722dded4c78d45be5cd2" title="IData::getDataHandle" alt="" coords="1240,59,1389,88"/>
+</map>

@@ -1,0 +1,102 @@
+\hypertarget{class_data_host_policy}{
+\section{DataHostPolicy Class Reference}
+\label{class_data_host_policy}\index{DataHostPolicy@{DataHostPolicy}}
+}
+
+
+{\ttfamily \#include $<$hostpolicy.hpp$>$}Inheritance diagram for DataHostPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{class_data_host_policy__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for DataHostPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=130pt]{class_data_host_policy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cd}{dhpType} \{ \hyperlink{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cda3d29e2165b635e866351997b2ef45e6b}{BLOCK\_\-CYCLIC} = 1, 
+\hyperlink{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cda3199e1a456d0437af433ba638d311d79}{ROW\_\-CYCLIC}, 
+\hyperlink{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cdaff6cee37ae123350c58516797f8f623d}{COLUMN\_\-CYCLIC}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_data_host_policy_af9d62fb69383867bb611ef72466f4843}{DataHostPolicy} (\hyperlink{class_process_grid}{ProcessGrid} $\ast$pg)
+\item 
+\hyperlink{class_data_host_policy_a64bd8132dbd59bf8939e9e8f25d5b3c3}{DataHostPolicy} (\hyperlink{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cd}{dhpType} t, \hyperlink{class_process_grid}{ProcessGrid} \&pg)
+\item 
+int \hyperlink{class_data_host_policy_a6117b250bbf462c0935362e45855be1e}{getHost} (int i, int j)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 74 of file hostpolicy.hpp.
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cd}{
+\index{DataHostPolicy@{DataHostPolicy}!dhpType@{dhpType}}
+\index{dhpType@{dhpType}!DataHostPolicy@{DataHostPolicy}}
+\subsubsection[{dhpType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DataHostPolicy::dhpType}}}
+\label{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cd}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{BLOCK\_\-CYCLIC@{BLOCK\_\-CYCLIC}!DataHostPolicy@{DataHostPolicy}}\index{DataHostPolicy@{DataHostPolicy}!BLOCK\_\-CYCLIC@{BLOCK\_\-CYCLIC}}\item[{\em 
+\hypertarget{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cda3d29e2165b635e866351997b2ef45e6b}{
+BLOCK\_\-CYCLIC}
+\label{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cda3d29e2165b635e866351997b2ef45e6b}
+}]\index{ROW\_\-CYCLIC@{ROW\_\-CYCLIC}!DataHostPolicy@{DataHostPolicy}}\index{DataHostPolicy@{DataHostPolicy}!ROW\_\-CYCLIC@{ROW\_\-CYCLIC}}\item[{\em 
+\hypertarget{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cda3199e1a456d0437af433ba638d311d79}{
+ROW\_\-CYCLIC}
+\label{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cda3199e1a456d0437af433ba638d311d79}
+}]\index{COLUMN\_\-CYCLIC@{COLUMN\_\-CYCLIC}!DataHostPolicy@{DataHostPolicy}}\index{DataHostPolicy@{DataHostPolicy}!COLUMN\_\-CYCLIC@{COLUMN\_\-CYCLIC}}\item[{\em 
+\hypertarget{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cdaff6cee37ae123350c58516797f8f623d}{
+COLUMN\_\-CYCLIC}
+\label{class_data_host_policy_a825ddbca708ed5e3ea553ed70706b2cdaff6cee37ae123350c58516797f8f623d}
+}]\end{description}
+\end{Desc}
+
+
+
+Definition at line 77 of file hostpolicy.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_data_host_policy_af9d62fb69383867bb611ef72466f4843}{
+\index{DataHostPolicy@{DataHostPolicy}!DataHostPolicy@{DataHostPolicy}}
+\index{DataHostPolicy@{DataHostPolicy}!DataHostPolicy@{DataHostPolicy}}
+\subsubsection[{DataHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}DataHostPolicy::DataHostPolicy ({\bf ProcessGrid} $\ast$ {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_data_host_policy_af9d62fb69383867bb611ef72466f4843}
+
+
+Definition at line 85 of file hostpolicy.hpp.\hypertarget{class_data_host_policy_a64bd8132dbd59bf8939e9e8f25d5b3c3}{
+\index{DataHostPolicy@{DataHostPolicy}!DataHostPolicy@{DataHostPolicy}}
+\index{DataHostPolicy@{DataHostPolicy}!DataHostPolicy@{DataHostPolicy}}
+\subsubsection[{DataHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}DataHostPolicy::DataHostPolicy ({\bf dhpType} {\em t}, \/  {\bf ProcessGrid} \& {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_data_host_policy_a64bd8132dbd59bf8939e9e8f25d5b3c3}
+
+
+Definition at line 86 of file hostpolicy.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_data_host_policy_a6117b250bbf462c0935362e45855be1e}{
+\index{DataHostPolicy@{DataHostPolicy}!getHost@{getHost}}
+\index{getHost@{getHost}!DataHostPolicy@{DataHostPolicy}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int DataHostPolicy::getHost (int {\em i}, \/  int {\em j})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_data_host_policy_a6117b250bbf462c0935362e45855be1e}
+
+
+Definition at line 87 of file hostpolicy.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{hostpolicy_8hpp}{hostpolicy.hpp}\end{DoxyCompactItemize}

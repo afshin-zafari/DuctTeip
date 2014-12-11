@@ -1,0 +1,25 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_context_prefix.html#ac390a1751dabd906e901ba491f94cc9d" title="ContextPrefix::dump" alt="" coords="221,371,363,400"/>
+<area shape="rect" id="node5" href="$struct_data_version.html#a09ef74f4b532a991d2a05982d012d524" title="DataVersion::dumpString" alt="" coords="208,424,376,453"/>
+<area shape="rect" id="node7" href="$struct_data_version.html#a03b5b85b2c309989eb96c2248b0dedfa" title="DataVersion::dump" alt="" coords="444,215,577,244"/>
+<area shape="rect" id="node48" href="$class_i_data.html#a63c73bb8fa3a68e744b1fcad38508f0c" title="IData::dumpVersion" alt="" coords="441,424,580,453"/>
+<area shape="rect" id="node54" href="$class_i_data.html#ae7530342c87faddc0e0042990b15dcc5" title="IData::dumpVersionString" alt="" coords="425,477,596,507"/>
+<area shape="rect" id="node9" href="$class_i_data.html#ac1422d1f14938dc89f4fabd7fdc90e9a" title="IData::dataIsSent" alt="" coords="703,317,828,347"/>
+<area shape="rect" id="node11" href="$class_i_data.html#a1abf008f5376563bffe458d81033efde" title="IData::deleteListenersForOldVersions" alt="" coords="645,371,885,400"/>
+<area shape="rect" id="node13" href="$class_i_listener.html#a893f2f48814ce66437c6f2add51c8b8d" title="IListener::deserialize" alt="" coords="968,163,1109,192"/>
+<area shape="rect" id="node15" href="$classengine.html#ae0b940ebb7f5104cc2757bc9c92d0708" title="engine::receivedListener" alt="" coords="1199,189,1361,219"/>
+<area shape="rect" id="node17" href="$class_i_listener.html#ae53c9b5bd1067445dd09804efd04ea5c" title="IListener::dump" alt="" coords="709,112,821,141"/>
+<area shape="rect" id="node38" href="$class_i_listener.html#a2a9973fb9b26f21ee034d4ba0349e541" title="IListener::isDataReady" alt="" coords="688,5,843,35"/>
+<area shape="rect" id="node41" href="$class_i_data.html#a37f03e8f2b04b4f54c6b5768f52c0845" title="IData::isDataSent" alt="" coords="703,59,828,88"/>
+<area shape="rect" id="node44" href="$class_i_data.html#aee488e868fa96b016a0f546fc485f6d7" title="IData::listenerAdded" alt="" coords="968,267,1109,296"/>
+<area shape="rect" id="node19" href="$class_i_listener.html#a092fa85ce870bd169930cffce12bc87b" title="IListener::checkAndSendData" alt="" coords="941,5,1136,35"/>
+<area shape="rect" id="node24" href="$classengine.html#ab711383a9b6380efdc76eabc98f628de" title="engine::isAnyUnfinishedListener" alt="" coords="935,59,1143,88"/>
+<area shape="rect" id="node21" href="$class_i_data.html#a24f0723eb905accf62461f50a4487b33" title="IData::checkAfterUpgrade" alt="" coords="1193,5,1367,35"/>
+<area shape="rect" id="node26" href="$classengine.html#acf7ab54eb2e616e471686ec14157c9e7" title="engine::canTerminate" alt="" coords="1207,59,1353,88"/>
+<area shape="rect" id="node28" href="$classengine.html#a4e7f59155ec8ac715c490a7006489d76" title="engine::doProcessLoop" alt="" coords="1417,59,1575,88"/>
+<area shape="rect" id="node30" href="$classengine.html#ad485fec9e6edc79fd24065e98736c290" title="engine::doProcess" alt="" coords="1624,32,1755,61"/>
+<area shape="rect" id="node34" href="$classengine.html#abe42ab122f70fe47049ad8c1170651a4" title="engine::finalize" alt="" coords="1635,85,1744,115"/>
+<area shape="rect" id="node32" href="$test__task__gen_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="1803,59,1853,88"/>
+<area shape="rect" id="node50" href="$class_i_data.html#a5208ed47b42d73d60384d882d23c43ce" title="IData::dumpCheckSum" alt="" coords="687,424,844,453"/>
+<area shape="rect" id="node52" href="$class_i_context.html#a7f31c062cbdd616553a6c46a4422a1cb" title="IContext::dumpDataVersions" alt="" coords="671,477,860,507"/>
+</map>

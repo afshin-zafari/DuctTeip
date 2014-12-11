@@ -1,0 +1,265 @@
+\hypertarget{struct_context_prefix}{
+\section{ContextPrefix Struct Reference}
+\label{struct_context_prefix}\index{ContextPrefix@{ContextPrefix}}
+}
+
+
+{\ttfamily \#include $<$data.hpp$>$}\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{struct_context_prefix_a379b1aff6ff34fbed86a70a091434d19}{ContextPrefix} ()
+\item 
+\hyperlink{struct_context_prefix_a967de73f3ce083123324c5a03e69d5c8}{ContextPrefix} (string s)
+\item 
+\hyperlink{struct_context_prefix_a5f55e9348a101c600946f76034d6f93f}{$\sim$ContextPrefix} ()
+\item 
+int \hyperlink{struct_context_prefix_a6d30f468ca52d1dce17ee24804892d52}{getPackSize} ()
+\item 
+int \hyperlink{struct_context_prefix_a324733817553bbc909f18acd01f697a6}{serialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+int \hyperlink{struct_context_prefix_aaacd69ff83b8a9788a603eaed58cd4e5}{deserialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+bool \hyperlink{struct_context_prefix_ab1e1301d901aa7c4efeef5927bcdb356}{operator!=} (\hyperlink{struct_context_prefix}{ContextPrefix} rhs)
+\item 
+bool \hyperlink{struct_context_prefix_a8bc65e87aaf036594bd0d5a14da4402e}{operator==} (\hyperlink{struct_context_prefix}{ContextPrefix} rhs)
+\item 
+void \hyperlink{struct_context_prefix_a793d4b68722e1edd3e1a6272535be5fe}{fromString} (string ctx)
+\item 
+\hyperlink{struct_context_prefix}{ContextPrefix} \hyperlink{struct_context_prefix_aeab1c6d784c133599e95d7bf10fdfff6}{operator=} (\hyperlink{struct_context_prefix}{ContextPrefix} rhs)
+\item 
+string \hyperlink{struct_context_prefix_ab31c3c3cafc8c6ddf9d755184b7bc678}{toString} ()
+\item 
+void \hyperlink{struct_context_prefix_ac390a1751dabd906e901ba491f94cc9d}{dump} ()
+\item 
+void \hyperlink{struct_context_prefix_af68366f850532d0a204ba1cbabc403cb}{reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+list$<$ int $>$ \hyperlink{struct_context_prefix_a50c0426af5b66766ab87aae8f77a0a31}{context\_\-id\_\-list}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 21 of file data.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{struct_context_prefix_a379b1aff6ff34fbed86a70a091434d19}{
+\index{ContextPrefix@{ContextPrefix}!ContextPrefix@{ContextPrefix}}
+\index{ContextPrefix@{ContextPrefix}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{ContextPrefix}]{\setlength{\rightskip}{0pt plus 5cm}ContextPrefix::ContextPrefix ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a379b1aff6ff34fbed86a70a091434d19}
+
+
+Definition at line 23 of file data.hpp.\hypertarget{struct_context_prefix_a967de73f3ce083123324c5a03e69d5c8}{
+\index{ContextPrefix@{ContextPrefix}!ContextPrefix@{ContextPrefix}}
+\index{ContextPrefix@{ContextPrefix}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{ContextPrefix}]{\setlength{\rightskip}{0pt plus 5cm}ContextPrefix::ContextPrefix (string {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a967de73f3ce083123324c5a03e69d5c8}
+
+
+Definition at line 24 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{struct_context_prefix_a967de73f3ce083123324c5a03e69d5c8_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_a5f55e9348a101c600946f76034d6f93f}{
+\index{ContextPrefix@{ContextPrefix}!$\sim$ContextPrefix@{$\sim$ContextPrefix}}
+\index{$\sim$ContextPrefix@{$\sim$ContextPrefix}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{$\sim$ContextPrefix}]{\setlength{\rightskip}{0pt plus 5cm}ContextPrefix::$\sim$ContextPrefix ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a5f55e9348a101c600946f76034d6f93f}
+
+
+Definition at line 25 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{struct_context_prefix_a5f55e9348a101c600946f76034d6f93f_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{struct_context_prefix_aaacd69ff83b8a9788a603eaed58cd4e5}{
+\index{ContextPrefix@{ContextPrefix}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{deserialize}]{\setlength{\rightskip}{0pt plus 5cm}int ContextPrefix::deserialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_aaacd69ff83b8a9788a603eaed58cd4e5}
+
+
+Definition at line 40 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{struct_context_prefix_aaacd69ff83b8a9788a603eaed58cd4e5_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{struct_context_prefix_aaacd69ff83b8a9788a603eaed58cd4e5_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_ac390a1751dabd906e901ba491f94cc9d}{
+\index{ContextPrefix@{ContextPrefix}!dump@{dump}}
+\index{dump@{dump}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void ContextPrefix::dump ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_ac390a1751dabd906e901ba491f94cc9d}
+
+
+Definition at line 98 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{struct_context_prefix_ac390a1751dabd906e901ba491f94cc9d_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_a793d4b68722e1edd3e1a6272535be5fe}{
+\index{ContextPrefix@{ContextPrefix}!fromString@{fromString}}
+\index{fromString@{fromString}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{fromString}]{\setlength{\rightskip}{0pt plus 5cm}void ContextPrefix::fromString (string {\em ctx})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a793d4b68722e1edd3e1a6272535be5fe}
+
+
+Definition at line 70 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=156pt]{struct_context_prefix_a793d4b68722e1edd3e1a6272535be5fe_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_context_prefix_a793d4b68722e1edd3e1a6272535be5fe_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_a6d30f468ca52d1dce17ee24804892d52}{
+\index{ContextPrefix@{ContextPrefix}!getPackSize@{getPackSize}}
+\index{getPackSize@{getPackSize}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{getPackSize}]{\setlength{\rightskip}{0pt plus 5cm}int ContextPrefix::getPackSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a6d30f468ca52d1dce17ee24804892d52}
+
+
+Definition at line 27 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_context_prefix_a6d30f468ca52d1dce17ee24804892d52_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_ab1e1301d901aa7c4efeef5927bcdb356}{
+\index{ContextPrefix@{ContextPrefix}!operator!=@{operator!=}}
+\index{operator!=@{operator!=}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{operator!=}]{\setlength{\rightskip}{0pt plus 5cm}bool ContextPrefix::operator!= ({\bf ContextPrefix} {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_ab1e1301d901aa7c4efeef5927bcdb356}
+
+
+Definition at line 51 of file data.hpp.\hypertarget{struct_context_prefix_aeab1c6d784c133599e95d7bf10fdfff6}{
+\index{ContextPrefix@{ContextPrefix}!operator=@{operator=}}
+\index{operator=@{operator=}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ContextPrefix} ContextPrefix::operator= ({\bf ContextPrefix} {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_aeab1c6d784c133599e95d7bf10fdfff6}
+
+
+Definition at line 82 of file data.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{struct_context_prefix_aeab1c6d784c133599e95d7bf10fdfff6_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_a8bc65e87aaf036594bd0d5a14da4402e}{
+\index{ContextPrefix@{ContextPrefix}!operator==@{operator==}}
+\index{operator==@{operator==}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool ContextPrefix::operator== ({\bf ContextPrefix} {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a8bc65e87aaf036594bd0d5a14da4402e}
+
+
+Definition at line 55 of file data.hpp.\hypertarget{struct_context_prefix_af68366f850532d0a204ba1cbabc403cb}{
+\index{ContextPrefix@{ContextPrefix}!reset@{reset}}
+\index{reset@{reset}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}void ContextPrefix::reset ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_af68366f850532d0a204ba1cbabc403cb}
+
+
+Definition at line 104 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_context_prefix_af68366f850532d0a204ba1cbabc403cb_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_a324733817553bbc909f18acd01f697a6}{
+\index{ContextPrefix@{ContextPrefix}!serialize@{serialize}}
+\index{serialize@{serialize}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}int ContextPrefix::serialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_a324733817553bbc909f18acd01f697a6}
+
+
+Definition at line 29 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{struct_context_prefix_a324733817553bbc909f18acd01f697a6_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{struct_context_prefix_ab31c3c3cafc8c6ddf9d755184b7bc678}{
+\index{ContextPrefix@{ContextPrefix}!toString@{toString}}
+\index{toString@{toString}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{toString}]{\setlength{\rightskip}{0pt plus 5cm}string ContextPrefix::toString ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{struct_context_prefix_ab31c3c3cafc8c6ddf9d755184b7bc678}
+
+
+Definition at line 89 of file data.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{struct_context_prefix_ab31c3c3cafc8c6ddf9d755184b7bc678_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{struct_context_prefix_a50c0426af5b66766ab87aae8f77a0a31}{
+\index{ContextPrefix@{ContextPrefix}!context\_\-id\_\-list@{context\_\-id\_\-list}}
+\index{context\_\-id\_\-list@{context\_\-id\_\-list}!ContextPrefix@{ContextPrefix}}
+\subsubsection[{context\_\-id\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}list$<$int$>$ {\bf ContextPrefix::context\_\-id\_\-list}}}
+\label{struct_context_prefix_a50c0426af5b66766ab87aae8f77a0a31}
+
+
+Definition at line 22 of file data.hpp.
+
+The documentation for this struct was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{data_8hpp}{data.hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_global_context.html#ab518683a44cc92eb1c1a38a77f29f82d" title="GlobalContext::addContext" alt="" coords="213,5,392,35"/>
+<area shape="rect" id="node5" href="$class_global_context.html#a933e43be2a62ca16e4ffa34ce5cadb5c" title="GlobalContext::createContextHandle" alt="" coords="185,59,420,88"/>
+<area shape="rect" id="node7" href="$class_i_context.html#ae51caa1b552828bab3e5317c0efad541" title="IContext::setContextHandle" alt="" coords="211,112,395,141"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_propagate_info.html#a7dd786107e3f53d7b24d7482709a3347" title="PropagateInfo::deserialize" alt="" coords="272,32,445,61"/>
+<area shape="rect" id="node5" href="$classengine.html#a21127e8807bf1984daa2806e056aef9c" title="engine::receivePropagateTask" alt="" coords="516,5,713,35"/>
+<area shape="rect" id="node7" href="$class_global_context.html#a2f62ad628b6c5d48c2cda3ea05e08860" title="GlobalContext::unpackPropagateTask" alt="" coords="493,59,736,88"/>
+<area shape="rect" id="node9" href="$class_global_context.html#a45180bd1ced20471a3489200c235ed37" title="GlobalContext::testPropagatePacking" alt="" coords="785,59,1025,88"/>
+</map>

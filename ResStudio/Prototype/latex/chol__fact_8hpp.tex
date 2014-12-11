@@ -1,0 +1,200 @@
+\hypertarget{chol__fact_8hpp}{
+\section{chol\_\-fact.hpp File Reference}
+\label{chol__fact_8hpp}\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}}
+}
+{\ttfamily \#include \char`\"{}context.hpp\char`\"{}}\par
+{\ttfamily \#include \char`\"{}math.h\char`\"{}}\par
+Include dependency graph for chol\_\-fact.hpp:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{chol__fact_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=70pt]{chol__fact_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_sync_task}{SyncTask}
+\item 
+struct \hyperlink{struct_potrf_task}{PotrfTask}
+\item 
+struct \hyperlink{struct_syrk_task}{SyrkTask}
+\item 
+struct \hyperlink{struct_trsm_task}{TrsmTask}
+\item 
+struct \hyperlink{struct_gemm_task}{GemmTask}
+\item 
+class \hyperlink{class_cholesky}{Cholesky}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{chol__fact_8hpp_a259dfc19e5f7cf38a2c97200290427d2}{Mat}(mat, i, j)~mat\mbox{[}j$\ast$N+i\mbox{]}
+\item 
+\#define \hyperlink{chol__fact_8hpp_aa7e13772c7d71c4b0323b49c64727b33}{DEBUG\_\-DLB\_\-DEEP}~0
+\item 
+\#define \hyperlink{chol__fact_8hpp_aee024c5945e8ca04515fea3513aeeaaa}{M}(a, b)~hM\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}
+\item 
+\#define \hyperlink{chol__fact_8hpp_a42b2ebd385e21f96a9663ad9f6c5e481}{A}(a, b)~hA\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}
+\item 
+\#define \hyperlink{chol__fact_8hpp_aba1d3d0c7dd7ed01887246c05675f6d7}{B}(a, b)~hB\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}
+\item 
+\#define \hyperlink{chol__fact_8hpp_adf76913dd39808eb36ccf1b8b31df3f1}{C}(a, b)~hC\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}
+\item 
+\#define \hyperlink{chol__fact_8hpp_aa1ae26e81f27c61e8f45f5b24674ec5d}{SG\_\-TASK}(t,...)~dtEngine.getThrdManager()-\/$>$submit( new t\#\#Task( \_\-\_\-VA\_\-ARGS\_\-\_\- )  )
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{chol__fact_8hpp_a2f25d8f1bdd58e0897c6a14f50a7c196}{check\_\-gemm} (double $\ast$d, int M, int N, double key)
+\item 
+bool \hyperlink{chol__fact_8hpp_a523512a8b92e65e36d5d5ae25ee4bd20}{check\_\-syrk} (double $\ast$d, int M, int N, double key)
+\item 
+bool \hyperlink{chol__fact_8hpp_a77f6d32999e9f671cb0baddddcca4e26}{check\_\-trsm} (double $\ast$d, int M, int N)
+\item 
+bool \hyperlink{chol__fact_8hpp_af30295e4862855c4b8456b2f4612db60}{check\_\-potrf} (double $\ast$d, int M, int N)
+\item 
+void \hyperlink{chol__fact_8hpp_a99e337898d117753a84ee5afdb796d50}{dumpData} (double $\ast$d, int M, int N, char t=' ')
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{chol__fact_8hpp_a42b2ebd385e21f96a9663ad9f6c5e481}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!A@{A}}
+\index{A@{A}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{A}]{\setlength{\rightskip}{0pt plus 5cm}\#define A(a, \/  b)~hA\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}}}
+\label{chol__fact_8hpp_a42b2ebd385e21f96a9663ad9f6c5e481}
+
+
+Definition at line 627 of file chol\_\-fact.hpp.\hypertarget{chol__fact_8hpp_aba1d3d0c7dd7ed01887246c05675f6d7}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!B@{B}}
+\index{B@{B}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{B}]{\setlength{\rightskip}{0pt plus 5cm}\#define B(a, \/  b)~hB\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}}}
+\label{chol__fact_8hpp_aba1d3d0c7dd7ed01887246c05675f6d7}
+
+
+Definition at line 628 of file chol\_\-fact.hpp.\hypertarget{chol__fact_8hpp_adf76913dd39808eb36ccf1b8b31df3f1}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!C@{C}}
+\index{C@{C}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{C}]{\setlength{\rightskip}{0pt plus 5cm}\#define C(a, \/  b)~hC\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}}}
+\label{chol__fact_8hpp_adf76913dd39808eb36ccf1b8b31df3f1}
+
+
+Definition at line 629 of file chol\_\-fact.hpp.\hypertarget{chol__fact_8hpp_aa7e13772c7d71c4b0323b49c64727b33}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!DEBUG\_\-DLB\_\-DEEP@{DEBUG\_\-DLB\_\-DEEP}}
+\index{DEBUG\_\-DLB\_\-DEEP@{DEBUG\_\-DLB\_\-DEEP}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{DEBUG\_\-DLB\_\-DEEP}]{\setlength{\rightskip}{0pt plus 5cm}\#define DEBUG\_\-DLB\_\-DEEP~0}}
+\label{chol__fact_8hpp_aa7e13772c7d71c4b0323b49c64727b33}
+
+
+Definition at line 18 of file chol\_\-fact.hpp.\hypertarget{chol__fact_8hpp_aee024c5945e8ca04515fea3513aeeaaa}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!M@{M}}
+\index{M@{M}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{M}]{\setlength{\rightskip}{0pt plus 5cm}\#define M(a, \/  b)~hM\mbox{[}a\mbox{]}\mbox{[}b\mbox{]}}}
+\label{chol__fact_8hpp_aee024c5945e8ca04515fea3513aeeaaa}
+
+
+Definition at line 626 of file chol\_\-fact.hpp.\hypertarget{chol__fact_8hpp_a259dfc19e5f7cf38a2c97200290427d2}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!Mat@{Mat}}
+\index{Mat@{Mat}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{Mat}]{\setlength{\rightskip}{0pt plus 5cm}\#define Mat(mat, \/  i, \/  j)~mat\mbox{[}j$\ast$N+i\mbox{]}}}
+\label{chol__fact_8hpp_a259dfc19e5f7cf38a2c97200290427d2}
+
+
+Definition at line 11 of file chol\_\-fact.hpp.\hypertarget{chol__fact_8hpp_aa1ae26e81f27c61e8f45f5b24674ec5d}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!SG\_\-TASK@{SG\_\-TASK}}
+\index{SG\_\-TASK@{SG\_\-TASK}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{SG\_\-TASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define SG\_\-TASK(t, \/   {\em ...})~dtEngine.getThrdManager()-\/$>$submit( new t\#\#Task( \_\-\_\-VA\_\-ARGS\_\-\_\- )  )}}
+\label{chol__fact_8hpp_aa1ae26e81f27c61e8f45f5b24674ec5d}
+
+
+Definition at line 630 of file chol\_\-fact.hpp.
+
+\subsection{Function Documentation}
+\hypertarget{chol__fact_8hpp_a2f25d8f1bdd58e0897c6a14f50a7c196}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!check\_\-gemm@{check\_\-gemm}}
+\index{check\_\-gemm@{check\_\-gemm}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{check\_\-gemm}]{\setlength{\rightskip}{0pt plus 5cm}bool check\_\-gemm (double $\ast$ {\em d}, \/  int {\em M}, \/  int {\em N}, \/  double {\em key})}}
+\label{chol__fact_8hpp_a2f25d8f1bdd58e0897c6a14f50a7c196}
+
+
+Definition at line 21 of file chol\_\-fact.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=122pt]{chol__fact_8hpp_a2f25d8f1bdd58e0897c6a14f50a7c196_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{chol__fact_8hpp_af30295e4862855c4b8456b2f4612db60}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!check\_\-potrf@{check\_\-potrf}}
+\index{check\_\-potrf@{check\_\-potrf}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{check\_\-potrf}]{\setlength{\rightskip}{0pt plus 5cm}bool check\_\-potrf (double $\ast$ {\em d}, \/  int {\em M}, \/  int {\em N})}}
+\label{chol__fact_8hpp_af30295e4862855c4b8456b2f4612db60}
+
+
+Definition at line 67 of file chol\_\-fact.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{chol__fact_8hpp_af30295e4862855c4b8456b2f4612db60_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{chol__fact_8hpp_a523512a8b92e65e36d5d5ae25ee4bd20}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!check\_\-syrk@{check\_\-syrk}}
+\index{check\_\-syrk@{check\_\-syrk}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{check\_\-syrk}]{\setlength{\rightskip}{0pt plus 5cm}bool check\_\-syrk (double $\ast$ {\em d}, \/  int {\em M}, \/  int {\em N}, \/  double {\em key})}}
+\label{chol__fact_8hpp_a523512a8b92e65e36d5d5ae25ee4bd20}
+
+
+Definition at line 34 of file chol\_\-fact.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=113pt]{chol__fact_8hpp_a523512a8b92e65e36d5d5ae25ee4bd20_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{chol__fact_8hpp_a77f6d32999e9f671cb0baddddcca4e26}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!check\_\-trsm@{check\_\-trsm}}
+\index{check\_\-trsm@{check\_\-trsm}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{check\_\-trsm}]{\setlength{\rightskip}{0pt plus 5cm}bool check\_\-trsm (double $\ast$ {\em d}, \/  int {\em M}, \/  int {\em N})}}
+\label{chol__fact_8hpp_a77f6d32999e9f671cb0baddddcca4e26}
+
+
+Definition at line 56 of file chol\_\-fact.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{chol__fact_8hpp_a77f6d32999e9f671cb0baddddcca4e26_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{chol__fact_8hpp_a99e337898d117753a84ee5afdb796d50}{
+\index{chol\_\-fact.hpp@{chol\_\-fact.hpp}!dumpData@{dumpData}}
+\index{dumpData@{dumpData}!chol_fact.hpp@{chol\_\-fact.hpp}}
+\subsubsection[{dumpData}]{\setlength{\rightskip}{0pt plus 5cm}void dumpData (double $\ast$ {\em d}, \/  int {\em M}, \/  int {\em N}, \/  char {\em t} = {\ttfamily '~'})}}
+\label{chol__fact_8hpp_a99e337898d117753a84ee5afdb796d50}
+
+
+Definition at line 88 of file chol\_\-fact.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=126pt]{chol__fact_8hpp_a99e337898d117753a84ee5afdb796d50_icgraph}
+\end{center}
+\end{figure}

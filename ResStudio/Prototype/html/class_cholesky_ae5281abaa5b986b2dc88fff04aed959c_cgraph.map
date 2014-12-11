@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_ductteip_log.html#a9a010d4387f7f74b848d5c36aaacd501" title="DuctteipLog::addEventEnd" alt="" coords="235,85,413,115"/>
+<area shape="rect" id="node21" href="$class_ductteip_log.html#a6d0afadbba975c706ef756a3ba23fe47" title="DuctteipLog::addEventStart" alt="" coords="233,139,415,168"/>
+<area shape="rect" id="node24" href="$class_cholesky.html#a91ddf85d95bbf73cb8e2cdb1ddfa7d4c" title="Cholesky::dumpAllData" alt="" coords="244,192,404,221"/>
+<area shape="rect" id="node5" href="$class_ductteip_log.html#a2038f71b600647a1899da3a0022f9fc1" title="DuctteipLog::addEvent" alt="" coords="464,112,619,141"/>
+<area shape="rect" id="node7" href="$class_ductteip_log.html#a080df86b3f7167341da836494af41822" title="DuctteipLog::getEventName" alt="" coords="683,5,869,35"/>
+<area shape="rect" id="node9" href="$class_i_ductteip_task.html#ab4eb87b3c109c4a5c8a74c928ea3b8b5" title="IDuctteipTask::getHandle" alt="" coords="691,59,861,88"/>
+<area shape="rect" id="node11" href="$class_i_ductteip_task.html#aff428fcafc7ce7f6aa9f281febead30a" title="IDuctteipTask::getName" alt="" coords="693,112,859,141"/>
+<area shape="rect" id="node15" href="$class_ductteip_log.html#a3f2679d12c317c14c06ac0a23243cb6a" title="DuctteipLog::updateCommStats" alt="" coords="672,165,880,195"/>
+<area shape="rect" id="node17" href="$class_ductteip_log.html#a10e6b8ed2cea31010e9937b5d0f5e685" title="DuctteipLog::updateStatisticsPair" alt="" coords="668,219,884,248"/>
+<area shape="rect" id="node13" href="$task_8hpp.html#ae15bb970511620732fc931105472c762" title="to_string" alt="" coords="1012,112,1084,141"/>
+<area shape="rect" id="node19" href="$class_ductteip_log.html#acca92822b7606cc0c5d384a3d96c7950" title="DuctteipLog::isSequentialPairEvent" alt="" coords="935,219,1161,248"/>
+<area shape="rect" id="node26" href="$class_i_context.html#a607d8609c589bfa7937b5a8313c61d04" title="IContext::getName" alt="" coords="475,192,608,221"/>
+</map>

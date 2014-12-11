@@ -1,0 +1,142 @@
+\hypertarget{class_memory_manager}{
+\section{MemoryManager Class Reference}
+\label{class_memory_manager}\index{MemoryManager@{MemoryManager}}
+}
+
+
+{\ttfamily \#include $<$memory\_\-manager.hpp$>$}\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_memory_manager_a5b1191f93feb7d9e36ed3476b19ef3b1}{MemoryManager} (int elem\_\-count, int elem\_\-size)
+\item 
+\hyperlink{class_memory_manager_ad4570910ccfc14b2da679bee58ee8f48}{$\sim$MemoryManager} ()
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{class_memory_manager_acafc29252617db5b035895aadb2946d4}{getNewMemory} ()
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{class_memory_manager_a672f7255418e01cccc234b563068c39e}{expandMemoryItems} (int n=0)
+\item 
+\hyperlink{struct_memory_item}{MemoryItem} $\ast$ \hyperlink{class_memory_manager_abe914c7420e3ef7b101013e42b2a9602}{findFreeMemory} ()
+\item 
+void \hyperlink{class_memory_manager_a68915a0f823d79218e1db6746cd8199e}{freeMemoryItem} (\hyperlink{struct_memory_item}{MemoryItem} $\ast$m)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 70 of file memory\_\-manager.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_memory_manager_a5b1191f93feb7d9e36ed3476b19ef3b1}{
+\index{MemoryManager@{MemoryManager}!MemoryManager@{MemoryManager}}
+\index{MemoryManager@{MemoryManager}!MemoryManager@{MemoryManager}}
+\subsubsection[{MemoryManager}]{\setlength{\rightskip}{0pt plus 5cm}MemoryManager::MemoryManager (int {\em elem\_\-count}, \/  int {\em elem\_\-size})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_memory_manager_a5b1191f93feb7d9e36ed3476b19ef3b1}
+
+
+Definition at line 77 of file memory\_\-manager.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{class_memory_manager_a5b1191f93feb7d9e36ed3476b19ef3b1_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_memory_manager_ad4570910ccfc14b2da679bee58ee8f48}{
+\index{MemoryManager@{MemoryManager}!$\sim$MemoryManager@{$\sim$MemoryManager}}
+\index{$\sim$MemoryManager@{$\sim$MemoryManager}!MemoryManager@{MemoryManager}}
+\subsubsection[{$\sim$MemoryManager}]{\setlength{\rightskip}{0pt plus 5cm}MemoryManager::$\sim$MemoryManager ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_memory_manager_ad4570910ccfc14b2da679bee58ee8f48}
+
+
+Definition at line 85 of file memory\_\-manager.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_memory_manager_a672f7255418e01cccc234b563068c39e}{
+\index{MemoryManager@{MemoryManager}!expandMemoryItems@{expandMemoryItems}}
+\index{expandMemoryItems@{expandMemoryItems}!MemoryManager@{MemoryManager}}
+\subsubsection[{expandMemoryItems}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ MemoryManager::expandMemoryItems (int {\em n} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_memory_manager_a672f7255418e01cccc234b563068c39e}
+
+
+Definition at line 103 of file memory\_\-manager.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_memory_manager_a672f7255418e01cccc234b563068c39e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_memory_manager_abe914c7420e3ef7b101013e42b2a9602}{
+\index{MemoryManager@{MemoryManager}!findFreeMemory@{findFreeMemory}}
+\index{findFreeMemory@{findFreeMemory}!MemoryManager@{MemoryManager}}
+\subsubsection[{findFreeMemory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ MemoryManager::findFreeMemory ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_memory_manager_abe914c7420e3ef7b101013e42b2a9602}
+
+
+Definition at line 117 of file memory\_\-manager.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{class_memory_manager_abe914c7420e3ef7b101013e42b2a9602_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_memory_manager_abe914c7420e3ef7b101013e42b2a9602_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_memory_manager_a68915a0f823d79218e1db6746cd8199e}{
+\index{MemoryManager@{MemoryManager}!freeMemoryItem@{freeMemoryItem}}
+\index{freeMemoryItem@{freeMemoryItem}!MemoryManager@{MemoryManager}}
+\subsubsection[{freeMemoryItem}]{\setlength{\rightskip}{0pt plus 5cm}void MemoryManager::freeMemoryItem ({\bf MemoryItem} $\ast$ {\em m})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_memory_manager_a68915a0f823d79218e1db6746cd8199e}
+
+
+Definition at line 130 of file memory\_\-manager.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{class_memory_manager_a68915a0f823d79218e1db6746cd8199e_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_memory_manager_acafc29252617db5b035895aadb2946d4}{
+\index{MemoryManager@{MemoryManager}!getNewMemory@{getNewMemory}}
+\index{getNewMemory@{getNewMemory}!MemoryManager@{MemoryManager}}
+\subsubsection[{getNewMemory}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MemoryItem}$\ast$ MemoryManager::getNewMemory ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_memory_manager_acafc29252617db5b035895aadb2946d4}
+
+
+Definition at line 91 of file memory\_\-manager.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{class_memory_manager_acafc29252617db5b035895aadb2946d4_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=398pt]{class_memory_manager_acafc29252617db5b035895aadb2946d4_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{memory__manager_8hpp}{memory\_\-manager.hpp}\end{DoxyCompactItemize}

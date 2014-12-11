@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_memory_manager.html#acafc29252617db5b035895aadb2946d4" title="MemoryManager::getNewMemory" alt="" coords="275,32,493,61"/>
+<area shape="rect" id="node5" href="$class_mail_box.html#ad920ff9b804620414e814322462c783b" title="MailBox::getEvent" alt="" coords="561,5,689,35"/>
+<area shape="rect" id="node7" href="$classengine.html#a99ae6156ee65044d03d61a3776ef2f99" title="engine::newDataMemory" alt="" coords="543,59,708,88"/>
+<area shape="rect" id="node9" href="$class_i_data.html#aa3f5c7ae906943db0780856ba3d53a33" title="IData::allocateMemory" alt="" coords="757,59,912,88"/>
+<area shape="rect" id="node11" href="$class_i_data.html#a9924a4023a9fedf223a74abfd96c72a0" title="IData::setPartition" alt="" coords="960,59,1088,88"/>
+<area shape="rect" id="node13" href="$class_cholesky.html#ae3a7112a8c31a3a11ce7ff63f8940f9d" title="Cholesky::Cholesky" alt="" coords="1137,59,1276,88"/>
+</map>

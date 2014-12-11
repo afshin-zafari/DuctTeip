@@ -1,0 +1,128 @@
+\hypertarget{class_simulate_comm}{
+\section{SimulateComm Class Reference}
+\label{class_simulate_comm}\index{SimulateComm@{SimulateComm}}
+}
+
+
+{\ttfamily \#include $<$simulate\_\-comm.hpp$>$}Inheritance diagram for SimulateComm:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=128pt]{class_simulate_comm__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for SimulateComm:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=128pt]{class_simulate_comm__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_simulate_comm_aaa48d4d4fe225bea10b9df8f61754d32}{SimulateComm} ()
+\item 
+\hyperlink{class_simulate_comm_aa74089e430618f2d94bb47abe644c5d5}{$\sim$SimulateComm} ()
+\item 
+unsigned long \hyperlink{class_simulate_comm_a5bd343760bc13357ca5e7ef0f1d777e1}{send} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int dest)
+\item 
+int \hyperlink{class_simulate_comm_a1c94227cec96dc0f46791675bd556f0a}{receive} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int length, int tag, int source)
+\item 
+int \hyperlink{class_simulate_comm_a3f005f136eac8100b0bf8e7472e55bf3}{probe} (int tag, int $\ast$source, int $\ast$length)
+\item 
+int \hyperlink{class_simulate_comm_a7086d3778f9c2d01d0425c4d940a57d1}{initialize} (int argc, char $\ast$$\ast$argv)
+\item 
+int \hyperlink{class_simulate_comm_aab86214be629c432b2fd0922afa6ba6c}{finish} ()
+\item 
+int \hyperlink{class_simulate_comm_a0cc18f43f08d707c300466e9e1a59184}{get\_\-host\_\-id} ()
+\item 
+int \hyperlink{class_simulate_comm_abce134f416c691a6910fcf6601ee8829}{get\_\-host\_\-count} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 7 of file simulate\_\-comm.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_simulate_comm_aaa48d4d4fe225bea10b9df8f61754d32}{
+\index{SimulateComm@{SimulateComm}!SimulateComm@{SimulateComm}}
+\index{SimulateComm@{SimulateComm}!SimulateComm@{SimulateComm}}
+\subsubsection[{SimulateComm}]{\setlength{\rightskip}{0pt plus 5cm}SimulateComm::SimulateComm ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_simulate_comm_aaa48d4d4fe225bea10b9df8f61754d32}
+
+
+Definition at line 14 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_aa74089e430618f2d94bb47abe644c5d5}{
+\index{SimulateComm@{SimulateComm}!$\sim$SimulateComm@{$\sim$SimulateComm}}
+\index{$\sim$SimulateComm@{$\sim$SimulateComm}!SimulateComm@{SimulateComm}}
+\subsubsection[{$\sim$SimulateComm}]{\setlength{\rightskip}{0pt plus 5cm}SimulateComm::$\sim$SimulateComm ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_simulate_comm_aa74089e430618f2d94bb47abe644c5d5}
+
+
+Definition at line 17 of file simulate\_\-comm.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_simulate_comm_aab86214be629c432b2fd0922afa6ba6c}{
+\index{SimulateComm@{SimulateComm}!finish@{finish}}
+\index{finish@{finish}!SimulateComm@{SimulateComm}}
+\subsubsection[{finish}]{\setlength{\rightskip}{0pt plus 5cm}int SimulateComm::finish ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_simulate_comm_aab86214be629c432b2fd0922afa6ba6c}
+
+
+Implements \hyperlink{class_i_network_a667e56ba7f3713c949f84573ae710a85}{INetwork}.
+
+Definition at line 29 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_abce134f416c691a6910fcf6601ee8829}{
+\index{SimulateComm@{SimulateComm}!get\_\-host\_\-count@{get\_\-host\_\-count}}
+\index{get\_\-host\_\-count@{get\_\-host\_\-count}!SimulateComm@{SimulateComm}}
+\subsubsection[{get\_\-host\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}int SimulateComm::get\_\-host\_\-count ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_simulate_comm_abce134f416c691a6910fcf6601ee8829}
+
+
+Implements \hyperlink{class_i_network_a24bd475422706998cbee500825728d55}{INetwork}.
+
+Definition at line 35 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_a0cc18f43f08d707c300466e9e1a59184}{
+\index{SimulateComm@{SimulateComm}!get\_\-host\_\-id@{get\_\-host\_\-id}}
+\index{get\_\-host\_\-id@{get\_\-host\_\-id}!SimulateComm@{SimulateComm}}
+\subsubsection[{get\_\-host\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}int SimulateComm::get\_\-host\_\-id ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_simulate_comm_a0cc18f43f08d707c300466e9e1a59184}
+
+
+Implements \hyperlink{class_i_network_aef01bb260a8e60c7c9085b381cf86f13}{INetwork}.
+
+Definition at line 31 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_a7086d3778f9c2d01d0425c4d940a57d1}{
+\index{SimulateComm@{SimulateComm}!initialize@{initialize}}
+\index{initialize@{initialize}!SimulateComm@{SimulateComm}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}int SimulateComm::initialize (int {\em argc}, \/  char $\ast$$\ast$ {\em argv})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_simulate_comm_a7086d3778f9c2d01d0425c4d940a57d1}
+
+
+Implements \hyperlink{class_i_network_a5c706262a4275f321687a189686a2b81}{INetwork}.
+
+Definition at line 27 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_a3f005f136eac8100b0bf8e7472e55bf3}{
+\index{SimulateComm@{SimulateComm}!probe@{probe}}
+\index{probe@{probe}!SimulateComm@{SimulateComm}}
+\subsubsection[{probe}]{\setlength{\rightskip}{0pt plus 5cm}int SimulateComm::probe (int {\em tag}, \/  int $\ast$ {\em source}, \/  int $\ast$ {\em length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_simulate_comm_a3f005f136eac8100b0bf8e7472e55bf3}
+
+
+Definition at line 23 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_a1c94227cec96dc0f46791675bd556f0a}{
+\index{SimulateComm@{SimulateComm}!receive@{receive}}
+\index{receive@{receive}!SimulateComm@{SimulateComm}}
+\subsubsection[{receive}]{\setlength{\rightskip}{0pt plus 5cm}int SimulateComm::receive ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em source})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_simulate_comm_a1c94227cec96dc0f46791675bd556f0a}
+
+
+Definition at line 21 of file simulate\_\-comm.hpp.\hypertarget{class_simulate_comm_a5bd343760bc13357ca5e7ef0f1d777e1}{
+\index{SimulateComm@{SimulateComm}!send@{send}}
+\index{send@{send}!SimulateComm@{SimulateComm}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long SimulateComm::send ({\bf byte} $\ast$ {\em buffer}, \/  int {\em length}, \/  int {\em tag}, \/  int {\em dest})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_simulate_comm_a5bd343760bc13357ca5e7ef0f1d777e1}
+
+
+Definition at line 19 of file simulate\_\-comm.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{simulate__comm_8hpp}{simulate\_\-comm.hpp}\end{DoxyCompactItemize}

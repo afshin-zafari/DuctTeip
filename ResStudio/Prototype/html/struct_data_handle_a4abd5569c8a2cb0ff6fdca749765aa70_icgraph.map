@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_data.html#a1ab1fff22b5ba4cd4fb93cd09007dda6" title="IData::deserialize" alt="" coords="243,44,365,73"/>
+<area shape="rect" id="node5" href="$classengine.html#af65fff57c4729b10421eaa064a254d64" title="engine::importedData" alt="" coords="448,5,595,35"/>
+<area shape="rect" id="node7" href="$classengine.html#ab244f803ac3edc7ec1341e9b9a11ca33" title="engine::receivedData" alt="" coords="449,71,593,100"/>
+<area shape="rect" id="node9" href="$class_i_listener.html#a893f2f48814ce66437c6f2add51c8b8d" title="IListener::deserialize" alt="" coords="233,148,375,177"/>
+<area shape="rect" id="node13" href="$class_i_ductteip_task.html#a035d61635b69e2682c7361e3a07f610e" title="IDuctteipTask::deserialize" alt="" coords="217,201,391,231"/>
+<area shape="rect" id="node11" href="$classengine.html#ae0b940ebb7f5104cc2757bc9c92d0708" title="engine::receivedListener" alt="" coords="440,148,603,177"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_i_host_policy.html" title="IHostPolicy" alt="" coords="5,139,96,168"/>
+<area shape="rect" id="node3" href="$class_context_host_policy.html" title="ContextHostPolicy" alt="" coords="152,5,283,35"/>
+<area shape="rect" id="node5" href="$class_data_host_policy.html" title="DataHostPolicy" alt="" coords="160,59,275,88"/>
+<area shape="rect" id="node7" href="$class_task_add_policy.html" title="TaskAddPolicy" alt="" coords="163,112,272,141"/>
+<area shape="rect" id="node9" href="$class_task_host_policy.html" title="TaskHostPolicy" alt="" coords="160,165,275,195"/>
+<area shape="rect" id="node11" href="$class_task_propagate_policy.html" title="TaskPropagatePolicy" alt="" coords="144,219,291,248"/>
+<area shape="rect" id="node13" href="$class_task_read_policy.html" title="TaskReadPolicy" alt="" coords="159,272,276,301"/>
+</map>

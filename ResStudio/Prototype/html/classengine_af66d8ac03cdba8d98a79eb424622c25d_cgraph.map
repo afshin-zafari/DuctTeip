@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_listener.html#a8a3f4a3f3c27cd671415192b99b10a96" title="IListener::getPackSize" alt="" coords="257,59,412,88"/>
+<area shape="rect" id="node11" href="$class_mail_box.html#aa9c92ef9ed35dbd1ebc4aae5f16876bd" title="MailBox::prepareListenerReceive" alt="" coords="527,112,740,141"/>
+<area shape="rect" id="node19" href="$class_mail_box.html#a9730cc56fbce0325496bb67970572015" title="MailBox::prepareTerminateReceive" alt="" coords="221,165,448,195"/>
+<area shape="rect" id="node5" href="$struct_data_version.html#a77899e6e8255693a00a56250c2d26572" title="DataVersion::getPackSize" alt="" coords="545,59,721,88"/>
+<area shape="rect" id="node9" href="$struct_data_handle.html#a5f555e8f89e12b36a6f831059fb10124" title="DataHandle::getPackSize" alt="" coords="547,5,720,35"/>
+<area shape="rect" id="node7" href="$struct_context_prefix.html#a6d30f468ca52d1dce17ee24804892d52" title="ContextPrefix::getPackSize" alt="" coords="835,59,1019,88"/>
+<area shape="rect" id="node13" href="$class_mail_box.html#a541c1f871502eec356801ed5657f56c3" title="MailBox::dumpPosts" alt="" coords="856,219,997,248"/>
+<area shape="rect" id="node15" href="$class_i_network.html#a24bd475422706998cbee500825728d55" title="INetwork::get_host_count" alt="" coords="841,165,1012,195"/>
+<area shape="rect" id="node17" href="$class_i_network.html#a60a1f567df811d09fc1774bc439ea349" title="INetwork::postListenerReceive" alt="" coords="825,112,1028,141"/>
+<area shape="rect" id="node21" href="$class_mail_box.html#a1fb17b7247e23d29fc0f51e980717acf" title="MailBox::getLRNeighbors" alt="" coords="548,165,719,195"/>
+<area shape="rect" id="node24" href="$class_mail_box.html#a45435c4ffb07fe13da0bcdacdde49bb6" title="MailBox::prepareTerminateReceiveForHost" alt="" coords="497,219,769,248"/>
+<area shape="rect" id="node27" href="$class_i_network.html#ae8381635a24542ac374056c15613daeb" title="INetwork::postTerminateReceive" alt="" coords="820,272,1033,301"/>
+</map>

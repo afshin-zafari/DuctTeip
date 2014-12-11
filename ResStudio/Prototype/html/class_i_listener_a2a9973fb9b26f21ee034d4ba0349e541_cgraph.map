@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$struct_data_version.html#a03b5b85b2c309989eb96c2248b0dedfa" title="DataVersion::dump" alt="" coords="233,5,367,35"/>
+<area shape="rect" id="node9" href="$class_i_data.html#aae35cd74cf8b062a958959d606d73f29" title="IData::dump" alt="" coords="253,59,347,88"/>
+<area shape="rect" id="node23" href="$class_i_data.html#af9db5134f13b3c512451eb412c1f5daf" title="IData::getRunTimeVersion" alt="" coords="212,112,388,141"/>
+<area shape="rect" id="node5" href="$struct_data_version.html#a09ef74f4b532a991d2a05982d012d524" title="DataVersion::dumpString" alt="" coords="441,5,609,35"/>
+<area shape="rect" id="node7" href="$struct_context_prefix.html#ab31c3c3cafc8c6ddf9d755184b7bc678" title="ContextPrefix::toString" alt="" coords="669,5,824,35"/>
+<area shape="rect" id="node11" href="$class_i_data.html#a513a1ad05e427af81ca7c34291826efb" title="IData::getContentAddress" alt="" coords="439,59,612,88"/>
+<area shape="rect" id="node13" href="$struct_memory_item.html#a8e5271126c1eb7d5d5b0d611149b67cf" title="MemoryItem::getAddress" alt="" coords="663,59,831,88"/>
+<area shape="rect" id="node15" href="$class_i_data.html#acf62b5fb26cf38c5a0b1480f8a548664" title="IData::getHeaderSize" alt="" coords="673,112,820,141"/>
+<area shape="rect" id="node17" href="$struct_data_version.html#a77899e6e8255693a00a56250c2d26572" title="DataVersion::getPackSize" alt="" coords="880,85,1056,115"/>
+<area shape="rect" id="node21" href="$struct_data_handle.html#a5f555e8f89e12b36a6f831059fb10124" title="DataHandle::getPackSize" alt="" coords="881,139,1055,168"/>
+<area shape="rect" id="node19" href="$struct_context_prefix.html#a6d30f468ca52d1dce17ee24804892d52" title="ContextPrefix::getPackSize" alt="" coords="1104,85,1288,115"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_i_data.html#a32479396ae443e9e80f6517fd1e20f35" title="IData::getContentSize" alt="" coords="189,5,341,35"/>
+<area shape="rect" id="node5" href="$class_i_data.html#acf62b5fb26cf38c5a0b1480f8a548664" title="IData::getHeaderSize" alt="" coords="192,59,339,88"/>
+<area shape="rect" id="node7" href="$struct_data_version.html#a77899e6e8255693a00a56250c2d26572" title="DataVersion::getPackSize" alt="" coords="389,32,565,61"/>
+<area shape="rect" id="node11" href="$struct_data_handle.html#a5f555e8f89e12b36a6f831059fb10124" title="DataHandle::getPackSize" alt="" coords="391,85,564,115"/>
+<area shape="rect" id="node9" href="$struct_context_prefix.html#a6d30f468ca52d1dce17ee24804892d52" title="ContextPrefix::getPackSize" alt="" coords="613,32,797,61"/>
+</map>

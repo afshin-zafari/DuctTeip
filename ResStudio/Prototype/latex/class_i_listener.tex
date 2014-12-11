@@ -1,0 +1,537 @@
+\hypertarget{class_i_listener}{
+\section{IListener Class Reference}
+\label{class_i_listener}\index{IListener@{IListener}}
+}
+
+
+{\ttfamily \#include $<$listener.hpp$>$}Collaboration diagram for IListener:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{class_i_listener__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_i_listener_a580e07e9510e6566f2585942f40b16ba}{IListener} ()
+\item 
+\hyperlink{class_i_listener_a1eba797d318973c361a7d8ce023fb3eb}{IListener} (\hyperlink{struct_data_access}{DataAccess} $\ast$\_\-d, int \_\-host)
+\item 
+\hyperlink{class_i_listener_a9c66b3735fe70263e9717f50ac00cff9}{$\sim$IListener} ()
+\item 
+int \hyperlink{class_i_listener_a740d5ab9a48bdb21b107edd813e8b9ca}{getHandle} ()
+\item 
+void \hyperlink{class_i_listener_a4649d89b151d60d9c9fe82e5f3a7a98d}{setHandle} (int h)
+\item 
+unsigned long \hyperlink{class_i_listener_ad1ce06a966f81c212179acb6da9c4b9d}{getCommHandle} ()
+\item 
+void \hyperlink{class_i_listener_a808fd91db5dba945320316a8b6c99dca}{setCommHandle} (unsigned long ch)
+\item 
+void \hyperlink{class_i_listener_a0e9cfdf957b6e1fe454b7ca312115c2d}{setHost} (int h)
+\item 
+int \hyperlink{class_i_listener_a92be46f2fb958f6b52564e837d5fca98}{getHost} ()
+\item 
+int \hyperlink{class_i_listener_a3ccdeeabec88b3f0532aa2ced78797e8}{getCount} ()
+\item 
+void \hyperlink{class_i_listener_a9def0a8ed3ed91e1956b7b9ce1473b2e}{setCount} (int c)
+\item 
+\hyperlink{class_i_data}{IData} $\ast$ \hyperlink{class_i_listener_a26d2796b0c0f2fb59203140ddb0ee468}{getData} ()
+\item 
+\hyperlink{struct_data_version}{DataVersion} \& \hyperlink{class_i_listener_aee2a0174f44139725e4e19fdc3c4d94e}{getRequiredVersion} ()
+\item 
+void \hyperlink{class_i_listener_a338e30d25c88f4fd7ce341e666cddc0f}{setDataRequest} (\hyperlink{struct_data_access}{DataAccess} $\ast$dr)
+\item 
+void \hyperlink{class_i_listener_aa2cf7948e5d24cded10e026fe202ab62}{setRequiredVersion} (\hyperlink{struct_data_version}{DataVersion} rhs)
+\item 
+void \hyperlink{class_i_listener_ae53c9b5bd1067445dd09804efd04ea5c}{dump} ()
+\item 
+void \hyperlink{class_i_listener_af65b43016d32d8437fc5dcc4ed11fef4}{setSource} (int s)
+\item 
+int \hyperlink{class_i_listener_a52a8aa5ce8929ad9eae2a7c9c7cce9ba}{getSource} ()
+\item 
+void \hyperlink{class_i_listener_a54c8d2e23951e95dbb6eae79b6c9d975}{setDataSent} (bool sent)
+\item 
+bool \hyperlink{class_i_listener_af8508f7394c3a5171d283f94c117f806}{isDataRemote} ()
+\item 
+bool \hyperlink{class_i_listener_af0cb8b56c305486c399dc60427864ef4}{isDataSent} ()
+\item 
+void \hyperlink{class_i_listener_a48b905974e451f8ab3998dd212d06af1}{setReceived} (bool r)
+\item 
+bool \hyperlink{class_i_listener_aef5dea3b4b1ca6d3b14b3f5340514c0a}{isReceived} ()
+\item 
+bool \hyperlink{class_i_listener_a2a9973fb9b26f21ee034d4ba0349e541}{isDataReady} ()
+\item 
+long \hyperlink{class_i_listener_a8a3f4a3f3c27cd671415192b99b10a96}{getPackSize} ()
+\item 
+\hyperlink{struct_message_buffer}{MessageBuffer} $\ast$ \hyperlink{class_i_listener_a4e270e6c78f576bcca1dbccda5305ac3}{serialize} ()
+\item 
+void \hyperlink{class_i_listener_aab9d4cfe83a94b1ca4480e8d186ff112}{serialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+void \hyperlink{class_i_listener_a893f2f48814ce66437c6f2add51c8b8d}{deserialize} (\hyperlink{engine_8hpp_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int \&offset, int max\_\-length)
+\item 
+void \hyperlink{class_i_listener_a092fa85ce870bd169930cffce12bc87b}{checkAndSendData} (\hyperlink{class_mail_box}{MailBox} $\ast$mailbox)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 13 of file listener.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_i_listener_a580e07e9510e6566f2585942f40b16ba}{
+\index{IListener@{IListener}!IListener@{IListener}}
+\index{IListener@{IListener}!IListener@{IListener}}
+\subsubsection[{IListener}]{\setlength{\rightskip}{0pt plus 5cm}IListener::IListener ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a580e07e9510e6566f2585942f40b16ba}
+
+
+Definition at line 22 of file listener.hpp.\hypertarget{class_i_listener_a1eba797d318973c361a7d8ce023fb3eb}{
+\index{IListener@{IListener}!IListener@{IListener}}
+\index{IListener@{IListener}!IListener@{IListener}}
+\subsubsection[{IListener}]{\setlength{\rightskip}{0pt plus 5cm}IListener::IListener ({\bf DataAccess} $\ast$ {\em \_\-d}, \/  int {\em \_\-host})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a1eba797d318973c361a7d8ce023fb3eb}
+
+
+Definition at line 26 of file listener.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{class_i_listener_a1eba797d318973c361a7d8ce023fb3eb_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a9c66b3735fe70263e9717f50ac00cff9}{
+\index{IListener@{IListener}!$\sim$IListener@{$\sim$IListener}}
+\index{$\sim$IListener@{$\sim$IListener}!IListener@{IListener}}
+\subsubsection[{$\sim$IListener}]{\setlength{\rightskip}{0pt plus 5cm}IListener::$\sim$IListener ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a9c66b3735fe70263e9717f50ac00cff9}
+
+
+Definition at line 32 of file listener.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_listener_a092fa85ce870bd169930cffce12bc87b}{
+\index{IListener@{IListener}!checkAndSendData@{checkAndSendData}}
+\index{checkAndSendData@{checkAndSendData}!IListener@{IListener}}
+\subsubsection[{checkAndSendData}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::checkAndSendData ({\bf MailBox} $\ast$ {\em mailbox})}}
+\label{class_i_listener_a092fa85ce870bd169930cffce12bc87b}
+
+
+Definition at line 994 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_listener_a092fa85ce870bd169930cffce12bc87b_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{class_i_listener_a092fa85ce870bd169930cffce12bc87b_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a893f2f48814ce66437c6f2add51c8b8d}{
+\index{IListener@{IListener}!deserialize@{deserialize}}
+\index{deserialize@{deserialize}!IListener@{IListener}}
+\subsubsection[{deserialize}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::deserialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})}}
+\label{class_i_listener_a893f2f48814ce66437c6f2add51c8b8d}
+
+
+Definition at line 859 of file context.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_listener_a893f2f48814ce66437c6f2add51c8b8d_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=155pt]{class_i_listener_a893f2f48814ce66437c6f2add51c8b8d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_ae53c9b5bd1067445dd09804efd04ea5c}{
+\index{IListener@{IListener}!dump@{dump}}
+\index{dump@{dump}!IListener@{IListener}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::dump ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_ae53c9b5bd1067445dd09804efd04ea5c}
+
+
+Definition at line 61 of file listener.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{class_i_listener_ae53c9b5bd1067445dd09804efd04ea5c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_listener_ae53c9b5bd1067445dd09804efd04ea5c_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_ad1ce06a966f81c212179acb6da9c4b9d}{
+\index{IListener@{IListener}!getCommHandle@{getCommHandle}}
+\index{getCommHandle@{getCommHandle}!IListener@{IListener}}
+\subsubsection[{getCommHandle}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long IListener::getCommHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_ad1ce06a966f81c212179acb6da9c4b9d}
+
+
+Definition at line 39 of file listener.hpp.\hypertarget{class_i_listener_a3ccdeeabec88b3f0532aa2ced78797e8}{
+\index{IListener@{IListener}!getCount@{getCount}}
+\index{getCount@{getCount}!IListener@{IListener}}
+\subsubsection[{getCount}]{\setlength{\rightskip}{0pt plus 5cm}int IListener::getCount ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a3ccdeeabec88b3f0532aa2ced78797e8}
+
+
+Definition at line 43 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_i_listener_a3ccdeeabec88b3f0532aa2ced78797e8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a26d2796b0c0f2fb59203140ddb0ee468}{
+\index{IListener@{IListener}!getData@{getData}}
+\index{getData@{getData}!IListener@{IListener}}
+\subsubsection[{getData}]{\setlength{\rightskip}{0pt plus 5cm}{\bf IData}$\ast$ IListener::getData ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a26d2796b0c0f2fb59203140ddb0ee468}
+
+
+Definition at line 45 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{class_i_listener_a26d2796b0c0f2fb59203140ddb0ee468_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a740d5ab9a48bdb21b107edd813e8b9ca}{
+\index{IListener@{IListener}!getHandle@{getHandle}}
+\index{getHandle@{getHandle}!IListener@{IListener}}
+\subsubsection[{getHandle}]{\setlength{\rightskip}{0pt plus 5cm}int IListener::getHandle ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a740d5ab9a48bdb21b107edd813e8b9ca}
+
+
+Definition at line 37 of file listener.hpp.\hypertarget{class_i_listener_a92be46f2fb958f6b52564e837d5fca98}{
+\index{IListener@{IListener}!getHost@{getHost}}
+\index{getHost@{getHost}!IListener@{IListener}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int IListener::getHost ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a92be46f2fb958f6b52564e837d5fca98}
+
+
+Definition at line 42 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=317pt]{class_i_listener_a92be46f2fb958f6b52564e837d5fca98_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a8a3f4a3f3c27cd671415192b99b10a96}{
+\index{IListener@{IListener}!getPackSize@{getPackSize}}
+\index{getPackSize@{getPackSize}!IListener@{IListener}}
+\subsubsection[{getPackSize}]{\setlength{\rightskip}{0pt plus 5cm}long IListener::getPackSize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a8a3f4a3f3c27cd671415192b99b10a96}
+
+
+Definition at line 83 of file listener.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=251pt]{class_i_listener_a8a3f4a3f3c27cd671415192b99b10a96_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=265pt]{class_i_listener_a8a3f4a3f3c27cd671415192b99b10a96_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_aee2a0174f44139725e4e19fdc3c4d94e}{
+\index{IListener@{IListener}!getRequiredVersion@{getRequiredVersion}}
+\index{getRequiredVersion@{getRequiredVersion}!IListener@{IListener}}
+\subsubsection[{getRequiredVersion}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DataVersion}\& IListener::getRequiredVersion ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_aee2a0174f44139725e4e19fdc3c4d94e}
+
+
+Definition at line 49 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=379pt]{class_i_listener_aee2a0174f44139725e4e19fdc3c4d94e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a52a8aa5ce8929ad9eae2a7c9c7cce9ba}{
+\index{IListener@{IListener}!getSource@{getSource}}
+\index{getSource@{getSource}!IListener@{IListener}}
+\subsubsection[{getSource}]{\setlength{\rightskip}{0pt plus 5cm}int IListener::getSource ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a52a8aa5ce8929ad9eae2a7c9c7cce9ba}
+
+
+Definition at line 68 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{class_i_listener_a52a8aa5ce8929ad9eae2a7c9c7cce9ba_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a2a9973fb9b26f21ee034d4ba0349e541}{
+\index{IListener@{IListener}!isDataReady@{isDataReady}}
+\index{isDataReady@{isDataReady}!IListener@{IListener}}
+\subsubsection[{isDataReady}]{\setlength{\rightskip}{0pt plus 5cm}bool IListener::isDataReady ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a2a9973fb9b26f21ee034d4ba0349e541}
+
+
+Definition at line 75 of file listener.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_listener_a2a9973fb9b26f21ee034d4ba0349e541_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=257pt]{class_i_listener_a2a9973fb9b26f21ee034d4ba0349e541_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_af8508f7394c3a5171d283f94c117f806}{
+\index{IListener@{IListener}!isDataRemote@{isDataRemote}}
+\index{isDataRemote@{isDataRemote}!IListener@{IListener}}
+\subsubsection[{isDataRemote}]{\setlength{\rightskip}{0pt plus 5cm}bool IListener::isDataRemote ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_af8508f7394c3a5171d283f94c117f806}
+
+
+Definition at line 70 of file listener.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{class_i_listener_af8508f7394c3a5171d283f94c117f806_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_af0cb8b56c305486c399dc60427864ef4}{
+\index{IListener@{IListener}!isDataSent@{isDataSent}}
+\index{isDataSent@{isDataSent}!IListener@{IListener}}
+\subsubsection[{isDataSent}]{\setlength{\rightskip}{0pt plus 5cm}bool IListener::isDataSent ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_af0cb8b56c305486c399dc60427864ef4}
+
+
+Definition at line 71 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_listener_af0cb8b56c305486c399dc60427864ef4_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_aef5dea3b4b1ca6d3b14b3f5340514c0a}{
+\index{IListener@{IListener}!isReceived@{isReceived}}
+\index{isReceived@{isReceived}!IListener@{IListener}}
+\subsubsection[{isReceived}]{\setlength{\rightskip}{0pt plus 5cm}bool IListener::isReceived ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_aef5dea3b4b1ca6d3b14b3f5340514c0a}
+
+
+Definition at line 73 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_listener_aef5dea3b4b1ca6d3b14b3f5340514c0a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_aab9d4cfe83a94b1ca4480e8d186ff112}{
+\index{IListener@{IListener}!serialize@{serialize}}
+\index{serialize@{serialize}!IListener@{IListener}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::serialize ({\bf byte} $\ast$ {\em buffer}, \/  int \& {\em offset}, \/  int {\em max\_\-length})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_aab9d4cfe83a94b1ca4480e8d186ff112}
+
+
+Definition at line 95 of file listener.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{class_i_listener_aab9d4cfe83a94b1ca4480e8d186ff112_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a4e270e6c78f576bcca1dbccda5305ac3}{
+\index{IListener@{IListener}!serialize@{serialize}}
+\index{serialize@{serialize}!IListener@{IListener}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MessageBuffer}$\ast$ IListener::serialize ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a4e270e6c78f576bcca1dbccda5305ac3}
+
+
+Definition at line 89 of file listener.hpp.\hypertarget{class_i_listener_a808fd91db5dba945320316a8b6c99dca}{
+\index{IListener@{IListener}!setCommHandle@{setCommHandle}}
+\index{setCommHandle@{setCommHandle}!IListener@{IListener}}
+\subsubsection[{setCommHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setCommHandle (unsigned long {\em ch})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a808fd91db5dba945320316a8b6c99dca}
+
+
+Definition at line 40 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=265pt]{class_i_listener_a808fd91db5dba945320316a8b6c99dca_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a9def0a8ed3ed91e1956b7b9ce1473b2e}{
+\index{IListener@{IListener}!setCount@{setCount}}
+\index{setCount@{setCount}!IListener@{IListener}}
+\subsubsection[{setCount}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setCount (int {\em c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a9def0a8ed3ed91e1956b7b9ce1473b2e}
+
+
+Definition at line 44 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{class_i_listener_a9def0a8ed3ed91e1956b7b9ce1473b2e_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a338e30d25c88f4fd7ce341e666cddc0f}{
+\index{IListener@{IListener}!setDataRequest@{setDataRequest}}
+\index{setDataRequest@{setDataRequest}!IListener@{IListener}}
+\subsubsection[{setDataRequest}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setDataRequest ({\bf DataAccess} $\ast$ {\em dr})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a338e30d25c88f4fd7ce341e666cddc0f}
+
+
+Definition at line 53 of file listener.hpp.\hypertarget{class_i_listener_a54c8d2e23951e95dbb6eae79b6c9d975}{
+\index{IListener@{IListener}!setDataSent@{setDataSent}}
+\index{setDataSent@{setDataSent}!IListener@{IListener}}
+\subsubsection[{setDataSent}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setDataSent (bool {\em sent})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a54c8d2e23951e95dbb6eae79b6c9d975}
+
+
+Definition at line 69 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{class_i_listener_a54c8d2e23951e95dbb6eae79b6c9d975_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a4649d89b151d60d9c9fe82e5f3a7a98d}{
+\index{IListener@{IListener}!setHandle@{setHandle}}
+\index{setHandle@{setHandle}!IListener@{IListener}}
+\subsubsection[{setHandle}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setHandle (int {\em h})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a4649d89b151d60d9c9fe82e5f3a7a98d}
+
+
+Definition at line 38 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_i_listener_a4649d89b151d60d9c9fe82e5f3a7a98d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a0e9cfdf957b6e1fe454b7ca312115c2d}{
+\index{IListener@{IListener}!setHost@{setHost}}
+\index{setHost@{setHost}!IListener@{IListener}}
+\subsubsection[{setHost}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setHost (int {\em h})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a0e9cfdf957b6e1fe454b7ca312115c2d}
+
+
+Definition at line 41 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=149pt]{class_i_listener_a0e9cfdf957b6e1fe454b7ca312115c2d_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_a48b905974e451f8ab3998dd212d06af1}{
+\index{IListener@{IListener}!setReceived@{setReceived}}
+\index{setReceived@{setReceived}!IListener@{IListener}}
+\subsubsection[{setReceived}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setReceived (bool {\em r})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_a48b905974e451f8ab3998dd212d06af1}
+
+
+Definition at line 72 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=159pt]{class_i_listener_a48b905974e451f8ab3998dd212d06af1_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_listener_aa2cf7948e5d24cded10e026fe202ab62}{
+\index{IListener@{IListener}!setRequiredVersion@{setRequiredVersion}}
+\index{setRequiredVersion@{setRequiredVersion}!IListener@{IListener}}
+\subsubsection[{setRequiredVersion}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setRequiredVersion ({\bf DataVersion} {\em rhs})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_aa2cf7948e5d24cded10e026fe202ab62}
+
+
+Definition at line 57 of file listener.hpp.\hypertarget{class_i_listener_af65b43016d32d8437fc5dcc4ed11fef4}{
+\index{IListener@{IListener}!setSource@{setSource}}
+\index{setSource@{setSource}!IListener@{IListener}}
+\subsubsection[{setSource}]{\setlength{\rightskip}{0pt plus 5cm}void IListener::setSource (int {\em s})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_listener_af65b43016d32d8437fc5dcc4ed11fef4}
+
+
+Definition at line 67 of file listener.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{class_i_listener_af65b43016d32d8437fc5dcc4ed11fef4_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{listener_8hpp}{listener.hpp}\item 
+\hyperlink{context_8hpp}{context.hpp}\end{DoxyCompactItemize}

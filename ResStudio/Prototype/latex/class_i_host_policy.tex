@@ -1,0 +1,177 @@
+\hypertarget{class_i_host_policy}{
+\section{IHostPolicy Class Reference}
+\label{class_i_host_policy}\index{IHostPolicy@{IHostPolicy}}
+}
+
+
+{\ttfamily \#include $<$hostpolicy.hpp$>$}Inheritance diagram for IHostPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{class_i_host_policy__inherit__graph}
+\end{center}
+\end{figure}
+Collaboration diagram for IHostPolicy:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=114pt]{class_i_host_policy__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_i_host_policy_a828c447a8f9e985e22d04a0bd933f5d6}{IHostPolicy} (\hyperlink{class_process_grid}{ProcessGrid} $\ast$pg)
+\item 
+int \hyperlink{class_i_host_policy_ab759310a417532f33b513fbe1ac6aea8}{getHost} (\hyperlink{class_coordinate}{Coordinate} c, int ndim=2)
+\item 
+virtual bool \hyperlink{class_i_host_policy_aed5e7b81736d6e950897a8e341cc9a2c}{isInRow} (int \hyperlink{mpi__comm_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me}, int r)
+\item 
+virtual bool \hyperlink{class_i_host_policy_ac886a2d16e0914619ba9423f697c5e1a}{isInCol} (int \hyperlink{mpi__comm_8hpp_a94bbc6e3d7712df24be96e5e83d0aaf8}{me}, int c)
+\item 
+virtual bool \hyperlink{class_i_host_policy_a5200e3143a640e492438361a3fd2626a}{isAllowed} (\hyperlink{class_i_context}{IContext} $\ast$, \hyperlink{class_context_header}{ContextHeader} $\ast$)
+\item 
+virtual bool \hyperlink{class_i_host_policy_ad7665cb96e008e8f189201662ae32736}{isAllowed} (\hyperlink{class_context_host_policy}{ContextHostPolicy} $\ast$, int)
+\item 
+virtual void \hyperlink{class_i_host_policy_a76602bc70073ed8eb476d9ddacdef74f}{reset} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_process_grid}{ProcessGrid} $\ast$ \hyperlink{class_i_host_policy_a8e93dcd6f13d6ad65da75ddf2837174f}{PG}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 18 of file hostpolicy.hpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_i_host_policy_a828c447a8f9e985e22d04a0bd933f5d6}{
+\index{IHostPolicy@{IHostPolicy}!IHostPolicy@{IHostPolicy}}
+\index{IHostPolicy@{IHostPolicy}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{IHostPolicy}]{\setlength{\rightskip}{0pt plus 5cm}IHostPolicy::IHostPolicy ({\bf ProcessGrid} $\ast$ {\em pg})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_host_policy_a828c447a8f9e985e22d04a0bd933f5d6}
+
+
+Definition at line 23 of file hostpolicy.hpp.
+
+\subsection{Member Function Documentation}
+\hypertarget{class_i_host_policy_ab759310a417532f33b513fbe1ac6aea8}{
+\index{IHostPolicy@{IHostPolicy}!getHost@{getHost}}
+\index{getHost@{getHost}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{getHost}]{\setlength{\rightskip}{0pt plus 5cm}int IHostPolicy::getHost ({\bf Coordinate} {\em c}, \/  int {\em ndim} = {\ttfamily 2})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{class_i_host_policy_ab759310a417532f33b513fbe1ac6aea8}
+
+
+Definition at line 25 of file hostpolicy.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{class_i_host_policy_ab759310a417532f33b513fbe1ac6aea8_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=420pt]{class_i_host_policy_ab759310a417532f33b513fbe1ac6aea8_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_host_policy_ad7665cb96e008e8f189201662ae32736}{
+\index{IHostPolicy@{IHostPolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool IHostPolicy::isAllowed ({\bf ContextHostPolicy} $\ast$, \/  int)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_i_host_policy_ad7665cb96e008e8f189201662ae32736}
+
+
+Reimplemented in \hyperlink{class_task_read_policy_a94a18c877a66a55844d538f47deb171d}{TaskReadPolicy}, \hyperlink{class_task_add_policy_a16f3ac4d4bf719e3020a4495d7498c3e}{TaskAddPolicy}, and \hyperlink{class_task_propagate_policy_af5be0fe1cf14a044035d62b5b40c2093}{TaskPropagatePolicy}.
+
+Definition at line 38 of file hostpolicy.hpp.\hypertarget{class_i_host_policy_a5200e3143a640e492438361a3fd2626a}{
+\index{IHostPolicy@{IHostPolicy}!isAllowed@{isAllowed}}
+\index{isAllowed@{isAllowed}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{isAllowed}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool IHostPolicy::isAllowed ({\bf IContext} $\ast$, \/  {\bf ContextHeader} $\ast$)\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_i_host_policy_a5200e3143a640e492438361a3fd2626a}
+
+
+Reimplemented in \hyperlink{class_context_host_policy_aa10ca0985dfed1351b9ef69fbe97f1f4}{ContextHostPolicy}, \hyperlink{class_task_read_policy_a10db4c46db394c083c73589cb998e5c3}{TaskReadPolicy}, \hyperlink{class_task_add_policy_a80261d7262611c29d2b483e4e73cc204}{TaskAddPolicy}, and \hyperlink{class_task_propagate_policy_a5dda297fceb4379ba92f8e2e0e899f2a}{TaskPropagatePolicy}.
+
+Definition at line 37 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=269pt]{class_i_host_policy_a5200e3143a640e492438361a3fd2626a_icgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_host_policy_ac886a2d16e0914619ba9423f697c5e1a}{
+\index{IHostPolicy@{IHostPolicy}!isInCol@{isInCol}}
+\index{isInCol@{isInCol}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{isInCol}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool IHostPolicy::isInCol (int {\em me}, \/  int {\em c})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_i_host_policy_ac886a2d16e0914619ba9423f697c5e1a}
+
+
+Definition at line 34 of file hostpolicy.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=146pt]{class_i_host_policy_ac886a2d16e0914619ba9423f697c5e1a_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_host_policy_aed5e7b81736d6e950897a8e341cc9a2c}{
+\index{IHostPolicy@{IHostPolicy}!isInRow@{isInRow}}
+\index{isInRow@{isInRow}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{isInRow}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool IHostPolicy::isInRow (int {\em me}, \/  int {\em r})\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_i_host_policy_aed5e7b81736d6e950897a8e341cc9a2c}
+
+
+Definition at line 31 of file hostpolicy.hpp.
+
+Here is the call graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=152pt]{class_i_host_policy_aed5e7b81736d6e950897a8e341cc9a2c_cgraph}
+\end{center}
+\end{figure}
+\hypertarget{class_i_host_policy_a76602bc70073ed8eb476d9ddacdef74f}{
+\index{IHostPolicy@{IHostPolicy}!reset@{reset}}
+\index{reset@{reset}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}virtual void IHostPolicy::reset ()\hspace{0.3cm}{\ttfamily  \mbox{[}inline, virtual\mbox{]}}}}
+\label{class_i_host_policy_a76602bc70073ed8eb476d9ddacdef74f}
+
+
+Reimplemented in \hyperlink{class_task_add_policy_a5ce62af8541c3e3001d5b373799c1228}{TaskAddPolicy}.
+
+Definition at line 39 of file hostpolicy.hpp.
+
+Here is the caller graph for this function:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=161pt]{class_i_host_policy_a76602bc70073ed8eb476d9ddacdef74f_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_i_host_policy_a8e93dcd6f13d6ad65da75ddf2837174f}{
+\index{IHostPolicy@{IHostPolicy}!PG@{PG}}
+\index{PG@{PG}!IHostPolicy@{IHostPolicy}}
+\subsubsection[{PG}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ProcessGrid}$\ast$ {\bf IHostPolicy::PG}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{class_i_host_policy_a8e93dcd6f13d6ad65da75ddf2837174f}
+
+
+Definition at line 21 of file hostpolicy.hpp.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{hostpolicy_8hpp}{hostpolicy.hpp}\end{DoxyCompactItemize}

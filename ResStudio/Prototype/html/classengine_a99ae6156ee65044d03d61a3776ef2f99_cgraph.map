@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_memory_manager.html#acafc29252617db5b035895aadb2946d4" title="MemoryManager::getNewMemory" alt="" coords="221,109,440,139"/>
+<area shape="rect" id="node5" href="$class_memory_manager.html#a672f7255418e01cccc234b563068c39e" title="MemoryManager::expandMemoryItems" alt="" coords="489,5,737,35"/>
+<area shape="rect" id="node7" href="$class_memory_manager.html#abe914c7420e3ef7b101013e42b2a9602" title="MemoryManager::findFreeMemory" alt="" coords="503,109,724,139"/>
+<area shape="rect" id="node9" href="$struct_memory_item.html#a8e5271126c1eb7d5d5b0d611149b67cf" title="MemoryItem::getAddress" alt="" coords="788,71,956,100"/>
+<area shape="rect" id="node11" href="$struct_memory_item.html#ae1fd92ca511fee0daeeac11b301977a6" title="MemoryItem::getState" alt="" coords="796,136,948,165"/>
+<area shape="rect" id="node15" href="$struct_memory_item.html#ae23ea09a2d3d4d6e311b10b6ce60fd20" title="MemoryItem::setState" alt="" coords="537,213,689,243"/>
+</map>

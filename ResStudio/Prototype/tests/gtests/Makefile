@@ -11,13 +11,10 @@ CXX=mpic++
 
 all: config_utest.o config_utest 
 
-config_utest.o:
+config_utest.o: config_utest.cpp $(DUCTTEIP_DIR)/config.hpp
 	$(CXX) $(CFLAGS) config_utest.cpp -o config_utest.o
-$(GTEST_MAIN_OBJ): $(GTEST_MAIN_SRC)
-	$(CXX) $(CFLAGS) $(GTEST_MAIN_SRC) -o $@
 
-
-config_utest:
+config_utest: config_utest.o
 	$(CXX) $(CFLAGS_LIB) config_utest.o -o $@
 
 clean:

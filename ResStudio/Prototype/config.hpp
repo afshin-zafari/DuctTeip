@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <cstring>
+#include <iostream>
 
 #define GETTER(a,b) int get##a(){return b;}
 #define SETTER(a,b) void set##a(int _p){b=_p;}
@@ -19,24 +20,30 @@ private:
 public:
   Config (int *argc,char **argv){
     N=M=Nb=Mb=P=p=q=mb=nb=nt=INVALID_NUMBER;
-    for ( int i=1;i<*argc;i++){
-      if ( strcmp(argv[i],"-P"))P=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-p"))p=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-q"))q=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-M"))M=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-N"))N=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-B"))Mb=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-b"))mb=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-t"))nt=atoi(argv[++i]); 
-      if ( strcmp(argv[i],"-D"))dlb=(atoi(argv[++i])!=0); 
-      if ( strcmp(argv[i],"-S"))simulation=(atoi(argv[++i])!=0); 
+    for ( int i=1;i<*argc-1;i++){
+      if ( !strcmp(argv[i],"-P"))P=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-p"))p=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-q"))q=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-M"))M=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-N"))N=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-B"))Mb=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-b"))mb=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-t"))nt=atoi(argv[++i]); 
+      if ( !strcmp(argv[i],"-D"))dlb=(atoi(argv[++i])!=0); 
+      if ( !strcmp(argv[i],"-S"))simulation=(atoi(argv[++i])!=0); 
     }
-    /*
-    if ( !isPositiveInt(P))
-      exit(1);
-    if ( !isPositiveInt(p))
-      exit(1);
-    */
+    if ( !isPositiveInt(P)){
+      std::cerr << "Not complete params.\n";
+      printf("Usage :\n");
+      exit(-1);
+    }
+    
+    if ( isPositiveInt(N)){
+      if ( !isPositiveInt(M) ) {
+	M=N;
+      }
+    }
+    
     
   }
   bool isPositiveInt(int a){

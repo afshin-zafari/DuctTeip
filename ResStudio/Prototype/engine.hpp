@@ -365,7 +365,7 @@ public:
       if (task->canBeCleared()){
 	checkRunningTasks();
 	it=task_list.erase(it);
-	printf("TL:%ld\n",task_list.size());
+	if(0)printf("TL:%ld\n",task_list.size());
       }
       else
 	it ++;
@@ -579,7 +579,7 @@ private :
       IDuctteipTask *task = (*it);
       if (task->canBeCleared()){
 	it=task_list.erase(it);
-	printf("TL:%ld\n",task_list.size());
+	if(0)printf("TL:%ld\n",task_list.size());
       }
       else
 	it ++;
@@ -725,11 +725,11 @@ private :
 	it = running_tasks.erase(it);	
 	dt_log.logLoadChange(running_tasks.size());
 
-	if(1)printf("RUNNING Tasks-:%ld\n",running_tasks.size());
+	if(0)printf("RUNNING Tasks-:%ld\n",running_tasks.size());
 	continue;
       }
       if (task->isFinished() ) {
-	PRINT_IF(1)("rt :%s\n",task->getName().c_str());
+	PRINT_IF(0)("rt :%s\n",task->getName().c_str());
 	putWorkForFinishedTask(task);
 	task->setState(IDuctteipTask::UpgradingData);
 	cnt ++;
@@ -766,7 +766,7 @@ private :
 	    data->serialize();
 	    if(0)printf("Result of imported task is sent back to :%d\n",data->getHost());
 	    data->dumpCheckSum('R');
-	    data->dump('z');
+	    data->dump(' ');
 
 	    mailbox->send(data->getHeaderAddress(),
 			  data->getPackSize(),
@@ -916,7 +916,6 @@ public:
     if(getActiveTasksCount()>DLB_BUSY_TASKS){
       return;
     }
-    printf("rfat in 1\n");
     list<IDuctteipTask *>::iterator it;
     for(it= running_tasks.begin(); it != running_tasks.end(); it ++){
       IDuctteipTask *task = *it;
@@ -925,7 +924,6 @@ public:
       if(task->isFinished()) continue;
       if(task->canBeCleared()) continue;
       if(task->isUpgrading()) continue;
-      printf("rfat in 2\n");
       task->run();
       return;
     }
@@ -1035,7 +1033,7 @@ private:
 	  ++task_it){
 	IDuctteipTask *task = (*task_it);
 	dt_log.addEventStart(task,DuctteipLog::CheckedForRun);
-	printf("$data %s -> task:%s,stat=%d.\n",work->data->getName().c_str(),
+	if(0)printf("$data %s -> task:%s,stat=%d.\n",work->data->getName().c_str(),
 	       task->getName().c_str(),task->getState());
 	if (task->canRun('D')) {
 	  dt_log.addEventEnd(task,DuctteipLog::CheckedForRun);
@@ -1045,7 +1043,7 @@ private:
 		 running_tasks.size(),import_tasks.size(),
 		 export_tasks.size());
 	  if (cfg->getDLB()){
-	    printf("##### running tasks :%ld\n",running_tasks.size() );
+	    if(0)printf("##### running tasks :%ld\n",running_tasks.size() );
 	  }	  
 	  else{
 	    dt_log.addEventStart(task,DuctteipLog::Executed);
@@ -1058,7 +1056,6 @@ private:
       }
       dt_log.addEventEnd(work->data,DuctteipLog::CheckedForTask);
       if (cfg->getDLB()){
-	//printf("rfat \n");
 	runFirstActiveTask();
       }
       break;
@@ -1147,7 +1144,7 @@ static
 	return;
       }
     }
-	  if (1){
+	  if (0){
 	    if ( event.direction == MailBoxEvent::Received)
 	    if ( event.tag == MailBox::MigrateDataTag ||
 		 event.tag == MailBox::MigratedTaskOutDataTag ){
@@ -1253,7 +1250,7 @@ static
       if ( event.direction == MailBoxEvent::Received ) {
 	PRINT_IF(0)("DATA imported from %d\n",event.host);
 	PRINT_IF(0)("time:%Ld\n",elapsedTime(1));
-	  if (1){
+	  if (0){
 	    double sum = 0.0,*contents=(double *)(event.buffer+192);
 	    long size = (event.length-192)/sizeof(double);
 	    for ( long i=0; i< size; i++)
@@ -1265,7 +1262,7 @@ static
       break;
     case MailBox::MigratedTaskOutDataTag:
       if ( event.direction == MailBoxEvent::Received ) {
-	  if (1){
+	  if (0){
 	    double sum = 0.0,*contents=(double *)(event.buffer+192);
 	    long size = (event.length-192)/sizeof(double);
 	    for ( long i=0; i< size; i++)
@@ -1333,7 +1330,7 @@ static
       IDuctteipTask *task = (*it);
       if (task->getHandle() == task_handle){
 	task_list.erase(it);
-	printf("TL:%ld\n",task_list.size());
+	if(0)printf("TL:%ld\n",task_list.size());
 	criticalSection(Leave);
 	return;
       }
@@ -2048,9 +2045,9 @@ static
 	}
 
 	data->dumpCheckSum('x');
-	data->dump('z');
+	data->dump(' ');
 	data->serialize();
-	if(1)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
+	if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
 	       data->getContentAddress(),
 	       data->getContentSize(),
 	       data->getHeaderSize(),
@@ -2067,13 +2064,13 @@ static
   void importData(MailBoxEvent *event){
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
-	if(1)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
+	if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
 	       data->getContentAddress(),
 	       data->getContentSize(),
 	       data->getHeaderSize(),
 	       data->getPackSize());
     data->dumpCheckSum('i');
-    data->dump('z');
+    data->dump(' ');
     void dumpData(double *,int,int,char);
     if ( 0 ) {
       double *A=data->getContentAddress();
@@ -2097,7 +2094,7 @@ static
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
     data->dumpCheckSum('r');
-    data->dump('z');
+    data->dump(' ');
     list<IDuctteipTask *>::iterator it;
     for(it=export_tasks.begin();it != export_tasks.end(); it ++){
       IDuctteipTask *task = *it;

@@ -28,7 +28,7 @@
 
 #define DLB_DEBUG 0
 #define DLB_BUSY_TASKS 5
-#define DLB_MODE 1
+#define DLB_MODE 0
 
 #define DEBUG 0
 
@@ -48,7 +48,7 @@
 #define TERMINATE_FLAG    0
 #define IRECV             0
 #define OVERSUBSCRIBED    0
-#define POSTPRINT         1
+#define POSTPRINT         0
 
 #define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
 		       //#define  TRACE_LOCATION

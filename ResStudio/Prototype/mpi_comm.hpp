@@ -239,7 +239,7 @@ public:
     addLogEventEnd  ("MPIReceive",DuctteipLog::MPIReceive);
 
 	if (  tag == 10 || tag == 13) {
-	  if (1){
+	  if (0){
 	    double sum = 0.0,*contents=(double *)(buffer+192);
 	    long size = (length-192)/sizeof(double);
 	    for ( long i=0; i< size; i++)

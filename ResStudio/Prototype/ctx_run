@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm t.o ./tc
+mpic++ -c test_contexts.cpp -o t.o
+mpic++ t.o -o tc
+./tc > a.txt
+grep "\[" a.txt | sort -V -k1,1 >b.txt
+cat b.txt

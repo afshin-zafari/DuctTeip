@@ -86,7 +86,7 @@ bool check_potrf(double *d,int M, int N){
   return true;
 }
 void dumpData(double *d,int M,int N,char t=' '){
-  
+  return;
   if (0 && !DEBUG_DLB_DEEP)
     return;
   if ( 0 && DUMP_FLAG)

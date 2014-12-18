@@ -200,7 +200,7 @@ public:
   DataHandle * createDataHandle ( ) {
     DataHandle *d =glbCtx.createDataHandle () ;
     d->context_handle = *my_context_handle ; 
-    printf("@data se dh:%ld\n",d->data_handle);
+    if(0)printf("@data se dh:%ld\n",d->data_handle);
     return d;
   }
  
@@ -224,7 +224,7 @@ void IData::prepareMemory(){
       dtPartition=new Partition<double>(2);
       Partition<double> *p = dtPartition;
       p->setBaseMemory(getContentAddress() ,  getContentSize());
-      if(1)
+      if(0)
 	printf("####%s, PrepareData cntntAdr:%ld sz:%d\n",getName().c_str(),
 	       getContentAddress(),getContentSize());
       p->partitionRectangle(local_m,local_n,local_mb,local_nb);	
@@ -318,7 +318,7 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   rt_write_version.setContext(s);
   Mb = -1;Nb=-1;
   setDataHandle( ctx->createDataHandle());
-  printf("@data se %s,dh:%ld\n",getName().c_str(),getDataHandleID());
+  if(0) printf("@data se %s,dh:%ld\n",getName().c_str(),getDataHandleID());
   dt_log.addEventEnd ( this,DuctteipLog::DataDefined);
   hM = NULL;
   dtPartition = NULL;
@@ -820,7 +820,7 @@ void IDuctteipTask::run(){
   }
   else{
     state = Running;
-    if(1)printf("%s starts running:\n",getName().c_str());
+    if(0)printf("%s starts running:\n",getName().c_str());
     parent_context->runKernels(this);
   }
 }
@@ -851,7 +851,7 @@ void IDuctteipTask::upgradeData(char c){
     dt_log.addEvent((*it)->data, DuctteipLog::RunTimeVersionUpgraded);    
 
   }
-  printf("%c(*)%s %ld\n",c,s.c_str(),getTime());
+  if(0)printf("%c(*)%s %ld\n",c,s.c_str(),getTime());
   state = CanBeCleared;
   dtEngine.putWorkForDataReady(data_list);
 }
@@ -909,14 +909,14 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
   const bool all_content = false;
   DataHandle dh;
   dh.deserialize(event->buffer,offset,event->length);
-  flushBuffer(event->buffer,event->length);
-  printf("dh:%ld\n",dh.data_handle);
+  //  flushBuffer(event->buffer,event->length);
+  if(0)printf("dh:%ld\n",dh.data_handle);
   IData *data = glbCtx.getDataByHandle(&dh);
   offset =0 ;
-  printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
+  if(0)printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
   data->deserialize(event->buffer,offset,event->length,mi,all_content);
-  printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
-  data->dump('z');
+  if(0)printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
+  data->dump(' ');
   putWorkForSingleDataReady(data);
   dt_log.addEvent(data,DuctteipLog::DataReceived);
 }
@@ -927,7 +927,7 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
   const bool all_content = false;
   DataHandle dh;
 
-  if (1){
+  if (0){
     double sum = 0.0,*contents=(double *)(event->buffer+192);
     long size = (event->length -192)/sizeof(double);
     for ( long i=0; i< size; i++)
@@ -939,7 +939,7 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
   dh.deserialize(event->buffer,offset,event->length);
   IData *data = glbCtx.getDataByHandle(&dh);
   void dumpData(double *, int ,int, char);
-  if (1){
+  if (0){
     double sum = 0.0,*contents=(double *)(event->buffer+192);
     long size = (event->length -192)/sizeof(double);
     for ( long i=0; i< size; i++)
@@ -956,22 +956,22 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
 	  dumpData(A+i*12*12+j*5*12*12,12,12,'I');
 	}
     }
-    printf("ev.mem dump:\n   ");
+    if(0)printf("ev.mem dump:\n   ");
     event->memory->dump();
-    printf("data-before.mem dump:\n   ");
+    if(0)printf("data-before.mem dump:\n   ");
     mi = data->getDataMemory();
     if ( mi != NULL ) {
       mi->dump();
       memcpy(data->getContentAddress(),event->buffer+data->getHeaderSize(),data->getContentSize());
     }
     else{
-      printf("NULL\n");
+      if(0)printf("NULL\n");
       data->setDataMemory(event->memory);
       data->setContentSize(event->length-data->getHeaderSize());
       mi = data->getDataMemory();
       data->prepareMemory();
     }
-    if (1 ) {
+    if (0 ) {
       MemoryItem *mi2 = data->getDataMemory();
       printf("data-after.mem dump:\n   ");
       mi2->dump();
@@ -980,7 +980,7 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
     printf("preparememory.///////////////////////////////////////////////// \n");
     data->prepareMemory();
   }
-  if(1)printf("imported data %s, mem:%p len:%d size:%d sz2:%d\n",data->getName().c_str(),
+  if(0)printf("imported data %s, mem:%p len:%d size:%d sz2:%d\n",data->getName().c_str(),
 	 data->getContentAddress(),event->length,
 	 data->getContentSize(),event->length-data->getHeaderSize());
 
@@ -1009,8 +1009,8 @@ void IListener::checkAndSendData(MailBox * mailbox)
     return;
   }
   data->serialize();
-  printf("@data sent %s dh:%ld\n",data->getName().c_str(),data->getDataHandleID());
-  flushBuffer(data->getHeaderAddress(),data->getPackSize());
+  if(0)printf("@data sent %s dh:%ld\n",data->getName().c_str(),data->getDataHandleID());
+  //  flushBuffer(data->getHeaderAddress(),data->getPackSize());
   unsigned long c_handle= mailbox->send(data->getHeaderAddress(),
 					data->getPackSize(),
 					MailBox::DataTag+data->getDataHandleID(),
@@ -1020,9 +1020,9 @@ void IListener::checkAndSendData(MailBox * mailbox)
   dt_log.addEvent(data,DuctteipLog::DataSent,getSource());
   setCommHandle(c_handle);
   setDataSent(true);
-  if(1)printf("data sent:%s\n",data->getName().c_str());
+  if(0)printf("data sent:%s\n",data->getName().c_str());
   dump();
-  data->dump('z');
+  data->dump(' ');
 
 
 }
@@ -1072,7 +1072,7 @@ void IData:: allocateMemory(){
       content_size=1;
     data_memory = dtEngine.newDataMemory();
 
-    PRINT_IF(1)("@DataMemory %s block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
+    PRINT_IF(0)("@DataMemory %s block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
 		getName().c_str(),N,parent_data->Nb,M,parent_data->Mb,getContentAddress() );
   }
 }
@@ -1184,13 +1184,13 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
 	continue;
 	}*/
       if ( !task->isFinished())
-	if(1)printf("data %s -> task:%s,stat=%d.\n",getName().c_str(),task->getName().c_str(),task->getState());
+	if(0)printf("data %s -> task:%s,stat=%d.\n",getName().c_str(),task->getName().c_str(),task->getState());
 	if (task->canRun(debug)) {
 	  dt_log.addEventEnd(task,DuctteipLog::CheckedForRun);
 	  dt_log.addEventStart(task,DuctteipLog::Executed);
 	  running_tasks.push_back(task);
-	  if(1)printf("RUNNING Tasks#:%ld\n",running_tasks.size());
-	  if(1)printf("task:%s inserted in running q.\n",task->getName().c_str());
+	  if(0)printf("RUNNING Tasks#:%ld\n",running_tasks.size());
+	  if(0)printf("task:%s inserted in running q.\n",task->getName().c_str());
 	}
 	else
 	  dt_log.addEventEnd(task,DuctteipLog::CheckedForRun);

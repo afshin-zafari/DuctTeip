@@ -227,7 +227,7 @@ public:
 	double sum=0.0;
 	for (int i=0;i<size;i++)
 	  sum+= M[i];
-	printf("@Checksum z :%lf\n",sum);
+	if(0)printf("@Checksum z :%lf\n",sum);
 	/*
 	  for ( int i=0;i<5;i++)
 	  for ( int j =0;j<5;j++){
@@ -266,7 +266,7 @@ public:
         event->memory = memman->getNewMemory();
 	event->buffer = event->memory->getAddress();
         event->memory->setState(MemoryItem::InUse);
-	if(1)printf("DLB DATA rcv src:%d,tag:%d,len:%d,buf:%p\n",source,tag,length,event->buffer);
+	if(0)printf("DLB DATA rcv src:%d,tag:%d,len:%d,buf:%p\n",source,tag,length,event->buffer);
       }
       else{
 	  event->buffer = new byte[event->length];
@@ -274,7 +274,7 @@ public:
       
 	int res=comm->receive(event->buffer,length,tag,source,true);
 	if (  tag == MigrateDataTag || tag == MigratedTaskOutDataTag) {
-	  if (1){
+	  if (0){
 	    double sum = 0.0,*contents=(double *)(event->buffer+192);
 	    long size = (length-192)/sizeof(double);
 	    for ( long i=0; i< size; i++)
@@ -283,7 +283,7 @@ public:
 	  }
 	}
       
-      printf("et , el, es : %d,%d,%d\n",event->tag,event->length,event->host);
+      if(0)printf("et , el, es : %d,%d,%d\n",event->tag,event->length,event->host);
       *completed = true;
       return true;
     }

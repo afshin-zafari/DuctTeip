@@ -59,7 +59,7 @@ public:
 /*----------------------------------------------------------------------------*/
   void dump(){
     //    if ( DUMP_FLAG)
-      PRINT_IF(1)("mitem ,size:%ld,key:%ld,adr:%p,state:%d\n",size,key,address,state);
+      PRINT_IF(0)("mitem ,size:%ld,key:%ld,adr:%p,state:%d\n",size,key,address,state);
   }
 /*----------------------------------------------------------------------------*/
 };
@@ -120,7 +120,7 @@ public:
     for(it = memory_list.begin() ; it != memory_list.end() ; it ++){
       m = (*it);
       if ( m->getState() != MemoryItem::InUse ) {
-	PRINT_IF(1)("find free mem :%p state:%d\n",m->getAddress(),m->getState());
+	PRINT_IF(0)("find free mem :%p state:%d\n",m->getAddress(),m->getState());
 	return m;
       }
     }

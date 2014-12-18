@@ -365,7 +365,7 @@ public:
   void setDataMemory(MemoryItem *mi ) {
     //    data_memory->setState( MemoryItem::Ready) ; 
     data_memory = mi;
-    printf("======%s\n",getName().c_str());
+    if(0)printf("======%s\n",getName().c_str());
   }
   /*--------------------------------------------------------------------------*/
   MemoryItem *getDataMemory(){
@@ -390,7 +390,7 @@ public:
       return hM;
     //    printf ("SG handle for Data %s is created.\n",getName().c_str());
     int nb=local_nb,mb=local_mb;
-    bool dbg=true;
+    bool dbg=!true;
     hM= new Handle<Options>*[mb];
     for(int i=0;i<mb;i++){
       hM[i]=new Handle<Options>[nb];
@@ -398,9 +398,7 @@ public:
     PRINT_IF(dbg)("data :%s , %p\n memory size:%d, %d,%d\n partition ptr:%p",name.c_str(),getContentAddress(),
 		  local_m * local_n,local_m,local_n,dtPartition);
     dtPartition->setBaseMemory( getContentAddress() , local_m * local_n);
-    printf("1\n");
     dtPartition->dump();
-    printf("2\n");
     dtPartition->partitionRectangle(local_m,local_n,local_mb,local_nb);
     PRINT_IF(dbg)("m:%d,n:%d,mb:%d,nb:%d\n",local_m,local_n,local_mb,local_nb);
     
@@ -664,6 +662,7 @@ public:
   list<IDuctteipTask *>      &getTasks(){return tasks_list;}
   /*--------------------------------------------------------------------------*/
   void dumpCheckSum(char c='i'){
+	return;
     if (!data_memory)return;
     double *contents=getContentAddress();
     long size = (getContentSize())/sizeof(double);

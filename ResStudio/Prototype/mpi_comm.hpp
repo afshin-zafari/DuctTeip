@@ -85,13 +85,14 @@ public:
     CommRequest *comm_request = new CommRequest(mpi_request,tag,++last_comm_handle,length);
     request_list.push_back(comm_request);
     PRINT_IF(0)("req list size in send function:%ld,tag:%d\n",request_list.size(),tag);
+    if(0)
     if ( tag == 10 || tag ==2){
       double * M= (double*)(buffer+192);
       int size = (length -192)/sizeof(double);
       double sum=0.0;
       for (int i=0;i<size;i++)
 	sum+= M[i];
-      printf("@Checksum s :%lf\n",sum);
+      //printf("@Checksum s :%lf\n",sum);
       /*
       for ( int i=0;i<5;i++)
 	for ( int j =0;j<5;j++){

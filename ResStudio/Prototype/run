@@ -8,7 +8,7 @@ p=2;q=1
 nt=4
 DLB=1
 #params[1]="$p $q 48 8 2 $nt $DLB 10"
-params[1]="$p $q 1200 10 5 $nt $DLB 10"
+params[1]="$p $q 1200 10 5 $nt $DLB 50"
 
 if test $1 -ne 0
 then 

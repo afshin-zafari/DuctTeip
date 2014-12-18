@@ -595,7 +595,7 @@ private :
       work->host  = task->getHost();
       work_queue.push_back(work);
     }
-    printf("------------------------------------\n");
+    //printf("------------------------------------\n");
   }
   /*---------------------------------------------------------------------------------*/
   void putWorkForReceivedListener(IListener *listener){
@@ -748,7 +748,7 @@ private :
   /*---------------------------------------------------------------------------------*/
   void  checkMigratedTasks(){
     checkImportedTasks();
-    //checkExportedTasks();
+    checkExportedTasks();
   }
   /*---------------------------------------------------------------------------------*/
   void  checkImportedTasks(){
@@ -775,6 +775,11 @@ private :
 	  }	
 	}
 	task_it = import_tasks.erase(task_it);
+	if (dlb_state == TASK_IMPORTED && import_tasks.size() ==0){
+	  dlb_state=DLB_STATE_NONE;
+	  dlb_stage= DLB_NONE;
+	  printf("import task list emptied.\n");
+	}
 	dt_log.logImportTask(import_tasks.size());
       }
       else{
@@ -784,6 +789,13 @@ private :
   }
   /*---------------------------------------------------------------------------------*/
   void  checkExportedTasks(){
+    if (dlb_state == TASK_EXPORTED && export_tasks.size() ==0){
+      printf("export task list emptied.\n");
+      dlb_state=DLB_STATE_NONE;
+      dlb_stage= DLB_NONE;
+    }
+    return;
+
 
     list<IDuctteipTask *>::iterator task_it;
     for(task_it = export_tasks.begin(); task_it != export_tasks.end(); ){
@@ -2103,8 +2115,8 @@ static
       if(0)printf("check exported %s task's data:time=%ld\n",task->getName().c_str(),getTime());
       for ( data_it = data_list->begin(); data_it != data_list->end()  ; data_it ++){
 	IData * t_data = (*data_it)->data;
-	printf("data:%s",t_data->getName().c_str());
-	t_data->dump('Z');
+	//printf("data:%s",t_data->getName().c_str());
+	t_data->dump(' ');
 	if ( (*data_it)->type == IData::WRITE ){
 	  if (*t_data->getDataHandle() == *data->getDataHandle()){
 	    if (t_data->getRunTimeVersion(IData::WRITE) == data->getRunTimeVersion(IData::WRITE) ) {

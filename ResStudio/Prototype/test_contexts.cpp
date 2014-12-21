@@ -1,8 +1,49 @@
 #include "generic_contexts.hpp"
+#include "simulate.hpp"
 
-void sample_func2();
+Data x("x"),y("y"),z("z");
 
-void sample_func1(){
+void Fx2();
+
+void Fx3(){
+  BX(A);
+  task(x,y);
+  {
+    BX(B);
+    task(x,z);
+    EX(B);
+  }
+  task(x,y);
+  { 
+    BX(C);
+    task(x,y);
+    {
+      BX(E);
+      task(x,y);
+      EX(E);
+    }
+    task(x,y);
+    {
+      BX(F);
+      task(x,y);
+      EX(F);
+    }
+    task(x,y);
+    EX(C);
+  }
+  task(x,y);
+  for ( int i =0;i<3;i++)
+    {
+      BX(D);
+      task(x,y);
+      EX(D);
+    }
+  task(x,y);
+  EX(A);
+  Fx2();
+}
+/*------------------------------------------------------------*/
+void Fx1(){
   BX(A);
   PRINTF_IND(" A body 1\n");
   {
@@ -37,15 +78,17 @@ void sample_func1(){
   }
   PRINTF_IND(" A body 4\n");
   EX(A);
-  sample_func2();
+  Fx2();
 }
 /*------------------------------------------------------------*/
-void sample_func2(){
+void Fx2(){
   BX(A);
   {
     for (int i=0;i<4; i++){
       BXX(Y,i);
       PRINTF_IND(" Y body %d\n",i);
+      task(x,y);
+      task(y,z);
       EX(Y);
     }
   }
@@ -57,7 +100,7 @@ bool ctx_enter(GenericContext *x,int p){
   string func= x->getFunc();
   if ( p==-2) p = me;
   if ( p==-1)return true;
-  bool f1=func.compare(func.size()-1,1,string("1"))==0;
+  bool f1=func.compare(func.size()-1,1,string("3"))==0;
   if ( p %2 ==0 && f1)
     return true;
   if ( p %2 ==1 && !f1)
@@ -68,6 +111,37 @@ bool ctx_enter(GenericContext *x,int p){
   return false;
 }
 
+void GenericContext::dataTouched(Data *d){
+  touched_data.push_back(d);// to do : push data items only once
+}
+void GenericContext::printTouchedData(){
+  DListIter it;
+  printf ("Touched Data : ");
+  for(it =touched_data.begin(); 
+      it!=touched_data.end(); 
+      it++)
+    {
+      Data *d=*it;
+      printf("%s,",d->Name());
+    }
+  printf("\n");
+}
+void ContextManager::dataTouched(Data *d){
+  ContextNode *cn=getActiveCtx();
+  if ( cn == NULL ) {
+    printf("ActvCtx NULL \n");
+    return;
+  }
+  cn->ctx->dataTouched(d);
+}
+void ContextManager::printTouchedData(){
+  ContextNode *cn=getActiveCtx();
+  if ( cn == NULL ) {
+    printf("ActvCtx NULL \n");
+    return;
+  }
+  cn->ctx->printTouchedData();
+}
 /*====================================================================*/
 
 int main (int *argc, char **argv){
@@ -76,15 +150,25 @@ int main (int *argc, char **argv){
   for ( me =-1; me < procs; me++){
     printf ("---------------- Proc %d ---------------\n",me);
     BX(MAIN);
-    sample_func1();
+    Fx3();
     EX(MAIN);
 
     BX(M2);
     EX(M2);
     Glb.resetCtx();
+    printf("1\n");
     ctx_mngr.dump();
-    ctx_mngr.process();
+    printf("1\n");
+    ctx_mngr.processAll();
+    printf("1\n");
     ctx_mngr.reset();
+    printf("1\n");
+    x.reset();
+    printf("1\n");
+    y.reset();
+    printf("1\n");
+    z.reset();
+    printf("1\n");
   }
 
   printf("Ends\n");

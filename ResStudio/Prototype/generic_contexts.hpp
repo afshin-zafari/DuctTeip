@@ -9,6 +9,8 @@
 #include <assert.h>
 #include <list>
 #include <vector>
+#include <sstream>
+#include <stack>
 
 using namespace std;
 
@@ -26,8 +28,14 @@ using namespace std;
 
 int me,procs;
 class GenericContext;
+class Data;
 bool ctx_enter(GenericContext *x,int p =-2);
 
+/*===================================================================================*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
 /*===================================================================================*/
 struct ContextNode{
   GenericContext *ctx;
@@ -36,28 +44,51 @@ struct ContextNode{
     ctx(xx),begin(b){}
 };
 typedef list<ContextNode *>::iterator CtxIterator;
+typedef list<ContextNode *>::reverse_iterator CtxRIterator;
 typedef vector<int> NodeList;
 typedef NodeList::iterator NodeListIterator;
+typedef list<Data*> DataList;
+typedef DataList::iterator DListIter;
 
-/*------------------------------------------------------------*/
+
+/*===================================================================================*/
+/*====                                                                           ====*/
+/*====                         Context Manager                                   ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*===================================================================================*/
 class ContextManager{
 private:
   list<ContextNode *> ctx_list;
+  stack<ContextNode *> ctx_stack;
 public:
   void addCtx(GenericContext *x,bool begin);
   void dump();
   void reset();
   void process();    
-  void sendCtxConnection(CtxIterator,CtxIterator , NodeList,NodeList);
+  void processAll();    
+  void sendCtxConnection(ContextNode *,ContextNode* , NodeList,NodeList);
+  string getCurrentCtx();
+  void dataTouched(Data *);
+  ContextNode *getActiveCtx(){return ctx_stack.top();}
+  void printTouchedData();
+
 };
 ContextManager ctx_mngr;
+
+
 /*===================================================================================*/
-/*------------------------------------------------------------*/
+/*====                                                                           ====*/
+/*====                         Generic Context                                   ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*===================================================================================*/
 class GenericContext{
 private:
   string name,func;
   int id,line,extra,level;
   NodeList entered_nodes,skipped_nodes;
+  DataList touched_data;
 public:
   static int last_id, indent;
 /*------------------------------------------------------------*/
@@ -89,6 +120,9 @@ public:
     who_enters();
     ctx_mngr.addCtx(this,true);
   }
+/*------------------------------------------------------------*/
+  void dataTouched(Data *d);
+  void printTouchedData();
 /*------------------------------------------------------------*/
   void EndContext(){
     print_indent();
@@ -136,10 +170,9 @@ public:
   int getLevel(){return level;}
 /*------------------------------------------------------------*/
   string getUniqueID(){
-    char s[200];
-    sprintf ( s,"%s_%s_%5.5d_%3.3d",
-	      func.c_str(),name.c_str(),line,extra);
-    return string(s);
+    stringstream ss;
+    ss << func << '/' << name << '/' << line << '/' << extra;
+    return ss.str(); 
   }
 /*------------------------------------------------------------*/
   int getLine(){return line;}
@@ -159,12 +192,25 @@ public:
   }
 /*------------------------------------------------------------*/
 };
-/*==================================================================*/
+
+/*===================================================================================*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*===================================================================================*/
 int GenericContext::last_id = 0;
 int GenericContext::indent  = 0;
 GenericContext Glb(string("Glb"),string("global"),0);
 
-/*------------------------------------------------------------*/
+
+
+/*===================================================================================*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*====                                                                           ====*/
+/*===================================================================================*/
 
 void ContextManager::dump()
 {
@@ -184,6 +230,29 @@ void ContextManager::dump()
 /*------------------------------------------------------------*/
 void ContextManager::process()
 {
+  CtxRIterator it,pit;
+  if (ctx_list.size()<=1)
+    return;
+  pit = ctx_list.rbegin();
+  it = pit;
+  pit++;
+  ContextNode *ctxnode= *it;
+  GenericContext *gctx=ctxnode->ctx;
+  NodeList ex=gctx->getExcludedNodes();
+  NodeList in=gctx->getIncludedNodes();
+  if (ex.size() ==0 || gctx->getID() ==0)
+    return;
+  NodeList pex= (*pit)->ctx->getExcludedNodes();
+  if ( pex.size() ==0 ) {
+    pit = it;
+    return;
+  }
+  sendCtxConnection(*pit,*it,ex,in);
+  
+}
+/*------------------------------------------------------------*/
+void ContextManager::processAll()
+{
   CtxIterator it,pit;
   pit = ctx_list.begin();
   for ( it = ctx_list.begin();
@@ -196,43 +265,50 @@ void ContextManager::process()
       continue;
     NodeList pex= (*pit)->ctx->getExcludedNodes();
     if ( pex.size() ==0 ) {
-      printf("pit GLB\n");
       pit = it;
       continue;
     }
-    sendCtxConnection(pit,it,ex,in);
+    sendCtxConnection(*pit,*it,ex,in);
     pit = it;
-    printf("--\n");
   }
   
 }
 /*------------------------------------------------------------*/
 void ContextManager::reset(){
     ctx_list.clear();
-    //    GenericContext Glb(string("Glb"),string("global"),0);
   }
 /*------------------------------------------------------------*/
 void ContextManager::addCtx(GenericContext *x,bool begin){
     if ( x->getID() ==0 ) 
       return;
-    ctx_list.push_back(new ContextNode(x,begin));
+     ContextNode *cn = new ContextNode(x,begin);
+     if ( begin ){
+       ctx_stack.push( cn );
+       printf("push \n");
+     }
+     else{
+       printTouchedData();
+       ctx_stack.pop( );
+       printf("pop \n");
+     }
+     ctx_list.push_back(cn);
+     process();
   }
 /*------------------------------------------------------------*/
-void ContextManager::sendCtxConnection(CtxIterator px,
-				       CtxIterator x,
+void ContextManager::sendCtxConnection(ContextNode *prv_ctx ,
+				       ContextNode *cur_ctx,
 				       NodeList ex,
 				       NodeList in){
   NodeListIterator it;
-  ContextNode *cur_ctx = *x;
-  ContextNode *prv_ctx = *px;
   int p,m,n;
   n=in.size();
   m=ex.size();
   for ( p=0;p<n;p++)
     if (in[p]==me)
       break;
-  
+  if(1)
   for ( int i = p; i < m ; i +=n){
+    printf("\t\t\t\t\t\t\t");
     printf("[%d] send %s %c->%s %c to %d\n",
 	   ex[i],
 	   prv_ctx->ctx->getUniqueID().c_str(),prv_ctx->begin?'{':'}',
@@ -241,6 +317,13 @@ void ContextManager::sendCtxConnection(CtxIterator px,
 	   );    
   }
 }
+/*------------------------------------------------------------*/
+string ContextManager::getCurrentCtx(){
+    CtxRIterator cx=ctx_list.rbegin();
+    return (*cx)->ctx->getUniqueID() + ( (*cx)->begin?'{':'}');
+  }
+
+/*==================================================================*/
 
 
 #endif // __GENERIC_CONTEXTS_HPP

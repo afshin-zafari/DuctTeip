@@ -468,8 +468,10 @@ public:
       dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
     }
     data_memory = new MemoryManager (  nb * mb/3 ,dps );
-
-    thread_manager = new ThreadManager<Options> ( num_threads , (me % 1 )  * 4) ;
+    int ipn = cfg->getIPN();
+    printf("eng.ipn=%d\n",ipn);
+        thread_manager = new ThreadManager<Options> ( num_threads , (me % ipn )  * 16/ipn) ;
+    //    thread_manager = new ThreadManager<Options> ( num_threads , (me % 1 )  * 4) ;
     show_affinity();
     dt_log.N = cfg->getXDimension();
     dt_log.NB = nb;

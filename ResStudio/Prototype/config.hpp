@@ -10,11 +10,11 @@
 class Config
 {
 private:
-  int N,M,Nb,Mb,P,p,q,mb,nb,nt;
+  int N,M,Nb,Mb,P,p,q,mb,nb,nt,ipn;
   bool dlb;
 public:
-  Config ( int n,int m , int nb , int mb , int P_, int p_, int q_,int mb_, int nb_, int nt_,bool dlb_):
-    N(n),M(m),Nb(nb),Mb(mb),P(P_),p(p_),q(q_),nb(nb_),mb(mb_),nt(nt_),dlb(dlb_){}
+  Config ( int n,int m , int nb , int mb , int P_, int p_, int q_,int mb_, int nb_, int nt_,bool dlb_,int ipn_):
+    N(n),M(m),Nb(nb),Mb(mb),P(P_),p(p_),q(q_),nb(nb_),mb(mb_),nt(nt_),dlb(dlb_),ipn(ipn_){printf("cfg.ipn=%d\n",ipn);}
   PROPERTY(XDimension,N)
   PROPERTY(YDimension,M)
   PROPERTY(XBlocks,Nb)
@@ -26,6 +26,7 @@ public:
   PROPERTY(Q_pxq,q)
   PROPERTY(NumThreads,nt)
   PROPERTY(DLB,dlb)
+  PROPERTY(IPN,ipn)
 
 };
 #endif //__CONFIG_HPP_

@@ -396,8 +396,8 @@ public:
     else{
       M= inData;
     }
-    addInOutData(M);
     populateMatrice();
+    addInOutData(M);
     dtEngine.dumpTime();
   }
 /*----------------------------------------------------------------------------*/
@@ -444,11 +444,16 @@ public:
 
   void populateMatrice(){
     if ( simulation) return;
+    printf("1\n");
     int I = cfg->getYBlocks();        // Mb
     int J = cfg->getXBlocks();        // Nb
     int K = cfg->getYDimension() / I; // #rows per block== M/ Mb
     int L = cfg->getXDimension() / J; // #cols per block== N/ Nb
+    printf("2\n");
     IData &A=*M;
+    printf("1\n");
+    printf(">>>IJKL: %d %d %d %d\n",I,J,K,L);
+
     dt_log.addEventStart(M,DuctteipLog::Populated);
     for ( int i=0; i < I; i ++ ) {
       for ( int j=0 ; j < J ; j ++){
@@ -463,7 +468,7 @@ public:
 		double v = ((r) < (c) ? (r) :(c) ) - 2;
 		A(i,j)->setElement(k,l,v);
 	      }
-	      //printf("[%d,%d]A(%d,%d).(%d,%d):%lf\n",r+k,c+l,i,j,k,l,A(i,j)->getElement(k,l));
+	      //printf("[%d,%d]A(%d,%d).(%d,%d):%lf\n",r,c,i,j,k,l,A(i,j)->getElement(k,l));
 	    }
 	  }
 	  A(i,j)->dump();

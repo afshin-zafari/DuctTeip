@@ -8,7 +8,7 @@
 
 int main (int argc, char * argv[])
 {
-  int N,Nb,P,p,q,nb,nt,dlb;
+  int N,Nb,P,p,q,nb,nt,dlb,ipn;
   long st=100,sw=100,sm=1000,to=2000;
   p  = atoi(argv[1]);
   q  = atoi(argv[2]);
@@ -17,24 +17,26 @@ int main (int argc, char * argv[])
   nb = atoi(argv[5]);
   nt = atoi(argv[6]);
   dlb = atoi(argv[7]);
-  if ( argc > 8 ) 
-    to = atol(argv[8]);
+  ipn= atoi(argv[8]);
   if ( argc > 9 ) 
-    sw = atoi(argv[9]);
+    to = atol(argv[9]);
   if ( argc > 10 ) 
-    sm = atoi(argv[10]);    
+    sw = atoi(argv[10]);
   if ( argc > 11 ) 
-    st = atoi(argv[11]);    
+    sm = atoi(argv[11]);    
+  if ( argc > 12 ) 
+    st = atoi(argv[12]);    
   if ( dlb ==-1){
     simulation = 1; 
     dlb=0;
   }
+printf("ipn:%d\n",ipn);
   
   dtEngine.setSkips(st,sw,sm,to);
   
   P = p * q;
 
-  Config cfg(N,N,Nb,Nb,P,p,q,nb,nb,nt,dlb);
+  Config cfg(N,N,Nb,Nb,P,p,q,nb,nb,nt,dlb,ipn);
   ProcessGrid PG(P,p,q);
 
   DataHostPolicy      hpData    (DataHostPolicy::BLOCK_CYCLIC         , PG );

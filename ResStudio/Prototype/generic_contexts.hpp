@@ -26,9 +26,9 @@ using namespace std;
 #define PRINTF_IND Glb.print_indent();printf
 
 
-int me,procs;
+int procs;
+extern int me;
 class GenericContext;
-class Data;
 bool ctx_enter(GenericContext *x,int p =-2);
 
 /*===================================================================================*/
@@ -47,7 +47,7 @@ typedef list<ContextNode *>::iterator CtxIterator;
 typedef list<ContextNode *>::reverse_iterator CtxRIterator;
 typedef vector<int> NodeList;
 typedef NodeList::iterator NodeListIterator;
-typedef list<Data*> DataList;
+typedef list<IData*> DataList;
 typedef DataList::iterator DListIter;
 
 
@@ -69,7 +69,7 @@ public:
   void processAll();    
   void sendCtxConnection(ContextNode *,ContextNode* , NodeList,NodeList);
   string getCurrentCtx();
-  void dataTouched(Data *);
+  void dataTouched(IData *);
   ContextNode *getActiveCtx(){return ctx_stack.top();}
   void printTouchedData();
 
@@ -121,7 +121,7 @@ public:
     ctx_mngr.addCtx(this,true);
   }
 /*------------------------------------------------------------*/
-  void dataTouched(Data *d);
+  void dataTouched(IData *d);
   void printTouchedData();
 /*------------------------------------------------------------*/
   void EndContext(){
@@ -284,12 +284,10 @@ void ContextManager::addCtx(GenericContext *x,bool begin){
      ContextNode *cn = new ContextNode(x,begin);
      if ( begin ){
        ctx_stack.push( cn );
-       printf("push \n");
      }
      else{
        printTouchedData();
        ctx_stack.pop( );
-       printf("pop \n");
      }
      ctx_list.push_back(cn);
      process();
@@ -309,7 +307,7 @@ void ContextManager::sendCtxConnection(ContextNode *prv_ctx ,
   if(1)
   for ( int i = p; i < m ; i +=n){
     printf("\t\t\t\t\t\t\t");
-    printf("[%d] send %s %c->%s %c to %d\n",
+    printf("[%d] send %s%c->%s%c to %d\n",
 	   ex[i],
 	   prv_ctx->ctx->getUniqueID().c_str(),prv_ctx->begin?'{':'}',
 	   cur_ctx->ctx->getUniqueID().c_str(),cur_ctx->begin?'{':'}',

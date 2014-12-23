@@ -246,6 +246,7 @@ void IData::setPartition(int _mb, int _nb){
       i_ex=1;
     }
   }
+  //printf("Nb:%d Mb:%d N:%d,M:%d\n",Nb,Mb,N,M);
   dataView=new vector<vector<IData*> >  (Mb+i_ex, vector<IData*>(Nb+j_ex)  );
   char s[100];
   for ( int i=0;i<(Mb+i_ex);i++)
@@ -266,6 +267,7 @@ void IData::setPartition(int _mb, int _nb){
       newPart->M  = M ;
       newPart->local_nb  = local_nb ;
       newPart->local_mb  = local_mb ;
+      //      printf("data:%s Nb:%d Mb:%d N:%d,M:%d lnb:%d lmb:%d\n",s,Nb,Mb,N,M,local_nb,local_mb);
       newPart->local_n = N / Nb   ;
       newPart->local_m = M / Mb   ;
       if ( newPart->getHost() == me ) {
@@ -323,6 +325,7 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   hM = NULL;
   dtPartition = NULL;
   data_memory=NULL;
+  parent_data = this;
 }
 /*--------------------------------------------------------------*/
 bool IData::isOwnedBy(int p) {
@@ -538,6 +541,7 @@ bool TaskReadPolicy::isAllowed(IContext *c,ContextHeader *hdr){
 }
 /*===================================================================================*/
 bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
+return true;
   int gc = glbCtx.getContextHostPolicy()->getGroupCounter();
   if ( gc  == DONT_CARE_COUNTER && (active_policy != WRITE_DATA_OWNER)  )
     return true;

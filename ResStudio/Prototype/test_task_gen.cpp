@@ -1,10 +1,7 @@
+
 #include "context.hpp"
 #include "chol_fact.hpp"
-
 #include <stdlib.h>
-
-
-
 
 int main (int argc, char * argv[])
 {
@@ -55,8 +52,6 @@ int main (int argc, char * argv[])
 
   glbCtx.doPropagation(false);
   dtEngine.doProcess();
-
-  C.generateTasksNoContext();
 
   dtEngine.finalize();
 

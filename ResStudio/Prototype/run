@@ -2,10 +2,10 @@
 
 outfile=./temp/test_task_gen.out
 # params:   p q N Nb nb
-ipn=8
-P=8
-p=4;q=2
-nt=2
+ipn=4
+P=4
+p=1;q=4
+nt=4
 DLB=1
 #params[1]="$p $q 48 8 2 $nt $DLB 10"
 params[1]="$p $q 1200 10 5 $nt $DLB $ipn 50"

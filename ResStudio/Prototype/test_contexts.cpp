@@ -163,11 +163,14 @@ bool ctx_enter(GenericContext *x,int p){
   return false;
 }
 
+/*------------------------------------------------------------*/
 void GenericContext::dataTouched(IData *d){
   touched_data.push_back(d);// to do : push data items only once
 }
+/*------------------------------------------------------------*/
 void GenericContext::printTouchedData(){
   DListIter it;
+  //printf("3\n");
   PRINTF_IND ("   Touched Data : ");
   for(it =touched_data.begin(); 
       it!=touched_data.end(); 
@@ -178,6 +181,7 @@ void GenericContext::printTouchedData(){
     }
   printf("\n");
 }
+/*------------------------------------------------------------*/
 void ContextManager::dataTouched(IData *d){
   ContextNode *cn=getActiveCtx();
   if ( cn == NULL ) {
@@ -186,12 +190,17 @@ void ContextManager::dataTouched(IData *d){
   }
   cn->ctx->dataTouched(d);
 }
+/*------------------------------------------------------------*/
 void ContextManager::printTouchedData(){
   ContextNode *cn=getActiveCtx();
+  //  printf("00\n");
   if ( cn == NULL ) {
     printf("ActvCtx NULL \n");
     return;
   }
+  //printf("1 %p\n",cn->ctx);
+  if ( cn->ctx ==NULL)
+    return;
   cn->ctx->printTouchedData();
 }
 /*====================================================================*/

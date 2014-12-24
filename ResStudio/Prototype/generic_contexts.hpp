@@ -100,11 +100,12 @@ public:
     line = line_;
     indent++;
     level = indent;
+    who_enters();
+    ctx_mngr.addCtx(this,true);
     print_indent();
     printf ("%s{  %s  line:%d , ex:%d .",
 	    name.c_str(),func.c_str(),line,extra);
-    who_enters();
-    ctx_mngr.addCtx(this,true);
+    print_entered_nodes();
   }
 /*------------------------------------------------------------*/
   GenericContext(string name_, string func_,int line_) {
@@ -115,20 +116,21 @@ public:
     line = line_;
     indent++;
     level =indent;
-    print_indent();
-    printf ("%s{  %s  line:%d .",name.c_str(),func.c_str(),line);
     who_enters();
     ctx_mngr.addCtx(this,true);
+    print_indent();
+    printf ("%s{  %s  line:%d .",name.c_str(),func.c_str(),line);
+    print_entered_nodes();
   }
 /*------------------------------------------------------------*/
   void dataTouched(IData *d);
   void printTouchedData();
 /*------------------------------------------------------------*/
   void EndContext(){
+    ctx_mngr.addCtx(this,false);
     print_indent();
     printf ("}\n");
     indent--;
-    ctx_mngr.addCtx(this,false);
   }
 /*------------------------------------------------------------*/
   ~GenericContext(){
@@ -144,7 +146,6 @@ public:
 	skipped_nodes.push_back(p);
       }
     }
-    print_entered_nodes();
   }
 /*------------------------------------------------------------*/
   void print_entered_nodes(){
@@ -240,11 +241,14 @@ void ContextManager::process()
   GenericContext *gctx=ctxnode->ctx;
   NodeList ex=gctx->getExcludedNodes();
   NodeList in=gctx->getIncludedNodes();
-  if (ex.size() ==0 || gctx->getID() ==0)
+  if (ex.size() ==0 || gctx->getID() ==0){
+    printf("1\n");
     return;
+  }
   NodeList pex= (*pit)->ctx->getExcludedNodes();
   if ( pex.size() ==0 ) {
     pit = it;
+    printf("2\n");
     return;
   }
   sendCtxConnection(*pit,*it,ex,in);
@@ -279,10 +283,11 @@ void ContextManager::reset(){
   }
 /*------------------------------------------------------------*/
 void ContextManager::addCtx(GenericContext *x,bool begin){
-    if ( x->getID() ==0 ) 
-      return;
+  if ( x->getID() ==0 )       return;
      ContextNode *cn = new ContextNode(x,begin);
      if ( begin ){
+       if ( !ctx_stack.empty() ) 
+	 printTouchedData();
        ctx_stack.push( cn );
      }
      else{

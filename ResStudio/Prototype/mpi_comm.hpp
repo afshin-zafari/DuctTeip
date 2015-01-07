@@ -84,7 +84,8 @@ public:
       result= MPI_Isend(buffer,length,MPI_BYTE,dest,tag,MPI_COMM_WORLD,mpi_request);
     CommRequest *comm_request = new CommRequest(mpi_request,tag,++last_comm_handle,length);
     request_list.push_back(comm_request);
-    PRINT_IF(0)("req list size in send function:%ld,tag:%d\n",request_list.size(),tag);
+    PRINT_IF(1)("req list size in send function:%ld,tag:%d,buf:%p,len:%d,dest:%d\n",
+		request_list.size(),tag,buffer,length,dest);
     if(0)
     if ( tag == 10 || tag ==2){
       double * M= (double*)(buffer+192);
@@ -431,6 +432,10 @@ public:
 /*-------------------------------------------------------------------------------*/
   void getEventBlocking(int *tag,unsigned long *handle){
   
+  }
+  /*---------------------------------------------------------------------------------*/
+  void bariier(){
+    MPI_Barrier(MPI_COMM_WORLD);
   }
 
 };

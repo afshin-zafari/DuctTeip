@@ -49,6 +49,7 @@ typedef vector<int> NodeList;
 typedef NodeList::iterator NodeListIterator;
 typedef list<IData*> DataList;
 typedef DataList::iterator DListIter;
+typedef stack<ContextNode *> ContextStack;
 
 
 /*===================================================================================*/
@@ -60,7 +61,7 @@ typedef DataList::iterator DListIter;
 class ContextManager{
 private:
   list<ContextNode *> ctx_list;
-  stack<ContextNode *> ctx_stack;
+  ContextStack ctx_stack;
 public:
   void addCtx(GenericContext *x,bool begin);
   void dump();
@@ -72,6 +73,12 @@ public:
   void dataTouched(IData *);
   ContextNode *getActiveCtx(){return ctx_stack.top();}
   void printTouchedData();
+  ContextNode *getParentCtx();
+  void sendContextInfo(string from, string to,DHList *dh,int dest);
+  void recvContextInfo(char *buffer,int len);
+  void insertRecvContext(char *,char * ,DHList );
+
+
 
 };
 ContextManager ctx_mngr;
@@ -123,8 +130,32 @@ public:
     print_entered_nodes();
   }
 /*------------------------------------------------------------*/
+  GenericContext(char *unique_id){
+    char *f=strtok(unique_id,"/");
+    if ( f !=NULL ) {
+      func.assign( string(f));
+    }
+    char *n=strtok(NULL,"/");
+    if ( n!=NULL){
+      name.assign(string(n));
+    }
+    char *l=strtok(NULL,"/");
+    if ( l!=NULL){
+      line=atoi(l);
+    }
+    char *ex=strtok(NULL,"/");
+    if ( ex != NULL){
+      extra=atol(ex);
+    }
+    id = last_id++;    
+    indent++;
+    level =indent;
+    //    global=true;
+
+  }
+/*------------------------------------------------------------*/
   void dataTouched(IData *d);
-  void printTouchedData();
+  DHList * printTouchedData();
 /*------------------------------------------------------------*/
   void EndContext(){
     ctx_mngr.addCtx(this,false);
@@ -242,13 +273,11 @@ void ContextManager::process()
   NodeList ex=gctx->getExcludedNodes();
   NodeList in=gctx->getIncludedNodes();
   if (ex.size() ==0 || gctx->getID() ==0){
-    printf("1\n");
     return;
   }
   NodeList pex= (*pit)->ctx->getExcludedNodes();
   if ( pex.size() ==0 ) {
     pit = it;
-    printf("2\n");
     return;
   }
   sendCtxConnection(*pit,*it,ex,in);
@@ -283,20 +312,18 @@ void ContextManager::reset(){
   }
 /*------------------------------------------------------------*/
 void ContextManager::addCtx(GenericContext *x,bool begin){
-  if ( x->getID() ==0 )       return;
-     ContextNode *cn = new ContextNode(x,begin);
-     if ( begin ){
-       if ( !ctx_stack.empty() ) 
-	 printTouchedData();
-       ctx_stack.push( cn );
-     }
-     else{
-       printTouchedData();
-       ctx_stack.pop( );
-     }
-     ctx_list.push_back(cn);
-     process();
+  //  if ( x->getID() ==0 )
+  //    return;
+  ContextNode *cn = new ContextNode(x,begin);
+  if ( begin ){
+    ctx_stack.push( cn );
   }
+  else{
+    ctx_stack.pop( );
+  }
+  ctx_list.push_back(cn);
+  process();
+}
 /*------------------------------------------------------------*/
 void ContextManager::sendCtxConnection(ContextNode *prv_ctx ,
 				       ContextNode *cur_ctx,
@@ -304,29 +331,187 @@ void ContextManager::sendCtxConnection(ContextNode *prv_ctx ,
 				       NodeList in){
   NodeListIterator it;
   int p,m,n;
+  string f,t;
+  DHList *touched;
   n=in.size();
   m=ex.size();
-  for ( p=0;p<n;p++)
-    if (in[p]==me)
-      break;
-  if(1)
+  it = find(in.begin(),in.end(),me);
+  p  = it - in.begin();
+  
   for ( int i = p; i < m ; i +=n){
+    f=prv_ctx->ctx->getUniqueID() + (prv_ctx->begin?'{':'}');
+    t=cur_ctx->ctx->getUniqueID() + (cur_ctx->begin?'{':'}');
     printf("\t\t\t\t\t\t\t");
-    printf("[%d] send %s%c->%s%c to %d\n",
-	   ex[i],
-	   prv_ctx->ctx->getUniqueID().c_str(),prv_ctx->begin?'{':'}',
-	   cur_ctx->ctx->getUniqueID().c_str(),cur_ctx->begin?'{':'}',
-	   ex[i]
-	   );    
+    printf("[%d] send %s->%s to %d",ex[i],f.c_str(),t.c_str(),ex[i]);    
+  
+    if ( !prv_ctx->begin && cur_ctx->begin){
+      printf("  Ctx:%s",getParentCtx()->ctx->getName().c_str());
+      touched=getParentCtx()->ctx->printTouchedData();
+    }else{
+      if ( prv_ctx->ctx !=NULL){
+	touched=prv_ctx->ctx->printTouchedData();
+      }
+    }
+    printf("\n");
+    sendContextInfo(f,t,touched,ex[i]);
   }
 }
 /*------------------------------------------------------------*/
-string ContextManager::getCurrentCtx(){
-    CtxRIterator cx=ctx_list.rbegin();
-    return (*cx)->ctx->getUniqueID() + ( (*cx)->begin?'{':'}');
+void ContextManager::sendContextInfo(string from, 
+				     string to,
+				     DHList *dh,
+				     int dest){
+  stringstream buffer;
+  DHLIter it;
+  buffer << from << ':' << to <<':';
+  for ( it = dh->begin();it != dh->end(); it++)    {
+    buffer << (*it).data_handle <<';';
+  }
+  cout << "*** "<<buffer.str() << "***"<<buffer.str().size() <<endl; 
+  
+  int len = from.length() + 1 +to.length() + 1+dh->size() * sizeof((DataHandle::data_handle)+1);
+  cout << "len===" << len << endl;
+  char * buf = new char[len];
+  sprintf(buf,"%s:%s:",from.c_str(),to.c_str());
+  
+  for ( it = dh->begin();it != dh->end(); it++)    {
+    sprintf(buf+strlen(buf) ,"%ld;", (*it).data_handle );
   }
 
+  cout << buf<< ":" << strlen(buf) << endl;
+  
+  dtEngine.sendContextInfo(buf,len,dest);
+  
+  recvContextInfo(buf,len);
+}
+/*------------------------------------------------------------*/
+void ContextManager::recvContextInfo(char *buffer,int len){
+  char *f=strtok(buffer,":");
+  if ( f == NULL ) {
+    printf("error in from context string.\n");
+    return ;
+  }
+  cout << "-->" << f << endl;
+  char *t=strtok(NULL,":");
+  if ( t == NULL ) {
+    printf("error in to  context string.\n");
+    return ;
+  }
+  cout << "-->" << t << endl;
+  cout << "buf+:"  << (buffer+strlen(f)+strlen(t)+2) << endl;
+  DHList *dhl=new DHList;
+  char *d=strtok(buffer+strlen(f)+strlen(t)+2,";");
+  while ( d != NULL ){
+    cout << d << endl;
+    DataHandle dh;
+    dh.data_handle = atol(d);
+    dhl->push_back(dh);
+    d= strtok(NULL,";");
+  }
+} 
+/*------------------------------------------------------------*/
+void ContextManager::insertRecvContext(char *from,char *to,DHList dhl){
+  string f(from),t(to);
+  CtxIterator  it;
+  bool found=false;
+  bool fb = from[strlen(from)-1] =='{';
+  bool tb = to[strlen(to)-1] =='{';
+  ContextNode * cnf = new ContextNode (new GenericContext(from),fb);
+  ContextNode * cnt = new ContextNode (new GenericContext(to),tb);
+  //todo : get fom dhl the IData * list and add to cnt
+  for ( it = ctx_list.begin();it != ctx_list.end();it++){
+    ContextNode *cn = *it;
+    string s=cn->ctx->getUniqueID()+(cn->begin?'{':'}');
+    if ( f == s ) {
+      ++it;
+      ctx_list.insert(it,cnt);
+      found=true;
+      break;
+    }
+  }
+  if (!found){
+    ctx_list.push_back(cnf);
+    ctx_list.push_back(cnt);
+  }
+}
+/*------------------------------------------------------------*/
+ContextNode *ContextManager::getParentCtx(){
+  ContextNode *cn=getActiveCtx();
+  if (ctx_stack.size() ==1 ){
+    return cn;
+  }
+  ctx_stack.pop();
+  ContextNode *cn2=getActiveCtx();
+  ctx_stack.push(cn);
+  return cn2;
+}
+/*------------------------------------------------------------*/
+string ContextManager::getCurrentCtx(){
+  if ( ctx_list.size()==0)
+    return string("Glb{");
+  CtxRIterator cx=ctx_list.rbegin();
+  if ( (*cx)->ctx == NULL)
+    return string("Glb{");
+  return (*cx)->ctx->getUniqueID() + ( (*cx)->begin?'{':'}');
+}
+
 /*==================================================================*/
+/*------------------------------------------------------------*/
+void GenericContext::dataTouched(IData *d){
+  touched_data.push_back(d);// to do : push data items only once
+}
+/*------------------------------------------------------------*/
+DHList * GenericContext::printTouchedData(){
+  DListIter it;
+  DHList *dhl = new DHList;
+  printf  ("   Touched Data : ");
+  for(it =touched_data.begin(); 
+      it!=touched_data.end();   it++){
+    IData *d=*it;
+    printf("%s,",d->getName().c_str());
+    dhl->push_back(*d->getDataHandle());
+  }
+  touched_data.clear();
+  return dhl;
+}
+/*------------------------------------------------------------*/
+void ContextManager::dataTouched(IData *d){
+  ContextNode *cn=getActiveCtx();
+  if ( cn == NULL ) {
+    printf("ActvCtx NULL \n");
+    return;
+  }
+  cn->ctx->dataTouched(d);
+}
+/*------------------------------------------------------------*/
+void ContextManager::printTouchedData(){
+  ContextNode *cn=getActiveCtx();
+  //  printf("00\n");
+  if ( cn == NULL ) {
+    printf("ActvCtx NULL \n");
+    return;
+  }
+  printf("ctx:%s ",cn->ctx->getName().c_str());
+  if ( cn->ctx ==NULL){
+    return;
+  }
+  cn->ctx->printTouchedData();
+}
+string GlobalContext::getLevelString(){
+    if (1){
+      list <LevelInfo>::iterator it;
+      ostringstream _s;
+      for ( it = lstLevels.begin(); it != lstLevels.end(); ++it ) {
+	_s << (*it).seq <<".";
+      }
+      return _s.str();
+    }
+    else{
+      string s =  ctx_mngr.getCurrentCtx();
+      cout << "===> "<<s << endl;
+      return s;
+    }
+  }
 
 
 #endif // __GENERIC_CONTEXTS_HPP

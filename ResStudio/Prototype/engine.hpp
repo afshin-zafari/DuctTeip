@@ -31,6 +31,8 @@ typedef unsigned char byte;
 #include "dt_log.hpp"
 extern int me;
 
+
+
 struct PropagateInfo;
 DuctteipLog dt_log;
 
@@ -212,6 +214,41 @@ public:
     mailbox->send(buffer,size,MailBox::PropagationTag,dest_host);
     prop_buffer = buffer;
     prop_buffer_length = size;
+  }
+  /*---------------------------------------------------------------------------------*/
+  void sendContextInfo(char *buffer, int len, int dest){
+    printf("ctx buf :%p sent to %d len =%d.\n",buffer,dest,len);
+     mailbox->send((byte *)buffer,len,MailBox::ContextTag,dest);
+  }
+  /*---------------------------------------------------------------------------------*/
+  void barrier(){
+    net_comm->barrier();
+  }
+  /*---------------------------------------------------------------------------------*/
+  void recvContextInfo(char *buffer, int len){
+
+    char *f=strtok(buffer,":");
+    if ( f == NULL ) {
+      printf("error in from context string.\n");
+      return ;
+    }
+    cout << "-->" << f << endl;
+    char *t=strtok(NULL,":");
+    if ( t == NULL ) {
+      printf("error in to  context string.\n");
+      return ;
+    }
+    cout << "-->" << t << endl;
+    cout << "buf+:"  << (buffer+strlen(f)+strlen(t)+2) << endl;
+    DHList *dhl=new DHList;
+    char *d=strtok(buffer+strlen(f)+strlen(t)+2,";");
+    while ( d != NULL ){
+      cout << d << endl;
+      DataHandle dh;
+      dh.data_handle = atol(d);
+      dhl->push_back(dh);
+      d= strtok(NULL,";");
+    }
   }
   /*---------------------------------------------------------------------------------*/
   void addPropagateTask(PropagateInfo *P);
@@ -1270,6 +1307,12 @@ static
 	    printf("+++sum i , ---------,%lf adr:%p\n",sum,contents);
 	  }
 	importData(&event);
+      }
+      break;
+    case MailBox::ContextTag:
+      if ( event.direction == MailBoxEvent::Received ) {
+	printf ("ctx recvd from %d, len=%d.\n",event.host,event.length);
+	recvContextInfo((char *)(event.buffer),event.length);
       }
       break;
     case MailBox::MigratedTaskOutDataTag:

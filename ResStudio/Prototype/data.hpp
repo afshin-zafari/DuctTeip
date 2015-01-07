@@ -208,7 +208,8 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   void setContext(string s ){
-    prefix.fromString(s);
+    //prefix.fromString(s);
+    prefix = s;
   }
 };
 /*==========================DataVersion ======================================*/
@@ -268,6 +269,10 @@ public:
   }
 };
 /*==========================DataHandle =======================================*/
+
+typedef list<DataHandle> DHList;
+typedef DHList::iterator DHLIter;
+
 /*==========================DataListener =====================================*/
 /*
 struct DataListener{

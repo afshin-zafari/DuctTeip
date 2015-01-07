@@ -2,13 +2,17 @@
 
 SUPERGLUE_DIR="../../../superglue/include"
 SUPERGLUE_FLAGS="-pthread -I${SUPERGLUE_DIR}"
-pars="1 2 1200 10 5 1 0 1"
+pars="1 4 1200 10 5 1 0 1"
 
-rm t.o ./tc
+if [ "$1z" = "z" ] ; then 
+  rm t.o ./tc
+  mpic++ -c -DPOST_RECV=1 -DPOST_LSNR=1 test_contexts.cpp ${SUPERGLUE_FLAGS} -o t.o
+  mpic++ t.o -lm -lrt -L/opt/openmpi/1.6intel13.1/lib -lstdc++ -o tc
+fi
+for i in 1 2 3 4 5
+do
+    mpirun -np 4 --output-filename ctx.out ./tc $pars
+done
 
-mpic++ -c test_contexts.cpp ${SUPERGLUE_FLAGS} -o t.o
-mpic++ t.o -lm -lrt -L/opt/openmpi/1.6intel13.1/lib -lstdc++ -o tc
-mpirun -np 2 --output-filename ctx.out ./tc $pars
-#> a.txt
-#grep "\[" a.txt | sort -V -k1,1 >b.txt
-#cat a.txt
+rm *.txt
+

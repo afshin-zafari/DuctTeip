@@ -79,7 +79,8 @@ public:
     MigrateDataTag,
     DeclineMigrateTag,
     AcceptMigrateTag,
-    MigratedTaskOutDataTag
+    MigratedTaskOutDataTag,
+    ContextTag
   } ;
   /*-------------------------------------------------------------------------------*/
   unsigned long  send(byte *buffer, int length, int tag, int destination,bool wait=false){
@@ -238,17 +239,18 @@ public:
       *completed = true;
       return true;
     }
-    int dlbtags[7]={    
+    int dlbtags[8]={    
       FindIdleTag,
       FindBusyTag,
       MigrateTaskTag,
       MigrateDataTag,
       DeclineMigrateTag,
       AcceptMigrateTag,
-      MigratedTaskOutDataTag
+      MigratedTaskOutDataTag,
+      ContextTag
     };
     tag=-1;
-    found = comm->probeTags(dlbtags,7,&source,&length,&tag);
+    found = comm->probeTags(dlbtags,8,&source,&length,&tag);
     event->tag = -1;
     if(found){
       event->tag = tag;
@@ -273,6 +275,8 @@ public:
       }
       
 	int res=comm->receive(event->buffer,length,tag,source,true);
+	event->host = source;
+	event->length = length;
 	if (  tag == MigrateDataTag || tag == MigratedTaskOutDataTag) {
 	  if (0){
 	    double sum = 0.0,*contents=(double *)(event->buffer+192);

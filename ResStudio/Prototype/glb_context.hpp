@@ -477,14 +477,7 @@ public :
     return (*it).seq ;
   }
   /*------------------------------*/
-  string getLevelString(){
-    list <LevelInfo>::iterator it;
-    ostringstream _s;
-    for ( it = lstLevels.begin(); it != lstLevels.end(); ++it ) {
-      _s << (*it).seq <<".";
-    }
-    return _s.str();
-  }
+  string getLevelString();
   /*------------------------------*/
   void dumpLevels(char c=' '){
     printf("%c:\n%s\n",c,getLevelString().c_str());

@@ -3,7 +3,8 @@
 
 //#include "simulate.hpp"
 
-#define dtg_task(a,b) AddTask(this,T,k,a,b);ctx_mngr.dataTouched(a);ctx_mngr.dataTouched(b);
+//#define dtg_task(a,b) AddTask(this,T,k,a,b);ctx_mngr.dataTouched(a);ctx_mngr.dataTouched(b);
+#define dtg_task(a,b) ctx_mngr.dataTouched(a);ctx_mngr.dataTouched(b);
 
 
 /*===================================================================================*/
@@ -55,14 +56,15 @@ public :
 
   /*--------------------------------------------------------------------*/
   void Fx3(){
+    dtg_task(z,z);
     BX(A);
     dtg_task(x,a);
     {
-      BX(B);
+      BX(A_B);
       dtg_task(x,b);
-      EX(B);
+      EX(A_B);
     }
-    dtg_task(x,a);
+    dtg_task(y,a);
     { 
       BX(C);
       dtg_task(x,c);
@@ -81,7 +83,7 @@ public :
       EX(C);
     }
     dtg_task(x,a);
-    for ( int i =0;i<3;i++)
+    for ( int i =0;i<1;i++)
       {
 	BX(D);
 	dtg_task(x,d);
@@ -89,63 +91,27 @@ public :
       }
     dtg_task(x,a);
     EX(A);
-    Fx2();
-  }
-  /*------------------------------------------------------------*/
-  void Fx1(){
-    BX(A);
-    PRINTF_IND(" A body 1\n");
-    {
-      BX(B);
-      PRINTF_IND(" B body\n");
-      EX(B);
-    }
-    PRINTF_IND(" A body 2\n");
-    { 
-      BX(C);
-      PRINTF_IND(" C body 1\n");
-      {
-	BX(E);
-	PRINTF_IND(" E body\n");
-	EX(E);
-      }
-      PRINTF_IND(" C body 2\n");
-      {
-	BX(F);
-	PRINTF_IND(" F body\n");
-	EX(F);
-      }
-      PRINTF_IND(" C body 3\n");
-      EX(C);
-    }
-    PRINTF_IND(" A body 3\n");
-    for ( int i =0;i<3;i++)
-      {
-	BX(D);
-	PRINTF_IND(" D body\n");
-	EX(D);
-      }
-    PRINTF_IND(" A body 4\n");
-    EX(A);
+    dtg_task(z,y);
     Fx2();
   }
   /*------------------------------------------------------------*/
   void Fx2(){
     BX(A);
+    dtg_task(a,y);
     {
       for (int i=0;i<4; i++){
 	BXX(Y,i);
-	PRINTF_IND(" Y body %d\n",i);
 	dtg_task(x,y);
 	dtg_task(y,z);
 	EX(Y);
+	dtg_task(a,x);
       }
     }
+    dtg_task(a,z);
     EX(A);
   }
 };
-/**/
-DTG *dtg;
+/*==============================================================================*/
 
 /*------------------------------------------------------------*/
 bool ctx_enter(GenericContext *x,int p){
@@ -163,47 +129,8 @@ bool ctx_enter(GenericContext *x,int p){
   return false;
 }
 
-/*------------------------------------------------------------*/
-void GenericContext::dataTouched(IData *d){
-  touched_data.push_back(d);// to do : push data items only once
-}
-/*------------------------------------------------------------*/
-void GenericContext::printTouchedData(){
-  DListIter it;
-  //printf("3\n");
-  PRINTF_IND ("   Touched Data : ");
-  for(it =touched_data.begin(); 
-      it!=touched_data.end(); 
-      it++)
-    {
-      IData *d=*it;
-      printf("%s,",d->getName().c_str());
-    }
-  printf("\n");
-}
-/*------------------------------------------------------------*/
-void ContextManager::dataTouched(IData *d){
-  ContextNode *cn=getActiveCtx();
-  if ( cn == NULL ) {
-    printf("ActvCtx NULL \n");
-    return;
-  }
-  cn->ctx->dataTouched(d);
-}
-/*------------------------------------------------------------*/
-void ContextManager::printTouchedData(){
-  ContextNode *cn=getActiveCtx();
-  //  printf("00\n");
-  if ( cn == NULL ) {
-    printf("ActvCtx NULL \n");
-    return;
-  }
-  //printf("1 %p\n",cn->ctx);
-  if ( cn->ctx ==NULL)
-    return;
-  cn->ctx->printTouchedData();
-}
 /*====================================================================*/
+DTG *dtg;
 
 int main (int argc, char **argv){
   int N,Nb,P,p,q,nb,nt,dlb;
@@ -254,20 +181,17 @@ int main (int argc, char **argv){
   printf("Starts\n");
   dtg = new DTG(N,Nb,&cfg);
   procs=P;
-    printf ("---------------- Proc %d ---------------\n",me);
-    BX(MAIN);
-    dtg->Fx3();
-    EX(MAIN);
+  printf ("---------------- Proc %d ---------------\n",me);
 
-    BX(M2);
-    EX(M2);
-    /*
-    x.reset();
-    y.reset();
-    z.reset();
-    */
-
+  BX(MAIN);  
+  dtEngine.barrier();
+  dtg->Fx3();
+  EX(MAIN);
+  
+  BX(M2);
+  EX(M2);
+  
   printf("Ends\n");
   dtEngine.finalize();
-
+  
 }

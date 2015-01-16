@@ -25,9 +25,6 @@ typedef unsigned char byte;
 #include "mailbox.hpp"
 #include "mpi_comm.hpp"
 #include "memory_manager.hpp"
-#if MAILBOX_THREAD ==1
-#include "dt_thread_manager.hpp"
-#endif
 #include "dt_log.hpp"
 extern int me;
 
@@ -230,10 +227,8 @@ public:
 
     int host = event->host;
     DataVersion version = listener->getRequiredVersion();
-#ifdef POST_LSNR
     PRINT_IF(POSTPRINT)("a new postLsnr is substituted.\n");
     mailbox->prepareListenerReceive(listener->getPackSize(),host);
-#endif
     version.dump();
     listener->getData()->listenerAdded(listener,host,version);
     criticalSection(Enter); 
@@ -318,10 +313,10 @@ public:
     dt_log.logLoadChange(0);
     dt_log.logImportTask(0);
     dt_log.logExportTask(0);
+
     dt_log.addEventStart(this,DuctteipLog::CommFinish);
     net_comm->finish();
     dt_log.addEventEnd(this,DuctteipLog::CommFinish);
-
     if (true || cfg->getYDimension() == 2400){
       char s[20];
       sprintf(s,"sg_log_file-%2.2d.txt",me);
@@ -469,7 +464,7 @@ public:
     }
     data_memory = new MemoryManager (  nb * mb/3 ,dps );
     int ipn = cfg->getIPN();
-    printf("eng.ipn=%d\n",ipn);
+    printf("eng.ipn=%d, nt=%d\n",ipn,num_threads);
         thread_manager = new ThreadManager<Options> ( num_threads , (me % ipn )  * 16/ipn) ;
     //    thread_manager = new ThreadManager<Options> ( num_threads , (me % 1 )  * 4) ;
     show_affinity();
@@ -501,9 +496,7 @@ public:
   /*---------------------------------------------------------------------------------*/
   void doProcess(){
 
-#ifdef POST_LSNR
     prepareReceives();
-#endif
 
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
     dt_log.logLoadChange(0);
@@ -534,22 +527,11 @@ public:
   void *doProcessLoop(void *p){
     engine *_this = (engine *)p;
     printf("do process loop started, thread-id:%ld\n",pthread_self());
-#if MAILBOX_THREAD==1
-    //    _this->initComm();
-    // create mb thread and wait for its start
-    dtTMgr.initThread( DT_ThreadManager::MailBox,
-		       doProcessMailBoxBlocking,
-		       (void *)this);
-#endif
     threadInfo(0);
     while(true){
       //nanoSleep();
       _this->waitForTaskFinish();
-#if MAILBOX_THREAD==1
-      checkMailBox();
-#else
       _this->doProcessMailBox();
-#endif
       _this->doProcessWorks();
       _this->doDLB();
       if ( _this->canTerminate() )
@@ -906,13 +888,11 @@ private :
 	if ( addListener(lsnr) ){
 	  MessageBuffer *m=lsnr->serialize();
 	  unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);	
-#ifdef POST_RECV	  
 	  IData *data=data_access.data;//lsnr->getData();
 	  if(0)printf("before prepare memory data:%p\n",data);
 	  data->allocateMemory();
 	  data->prepareMemory();
 	  mailbox->prepareDataReceive(data->getDataMemory(),host,data->getDataHandleID());
-#endif
 	  dt_log.addEvent(lsnr,DuctteipLog::ListenerSent,host);
 	  lsnr->setCommHandle ( comm_handle);
 	}
@@ -1095,34 +1075,6 @@ private:
     default: printf("work: tag:%d\n",work->tag);break;
     }
   }
-  /*---------------------------------------------------------------------------------*/
-  /*=============================================*/
-  /*                 MAILBOX THREAD              */           
-  /*=============================================*/
-#if MAILBOX_THREAD==1
-static
-  void* doProcessMailBoxBlocking(void *arg){
-    engine *_this = (engine *)arg;
-    mailbox->getEventBlocking();
-  }
-  /*---------------------------------------------------------------------------------*/
-  void checkMailBox(){
-   
-    MailBoxEvent event ;
-    int ret=dtTMgr.syncTimed(DT_ThreadManager::MailBox,DT_ThreadManager::NewEvent);
-    if ( ret != dtTMgr::TimedLockSuccess ) 
-      return;
-
-    dtTMgr.enterCriticalSection(DT_THreadManager::MailBox,DT_THreadManager::MailBoxEvent);
-    mailbox->getSharedEvent(&event);
-    dtTMgr.exitCriticalSection(DT_THreadManager::MailBox,DT_THreadManager::MailBoxEvent);
-
-    processEvent(event);
-  }
-#endif
-  /*=============================================*/
-
-  /*=============================================*/
   /*---------------------------------------------------------------------------------*/
   void doProcessMailBox(){
     MailBoxEvent event ;

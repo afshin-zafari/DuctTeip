@@ -24,7 +24,7 @@ ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
 ACML_LIB=$(ACML_DIR)/lib/libacml.a
 
 EXPORT_PATH := export LD_LIBRARY_PATH='$(ACML_DIR)/lib:$(LD_LIBRARY_PATH)'
-BLAS_COMP_FLAGS=-I$(ACML_DIR)/include -DBLAS
+BLAS_COMP_FLAGS=-I$(ACML_DIR)/include 
 BLAS_LINK_FLAGS=-L$(ACML_DIR)/lib -nofor-main
 LINK=$(CPP)
 #-----------------------Intel Compiler set---------------------
@@ -64,11 +64,6 @@ ifdef TINTINOPEN64
     C = mpic++
 endif
 
-ifdef POST_RECV
-    FEATURES=-DPOST_RECV=1 -DPOST_LSNR=1
-else
-    FEATURES=
-endif 
 
 
 define rule_tests
@@ -93,6 +88,6 @@ task_gen: $(outdir)/test_task_gen.o $(outdir)/test_task_gen  $(shell ls *.hpp)
 $(outdir)/test_task_gen: $(outdir)/test_task_gen.o
 	$(LINK)  $(CPP_LIBS) $(GCC_LINK_FLAGS) $(OPEN64_LINK_FLAGS) $(BLAS_LINK_FLAGS) $(outdir)/test_task_gen.o $(ACML_LIB) $(INTEL_LINK_FLAGS) $(DEBUG_LINK) -o $(outdir)/test_task_gen 
 $(outdir)/test_task_gen.o: test_task_gen.cpp
-	$(CPP) $(FEATURES) -c $(DEBUG_COMP) $(GCC_COMP_FLAGS) $(INTEL_COMP_FLAGS) $(OPEN64_COMP_FLAGS) $(SUPERGLUE_FLAGS) $(BLAS_COMP_FLAGS)  test_task_gen.cpp -o $(outdir)/test_task_gen.o 
+	$(CPP) -c $(DEBUG_COMP) $(GCC_COMP_FLAGS) $(INTEL_COMP_FLAGS) $(OPEN64_COMP_FLAGS) $(SUPERGLUE_FLAGS) $(BLAS_COMP_FLAGS)  test_task_gen.cpp -o $(outdir)/test_task_gen.o 
 clean: 
 	rm $(outdir)/*.o $(outdir)/test*

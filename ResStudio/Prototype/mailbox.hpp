@@ -218,7 +218,6 @@ public:
     int length,source,tag;
     unsigned long handle;
     bool found=false;
-#ifdef POST_RECV
     if ( checkPostedReceives(event) ) {
       PRINT_IF(0)("post completed for tag:%d\n",event->tag);
       if ( event->tag == 10 || event->tag ==2){
@@ -287,7 +286,6 @@ public:
       *completed = true;
       return true;
     }
-#endif    
     if (!found){
       addLogEventStart("AnySendCompleted",DuctteipLog::AnySendCompleted);
       found = comm->isAnySendCompleted(&tag,&handle);
@@ -305,28 +303,6 @@ public:
   }
   /*-------------------------------------------------------------------------------*/
   /*=============================================================*/
-#if MAILBOX_THREAD ==1
-  void getEventBlocking(void){    
-    int tag;
-    unsigned long handle;
-
-    dtTMgr.syncWith(DT_THreadManager::Admin,DT_THreadManager::Starting);
-    dtTMgr.notifyThread(DT_THreadManager::Admin);
-    while (true){
-      comm->getEventBlocking(&tag,&handle);
-      dtTMgr.enterCriticalSection(DT_THreadManager::MailBox,DT_THreadManager::MailBoxEvent);
-      getPostEvent(&shared_event,tag,handle);
-      dtTMgr.exitCriticalSection(DT_THreadManager::MailBox,DT_THreadManager::MailBoxEvent);
-      dtTMgr.signalThread(DT_THreadManager::Admin,DT_THreadManager::NewEvent);
-    }
-    //ToDo
-  } 
-  /*-------------------------------------------------------------------------------*/
-  void getSharedEvent (MailBoxEvent *event){
-      *event = shared_event;
-  }
-  /*=============================================================*/
-#endif  
   
 };
 

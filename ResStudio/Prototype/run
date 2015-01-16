@@ -29,7 +29,7 @@ then
     do
 	for i in 1
 	do	#--report-bindings --bysocket  --bind-to-socket -npernode $ipn
-	    time mpirun -n $P -npernode $ipn --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
+	    time mpirun -n $P --map-by ppr:$ipn:node --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
 	    echo "$i$j-DLB-$DLB">>./temp/a.txt
 	    
 	    grep "error" ${outfile}* >>./temp/a.txt

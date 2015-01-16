@@ -32,11 +32,7 @@
 
 #define DEBUG 0
 
-#define MAILBOX_THREAD  0 
 #define TERMINATE_TREE  1
-
-//#define THREAD_INFO(a) printf("%s , %d\n",__FILE__,__LINE__);threadInfo(a)
-#define THREAD_INFO(a)
 
 #define DUMP_FLAG DEBUG
 #define EXPORT_FLAG 0

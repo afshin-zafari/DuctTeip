@@ -218,14 +218,12 @@ public:
   bool isAnyPostCompleted(int *tag,unsigned long *handle){
     if (isAnyDataPostCompleted(tag,handle))
       return true;
-#ifdef POST_LSNR
     if (isAnyListenerPostCompleted(tag,handle))
       return true;
     if (isAnyTerminatePostCompleted(tag,handle)){
       PRINT_IF(POSTPRINT)("post term return is true.\n");
       return true;
     }
-#endif
     return false;
   }
   /*--------------------------------------------------------------------------*/

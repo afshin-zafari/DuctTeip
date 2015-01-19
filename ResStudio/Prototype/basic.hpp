@@ -40,16 +40,14 @@
 #define INSERT_TASK_FLAG  DEBUG
 #define SKIP_TASK_FLAG    DEBUG
 #define DATA_UPGRADE_FLAG DEBUG
-#define KERNEL_FLAG       1
+#define KERNEL_FLAG       0
 #define TERMINATE_FLAG    0
 #define IRECV             0
 #define OVERSUBSCRIBED    0
 #define POSTPRINT         0
 
-#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
-		       //#define  TRACE_LOCATION
-//#define TRACE_ALLOCATION(a) printf("alloc mem %s,%d, %ld\n",__FILE__,__LINE__,a)
-#define TRACE_ALLOCATION(a) 
+//#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
+#define  TRACE_LOCATION
 //#define TRACE(a) TRACE_LOCATION;printf(a);
 #define TRACE(a)
 
@@ -71,7 +69,6 @@ struct MessageBuffer{
     content.size = content_size ;
 
             address = new byte[size];
-	    TRACE_ALLOCATION(size);
      header.address = address;
     content.address = address + header_size;
 

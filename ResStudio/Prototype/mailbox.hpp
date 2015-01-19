@@ -227,7 +227,7 @@ public:
       addLogEventEnd("AnySendCompleted",DuctteipLog::AnySendCompleted);
       if ( (tag != TerminateOKTag) && (tag !=  TerminateCancelTag) ) 
 	if ( found ) {
-	  printf("send complete: %d,%ld\n",tag,handle);
+	  if(0)printf("send complete: %d,%ld\n",tag,handle);
 	  event->tag = tag;
 	  event->handle = handle;
 	  event->direction = MailBoxEvent::Sent;
@@ -236,15 +236,14 @@ public:
 	}
       return false;
     }
-    printf("received : tag=%d,from %d,len=%d \n",tag,source,length);
+    if(0)printf("received : tag=%d,from %d,len=%d \n",tag,source,length);
     event->direction = MailBoxEvent::Received;
     event->length = length;
     event->host   = source;
     event->tag = tag ; 
     event->handle  = 0;
     if ( tag == MigrateDataTag ||
-	 tag == DeclineMigrateTag ||
-	 tag == AcceptMigrateTag ||
+	 tag == DataTag ||
 	 tag == MigratedTaskOutDataTag){
       event->memory = memman->getNewMemory();
       event->buffer = event->memory->getAddress();
@@ -254,7 +253,6 @@ public:
       event->buffer = new byte[length];
     }
     int res=comm->receive(event->buffer,length,tag,source,true);
-    printf("result of recv :%d \n",res);
     *completed = (res==0);
     return true;
     

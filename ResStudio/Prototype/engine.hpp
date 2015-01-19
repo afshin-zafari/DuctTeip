@@ -244,7 +244,8 @@ public:
     int host = event->host;
     DataVersion version = listener->getRequiredVersion();
     PRINT_IF(POSTPRINT)("a new postLsnr is substituted.\n");
-    mailbox->prepareListenerReceive(listener->getPackSize(),host);
+    //    mailbox->prepareListenerReceive(listener->getPackSize(),host);
+    printf("lsnr recvd for data :%s, from %d\n",listener->getData()->getName().c_str(),host);
     version.dump();
     TRACE_LOCATION;
     listener->getData()->listenerAdded(listener,host,version);
@@ -407,6 +408,7 @@ public:
       TimeUnit Duration = elapsedTime(TIME_SCALE_TO_SECONDS);
       dt_log.addEventEnd(this,DuctteipLog::CheckedForTerminate);
       printf("\n error: timeout\n");
+      dumpTasks();
       return true;
     }
     if ( !net_comm->canTerminate() ) {
@@ -901,12 +903,15 @@ private :
       DataAccess &data_access = *(*it);
       int host = data_access.data->getHost();
       data_access.data->addTask(task);
+      if(0)printf("@@check data %s for lsnr \n",data_access.data->getName().c_str());
+      if(0)printf("@@host :%d , me %d\n",host,me);
       if ( host != me ) {
 	IListener * lsnr = new IListener((*it),host);
 	if ( addListener(lsnr) ){
 	  MessageBuffer *m=lsnr->serialize();
 	  unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);	
 	  IData *data=data_access.data;//lsnr->getData();
+	  if(1)printf("listener sent for data :%s to:%d\n",data->getName().c_str(),host);
 	  if(0)printf("before prepare memory data:%p\n",data);
 	  data->allocateMemory();
 	  data->prepareMemory();
@@ -1029,7 +1034,7 @@ private:
       list<IDuctteipTask *>::iterator task_it;
       list<IListener *>          d_listeners = work->data->getListeners();
       list<IDuctteipTask *>      d_tasks     = work->data->getTasks();
-      printf("after data upgrade, t_list:%ld d_list:%ld \n",d_tasks.size(),d_listeners.size());
+      if(0)printf("after data upgrade, t_list:%ld d_list:%ld \n",d_tasks.size(),d_listeners.size());
       work->data->dump('N');
       dt_log.addEventStart(work->data,DuctteipLog::CheckedForListener);
       for(lsnr_it = d_listeners.begin() ; 
@@ -1081,6 +1086,7 @@ private:
     case DuctTeipWork::CheckListenerForData:
       {
       IListener *listener = work->listener;
+      //printf("@@ cehck listener for data\n");
       listener->checkAndSendData(mailbox) ; 
       }
       break;
@@ -2050,6 +2056,12 @@ private:
 		      data->getPackSize(),
 		      MailBox::MigrateDataTag,
 		      p);
+  void dumpData(double *, int ,int, char);
+  if (1){
+    double *B=(double *)(data->getContentAddress());
+    dumpData(B,12,12,'X');
+  }
+
       }
     }while( t !=NULL);
   }

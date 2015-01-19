@@ -139,7 +139,7 @@ public:
 
   /*--------------------------------------------------------------------------*/
   void dumpDataAccess(list<DataAccess *> *dlist){
-    if ( !DUMP_FLAG)
+    if ( 0 && !DUMP_FLAG)
       return;
     list<DataAccess *>::iterator it;
     for (it = dlist->begin(); it != dlist->end(); it ++) {

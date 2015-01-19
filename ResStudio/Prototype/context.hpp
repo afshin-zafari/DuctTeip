@@ -722,7 +722,7 @@ void AddTask ( IContext *ctx,
   else{
     PRINT_IF(SKIP_TASK_FLAG)(" @Skip TASK:%s  %s,host=%d\n", s,d3->isOwnedBy(me)?"*":"",me);
   }
-  
+  /*  
   if ( d1 != NULL) 
     if ( d1->getHost() == me) {
       dtEngine.willReceiveListener(d1,d3->getHost(),d1->getReadVersion());
@@ -731,7 +731,7 @@ void AddTask ( IContext *ctx,
     if ( d2->getHost() == me) {
       dtEngine.willReceiveListener(d2,d3->getHost(),d2->getReadVersion());
     }
-
+  */
   if ( d1 != NULL ) d1->incrementVersion(IData::READ);
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
   d3->incrementVersion(IData::WRITE);
@@ -748,7 +748,7 @@ void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2       
 
 /*===============================================================================*/
 void IDuctteipTask::dump(char c){
-  if ( !DUMP_FLAG)
+  if (0 && !DUMP_FLAG)
     return;
   //if ( c!='i') return;
   printf("#task:%s key:%lx ,no.of data:%ld state:%d expo:%d impo:%d\n ",
@@ -924,9 +924,21 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
   if(0)printf("dh:%ld\n",dh.data_handle);
   IData *data = glbCtx.getDataByHandle(&dh);
   offset =0 ;
-  if(0)printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
+  if(1)printf("data rcvd:%s,cnt:%p mi:%p\n",data->getName().c_str(),data->getContentAddress(),event->getMemoryItem());
   data->deserialize(event->buffer,offset,event->length,mi,all_content);
-  if(0)printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
+  if(1)printf("data rcvd:%s,cnt:%p, mi:%p\n",data->getName().c_str(),data->getContentAddress(),mi);
+
+
+  void dumpData(double *, int ,int, char);
+  if (1){
+    printf("Buffer:%p Header size:%d\n",event->buffer,data->getHeaderSize());
+    double *A=(double *)(event->buffer+data->getHeaderSize());
+    dumpData(A,6,6,'B');
+    double *B=(double *)(data->getContentAddress());
+    dumpData(B,6,6,'R');
+    printf("MsgBuffer :%p , DataMemory:%p\n",A,B);
+  }
+
   data->dump(' ');
   putWorkForSingleDataReady(data);
   dt_log.addEvent(data,DuctteipLog::DataReceived);
@@ -959,13 +971,10 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
 	   sum,contents,event->memory->getAddress(),event->buffer);
   }
 
-    if ( 0 ) {
+    if ( 1 ) {
       printf("Buffer:%p Header size:%d\n",event->buffer,data->getHeaderSize());
       double *A=(double *)(event->buffer+data->getHeaderSize());
-      for ( int i=0;i<5;i++)
-	for (int j=0;j<5;j++){
-	  dumpData(A+i*12*12+j*5*12*12,12,12,'I');
-	}
+      dumpData(A,12,12,'I');
     }
     if(0)printf("ev.mem dump:\n   ");
     event->memory->dump();
@@ -1005,27 +1014,41 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
 void IListener::checkAndSendData(MailBox * mailbox)
 {
   if ( !isReceived() ) {
+    TRACE_LOCATION;
     return;
   }
   if ( isDataSent() ) 
     {
+    TRACE_LOCATION;
       return;
     }
   if (! isDataReady() ) {
+    IData *data = getData();
+    if(0)printf("@lsnr: data  %s is not ready.\n",data->getName().c_str());
+    TRACE_LOCATION;
     return;
   }
+    TRACE_LOCATION;
   IData *data = getData();
   if ( data->isDataSent(getSource(), getRequiredVersion() ) ){
+    TRACE_LOCATION;
     setDataSent(true);
     return;
   }
   data->serialize();
-  if(1)printf("@data sent %s dh:%ld tag:%d\n",data->getName().c_str(),data->getDataHandleID(),MailBox::DataTag);
-  //  flushBuffer(data->getHeaderAddress(),data->getPackSize());
+  if(1)printf("@data sent %s  to :%d dh:%ld tag:%d\n",data->getName().c_str(),
+	      getSource(),data->getDataHandleID(),MailBox::DataTag);
   unsigned long c_handle= mailbox->send(data->getHeaderAddress(),
 					data->getPackSize(),
-					MailBox::DataTag, //+data->getDataHandleID(),
+					MailBox::DataTag, 
 					getSource());
+
+  if (1){
+    void dumpData(double *, int ,int, char);
+    printf("DataMem:%p Header size:%d\n",data->getContentAddress(),data->getHeaderSize());
+    double *A=(double *)(data->getContentAddress());
+    dumpData(A,6,6,'D');
+  }
 
   dt_log.addEvent(this,DuctteipLog::Woken);
   dt_log.addEvent(data,DuctteipLog::DataSent,getSource());
@@ -1154,7 +1177,7 @@ void IData::listenerAdded(DataListener *exlsnr,int host , DataVersion version ) 
     TRACE_LOCATION;
   exlsnr->setCount(1);
   listeners.push_back(exlsnr);
-  printf("data %s, lsnr list size:%ld\n",getName().c_str(),listeners.size());
+  //printf("data %s, lsnr list size:%ld\n",getName().c_str(),listeners.size());
   TRACE_LOCATION;
 }
 /*--------------------------------------------------------------------------*/
@@ -1176,7 +1199,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
   list<IListener *>::iterator lsnr_it;
   list<IDuctteipTask *>::iterator task_it;
 
-  if(1)printf("data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
+  if(0)printf("data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
   if (listeners.size() >0) {
     dt_log.addEventStart(this,DuctteipLog::CheckedForListener);
     for(lsnr_it = listeners.begin() ; 

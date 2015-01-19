@@ -516,13 +516,17 @@ public:
     rt_write_version.deserialize(buffer,offset,max_length);
 
     if ( !header_only ) {
+      /*
       if (mi != data_memory){
 	printf("!!!!!!!!!!!!\n");
 	hM = NULL;
 	createSuperGlueHandles();
-      }
-      if ( mi != NULL)
+	}
+      */
+      if ( mi != NULL){
 	setDataMemory( mi ) ;
+	printf("DataMem Changed  %s.\n",getName().c_str());
+      }
       dtPartition->setBaseMemory( getContentAddress(), getContentSize()) ; 
     }
   }

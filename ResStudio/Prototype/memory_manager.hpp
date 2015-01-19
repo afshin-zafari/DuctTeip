@@ -31,7 +31,6 @@ public:
   }
   MemoryItem(int size_,MemoryKey key_){
     address = new byte[size_];
-    TRACE_ALLOCATION(size_);
     state = Ready;
     size = size_;
     key = key_;

@@ -722,10 +722,21 @@ void AddTask ( IContext *ctx,
   else{
     PRINT_IF(SKIP_TASK_FLAG)(" @Skip TASK:%s  %s,host=%d\n", s,d3->isOwnedBy(me)?"*":"",me);
   }
+  
+  if ( d1 != NULL) 
+    if ( d1->getHost() == me) {
+      dtEngine.willReceiveListener(d1,d3->getHost(),d1->getReadVersion());
+    }
+  if ( d2 != NULL) 
+    if ( d2->getHost() == me) {
+      dtEngine.willReceiveListener(d2,d3->getHost(),d2->getReadVersion());
+    }
 
   if ( d1 != NULL ) d1->incrementVersion(IData::READ);
   if ( d2 != NULL ) d2->incrementVersion(IData::READ);
   d3->incrementVersion(IData::WRITE);
+
+
 
   delete dr;
   c->clear();
@@ -851,7 +862,7 @@ void IDuctteipTask::upgradeData(char c){
     dt_log.addEvent((*it)->data, DuctteipLog::RunTimeVersionUpgraded);    
 
   }
-  if(0)printf("%c(*)%s %ld\n",c,s.c_str(),getTime());
+  if(1)printf("%c(*)%s %ld\n",c,s.c_str(),getTime());
   state = CanBeCleared;
   dtEngine.putWorkForDataReady(data_list);
 }
@@ -1009,11 +1020,11 @@ void IListener::checkAndSendData(MailBox * mailbox)
     return;
   }
   data->serialize();
-  if(0)printf("@data sent %s dh:%ld\n",data->getName().c_str(),data->getDataHandleID());
+  if(1)printf("@data sent %s dh:%ld tag:%d\n",data->getName().c_str(),data->getDataHandleID(),MailBox::DataTag);
   //  flushBuffer(data->getHeaderAddress(),data->getPackSize());
   unsigned long c_handle= mailbox->send(data->getHeaderAddress(),
 					data->getPackSize(),
-					MailBox::DataTag+data->getDataHandleID(),
+					MailBox::DataTag, //+data->getDataHandleID(),
 					getSource());
 
   dt_log.addEvent(this,DuctteipLog::Woken);
@@ -1119,6 +1130,7 @@ void IData::addTask(IDuctteipTask *task){
 void IData::listenerAdded(DataListener *exlsnr,int host , DataVersion version ) {
   list<DataListener *>::iterator it;
   version.dump();
+  TRACE_LOCATION;
   for (it = listeners.begin();it != listeners.end();it ++){
     DataListener *mylsnr = (*it);
     if (mylsnr->getHost() == host && mylsnr->getRequiredVersion() == version){
@@ -1139,8 +1151,11 @@ void IData::listenerAdded(DataListener *exlsnr,int host , DataVersion version ) 
     lsnr->setDataSent ( false);
     lsnr->setReceived(true);
   */
+    TRACE_LOCATION;
   exlsnr->setCount(1);
   listeners.push_back(exlsnr);
+  printf("data %s, lsnr list size:%ld\n",getName().c_str(),listeners.size());
+  TRACE_LOCATION;
 }
 /*--------------------------------------------------------------------------*/
 void IData::deleteListenersForOldVersions(){
@@ -1161,7 +1176,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
   list<IListener *>::iterator lsnr_it;
   list<IDuctteipTask *>::iterator task_it;
 
-  if(0)printf("data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
+  if(1)printf("data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
   if (listeners.size() >0) {
     dt_log.addEventStart(this,DuctteipLog::CheckedForListener);
     for(lsnr_it = listeners.begin() ; 

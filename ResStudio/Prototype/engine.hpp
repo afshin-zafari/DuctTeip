@@ -188,7 +188,7 @@ public:
     }
     criticalSection(Leave) ;
     
-    if ( !runMultiThread ) {
+    if ( 0 && !runMultiThread ) {
       doProcessMailBox();
       doProcessWorks();
     }
@@ -216,6 +216,22 @@ public:
   void sendTask(IDuctteipTask* task,int destination);
   void exportTask(IDuctteipTask* task,int destination);
   /*---------------------------------------------------------------------------------*/
+  void willReceiveListener(IData * data,int host , DataVersion version){
+    DataAccess *dr = new DataAccess;
+    dr->data= data;
+    dr->required_version = version;
+    IListener *listener = new IListener(dr,me);
+    int offset = 0 ;
+    listener->setSource ( host ) ;
+    listener->setReceived(true);
+    listener->setDataSent(false);
+
+    TRACE_LOCATION;
+    listener->getData()->listenerAdded(listener,host,version);
+
+
+  }
+  /*---------------------------------------------------------------------------------*/
   void receivedListener(MailBoxEvent *event){
     IListener *listener = new IListener;
     int offset = 0 ;
@@ -230,6 +246,7 @@ public:
     PRINT_IF(POSTPRINT)("a new postLsnr is substituted.\n");
     mailbox->prepareListenerReceive(listener->getPackSize(),host);
     version.dump();
+    TRACE_LOCATION;
     listener->getData()->listenerAdded(listener,host,version);
     criticalSection(Enter); 
     listener->setHandle( last_listener_handle ++);
@@ -496,7 +513,7 @@ public:
   /*---------------------------------------------------------------------------------*/
   void doProcess(){
 
-    prepareReceives();
+    //prepareReceives();
 
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
     dt_log.logLoadChange(0);
@@ -547,6 +564,7 @@ public:
     for (it =data_list->begin(); it != data_list->end() ; it ++) {
       IData *data=(*it)->data;
       putWorkForSingleDataReady(data);
+      TRACE_LOCATION;
     }
   }
   /*---------------------------------------------------------------------------------*/
@@ -892,7 +910,7 @@ private :
 	  if(0)printf("before prepare memory data:%p\n",data);
 	  data->allocateMemory();
 	  data->prepareMemory();
-	  mailbox->prepareDataReceive(data->getDataMemory(),host,data->getDataHandleID());
+	  //mailbox->prepareDataReceive(data->getDataMemory(),host,data->getDataHandleID());
 	  dt_log.addEvent(lsnr,DuctteipLog::ListenerSent,host);
 	  lsnr->setCommHandle ( comm_handle);
 	}
@@ -1011,12 +1029,14 @@ private:
       list<IDuctteipTask *>::iterator task_it;
       list<IListener *>          d_listeners = work->data->getListeners();
       list<IDuctteipTask *>      d_tasks     = work->data->getTasks();
-      //printf("after data upgrade, t_list:%ld\n",d_tasks.size()); work->data->dump('N');
+      printf("after data upgrade, t_list:%ld d_list:%ld \n",d_tasks.size(),d_listeners.size());
+      work->data->dump('N');
       dt_log.addEventStart(work->data,DuctteipLog::CheckedForListener);
       for(lsnr_it = d_listeners.begin() ; 
 	  lsnr_it != d_listeners.end()  ; 
 	  ++lsnr_it){
 	IListener *listener = (*lsnr_it);
+	TRACE_LOCATION;
 	listener->checkAndSendData(mailbox);
 	//dumpTasks();
       }
@@ -1151,12 +1171,15 @@ private:
 	break;
     case MailBox::ListenerTag:
       if (event.direction == MailBoxEvent::Received) {
+	TRACE_LOCATION;
 	receivedListener(&event);
       }
       else { 
 	//printf("lsnr sent\n");
 	IListener *listener = getListenerByCommHandle(event.handle);
-	dt_log.addEvent(listener,DuctteipLog::ListenerSendCompleted); 
+	if ( listener != NULL ) {
+	  dt_log.addEvent(listener,DuctteipLog::ListenerSendCompleted); 
+	}
       }
       break;
     case MailBox::DataTag:
@@ -1166,9 +1189,13 @@ private:
       }
       else{
 	//printf("data sent\n");
+	/*
 	IListener *listener = getListenerByCommHandle(event.handle);
-	dt_log.addEvent(listener->getData(),DuctteipLog::DataSendCompleted);
-	listener->getData()->dataIsSent(listener->getSource());
+	if ( listener != NULL ) {
+	  dt_log.addEvent(listener->getData(),DuctteipLog::DataSendCompleted);
+	  listener->getData()->dataIsSent(listener->getSource());
+	}
+	*/
       }
       break;
     case MailBox::PropagationTag:

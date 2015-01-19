@@ -40,7 +40,7 @@
 #define INSERT_TASK_FLAG  DEBUG
 #define SKIP_TASK_FLAG    DEBUG
 #define DATA_UPGRADE_FLAG DEBUG
-#define KERNEL_FLAG       0
+#define KERNEL_FLAG       1
 #define TERMINATE_FLAG    0
 #define IRECV             0
 #define OVERSUBSCRIBED    0

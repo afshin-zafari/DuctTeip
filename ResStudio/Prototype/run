@@ -6,9 +6,9 @@ ipn=4
 P=4
 p=1;q=4
 nt=4
-DLB=1
-#params[1]="$p $q 48 8 2 $nt $DLB 10"
-params[1]="$p $q 1200 10 5 $nt $DLB $ipn 50"
+DLB=0
+#params[1]="$p $q 48 8 2 $nt $DLB $ipn 3"
+params[1]="$p $q 1200 10 5 $nt $DLB $ipn 3"
 
 if test $1 -ne 0
 then 
@@ -29,7 +29,7 @@ then
     do
 	for i in 1
 	do	#--report-bindings --bysocket  --bind-to-socket -npernode $ipn
-	    time mpirun -n $P --map-by ppr:$ipn:node --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
+	    time mpirun -n $P  -npernode $ipn --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
 	    echo "$i$j-DLB-$DLB">>./temp/a.txt
 	    
 	    grep "error" ${outfile}* >>./temp/a.txt

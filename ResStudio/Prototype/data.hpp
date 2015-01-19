@@ -519,7 +519,7 @@ public:
       if (mi != data_memory){
 	printf("!!!!!!!!!!!!\n");
 	hM = NULL;
-	//createSuperGLueHandles();
+	createSuperGlueHandles();
       }
       if ( mi != NULL)
 	setDataMemory( mi ) ;

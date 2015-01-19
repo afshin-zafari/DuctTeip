@@ -84,7 +84,7 @@ public:
       result= MPI_Isend(buffer,length,MPI_BYTE,dest,tag,MPI_COMM_WORLD,mpi_request);
     CommRequest *comm_request = new CommRequest(mpi_request,tag,++last_comm_handle,length);
     request_list.push_back(comm_request);
-    PRINT_IF(0)("req list size in send function:%ld,tag:%d\n",request_list.size(),tag);
+    PRINT_IF(1)("req list size in send function:%ld,tag:%d\n",request_list.size(),tag);
     if(0)
     if ( tag == 10 || tag ==2){
       double * M= (double*)(buffer+192);
@@ -290,7 +290,7 @@ public:
 	 //	 tot_sent_len,tot_sent_time ,(*it)->length,t);
 	  //printf("avg BW:%3.1lf Gb/s\n",tot_sent_len/(double)(tot_sent_time)*3 );
 	}
-	PRINT_IF(POSTPRINT)("sent is complete, tag:%d, handle:%ld\n",*tag,*handle);
+	PRINT_IF(1)("sent is complete, tag:%d, handle:%ld\n",*tag,*handle);
 	if (*(*it)->request != MPI_REQUEST_NULL) 
 	  MPI_Request_free((*it)->request);
 	addLogEventEnd("MPI_Test",DuctteipLog::MPITestSent);

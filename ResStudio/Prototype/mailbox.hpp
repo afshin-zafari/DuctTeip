@@ -84,6 +84,9 @@ public:
   /*-------------------------------------------------------------------------------*/
   unsigned long  send(byte *buffer, int length, int tag, int destination,bool wait=false){
     unsigned long comm_handle  = comm->send(buffer,length,(int)tag,destination,wait);
+    if ( tag > 1000 ) {
+      printf("@@@ tag:%d, len:%d, to:%d\n",tag,length,destination);
+    }
     return comm_handle ;
   }
   /*-------------------------------------------------------------------------------*/
@@ -214,6 +217,50 @@ public:
 
   /*-------------------------------------------------------------------------------*/
   bool getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed,bool wait = false){
+    int tag,source,length;
+    *completed = false;
+    bool received=comm->probe(&tag,&source,&length,wait);
+    if ( !received){
+      addLogEventStart("AnySendCompleted",DuctteipLog::AnySendCompleted);
+      unsigned long handle;
+      bool found = comm->isAnySendCompleted(&tag,&handle);
+      addLogEventEnd("AnySendCompleted",DuctteipLog::AnySendCompleted);
+      if ( (tag != TerminateOKTag) && (tag !=  TerminateCancelTag) ) 
+	if ( found ) {
+	  printf("send complete: %d,%ld\n",tag,handle);
+	  event->tag = tag;
+	  event->handle = handle;
+	  event->direction = MailBoxEvent::Sent;
+	  *completed =  true;
+	  return true;
+	}
+      return false;
+    }
+    printf("received : tag=%d,from %d,len=%d \n",tag,source,length);
+    event->direction = MailBoxEvent::Received;
+    event->length = length;
+    event->host   = source;
+    event->tag = tag ; 
+    event->handle  = 0;
+    if ( tag == MigrateDataTag ||
+	 tag == DeclineMigrateTag ||
+	 tag == AcceptMigrateTag ||
+	 tag == MigratedTaskOutDataTag){
+      event->memory = memman->getNewMemory();
+      event->buffer = event->memory->getAddress();
+    }
+    else{      
+      event->memory =  NULL;
+      event->buffer = new byte[length];
+    }
+    int res=comm->receive(event->buffer,length,tag,source,true);
+    printf("result of recv :%d \n",res);
+    *completed = (res==0);
+    return true;
+    
+  }
+  /*-------------------------------------------------------------------------------*/
+  bool getEventOld(MemoryManager *memman,MailBoxEvent *event,bool *completed,bool wait = false){
 
     int length,source,tag;
     unsigned long handle;

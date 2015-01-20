@@ -46,8 +46,8 @@
 #define OVERSUBSCRIBED    0
 #define POSTPRINT         0
 
-//#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
-#define  TRACE_LOCATION
+#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
+//#define  TRACE_LOCATION
 //#define TRACE(a) TRACE_LOCATION;printf(a);
 #define TRACE(a)
 

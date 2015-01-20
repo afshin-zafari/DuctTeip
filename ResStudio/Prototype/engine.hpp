@@ -245,9 +245,8 @@ public:
     DataVersion version = listener->getRequiredVersion();
     PRINT_IF(POSTPRINT)("a new postLsnr is substituted.\n");
     //    mailbox->prepareListenerReceive(listener->getPackSize(),host);
-    printf("lsnr recvd for data :%s, from %d\n",listener->getData()->getName().c_str(),host);
+    if(0)printf("lsnr recvd for data :%s, from %d\n",listener->getData()->getName().c_str(),host);
     version.dump();
-    TRACE_LOCATION;
     listener->getData()->listenerAdded(listener,host,version);
     criticalSection(Enter); 
     listener->setHandle( last_listener_handle ++);
@@ -566,7 +565,6 @@ public:
     for (it =data_list->begin(); it != data_list->end() ; it ++) {
       IData *data=(*it)->data;
       putWorkForSingleDataReady(data);
-      TRACE_LOCATION;
     }
   }
   /*---------------------------------------------------------------------------------*/
@@ -911,7 +909,7 @@ private :
 	  MessageBuffer *m=lsnr->serialize();
 	  unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);	
 	  IData *data=data_access.data;//lsnr->getData();
-	  if(1)printf("listener sent for data :%s to:%d\n",data->getName().c_str(),host);
+	  if(0)printf("listener sent for data :%s to:%d\n",data->getName().c_str(),host);
 	  if(0)printf("before prepare memory data:%p\n",data);
 	  data->allocateMemory();
 	  data->prepareMemory();
@@ -1041,7 +1039,6 @@ private:
 	  lsnr_it != d_listeners.end()  ; 
 	  ++lsnr_it){
 	IListener *listener = (*lsnr_it);
-	TRACE_LOCATION;
 	listener->checkAndSendData(mailbox);
 	//dumpTasks();
       }
@@ -1177,7 +1174,6 @@ private:
 	break;
     case MailBox::ListenerTag:
       if (event.direction == MailBoxEvent::Received) {
-	TRACE_LOCATION;
 	receivedListener(&event);
       }
       else { 

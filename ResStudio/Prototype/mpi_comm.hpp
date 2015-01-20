@@ -346,26 +346,30 @@ public:
     int r;
     bool dbg=true;
     printf("err-req:%d\n",MPI_ERR_REQUEST);
-    for (it = request_list.begin(); it != request_list.end(); it ++){
-      r = MPI_Request_free((*it)->request);
-      //      if(dbg)printf ("req-list:%d,",r);
-    }
+    if(0){
+      for (it = request_list.begin(); it != request_list.end(); it ++){
+	if ( *((*it)->request) != MPI_REQUEST_NULL ) {
+	  r = MPI_Request_free((*it)->request);
+	  if(dbg)printf ("req-list:%d,",r);
+	}
+      }
     
-    for (it = postdata_list.begin(); it != postdata_list.end(); it ++){
-      r = MPI_Request_free((*it)->request);
-      if(dbg)printf ("pdata:%d,",r);
-    }
-    for (it = postlsnr_list.begin(); it != postlsnr_list.end(); it ++){
-      r=MPI_Request_free((*it)->request);
-      if(dbg)printf ("lsnr:%d,",r);
-    }
-    for (it = postterm_list.begin(); it != postterm_list.end(); it ++){
-      r=MPI_Request_free((*it)->request);
-      if(dbg)printf ("term:%d,",r);
-    }
-    if ( last_receive != MPI_REQUEST_NULL ) {
-      r = MPI_Request_free(&last_receive);
-      if(dbg)printf ("last-rcv:%d,\n",r);
+      for (it = postdata_list.begin(); it != postdata_list.end(); it ++){
+	r = MPI_Request_free((*it)->request);
+	if(dbg)printf ("pdata:%d,",r);
+      }
+      for (it = postlsnr_list.begin(); it != postlsnr_list.end(); it ++){
+	r=MPI_Request_free((*it)->request);
+	if(dbg)printf ("lsnr:%d,",r);
+      }
+      for (it = postterm_list.begin(); it != postterm_list.end(); it ++){
+	r=MPI_Request_free((*it)->request);
+	if(dbg)printf ("term:%d,",r);
+      }
+      if ( last_receive != MPI_REQUEST_NULL ) {
+	r = MPI_Request_free(&last_receive);
+	if(dbg)printf ("last-rcv:%d,\n",r);
+      }
     }
     
     return MPI_Finalize();  

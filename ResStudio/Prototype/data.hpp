@@ -363,7 +363,7 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   void setDataMemory(MemoryItem *mi ) {
-    //    data_memory->setState( MemoryItem::Ready) ; 
+    //data_memory->setState( MemoryItem::Ready) ; 
     data_memory = mi;
     if(0)printf("======%s\n",getName().c_str());
   }
@@ -525,7 +525,7 @@ public:
       */
       if ( mi != NULL){
 	setDataMemory( mi ) ;
-	printf("DataMem Changed  %s.\n",getName().c_str());
+	if(0)printf("DataMem Changed  %s.\n",getName().c_str());
       }
       dtPartition->setBaseMemory( getContentAddress(), getContentSize()) ; 
     }

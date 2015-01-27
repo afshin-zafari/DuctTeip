@@ -86,6 +86,7 @@ public:
   }
 };
 /*===================================================================*/
+
 class engine
 {
 private:
@@ -109,6 +110,7 @@ private:
   Config *cfg;
   MemoryManager *data_memory;
   long skip_term,skip_work,skip_mbox,time_out;
+  DataList imported_data;
   enum { Enter, Leave};
   enum {
     EVEN_INIT     ,
@@ -259,7 +261,7 @@ public:
 
   }
   /*---------------------------------------------------------------------------------*/
-  void receivedData(MailBoxEvent *event,MemoryItem*);
+  IData *receivedData(MailBoxEvent *event,MemoryItem*);
   IData *importedData(MailBoxEvent *event,MemoryItem*);
   /*---------------------------------------------------------------------------------*/
   void waitForTaskFinish(){
@@ -766,7 +768,8 @@ private :
 	  IData * data = (*it)->data;
 	  if ( (*it)->type == IData::WRITE ){
 	    data->serialize();
-	    if(0)printf("Result of imported task is sent back to :%d\n",data->getHost());
+	    if(1)printf("Result of imported task is sent back to :%d , msg-size:%d\n",
+			data->getHost(),data->getPackSize());
 	    data->dumpCheckSum('R');
 	    data->dump(' ');
 
@@ -780,6 +783,7 @@ private :
 	if (dlb_state == TASK_IMPORTED && import_tasks.size() ==0){
 	  dlb_state=DLB_STATE_NONE;
 	  dlb_stage= DLB_NONE;
+	  imported_data.clear();
 	  printf("import task list emptied.\n");
 	}
 	dt_log.logImportTask(import_tasks.size());
@@ -2025,8 +2029,10 @@ private:
       for ( it = data_list->begin(); it != data_list->end()  ; it ++){
 	IData * data = (*it)->data;
 	if(DLB_DEBUG)printf("Data is exported:\n");data->dump('N');
-	if ( data->isExportedTo(p) )
+	if ( data->isExportedTo(p) ){
+	  printf("Data %s is already exported to :%d\n",data->getName().c_str(),p);
 	  continue;
+	}
 	data->setExportedTo(p);
 	dlb_profile.export_data++;
 
@@ -2039,10 +2045,11 @@ private:
 	  }
 	}
 
-	data->dumpCheckSum('x');
+	//flushBuffer(data->getHeaderAddress(),100+data->getHeaderSize());
+	data->dumpCheckSum('Z');
 	data->dump(' ');
 	data->serialize();
-	if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
+	if(1)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
 	       data->getContentAddress(),
 	       data->getContentSize(),
 	       data->getHeaderSize(),
@@ -2052,12 +2059,6 @@ private:
 		      data->getPackSize(),
 		      MailBox::MigrateDataTag,
 		      p);
-  void dumpData(double *, int ,int, char);
-  if (1){
-    double *B=(double *)(data->getContentAddress());
-    dumpData(B,12,12,'X');
-  }
-
       }
     }while( t !=NULL);
   }
@@ -2065,26 +2066,18 @@ private:
   void importData(MailBoxEvent *event){
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
-	if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
-	       data->getContentAddress(),
-	       data->getContentSize(),
-	       data->getHeaderSize(),
-	       data->getPackSize());
+    if(1)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
+		data->getContentAddress(),
+		data->getContentSize(),
+		data->getHeaderSize(),
+		data->getPackSize());
     data->dumpCheckSum('i');
     data->dump(' ');
-    void dumpData(double *,int,int,char);
-    if ( 0 ) {
-      double *A=data->getContentAddress();
-      for ( int i=0;i<5;i++)
-	for (int j=0;j<5;j++){
-	  dumpData(A+i*12*12+j*5*12*12,12,12,'i');
-	}
-    }
     list<IDuctteipTask *>::iterator it;
     if(DLB_DEBUG)printf("Find which task can run:\n");
     for(it=import_tasks.begin();it != import_tasks.end(); it ++){
       IDuctteipTask *t = *it;
-      if ( t->canRun('i')){
+      if ( canRunImportedTask(t,'i')){
 	if(DLB_DEBUG)printf("Task can run:\n");t->dump();
 	t->run();	
       }
@@ -2226,6 +2219,51 @@ public:
     return p;
   }
   /*---------------------------------------------------------------------------------*/
+  bool canRunImportedTask(IDuctteipTask *task,char c=' '){
+    list<DataAccess *>::iterator it;
+    list<DataAccess *> *data_list=task->getDataAccessList();
+    bool result=false;
+    int state = task->getState();
+    if ( state  == IDuctteipTask::Finished ) {
+      return false;
+    }
+    if ( state == IDuctteipTask::Running ) {
+      return false;
+    }
+    string s1,s2;
+    printf("Imported task :%s\n",task->getName().c_str());
+    for ( it = data_list->begin(); it != data_list->end(); ++it ) {
+	s1=(*it)->data->getName()+" , "+(*it)->required_version.dumpString();
+	printf(" Required Data :%s \n",s1.c_str());
+	DataHandle dh = *((*it)->data->getDataHandle());
+	DLIter dlit;
+	result=false;
+	for (dlit=imported_data.begin(); !result && dlit != imported_data.end(); dlit++){
+	  IData *imp_data=(*dlit);
+	  if ( imp_data == NULL ) {
+	    printf ("no imp data \n");
+	    continue;
+	  }
+	  DataHandle imp_dh = *(imp_data->getDataHandle());
+	  //printf("imp_data:%p , task->data:%p \n",imp_data,(*it)->data);
+	  if ( imp_dh == dh){  
+	    s2=imp_data->getRunTimeVersion((*it)->type).dumpString();
+	    printf("  ImpData %ld,%ld ver.: %s\n",imp_dh.data_handle,dh.data_handle,s2.c_str());
+	    if ( imp_data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
+	      printf("   !matched.\n");
+	      return false;      
+	    }
+	    else{
+	      result=true;
+	      (*it)->data= imp_data;
+	      printf("!! data pointer redirected to imported data\n");
+	    }
+	  }
+	}
+	if (!result)return false;// no imported data matches with required data for task
+    }
+    return true;
+  }
 
 
 

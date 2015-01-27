@@ -783,7 +783,7 @@ private :
 	if (dlb_state == TASK_IMPORTED && import_tasks.size() ==0){
 	  dlb_state=DLB_STATE_NONE;
 	  dlb_stage= DLB_NONE;
-	  imported_data.clear();
+	  //imported_data.clear();
 	  printf("import task list emptied.\n");
 	}
 	dt_log.logImportTask(import_tasks.size());
@@ -2238,7 +2238,7 @@ public:
 	DataHandle dh = *((*it)->data->getDataHandle());
 	DLIter dlit;
 	result=false;
-	for (dlit=imported_data.begin(); !result && dlit != imported_data.end(); dlit++){
+	for (dlit=imported_data.begin(); dlit != imported_data.end(); dlit++){
 	  IData *imp_data=(*dlit);
 	  if ( imp_data == NULL ) {
 	    printf ("no imp data \n");
@@ -2251,7 +2251,7 @@ public:
 	    printf("  ImpData %ld,%ld ver.: %s\n",imp_dh.data_handle,dh.data_handle,s2.c_str());
 	    if ( imp_data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
 	      printf("   !matched.\n");
-	      return false;      
+	      result = false;      
 	    }
 	    else{
 	      result=true;

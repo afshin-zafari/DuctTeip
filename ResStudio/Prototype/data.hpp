@@ -312,23 +312,22 @@ public:
   /*--------------------------------------------------------------------------*/
   IData * clone(MemoryItem *mi){
     IData *d = new IData;
+    bool dbg = false;
     *d=*this ;    
-    printf("Data %s\n",d->getName().c_str());
-    printf("loc mb:%d, nb:%d\n",d->local_mb,d->local_nb);
-    printf("loc m:%d, n:%d\n",d->local_m,d->local_n);
+    if(dbg)    printf("Data %s\n",d->getName().c_str());
+    if(dbg)    printf("loc mb:%d, nb:%d\n",d->local_mb,d->local_nb);
+    if(dbg)    printf("loc m:%d, n:%d\n",d->local_m,d->local_n);
     d->setDataHandle(my_data_handle);
     d->hM = NULL;
-    printf ("CLONE d.dh=%ld,my.dh=%ld\n",(d->getDataHandle())->data_handle,my_data_handle->data_handle);
+    if(dbg)    printf ("CLONE d.dh=%ld,my.dh=%ld\n",(d->getDataHandle())->data_handle,my_data_handle->data_handle);
     d->setDataMemory(mi);
-    printf("22\n");
-    //    printf ("CLONE d.mem=%p,my.mem=%p\n",d->getContentAddress(),getContentAddress());
     if ( data_memory  == NULL ){
-      printf ("CLONE my.mem is NULL\n");
+      if(dbg)      printf ("CLONE my.mem is NULL\n");
       d->Mb = d->Nb = 0;
       //d->allocateMemory();
-      printf ("CLONE d.mem is %p\n",d->data_memory);
+      if(dbg)      printf ("CLONE d.mem is %p\n",d->data_memory);
     }    
-    printf ("CLONE d.mem=%p\n",d->getContentAddress());
+    if(dbg)    printf ("CLONE d.mem=%p\n",d->getContentAddress());
     if (getContentSize()==0){
       long ds;      
       ds = local_n * local_m * sizeof(double);
@@ -337,13 +336,14 @@ public:
     else 
       d->setContentSize(getContentSize());
     d->prepareMemory();
-    printf ("CLONE d.mem=%p d.size=%d\n",d->getContentAddress(),d->getContentSize());
+    if(dbg)    printf ("CLONE d.mem=%p d.size=%d\n",d->getContentAddress(),d->getContentSize());
     if ( data_memory !=NULL)
-      printf ("      my.mem=%p\n",getContentAddress());
+      if(dbg)printf ("      my.mem=%p\n",getContentAddress());
     d->createSuperGlueHandles();
-    printf ("CLONE d.hm=%p,my.hm=%p\n",d->hM,hM);
+    if(dbg)    printf ("CLONE d.hm=%p,my.hm=%p\n",d->hM,hM);
     return d;
   }
+  /*--------------------------------------------------------------------------*/
   IData(){
     my_data_handle = new DataHandle;
     dtPartition = NULL; 
@@ -420,11 +420,11 @@ public:
   int  getYLocalDimension( ) {    return local_m ;  }
   /*--------------------------------------------------------------------------*/
   Handle<Options> **createSuperGlueHandles(bool force = false){
+    bool dbg=!true;
     if ( !force && hM !=NULL ) 
       return hM;
-    printf ("SG handle for Data %s is created.\n",getName().c_str());
+    if(dbg)        printf ("SG handle for Data %s is created.\n",getName().c_str());
     int nb=local_nb,mb=local_mb;
-    bool dbg=!true;
     hM= new Handle<Options>*[mb];
     for(int i=0;i<mb;i++){
       hM[i]=new Handle<Options>[nb];
@@ -700,6 +700,7 @@ public:
   list<IDuctteipTask *>      &getTasks(){return tasks_list;}
   /*--------------------------------------------------------------------------*/
   double dumpCheckSum(char c='i'){	
+    return 0.0;
     if ( c != 'z' && c!= 'Z' && c!='R' && c!='F' && c!='S') 
       return 0.0;
     if (!data_memory)

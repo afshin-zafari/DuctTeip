@@ -218,22 +218,11 @@ public :
   }
 };
 /*===================================================================================*/
-void IData::prepareMemory(){
-    
-  //      allocateMemory();
-      dtPartition=new Partition<double>(2);
-      Partition<double> *p = dtPartition;
-      if(1)
-	printf("####%s, PrepareData cntntAdr:%ld sz:%d\n",getName().c_str(),
-	       getContentAddress(),getContentSize());
-      p->setBaseMemory(getContentAddress() ,  getContentSize());
-      if(1)
-	printf("####%s, PrepareData cntntAdr:%ld sz:%d\n",getName().c_str(),
-	       getContentAddress(),getContentSize());
-      p->partitionRectangle(local_m,local_n,local_mb,local_nb);	
-      if(1)
-	printf("####%s, PrepareData cntntAdr:%ld sz:%d\n",getName().c_str(),
-	       getContentAddress(),getContentSize());
+void IData::prepareMemory(){   
+  dtPartition=new Partition<double>(2);
+  Partition<double> *p = dtPartition;
+  p->setBaseMemory(getContentAddress() ,  getContentSize());
+  p->partitionRectangle(local_m,local_n,local_mb,local_nb);	
 
 }
 void IData::setPartition(int _mb, int _nb){
@@ -849,18 +838,20 @@ void IDuctteipTask::setFinished(bool flag){
   PRINT_IF(OVERSUBSCRIBED)("-----task:%s finish mutex unlocked,time:%Ld,st:%d,fin=%d,",
 			   getName().c_str(),getTime(),state,IDuctteipTask::Finished);
   PRINT_IF(OVERSUBSCRIBED)("remained:%ld\n",dtEngine.getUnfinishedTasks());
-  IData *a = getDataAccess(0);
-  printf("dt_task %s finished A:%s\n",getName().c_str(),a->getName().c_str());
-  a->dumpCheckSum('F');
-  if ( data_list->size() >1){
-    a = getDataAccess(1);
-    printf("dt_task %s finished B:%s\n",getName().c_str(),a->getName().c_str());
+  if (0){
+    IData *a = getDataAccess(0);
+    printf("dt_task %s finished A:%s\n",getName().c_str(),a->getName().c_str());
     a->dumpCheckSum('F');
-  }
-  if ( data_list->size() >2){
-    a = getDataAccess(2);
-    printf("dt_task %s finished C:%s\n",getName().c_str(),a->getName().c_str());
-    a->dumpCheckSum('F');
+    if ( data_list->size() >1){
+      a = getDataAccess(1);
+      printf("dt_task %s finished B:%s\n",getName().c_str(),a->getName().c_str());
+      a->dumpCheckSum('F');
+    }
+    if ( data_list->size() >2){
+      a = getDataAccess(2);
+      printf("dt_task %s finished C:%s\n",getName().c_str(),a->getName().c_str());
+      a->dumpCheckSum('F');
+    }
   }
   
 }
@@ -868,7 +859,7 @@ void IDuctteipTask::setFinished(bool flag){
 void IDuctteipTask::upgradeData(char c){
   list<DataAccess *>::iterator it;
   string s;
-  bool dbg=true;
+  bool dbg=!true;
   if(dbg)s=getName();
   if ( type == PropagateTask ) 
     return;
@@ -929,7 +920,7 @@ void engine:: exportTask(IDuctteipTask* task,int destination){
   MessageBuffer *m = task->serialize();
   unsigned long ch =  mailbox->send(m->address,m->size,MailBox::MigrateTaskTag,destination);
   task->setCommHandle (ch);
-  printf("Task is exported:%s\n",task->getName().c_str());
+  if(0)printf("Task is exported:%s\n",task->getName().c_str());
   task->dump();
   dt_log.addEvent(task,DuctteipLog::TaskExported,destination);  
 }
@@ -974,11 +965,12 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
   const bool header_only = true;
   const bool all_content = false;
   DataHandle dh;
+  bool dbg = false;
 
 
-  printf ("buf:%p,len:%d\n",event->buffer,event->length);
+  if(dbg)      printf ("buf:%p,len:%d\n",event->buffer,event->length);
   dh.deserialize(event->buffer,offset,event->length);
-  printf("data handle:%ld\n",dh.data_handle);
+  if(dbg)      printf("data handle:%ld\n",dh.data_handle);
   IData *local_data = glbCtx.getDataByHandle(&dh);
   double *A=(double *)(event->buffer+local_data->getHeaderSize());
   double sum = 0.0;
@@ -987,18 +979,19 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
     sum += A[i];
   }
   //flushBuffer(event->buffer+local_data->getHeaderSize(),100+local_data->getHeaderSize());
-  printf ("Checksum Message Buffer :%lf data-size:%d buf-size:%d buf-length:%d\n",
-	  sum,size,local_data->getContentSize(),event->length);
+  if(dbg)    
+    printf ("Checksum Message Buffer :%lf data-size:%d buf-size:%d buf-length:%d\n",
+	    sum,size,local_data->getContentSize(),event->length);
 
   IData *new_data ;
   if ( event->tag == MailBox::MigratedTaskOutDataTag ){
-    printf("Returned Back:%s \n",local_data->getName().c_str());
+    if(dbg)        printf("Returned Back:%s \n",local_data->getName().c_str());
     MemoryItem *mmi = local_data->getDataMemory();
     if (  mmi != NULL ) {      
       memcpy(local_data->getContentAddress(),
 	     event->buffer+local_data->getHeaderSize(),
 	     local_data->getContentSize());
-      printf("YYYY\n");
+      if(dbg)          printf("YYYY\n");
     }
     else{
       local_data->setDataMemory(event->memory);
@@ -1006,7 +999,7 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
       //mi = local_data->getDataMemory();
       local_data->prepareMemory();
       //      local_data->createSuperGlueHandles(true);
-      printf("ZZZZ\n");
+      if(dbg)          printf("ZZZZ\n");
     }
     local_data->dumpCheckSum('z');  
     offset=0;
@@ -1015,13 +1008,13 @@ IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
   else{
     new_data = local_data->clone(mi);
     if ( new_data ==NULL){
-      printf("error in imported data\n");
+      if(dbg)          printf("error in imported data\n");
       exit(-1);
     }
     offset=0;
     new_data->deserialize(event->buffer,offset,event->length,mi,header_only);
-    printf("after CLONE, data handle:%ld\n",new_data->getDataHandle()->data_handle);
-    printf("imported data&ver :%s %s size:%d\n",new_data->getName().c_str(),
+    if(dbg)        printf("after CLONE, data handle:%ld\n",new_data->getDataHandle()->data_handle);
+    if(dbg)        printf("imported data&ver :%s %s size:%d\n",new_data->getName().c_str(),
 	   new_data->dumpVersionString().c_str(),new_data->getContentSize());
     dt_log.addEvent(local_data,DuctteipLog::DataImported);
     imported_data.push_back(new_data);

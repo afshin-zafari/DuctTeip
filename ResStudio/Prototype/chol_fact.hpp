@@ -651,7 +651,8 @@ public:
   void potrf_kernel(IDuctteipTask *task){
     dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
     IData *A = task->getDataAccess(0);
-    printf("dt_%s A:%s\n",task->getName().c_str(),A->getName().c_str());
+    bool dbg = false;
+    if(dbg)    printf("dt_%s A:%s\n",task->getName().c_str(),A->getName().c_str());
     A->dumpCheckSum('S');
     Handle<Options> **hM  =  A->createSuperGlueHandles();
     int nb = cfg->getXLocalBlocks();
@@ -680,9 +681,10 @@ public:
     dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
     IData *a = task->getDataAccess(0);
     IData *b = task->getDataAccess(1);
-    printf("dt_trsm %s A:%s\n",task->getName().c_str(),a->getName().c_str());
+    bool dbg = false;
+    if(dbg)    printf("dt_trsm %s A:%s\n",task->getName().c_str(),a->getName().c_str());
     a->dumpCheckSum('S');
-    printf("dt_trsm %s B:%s\n",task->getName().c_str(),b->getName().c_str());
+    if(dbg)    printf("dt_trsm %s B:%s\n",task->getName().c_str(),b->getName().c_str());
     b->dumpCheckSum('S');
     Handle<Options> **hA  =  a->createSuperGlueHandles();  
     Handle<Options> **hB  =  b->createSuperGlueHandles();  
@@ -709,10 +711,11 @@ public:
     dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
     IData *a = task->getDataAccess(0);
     IData *b = task->getDataAccess(1);
+    bool dbg = false;
     a->dumpCheckSum('S');
-    printf("dt_syrk %s A:%s\n",task->getName().c_str(),a->getName().c_str());
+    if(dbg)    printf("dt_syrk %s A:%s\n",task->getName().c_str(),a->getName().c_str());
     b->dumpCheckSum('S');
-    printf("dt_syrk %s B:%s\n",task->getName().c_str(),b->getName().c_str());
+    if(dbg)    printf("dt_syrk %s B:%s\n",task->getName().c_str(),b->getName().c_str());
     Handle<Options> **hA  =  a->createSuperGlueHandles();  
     Handle<Options> **hB  =  b->createSuperGlueHandles();  
     //    printf("1\n");
@@ -739,11 +742,12 @@ public:
     IData *a = task->getDataAccess(0);
     IData *b = task->getDataAccess(1);
     IData *c = task->getDataAccess(2);
-    printf("dt_gemm %s A:%s\n",task->getName().c_str(),a->getName().c_str());
+    bool dbg=false;
+    if(dbg)printf("dt_gemm %s A:%s\n",task->getName().c_str(),a->getName().c_str());
     a->dumpCheckSum('S');
-    printf("dt_gemm %s B:%s\n",task->getName().c_str(),b->getName().c_str());
+    if(dbg)    printf("dt_gemm %s B:%s\n",task->getName().c_str(),b->getName().c_str());
     b->dumpCheckSum('S');
-    printf("dt_gemm %s C:%s\n",task->getName().c_str(),c->getName().c_str());
+    if(dbg)    printf("dt_gemm %s C:%s\n",task->getName().c_str(),c->getName().c_str());
     c->dumpCheckSum('S');
     Handle<Options> **hA  =  a->createSuperGlueHandles();  
     Handle<Options> **hB  =  b->createSuperGlueHandles();  

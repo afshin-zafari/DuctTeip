@@ -18,14 +18,17 @@ int main (int argc, char * argv[])
   nt = atoi(argv[6]);
   dlb = atoi(argv[7]);
   ipn= atoi(argv[8]);
+  string od;
   if ( argc > 9 ) 
-    to = atol(argv[9]);
+    od = string(argv[9]);
   if ( argc > 10 ) 
-    sw = atoi(argv[10]);
+    to = atol(argv[10]);
   if ( argc > 11 ) 
-    sm = atoi(argv[11]);    
+    sw = atoi(argv[11]);
   if ( argc > 12 ) 
-    st = atoi(argv[12]);    
+    sm = atoi(argv[12]);    
+  if ( argc > 13 ) 
+    st = atoi(argv[13]);    
   if ( dlb ==-1){
     simulation = 1; 
     dlb=0;
@@ -36,7 +39,7 @@ printf("ipn:%d\n",ipn);
   
   P = p * q;
 
-  Config cfg(N,N,Nb,Nb,P,p,q,nb,nb,nt,dlb,ipn);
+  Config cfg(N,N,Nb,Nb,P,p,q,nb,nb,nt,dlb,ipn,od);
   ProcessGrid PG(P,p,q);
 
   DataHostPolicy      hpData    (DataHostPolicy::BLOCK_CYCLIC         , PG );

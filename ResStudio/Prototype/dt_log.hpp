@@ -136,6 +136,8 @@ public:
     NumberOfEvents
   };
   Statistics stats[NumberOfEvents];
+  string out_dir;
+
 /*----------------------------------------------------------------------------*/
   ~DuctteipLog(){
   }
@@ -292,10 +294,11 @@ public:
   }
 /*----------------------------------------------------------------------------*/
   void setParams(int nodes_,long DataPackSize_, 
-		 long ListenerPackSize_,long TaskPackSize_){
+		 long ListenerPackSize_,long TaskPackSize_,string od){
     DataPackSize = DataPackSize_;
     ListenerPackSize = ListenerPackSize_;
     TaskPackSize = TaskPackSize_;
+    out_dir.assign(od);
     printf("@stats Msg Sizes D,T,L: %ld,%ld,%ld\n",DataPackSize,TaskPackSize,ListenerPackSize);
     nodes = nodes_;
     for ( int i =0; i< 3; i++){
@@ -536,11 +539,11 @@ public:
 /*----------------------------------------------------------------------------*/
   void dumpLoads(){
     char s[20];
-    sprintf(s,"dt_load_file-%2.2d.txt",me);
+    sprintf(s,"%s/dt_load_file-%2.2d.txt",out_dir.c_str(),me);
     dumpLoad(load_list,s);
-    sprintf(s,"dt_export_file-%2.2d.txt",me);
+    sprintf(s,"%s/dt_export_file-%2.2d.txt",out_dir.c_str(),me);
     dumpLoad(export_list,s);
-    sprintf(s,"dt_import_file-%2.2d.txt",me);
+    sprintf(s,"%s/dt_import_file-%2.2d.txt",out_dir.c_str(),me);
     dumpLoad(import_list,s);    
   }
 /*----------------------------------------------------------------------------*/

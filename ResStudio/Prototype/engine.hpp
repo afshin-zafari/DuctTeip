@@ -127,6 +127,16 @@ private:
 #endif
     TERMINATE_OK
   };
+  struct TimeDLB
+  {
+    TimeUnit t;
+    engine *e;
+    TimeDLB(engine *_e):e(_e){t = getTime();}
+    ~TimeDLB(){
+      e->dlb_profile.tot_cost += getTime() - t;
+    }
+  };
+#define TIME_DLB TimeDLB(this)
 public:
   /*---------------------------------------------------------------------------------*/
   engine(){
@@ -478,7 +488,7 @@ public:
     IListener l;
 
     long dps = ny * nx * sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
-    dt_log.setParams(cfg->getProcessors(),dps,l.getPackSize(),t.getPackSize());
+    dt_log.setParams(cfg->getProcessors(),dps,l.getPackSize(),t.getPackSize(),cfg->getOutDir());
     if ( simulation ) {
       dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
     }
@@ -932,6 +942,7 @@ public:
   void runFirstActiveTask(){
     if (!cfg->getDLB())
       return;
+    TIME_DLB;
     if(getActiveTasksCount()>DLB_BUSY_TASKS){
       return;
     }
@@ -1734,8 +1745,8 @@ private:
       tot_failure,
       tot_tick,
       max_loc_fail,export_task,export_data,import_task,import_data,max_para,max_para2;
-    ClockTimeUnit tot_cost,
-      tot_silent;      
+    TimeUnit tot_cost;
+    ClockTimeUnit tot_silent;      
   };
   DLB_Statistics dlb_profile;
   int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
@@ -1762,17 +1773,7 @@ private:
     SILENT_PERIOD=100,
     FAILURE_MAX=5
   };
-  struct TimeDLB
-  {
-    ClockTimeUnit t;
-    engine *e;
-    TimeDLB(engine *_e):e(_e){t = getClockTime(MICRO_SECONDS);}
-    ~TimeDLB(){
-      e->dlb_profile.tot_cost += getClockTime(MICRO_SECONDS) - t;
-    }
-  };
   int failures[FAILURE_MAX];
-#define TIME_DLB TimeDLB(this)
   /*---------------------------------------------------------------*/
   void initDLB(){
     dlb_state = DLB_STATE_NONE;
@@ -1838,9 +1839,9 @@ private:
 	   dlb_profile.tot_failure,
 	   dlb_profile.tot_tick,
 	   dlb_glb_failure);
-    printf("loc fail:%ld cost:%ld silence:%ld\n",
+    printf("loc fail:%ld cost:%lf silence:%ld\n",
 	   dlb_profile.max_loc_fail,
-	   dlb_profile.tot_cost/1000000L,
+	   dlb_profile.tot_cost/SCALE,
 	   dlb_profile.tot_silent); 
     printf("DLB ex task:%ld ex data:%ld im task:%ld im data:%ld max para:%ld or %ld\n",
 	   dlb_profile.export_task,
@@ -2064,6 +2065,7 @@ private:
   }
   /*---------------------------------------------------------------*/
   void importData(MailBoxEvent *event){
+    TIME_DLB;
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
     if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
@@ -2085,6 +2087,7 @@ private:
   }
   /*---------------------------------------------------------------*/
   void receiveTaskOutData(MailBoxEvent *event){
+    TIME_DLB;
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
     data->dumpCheckSum('r');
@@ -2122,6 +2125,7 @@ private:
   }
   /*---------------------------------------------------------------*/
   void receivedMigrateTask(MailBoxEvent *event){
+    TIME_DLB;
     dlb_profile.import_task++;    
     importedTask(event);
     PRINT_IF(DLB_DEBUG)("received tasks from %d\n",event->host);

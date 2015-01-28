@@ -2,14 +2,13 @@
 
 outfile=./temp/test_task_gen.out
 # params:   p q N Nb nb
-ipn=4
-P=4
-p=1;q=4
+ipn=3
+P=3
+p=1;q=3
 nt=2
 DLB=1
 N=1350
 #params[1]="$p $q 768 8 2 $nt $DLB $ipn 100"
-params[1]="$p $q $N 10 5 $nt $DLB $ipn 50"
 
 if test $1 -ne 0
 then 
@@ -26,17 +25,18 @@ fi
 if test $3 -ne 0
 then 
     rm b.txt
-    for j in K L M N O P Q R S T U 
+    for j in K # L M N O P Q R S T U 
     do
 	for i in 1
 	do	#--report-bindings --bysocket  --bind-to-socket -npernode $ipn
+	    tmpdir="./temp/out$i$j-DLB-$DLB"
+	    mkdir -p $tmpdir
+	    params[1]="$p $q $N 10 5 $nt $DLB $ipn $tmpdir 50"
 	    time mpirun -n $P  -npernode $ipn --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
 	    echo "$i$j-DLB-$DLB">>./temp/a.txt
 	    
 	    grep "error" ${outfile}* >>./temp/a.txt
 	    grep -i  "ProgramExec" ${outfile}*
-	    tmpdir="./temp/out$i$j-DLB-$DLB"
-	    mkdir -p $tmpdir
 	    mv ${outfile}* $tmpdir
 	    mv *log_file*.txt $tmpdir
 	    for node in $(seq 0 $[$P-1]) 

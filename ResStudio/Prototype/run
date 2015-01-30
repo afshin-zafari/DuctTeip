@@ -2,9 +2,9 @@
 
 outfile=./temp/test_task_gen.out
 # params:   p q N Nb nb
-ipn=3
-P=3
-p=1;q=3
+ipn=4
+P=$ipn
+p=1;q=$ipn
 nt=2
 DLB=1
 N=1350
@@ -19,13 +19,14 @@ fi
 if test $2 -ne 0
 then 
     rm ./temp/test_task* 
-    make TINTININTELMPI=1 POST_RECV=1 task_gen 
+#    make TINTININTELMPI=1 POST_RECV=1 task_gen 
+    make task_gen 
 
 fi
 if test $3 -ne 0
 then 
     rm b.txt
-    for j in K # L M N O P Q R S T U 
+    for j in K #L M N O P Q R S T U 
     do
 	for i in 1
 	do	#--report-bindings --bysocket  --bind-to-socket -npernode $ipn

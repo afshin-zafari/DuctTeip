@@ -7,14 +7,11 @@
 class engine;
 extern int me;
 #ifdef MPI_WALL_TIME
-#  pragma message("Scale=1e9")
 static const double SCALE=1000000000.0;
 #else
 #  if SG_SCHEDULE==1
-#    pragma message("Scale=1.0")
 static const double SCALE=1.0;
 #  else
-#    pragma message("Scale=3e9")
 static const double SCALE=3.0e9;
 #  endif
 #endif
@@ -453,9 +450,9 @@ public:
   }
 /*----------------------------------------------------------------------------*/
    void dump(long sg_task_count){
-    char s[20];
+    char s[2000];
     list<EventInfo *>::iterator it;
-    sprintf(s,"dt_log_file-%2.2d.txt",me);
+    sprintf(s,"%s/dt_log_file-%2.2d.txt",out_dir.c_str(),me);
 
     dumpLoads();
 

@@ -123,7 +123,6 @@ static inline ClockTimeUnit getClockTime(int unit) {
 }
 #ifdef MPI_WALL_TIME
 typedef unsigned long TimeUnit;
-#pragma message("getTime()=MPI WTIME")
 static inline TimeUnit getTime(){
   return (TimeUnit)(MPI_Wtime()*1000000000);  
 }
@@ -214,7 +213,7 @@ void nanoSleep(int n=1){
   ts.tv_sec=0;
   ts.tv_nsec=n*1000;
 
-  clock_nanosleep(CLOCK_PROCESS_CPUTIME_ID,0,&ts,NULL);
+  //  clock_nanosleep(CLOCK_PROCESS_CPUTIME_ID,0,&ts,NULL);
 }
 
 #define PRINT_IF(a) if(a) printf

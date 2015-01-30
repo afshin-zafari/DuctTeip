@@ -347,8 +347,8 @@ public:
     net_comm->finish();
     dt_log.addEventEnd(this,DuctteipLog::CommFinish);
     if (true || cfg->getYDimension() == 2400){
-      char s[20];
-      sprintf(s,"sg_log_file-%2.2d.txt",me);
+      char s[2000];
+      sprintf(s,"%s/sg_log_file-%2.2d.txt",cfg->getOutDir().c_str(),me);
       Log<Options>::dump(s);
     }
     long tc=thread_manager->getTaskCount();
@@ -507,26 +507,7 @@ public:
 
   }
   /*---------------------------------------------------------------------------------*/
-  void prepareReceives(){
-    IListener lsnr;
-    mailbox->prepareListenerReceive(lsnr.getPackSize());
-#if TERMINATE_TREE==0
-    mailbox->prepareTerminateReceive();
-#else
-    const int TREE_BASE=2;
-    int n,nodes[TREE_BASE];
-    int parent = getParentNodeInTree(me);
-    getChildrenNodesInTree(me,nodes,&n);
-    
-    mailbox->prepareTerminateReceive(parent,nodes[0],nodes[1]);
-#endif
-
-
-  }
-  /*---------------------------------------------------------------------------------*/
   void doProcess(){
-
-    //prepareReceives();
 
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
     dt_log.logLoadChange(0);
@@ -923,7 +904,7 @@ private :
 	  MessageBuffer *m=lsnr->serialize();
 	  unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);	
 	  IData *data=data_access.data;//lsnr->getData();
-	  if(0)printf("listener sent for data :%s to:%d\n",data->getName().c_str(),host);
+	  if(0)printf("listener sent for data :%s to:%d hnd:%ld\n",data->getName().c_str(),host,comm_handle);
 	  if(0)printf("before prepare memory data:%p\n",data);
 	  data->allocateMemory();
 	  data->prepareMemory();
@@ -1195,7 +1176,9 @@ private:
 	//printf("lsnr sent\n");
 	IListener *listener = getListenerByCommHandle(event.handle);
 	if ( listener != NULL ) {
-	  dt_log.addEvent(listener,DuctteipLog::ListenerSendCompleted); 
+	  dt_log.addEvent(listener,DuctteipLog::ListenerSendCompleted); 	  
+	  if(0)printf("listener is sent and deleted. hnd:%ld\n",event.handle);
+	  delete listener;
 	}
       }
       break;
@@ -1206,13 +1189,13 @@ private:
       }
       else{
 	//printf("data sent\n");
-	/*
+	
 	IListener *listener = getListenerByCommHandle(event.handle);
 	if ( listener != NULL ) {
 	  dt_log.addEvent(listener->getData(),DuctteipLog::DataSendCompleted);
 	  listener->getData()->dataIsSent(listener->getSource());
 	}
-	*/
+	
       }
       break;
     case MailBox::PropagationTag:
@@ -1389,8 +1372,10 @@ private:
     list<IListener *>::iterator it;
     for (it = listener_list.begin(); it !=listener_list.end();it ++){
       IListener *listener=(*it);
-      if ( listener->getCommHandle() == comm_handle)
+      if ( listener->getCommHandle() == comm_handle){
+	listener_list.erase(it);
 	return listener;
+      }
     }
     printf("\nerror:listener not found by comm-handle %ld\n",comm_handle);
     return NULL;
@@ -2132,7 +2117,6 @@ private:
     dlb_stage = DLB_NONE;
     PRINT_IF(DLB_DEBUG)("stage reset to NONE %d.\n",__LINE__);
     if (dlb_state == DLB_BUSY) {
-      printf("error : DLB_State == BUSY but received TASKS.\n");
     }
     if(DLB_DEBUG)printf("%d\n",__LINE__);
     restartDLB();     
@@ -2145,7 +2129,6 @@ private:
     // log_event accepted (from=p)
     if(DLB_DEBUG)printf("Node %d accepted my export-req.\n",p);
     if ( dlb_state == DLB_IDLE ) {
-       printf("error : DLB_State == IDLE  but received ACCEPTED.\n");
        return;
     }
     if ( dlb_substate == EARLY_ACCEPT ) {

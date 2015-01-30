@@ -2,7 +2,8 @@
 #define __PARTITION_HPP__
 #include "sg/superglue.hpp"
 #include "sg/core/contrib.hpp"
-#include "sg/option/instr_trace.hpp"class IData;
+#include "sg/option/instr_trace.hpp"
+class IData;
 
 /*===================== DataBlock =======================================================*/
 

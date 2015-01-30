@@ -435,9 +435,11 @@ void GlobalContext::dumpStatistics(Config *_cfg){
 /*--------------------------------------------------------------*/
 void GlobalContext::setConfiguration(Config *_cfg){
   cfg=_cfg;
+  /*
   list < PropagateInfo *> lp;
   for ( int i = 0 ; i <cfg->getProcessors();i++)
     nodesPropTasks.push_back(lp);
+  */
 }
 /*--------------------------------------------------------------*/
 void GlobalContext::testHandles(){
@@ -1147,6 +1149,7 @@ void IData::dataIsSent(int _host) {
       PRINT_IF(DATA_LISTENER)("DLsnr rt_read_version after upgrade:\n");
       rt_read_version.dump();
       lsnr->setDataSent(true);
+      delete lsnr;
       //it=listeners.erase(it);
       return;
     }      

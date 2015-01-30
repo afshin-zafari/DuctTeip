@@ -129,7 +129,7 @@ private:
   list <IContext *>      children;
   list <LevelInfo>       lstLevels;
 
-  vector < list <PropagateInfo *> > nodesPropTasks;
+  //  vector < list <PropagateInfo *> > nodesPropTasks;
 
   Config              *cfg;
   ContextHeader       *ctxHeader;
@@ -438,6 +438,7 @@ public :
   }
   /*------------------------------*/
   void sendPropagateTasks(){
+    /*
     list <PropagateInfo *>::iterator it;
     for ( it = lstPropTasks.begin(); it != lstPropTasks.end();++it){
       int p = getDataHostPolicy()->getHost(Coordinate ((*it)->i,(*it)->j));
@@ -452,6 +453,7 @@ public :
       nodesPropTasks[p].clear();
     }
     lstPropTasks.clear();
+    */
   }
   /*------------------------------*/
   void downLevel(){

@@ -179,7 +179,7 @@ public:
     list<CommRequest*>::iterator it;
     int r;
     bool dbg=true;
-    //    MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_RETURN);
+    MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_RETURN);
     MPI_Barrier(MPI_COMM_WORLD);
     printf("mpi_err-req:%d, req_count:%ld\n",MPI_ERR_REQUEST,request_list.size());
     if(1){

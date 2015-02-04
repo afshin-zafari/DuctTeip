@@ -9,7 +9,7 @@ SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-form
 
 
 GCC_COMP_FLAGS=-O3 #-mfma4 -mavx -march=bdver1 
-GCC_LINK_FLAGS=-lm  -lstdc++ #-march=bdver1 
+GCC_LINK_FLAGS=-lm   #-march=bdver1  -lstdc++
 INTEL_LINK_FLAGS=
 INTEL_COMP_FLAGS=
 ACML_DIR=/home/afshin/acml/gnu/acmllib/gfortran64

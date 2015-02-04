@@ -33,7 +33,7 @@ then
 	    tmpdir="./temp/out$i$j-DLB-$DLB"
 	    mkdir -p $tmpdir
 	    params[1]="$p $q $N 10 5 $nt $DLB $ipn $tmpdir 50"
-	    time mpirun -n $P  -npernode $ipn --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
+	    time mpirun -n $P  --display-map --map-by ppr:$ipn:node --output-filename $outfile ./temp/test_task_gen ${params[$i]} 
 	    echo "$i$j-DLB-$DLB">>./temp/a.txt
 	    
 	    grep "error" ${outfile}* >>./temp/a.txt

@@ -343,9 +343,7 @@ public:
     dt_log.logImportTask(0);
     dt_log.logExportTask(0);
 
-    dt_log.addEventStart(this,DuctteipLog::CommFinish);
-    net_comm->finish();
-    dt_log.addEventEnd(this,DuctteipLog::CommFinish);
+    net_comm->barrier();
     if (true || cfg->getYDimension() == 2400){
       char s[2000];
       sprintf(s,"%s/sg_log_file-%2.2d.txt",cfg->getOutDir().c_str(),me);
@@ -353,6 +351,11 @@ public:
     }
     long tc=thread_manager->getTaskCount();
     dt_log.dump(tc);
+
+
+    dt_log.addEventStart(this,DuctteipLog::CommFinish);
+    net_comm->finish();
+    dt_log.addEventEnd(this,DuctteipLog::CommFinish);
 
 
   }

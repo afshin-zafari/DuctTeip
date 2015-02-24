@@ -234,18 +234,9 @@ void IData::setPartition(int _mb, int _nb){
     
   Nb = _nb;
   Mb = _mb;
+  printf("Nb:%d,Mb:%d M:%d,N:%d\n",Nb,Mb,M,N);
   int i_ex=0,j_ex=0;
   partial = false;
-  if (0) {
-    if (N % Nb !=0){
-      partial=true;
-      j_ex=1;
-    }
-    if (M % Mb !=0){
-      partial=true;
-      i_ex=1;
-    }
-  }
   dataView=new vector<vector<IData*> >  (Mb+i_ex, vector<IData*>(Nb+j_ex)  );
   char s[100];
   for ( int i=0;i<(Mb+i_ex);i++)
@@ -341,12 +332,14 @@ bool IData::isOwnedBy(int p) {
 int IData::getHost(){
   Coordinate c = blk;  
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
-    if ( parent_data->Nb ==1) 
+    if ( parent_data->Nb ==1) {
       c.bx = c.by;
+    }
     return ( hpData->getHost ( c,1 )  );
   }
-  else
+  else{
     return hpData->getHost(blk);
+  }
 }
 /*--------------------------------------------------------------*/
 void   IData::incrementVersion ( AccessType a) {

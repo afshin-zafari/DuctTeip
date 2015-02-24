@@ -385,7 +385,10 @@ public:
     cfg = cfg_ ;
     name=static_cast<string>("chol");
     Nb = cfg->getXBlocks();
-      TRACE_LOCATION;
+    TRACE_LOCATION;
+    printf ("in cholesky class, config P:%d, XN:%d, XBlk:%d, XlBlk:%d\n",
+	    cfg->getP_pxq(),cfg->getXDimension(),
+	    cfg->getXBlocks(),cfg->getXLocalBlocks());
     p = cfg->getP_pxq();
     if ( inData == NULL ) {
       M= new Data ("M",cfg->getXDimension(),cfg->getXDimension(),this);

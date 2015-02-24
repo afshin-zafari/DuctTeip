@@ -498,7 +498,7 @@ public:
     data_memory = new MemoryManager (  nb * mb/3 ,dps );
     int ipn = cfg->getIPN();
     printf("eng.ipn=%d, nt=%d\n",ipn,num_threads);
-        thread_manager = new ThreadManager<Options> ( num_threads , (me % ipn )  * 16/ipn) ;
+        thread_manager = new ThreadManager<Options> ( num_threads , 0*(me % ipn )  * 16/ipn) ;
     //    thread_manager = new ThreadManager<Options> ( num_threads , (me % 1 )  * 4) ;
     show_affinity();
     dt_log.N = cfg->getXDimension();

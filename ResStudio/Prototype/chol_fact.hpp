@@ -11,6 +11,7 @@
 # define Mat(mat,i,j) mat[j*N+i]
 #endif
 
+#define BLAS 1
 #ifdef BLAS
 #include <acml.h>
 #endif

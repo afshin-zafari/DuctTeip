@@ -9,14 +9,8 @@ int main (int argc, char * argv[])
 {
   DuctTeip_Start(argc,argv);
   
-  Cholesky C(&config);
-
-  dtEngine.doProcess();
-
-  C.generateTasksNoContext();
+  Cholesky_DuctTeip();
 
   DuctTeip_Finish();
 
-  if (config.N < 10000 || config.dlb)
-    C.checkCorrectness();
 }

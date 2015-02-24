@@ -357,51 +357,34 @@ struct GemmTask : public Task<Options, 4> {
   string get_name(){ return log_name;}
 };
 /*----------------------------------------------------------------------------*/
-class Cholesky: public  Context
+
+class DuctTeip_Data : public Data {
+public: 
+  DuctTeip_Data(int M, int N,Algorithm *alg):Data("",M,N,alg){
+    
+    setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
+    setLocalNumBlocks(config.nb,config.nb);
+    setPartition ( config.Nb,config.Nb ) ;      
+    
+  }
+};
+class Cholesky: public  Algorithm
 {
 private:
-  int     Nb,p;
   IData  *M;
-  Config *cfg;
-  enum {
-    GEMM_SYRK_TASK_ID  ,
-    POTRF_TRSM_TASK_ID ,
-    POTRF_TASK_ID      ,
-    TRSM_TASK_ID       ,
-    SYRK_TASK_ID       ,
-    GEMM_TASK_ID       ,
-    GEMM_ROW_TASK_ID   ,
-    GEMM_COL_TASK_ID
-  };
-  enum Kernels{
-    potrf_Kernel,
-    trsm_Kernel,
-    gemm_Kernel,
-    syrk_Kernel
+  enum KernelKeys{
+    potrf,
+    trsm,
+    gemm,
+    syrk
   };
 public:
 /*----------------------------------------------------------------------------*/
-   Cholesky(Config *cfg_,IData *inData=NULL)  {
-    cfg = cfg_ ;
+   Cholesky(IData *inData=NULL)  {
     name=static_cast<string>("chol");
-    Nb = cfg->getXBlocks();
-    TRACE_LOCATION;
-    printf ("in cholesky class, config P:%d, XN:%d, XBlk:%d, XlBlk:%d\n",
-	    cfg->getP_pxq(),cfg->getXDimension(),
-	    cfg->getXBlocks(),cfg->getXLocalBlocks());
-    p = cfg->getP_pxq();
-    if ( inData == NULL ) {
-      M= new Data ("M",cfg->getXDimension(),cfg->getXDimension(),this);
-      M->setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
-      M->setLocalNumBlocks(cfg->getXLocalBlocks(),cfg->getXLocalBlocks());
-      M->setPartition ( Nb,Nb ) ;      
-    }
-    else{
-      M= inData;
-    }
+    M= new DuctTeip_Data (config.N,config.N,this);
     populateMatrice();
     addInOutData(M);
-    dtEngine.dumpTime();
   }
 /*----------------------------------------------------------------------------*/
   ~Cholesky(){
@@ -447,7 +430,8 @@ public:
 
   void populateMatrice(){
     if ( simulation) return;
-    printf("1\n");
+    cfg=&config;
+    printf("1%p\n",cfg);
     int I = cfg->getYBlocks();        // Mb
     int J = cfg->getXBlocks();        // Nb
     int K = cfg->getYDimension() / I; // #rows per block== M/ Mb
@@ -514,91 +498,49 @@ public:
 /*----------------------------------------------------------------------------*/
   int del_countTasks   (){
     int t=0;
-      for ( int i = 0; i< Nb ; i++) {
+      for ( int i = 0; i< config.Nb ; i++) {
 	  for(int l = 0;l<i;l++)
-	      for (int k = i; k<Nb ; k++)
+	      for (int k = i; k<config.Nb ; k++)
 		t++;
 	  t++;
-	  for( int j=i+1;j<Nb;j++)
+	  for( int j=i+1;j<config.Nb;j++)
 	    t++;
       }
       return t;
   }
 
 /*----------------------------------------------------------------------------*/
-  void generateTasks(){
-    string s = "a";
-    char chol_str[5],pnl_str[5],gemm_str[5] ;
+  void Cholesky_taskified(){
     IData &A=*M;
-    sprintf(chol_str,"potrf");
-    sprintf(pnl_str ,"trsm");
-    sprintf(gemm_str,"gemm");
-
-
-    for ( int i = 0; i< Nb ; i++) {
-
-	  BEGIN_CONTEXT(A.Region(i,Nb-1,0,i-1) , A.RowSlice(i,0,i-1), A.ColSlice(i,i,Nb-1))  // 0.i*2
-	  for(int l = 0;l<i;l++){
-	    BEGIN_CONTEXT_BY(l,A.ColSlice(l,i,Nb-1) , A.Cell(i,l), A.ColSlice(i,i,Nb-1))       // 0.i*2.L
-	      for (int k = i; k<Nb ; k++){
-	        AddTask (this,gemm_str,gemm_Kernel, A(k,l) , A(i,l) , A(k,i) ) ;
-	      }
-	    END_CONTEXT()
-	  }
-	  END_CONTEXT()
-
-	    AddTask (this, chol_str, potrf_Kernel , A(i,i));
-
-	  BEGIN_CONTEXT( A.Cell(i,i),NULL,A.ColSlice(i,i+1,Nb-1) )                         // 0.i*2+1
-	    for( int j=i+1;j<Nb;j++){
-	      AddTask(this,pnl_str,trsm_Kernel,A(i,i), A(j,i) ) ;
-	    }
-	  END_CONTEXT()
-    }
-
-  }
-/*----------------------------------------------------------------------------*/
-  void generateTasksNoContext(){
-    string s = "a";
-    char chol_str[5],pnl_str[5],gemm_str[5] ,syrk_str[5] ;
-    IData &A=*M;
-    sprintf(chol_str,"potrf");
-    sprintf(pnl_str ,"trsm");
-    sprintf(gemm_str,"gemm");
-    sprintf(syrk_str,"syrk");
-
-    
-
-    for ( int i = 0; i< Nb ; i++) {
+    for ( int i = 0; i< config.Nb ; i++) {
       for(int l = 0;l<i;l++){
-	AddTask(this,syrk_str,syrk_Kernel,A(i,l),A(i,i));
-	for (int k = i+1; k<Nb ; k++){
-	  AddTask (this,gemm_str, gemm_Kernel,A(k,l) , A(i,l) , A(k,i) ) ;
+	DuctTeip_Submit(syrk,A(i,l),A(i,i));
+	for (int k = i+1; k<config.Nb ; k++){
+	  DuctTeip_Submit(gemm,A(k,l) , A(i,l) , A(k,i) ) ;
 	}
       }
-      AddTask (this, chol_str , potrf_Kernel,A(i,i));
-      for( int j=i+1;j<Nb;j++){
-	AddTask(this,pnl_str,trsm_Kernel,A(i,i), A(j,i) ) ;
+      DuctTeip_Submit (potrf,A(i,i));
+      for( int j=i+1;j<config.Nb;j++){
+	DuctTeip_Submit(trsm,A(i,i), A(j,i) ) ;
       }
     }
-
   }
 /*----------------------------------------------------------------------------*/
   void runKernels(IDuctteipTask *task ){
     switch (task->getKey()){
-    case potrf_Kernel:
+    case potrf:
       PRINT_IF(KERNEL_FLAG)("dt_potrf task starts running.\n");
       potrf_kernel(task);
       break;
-    case trsm_Kernel:
+    case trsm:
       PRINT_IF(KERNEL_FLAG)("dt_trsm task starts running.\n");
       trsm_kernel(task);
       break;
-    case gemm_Kernel:
+    case gemm:
       PRINT_IF(KERNEL_FLAG)("dt_gemm task starts running.\n");
       gemm_kernel(task);
       break;
-    case syrk_Kernel:
+    case syrk:
       PRINT_IF(KERNEL_FLAG)("dt_syrk task starts running.\n");
       syrk_kernel(task);
       break;
@@ -611,16 +553,16 @@ public:
   string getTaskName(unsigned long key){
     string s;
     switch(key){
-    case potrf_Kernel:
+    case potrf:
       s.assign("potrf",5);
       break;
-    case gemm_Kernel:
+    case gemm:
       s.assign("gemm",4);
       break;
-    case trsm_Kernel:
+    case trsm:
       s.assign("trsm",4);
       break;
-    case syrk_Kernel:
+    case syrk:
       s.assign("syrk",4);
       break;
     default:
@@ -744,4 +686,12 @@ public:
 #undef A
 #undef B
 };
+
+Cholesky *Cholesky_DuctTeip(){
+
+  Cholesky *C=new Cholesky();
+  C->Cholesky_taskified();
+  return C;
+}
+
 #endif //__CHOL_FACT_HPP__

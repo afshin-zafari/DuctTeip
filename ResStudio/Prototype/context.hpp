@@ -217,6 +217,7 @@ public :
     name="";
   }
 };
+typedef Context Algorithm;
 /*===================================================================================*/
 void IData::prepareMemory(){
     
@@ -727,7 +728,7 @@ void AddTask ( IContext *ctx,
 }
 void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1                    ) { AddTask ( ctx,s,key,NULL,NULL , d1);}
 void AddTask ( IContext *ctx,char*s,unsigned long key,IData *d1,IData *d2          ) { AddTask ( ctx,s,key,d1  ,NULL , d2);}
-
+#define  DuctTeip_Submit(k,args...) AddTask(this,#k,k,args)
 /*===============================================================================*/
 void IDuctteipTask::dump(char c){
   if ( !DUMP_FLAG)

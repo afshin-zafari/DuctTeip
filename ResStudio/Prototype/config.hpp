@@ -82,4 +82,5 @@ static Config::cmd_line_struct cmd[]={
   {-1,"",""}
   };
 
+Config config;
 #endif //__CONFIG_HPP_

@@ -4,7 +4,7 @@
 #define DuctTeip_Start(a,b) dtEngine.start(a,b)
 #define DuctTeip_Finish() dtEngine.finalize()
 
-Config config;
+extern Config config;
 
 void engine::start ( int argc , char **argv){
     int N,Nb,P,p,q,nb,nt,dlb,ipn;
@@ -55,8 +55,8 @@ void engine::start ( int argc , char **argv){
     setConfig(&config);
     glbCtx.doPropagation(false);
   
+    doProcess();
   }
-
 
 
 #endif // __DUCTTEIP_H__

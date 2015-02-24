@@ -2,13 +2,13 @@
 
 outfile=./temp/test_task_gen.out
 # params:   p q N Nb nb
-ipn=1
-P=1
-p=1;q=1
-nt=16
+ipn=4
+P=4
+p=4;q=1
+nt=4
 DLB=0
-#params[1]="$p $q 48 8 2 $nt $DLB 10"
-params[1]="$p $q 1200 10 5 $nt $DLB $ipn 10"
+params[1]="$p $q 48 8 2 $nt $DLB $ipn 10"
+#params[1]="$p $q 120 12 2 $nt $DLB $ipn 10"
 
 if test $1 -ne 0
 then 

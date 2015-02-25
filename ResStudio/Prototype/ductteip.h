@@ -1,6 +1,7 @@
 #ifndef __DUCTTEIP_H__
 #define  __DUCTTEIP_H__
 
+#include "context.hpp"
 #define DuctTeip_Start(a,b) dtEngine.start(a,b)
 #define DuctTeip_Finish() dtEngine.finalize()
 
@@ -57,6 +58,5 @@ void engine::start ( int argc , char **argv){
   
     doProcess();
   }
-
 
 #endif // __DUCTTEIP_H__

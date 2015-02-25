@@ -309,7 +309,8 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   rt_read_version.setContext(s);
   rt_write_version.setContext(s);
   Mb = -1;Nb=-1;
-  setDataHandle( ctx->createDataHandle());
+  if ( ctx!=NULL)
+    setDataHandle( ctx->createDataHandle());
   if(0) printf("@data se %s,dh:%ld\n",getName().c_str(),getDataHandleID());
   dt_log.addEventEnd ( this,DuctteipLog::DataDefined);
   hM = NULL;

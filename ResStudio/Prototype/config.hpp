@@ -27,20 +27,23 @@ public:
   static cmd_line_struct cmd[];
   int params[PARAMS_COUNT];
   int N,M,Nb,Mb,P,p,q,mb,nb,nt,ipn;
-  bool dlb;
+  bool dlb,using_blas,row_major,column_major;
   Config(){}
   void setParams( int n,int m , 
 		  int ynb , int xnb ,
 		  int P_, int p_, int q_,
 		  int mb_, int nb_, 
 		  int nt_,
-		  bool dlb_,int ipn_){
+		  bool dlb_,int ipn_,bool blas = true){
     N=n;M=m;
     Nb=xnb;Mb=ynb;
     P=P_;p=p_;q=q_;
     nb=nb_;mb=mb_;
     nt=nt_;
     dlb=dlb_;ipn=ipn_;
+    using_blas = blas;
+    column_major = using_blas;
+    row_major = !column_major;
   }
   Config ( int n,int m , int nb , int mb , int P_, int p_, int q_,int mb_, int nb_, int nt_,bool dlb_,int ipn_):
     N(n),M(m),Nb(nb),Mb(mb),
@@ -48,6 +51,13 @@ public:
     nb(nb_),mb(mb_),
     nt(nt_),dlb(dlb_),ipn(ipn_)
   {
+#ifdef BLAS
+    using_blas = true;
+    column_major = true;
+    row_major  false;
+#else
+    using_blas = false;
+#endif
     printf("cfg.ipn=%d\n",ipn);
   }
   PROPERTY(XDimension,N)

@@ -1,7 +1,7 @@
 #ifndef __CHOL_FACT_HPP__
 #define __CHOL_FACT_HPP__
 
-#include "context.hpp"
+#include "ductteip.h"
 #include "math.h"
 
 //#define ROW_MAJOR 1
@@ -11,9 +11,7 @@
 # define Mat(mat,i,j) mat[j*N+i]
 #endif
 
-#ifdef BLAS
 #include <acml.h>
-#endif
 
 #define DEBUG_DLB_DEEP 0
 
@@ -128,45 +126,116 @@ struct SyncTask : public Task<Options, -1> {
   //string getName(){ return log_name;}
 };
 /*----------------------------------------------------------------------------*/
-struct PotrfTask : public Task<Options, 2> {
-  IDuctteipTask *dt_task ;
-  string log_name;
-  PotrfTask(IDuctteipTask *task_,Handle<Options> &h1):dt_task(task_) {
-    registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
-    registerAccess(ReadWriteAdd::write, h1);
-    ostringstream os;
-    os << setfill('0') << setw(4) <<dt_task->getHandle() << " sg_potrf ";
-    log_name = os.str();
+template < int NN>
+class ElementType_Data {
+private :
+public:
+  int N,M;
+  double *memory;
+  ElementType_Data(Task<Options,NN+1> *t,int arg,int &m, int &n){
+    arg++;
+    N=n = t->getAccess(arg).getHandle()->block->X_E();
+    M=m = t->getAccess(arg).getHandle()->block->Y_E();
+    memory = t->getAccess(arg).getHandle()->block->getBaseMemory();
   }
-    void run() {
-      if ( simulation) return;
-      PRINT_IF(KERNEL_FLAG)("[%ld] : sg_potrf task starts running. %s\n",pthread_self(),
-			    getAccess(0).getHandle()->name);
-      int r = pthread_mutex_trylock(dt_task->getTaskFinishMutex()) ;
-      int M = getAccess(1).getHandle()->block->X_E();
-      int N = M;
-      int size = getAccess(1).getHandle()->block->getMemorySize();
-      double *a = getAccess(1).getHandle()->block->getBaseMemory();
-      if (DEBUG_DLB_DEEP) printf("[%ld] rw P: %p %ld %p\n",pthread_self(),a,M*M*sizeof(double),a+M*M);
-      dumpData(a,M,N,'p');
-#ifdef BLAS
-      int info;
-      dpotrf('L',M,a,M,&info);
-#else
-      for ( int i = 0 ; i < M; i ++){
-	for ( int k = 0 ; k < i ; k ++) {
-	  for ( int j =i ; j< M; j++){
-	    Mat(a,j,i) -= Mat(a,j,k) * Mat(a,i,k);
+  double &operator[](int i){
+    return memory[i];
+  }
+  const double &operator[](int i)const {
+    return memory[i];
+  }
+  
+};
+
+/*----------------------------------------------------------------------------*/
+//# define Mat(mat,i,j) mat[j*N+i]
+#define SG_DEFINE_TASK_ARGS1(name,kernel)
+
+  template <typename T,int N>
+  class TaskDTLevel: public Task<Options, 2>{
+  private:
+    IDuctteipTask *dt_task ;
+    string log_name;
+  public:
+    TaskDTLevel(IDuctteipTask *task_,Handle<Options> &h1): dt_task(task_) {
+      registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
+      registerAccess(ReadWriteAdd::write, h1);
+      ostringstream os;
+      os << setfill('0') << setw(4) <<dt_task->getHandle() << "name" ;
+      log_name = os.str();
+    }
+    void run(){}
+    string get_name(){return log_name;}
+  };
+  void f(IDuctteipTask *t,Handle<Options> &h1){
+    TaskDTLevel<int,1> *PotrfTaskDT=new TaskDTLevel<int,1> (t,h1);
+  }
+  void   Ductteip_POTRF_Kernel(ElementType_Data<1> a){
+    int N=a.N;
+    if ( config.column_major){
+      if ( config.using_blas){
+	int info;
+	dpotrf('L',N,a.memory,N,&info);
+      }
+      else{
+	for ( int i = 0 ; i < N; i ++){
+	  for ( int k = 0 ; k < i ; k ++) {
+	    for ( int j =i ; j< N; j++){
+	      Mat(a,j,i) -= Mat(a,j,k) * Mat(a,i,k);
+	    }
+	  }	
+	  a[i*N+i] = sqrt(a[i*N+i]);
+	  for ( int j =0 ; j< N; j++){
+	    Mat(a,j,i) /= Mat(a,i,i);
 	  }
-	}	
-	a[i*N+i] = sqrt(a[i*N+i]);
-	for ( int j =0 ; j< M; j++){
-	  Mat(a,j,i) /= Mat(a,i,i);
 	}
       }
-#endif
-      dumpData(a,M,N,'P');
-      if ( !check_potrf(a,M,N) ){
+    }
+    else{
+      /*Row major ordering implementation...*/
+    }
+  }
+  struct PotrfTask : public Task<Options, 2> {
+    IDuctteipTask *dt_task ;
+    string log_name;
+    PotrfTask(IDuctteipTask *task_,Handle<Options> &h1):dt_task(task_) {
+      registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
+      registerAccess(ReadWriteAdd::write, h1);
+      ostringstream os;
+      os << setfill('0') << setw(4) <<dt_task->getHandle() << " sg_potrf ";
+      log_name = os.str();
+    }
+    void run() {
+      if ( simulation) return;
+      int N;
+      ElementType_Data<1> a(this,0,N,N);
+      Ductteip_POTRF_Kernel(a);
+      return;
+      dumpData(a.memory,N,N,'p');
+      if ( config.column_major){
+	if ( config.using_blas){
+	  int info;
+	  dpotrf('L',N,a.memory,N,&info);
+	}
+	else{
+	  for ( int i = 0 ; i < N; i ++){
+	    for ( int k = 0 ; k < i ; k ++) {
+	      for ( int j =i ; j< N; j++){
+		Mat(a,j,i) -= Mat(a,j,k) * Mat(a,i,k);
+	      }
+	    }	
+	    a[i*N+i] = sqrt(a[i*N+i]);
+	    for ( int j =0 ; j< N; j++){
+	      Mat(a,j,i) /= Mat(a,i,i);
+	    }
+	  }
+	}
+      }
+      else{
+	/*Row major ordering implementation...*/
+      }
+      dumpData(a.memory,N,N,'P');
+      if ( !check_potrf(a.memory,N,N) ){
 	printf("CalcError in Task:%s,%s\n",dt_task->getName().c_str(),log_name.c_str());
       }
       if (DEBUG_DLB_DEEP) 
@@ -175,7 +244,7 @@ struct PotrfTask : public Task<Options, 2> {
   string get_name(){ return log_name;}
 };
 /*----------------------------------------------------------------------------*/
-struct SyrkTask : public Task<Options, 3> {
+struct SyrkTask : public Task<Options, 2+1> {
   IDuctteipTask *dt_task ;
   string log_name;
   SyrkTask(IDuctteipTask *task_,Handle<Options> &h1,Handle<Options> &h2):dt_task(task_) {
@@ -360,18 +429,22 @@ struct GemmTask : public Task<Options, 4> {
 
 class DuctTeip_Data : public Data {
 public: 
-  DuctTeip_Data(int M, int N,Algorithm *alg):Data("",M,N,alg){
-    
+  DuctTeip_Data(int M, int N):Data("",M,N,NULL){
+  }
+  void configure(){
+    setDataHandle( getParent()->createDataHandle());
     setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
     setLocalNumBlocks(config.nb,config.nb);
     setPartition ( config.Nb,config.Nb ) ;      
-    
+  }
+  DuctTeip_Data(int M, int N,Algorithm *alg):Data("",M,N,alg){
+    configure();    
   }
 };
 class Cholesky: public  Algorithm
 {
 private:
-  IData  *M;
+  DuctTeip_Data  *M;
   enum KernelKeys{
     potrf,
     trsm,
@@ -380,9 +453,15 @@ private:
   };
 public:
 /*----------------------------------------------------------------------------*/
-   Cholesky(IData *inData=NULL)  {
+  Cholesky(DuctTeip_Data *inData=NULL )  {
     name=static_cast<string>("chol");
-    M= new DuctTeip_Data (config.N,config.N,this);
+    if ( inData !=NULL){
+      M  = inData;
+      M->setParent(this);
+      M->configure();
+    }else{
+      M= new DuctTeip_Data (config.N,config.N,this);
+    }
     populateMatrice();
     addInOutData(M);
   }
@@ -578,32 +657,42 @@ public:
 #define B(a,b) hB[a][b]
 #define C(a,b) hC[a][b]
 #define SG_TASK(t,...) dtEngine.getThrdManager()->submit( new t##Task( __VA_ARGS__ )  )
+#define SuperGlue_Submit(t,...) dtEngine.getThrdManager()->submit( new t##Task( __VA_ARGS__ )  )
 
-
+  class superglue_data {
+  private:
+    Handle<Options> **hM;
+  public:
+    superglue_data(IData *d, int &m,int &n){
+      hM=d->createSuperGlueHandles();
+      m = d->getYLocalNumBlocks();
+      n = d->getXLocalNumBlocks();
+    }
+    Handle<Options> &operator()(int i,int j ){
+      return hM[i][j];
+    }
+  };
 /*----------------------------------------------------------------------------*/
   void potrf_kernel(IDuctteipTask *task){
     dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
+
+    int n;
     IData *A = task->getDataAccess(0);
-    Handle<Options> **hM  =  A->createSuperGlueHandles();
-    int nb = cfg->getXLocalBlocks();
-    unsigned int count = 0 ; 
-    for(int i = 0; i< nb ; i++) {
+    superglue_data MM(A,n,n);
+    for(int i = 0; i< config.nb ; i++) {
       for(int l = 0;l<i;l++){
-	SG_TASK(Syrk,task,M(i,l),M(i,i));
-	count ++;
-	for (int k = i+1; k<nb ; k++){
-	  SG_TASK (Gemm,task,M(k,l) , M(i,l) , M(k,i) ) ;
-	  count ++;
+	SuperGlue_Submit(Syrk,task,MM(i,l),MM(i,i));
+	for (int k = i+1; k<config.nb ; k++){
+	  SuperGlue_Submit (Gemm,task,MM(k,l) , MM(i,l) , MM(k,i) ) ;
 	}
       }
-      SG_TASK (Potrf,task,M(i,i));
-      count++;
-      for( int j=i+1;j<nb;j++){
-	SG_TASK(Trsm,task,M(i,i), M(j,i) ) ;
-	count++;
+      SuperGlue_Submit (Potrf,task,MM(i,i));
+      for( int j=i+1;j<config.nb;j++){
+	SuperGlue_Submit(Trsm,task,MM(i,i), MM(j,i) ) ;
       }
     }
-    SG_TASK(Sync, task );
+    SuperGlue_Submit(Sync, task );
+
     dt_log.addEventEnd(task,DuctteipLog::SuperGlueTaskDefine);   
   }
 /*----------------------------------------------------------------------------*/
@@ -687,10 +776,13 @@ public:
 #undef B
 };
 
-Cholesky *Cholesky_DuctTeip(){
+Cholesky *Cholesky_DuctTeip(DuctTeip_Data &A){
 
-  Cholesky *C=new Cholesky();
+  TRACE_LOCATION;
+  Cholesky *C=new Cholesky(static_cast<DuctTeip_Data *>(&A));
+  TRACE_LOCATION;
   C->Cholesky_taskified();
+  TRACE_LOCATION;
   return C;
 }
 

@@ -126,13 +126,12 @@ struct SyncTask : public Task<Options, -1> {
   //string getName(){ return log_name;}
 };
 /*----------------------------------------------------------------------------*/
-template < int NN>
 class ElementType_Data {
 private :
 public:
   int N,M;
   double *memory;
-  ElementType_Data(Task<Options,NN+1> *t,int arg,int &m, int &n){
+  ElementType_Data(Task<Options,2> *t,int arg,int &m, int &n){
     arg++;
     N=n = t->getAccess(arg).getHandle()->block->X_E();
     M=m = t->getAccess(arg).getHandle()->block->Y_E();
@@ -170,7 +169,7 @@ public:
   void f(IDuctteipTask *t,Handle<Options> &h1){
     TaskDTLevel<int,1> *PotrfTaskDT=new TaskDTLevel<int,1> (t,h1);
   }
-  void   Ductteip_POTRF_Kernel(ElementType_Data<1> a){
+  void   Ductteip_POTRF_Kernel(ElementType_Data &a){
     int N=a.N;
     if ( config.column_major){
       if ( config.using_blas){
@@ -208,7 +207,7 @@ public:
     void run() {
       if ( simulation) return;
       int N;
-      ElementType_Data<1> a(this,0,N,N);
+      ElementType_Data a(this,0,N,N);
       Ductteip_POTRF_Kernel(a);
       return;
       dumpData(a.memory,N,N,'p');
@@ -426,7 +425,7 @@ struct GemmTask : public Task<Options, 4> {
   string get_name(){ return log_name;}
 };
 /*----------------------------------------------------------------------------*/
-
+/*
 class DuctTeip_Data : public Data {
 public: 
   DuctTeip_Data(int M, int N):Data("",M,N,NULL){
@@ -441,6 +440,7 @@ public:
     configure();    
   }
 };
+*/
 class Cholesky: public  Algorithm
 {
 private:
@@ -591,15 +591,16 @@ public:
 /*----------------------------------------------------------------------------*/
   void Cholesky_taskified(){
     IData &A=*M;
-    for ( int i = 0; i< config.Nb ; i++) {
+    int Nb = A.getXLocalNumBlocks();
+    for ( int i = 0; i< Nb ; i++) {
       for(int l = 0;l<i;l++){
 	DuctTeip_Submit(syrk,A(i,l),A(i,i));
-	for (int k = i+1; k<config.Nb ; k++){
+	for (int k = i+1; k<Nb ; k++){
 	  DuctTeip_Submit(gemm,A(k,l) , A(i,l) , A(k,i) ) ;
 	}
       }
       DuctTeip_Submit (potrf,A(i,i));
-      for( int j=i+1;j<config.Nb;j++){
+      for( int j=i+1;j<Nb;j++){
 	DuctTeip_Submit(trsm,A(i,i), A(j,i) ) ;
       }
     }
@@ -659,11 +660,11 @@ public:
 #define SG_TASK(t,...) dtEngine.getThrdManager()->submit( new t##Task( __VA_ARGS__ )  )
 #define SuperGlue_Submit(t,...) dtEngine.getThrdManager()->submit( new t##Task( __VA_ARGS__ )  )
 
-  class superglue_data {
+  class SuperGlue_Data {
   private:
     Handle<Options> **hM;
   public:
-    superglue_data(IData *d, int &m,int &n){
+    SuperGlue_Data(IData *d, int &m,int &n){
       hM=d->createSuperGlueHandles();
       m = d->getYLocalNumBlocks();
       n = d->getXLocalNumBlocks();
@@ -677,17 +678,17 @@ public:
     dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
 
     int n;
-    IData *A = task->getDataAccess(0);
-    superglue_data MM(A,n,n);
-    for(int i = 0; i< config.nb ; i++) {
+    DuctTeip_Data  *A = (DuctTeip_Data  *)task->getArgument(0);
+    SuperGlue_Data MM(A,n,n);
+    for(int i = 0; i< n ; i++) {
       for(int l = 0;l<i;l++){
 	SuperGlue_Submit(Syrk,task,MM(i,l),MM(i,i));
-	for (int k = i+1; k<config.nb ; k++){
-	  SuperGlue_Submit (Gemm,task,MM(k,l) , MM(i,l) , MM(k,i) ) ;
+	for (int k = i+1; k<n ; k++){
+	  SuperGlue_Submit(Gemm,task,MM(k,l) , MM(i,l) , MM(k,i) ) ;
 	}
       }
       SuperGlue_Submit (Potrf,task,MM(i,i));
-      for( int j=i+1;j<config.nb;j++){
+      for( int j=i+1;j<n;j++){
 	SuperGlue_Submit(Trsm,task,MM(i,i), MM(j,i) ) ;
       }
     }

@@ -113,6 +113,9 @@ public:
   /*--------------------------------------------------------------------------*/
   Handle<Options> *getSyncHandle(){return sg_handle;}
   /*--------------------------------------------------------------------------*/
+  DuctTeip_Data *getArgument(int index){
+    return (DuctTeip_Data *)getDataAccess(index);
+  }
   IData *getDataAccess(int index){
     if (index <0 || index >= data_list->size()){
       return NULL;

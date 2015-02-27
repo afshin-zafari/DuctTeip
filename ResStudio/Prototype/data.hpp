@@ -696,5 +696,12 @@ public:
   Data(string  _name,int n, int m,IContext *ctx):  IData(_name,n,m,ctx){}
 };
 
+class DuctTeip_Data : public Data {
+public: 
+  DuctTeip_Data(int M, int N);  
+  void configure();
+  DuctTeip_Data(int M, int N,IContext *alg);
+};
+
 
 #endif //__DATA_HPP__

@@ -1196,5 +1196,16 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
   
 }
 
+DuctTeip_Data::DuctTeip_Data(int M, int N):Data("",M,N,NULL){  }
+void  DuctTeip_Data::configure(){
+  setDataHandle( getParent()->createDataHandle());
+  setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
+  setLocalNumBlocks(config.nb,config.nb);
+  setPartition ( config.Nb,config.Nb ) ;      
+}
+DuctTeip_Data::DuctTeip_Data(int M, int N,IContext  *alg):Data("",M,N,alg){
+  configure();    
+}
+
 
 #endif //  __CONTEXT_HPP__

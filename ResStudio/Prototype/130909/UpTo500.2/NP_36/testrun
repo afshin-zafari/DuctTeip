@@ -1,5 +1,0 @@
-for f in $(ls stat_nb*.txt)
-do
-   python taskgenplot.py $f >>c.txt
-done
-python taskgen_compare.py 

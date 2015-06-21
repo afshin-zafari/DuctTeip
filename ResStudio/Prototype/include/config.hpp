@@ -51,5 +51,5 @@ public:
 
 };
 
-Config config;
+extern Config config;
 #endif //__CONFIG_HPP_

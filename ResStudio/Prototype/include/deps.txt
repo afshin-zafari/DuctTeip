@@ -1,0 +1,66 @@
+listener
+	data
+		basic
+		partition
+			"sg/superglue.hpp"
+				#include "sg/core/access.hpp"
+				#include "sg/core/accessutil.hpp"
+				#include "sg/core/handle.hpp"
+				#include "sg/core/schedulerver.hpp"
+				#include "sg/core/task.hpp"
+				#include "sg/core/taskexecutor.hpp"
+				#include "sg/core/taskqueue.hpp"
+				#include "sg/core/versionqueue.hpp"
+				#include "sg/core/supergluebase.hpp"
+					#include "sg/core/barrierprotocol.hpp"
+				#include "sg/core/defaults.hpp"
+					#include "sg/core/access_rwa.hpp"
+					#include "sg/platform/affinity.hpp"
+					#include "sg/option/threadingmanager_default.hpp"
+						#include "sg/platform/threads.hpp"
+			"sg/core/contrib.hpp"
+			"sg/option/instr_trace.hpp"
+		memory_manager
+			basic
+		dt_log
+			dt_task
+				basic
+				data_basic
+				partition
+		data_basic
+			basic
+		hostpolicy
+			data_basic
+	
+
+context
+	config		
+	procgrid
+	hostpolicy
+	data
+	glb_context
+		config
+		engine
+		hostpolicy
+		data
+	engine
+		config
+		dt_task
+		listener
+		mailbox.hpp
+			basic
+			network
+				basic 
+			dt_log
+			memory_manager
+		mpi_comm
+			basic
+			#include "mpi.h"
+			network
+				basic
+			dt_log
+		memory_manager
+		dt_log
+	dt_log
+	data_basic
+

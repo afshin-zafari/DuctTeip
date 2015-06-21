@@ -24,17 +24,6 @@
 
 
 
-template<class T> 
-void copy(byte * b,int &o,T a){
-  memcpy(b+o,(char *)&a,sizeof(a));
-  o +=  sizeof(a);
-}
-template<class T> 
-void paste(byte * b,int &o,T *a){
-  memcpy((char *)a,b+o,sizeof(T));
-  o +=  sizeof(T);
-}
-
 void flushBuffer(byte *buffer,int length){
   printf("flush buffer:%p \n",buffer);
   for ( int i=0;i<length ;i++){
@@ -84,7 +73,7 @@ string obj_str(int obj ) {
   return "";
 }
 
-
+/*
 void threadInfo(int arg){
   sched_param sp;
   int r;
@@ -100,6 +89,7 @@ void threadInfo(int arg){
     printf("esrch:%d,einval:%d,eperm:%d\n",ESRCH,EINVAL,EPERM);
   }
 }
+*/
 void nanoSleep(int n=1){
   //return;
   timespec ts;

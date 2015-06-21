@@ -5,8 +5,10 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include "data.hpp"
 
+#include "data_basic.hpp"
+
+using namespace std;
 
 
 class ProcessGrid;
@@ -14,6 +16,7 @@ class IData;
 class IContext;
 class ContextHeader;
 class ContextHostPolicy;
+class Coordinate;
 
 class IHostPolicy
 {

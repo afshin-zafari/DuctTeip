@@ -1,5 +1,5 @@
 #include "config.hpp"
-
+Config config;
   Config::Config(){}
   void Config::setParams( int n,int m , 
 		  int ynb , int xnb ,

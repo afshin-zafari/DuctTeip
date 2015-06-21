@@ -20,7 +20,7 @@ public:
   virtual bool canTerminate() = 0;
   virtual void barrier()=0;
   virtual void initialize()=0;
-  virtual void getEventBlocking(int *,unsigned long  *)=0;
+//  virtual void getEventBlocking(int *,unsigned long  *)=0;
   virtual unsigned long  postDataReceive(byte *,int,int,int,unsigned long)=0;
   virtual unsigned long  postListenerReceive(byte *,int,int,int)=0;
   virtual unsigned long  postTerminateReceive(byte *,int,int,int)=0;

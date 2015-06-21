@@ -5,9 +5,10 @@
 #include <cstdio>
 #include <vector>
 #include <list>
-#include "task.hpp"
+#include "data.hpp"
+//#include "data_basic.hpp"
 
-extern int me;
+
 class MailBox;
 /*============================ IListener =====================================*/
 class IListener

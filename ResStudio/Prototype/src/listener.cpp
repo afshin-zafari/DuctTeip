@@ -1,4 +1,9 @@
 #include "listener.hpp"
+#include "mailbox.hpp"
+#include "glb_context.hpp"
+
+int me;
+
 
 IListener::IListener(){
   message_buffer = NULL;
@@ -81,3 +86,53 @@ void IListener::serialize(byte *buffer, int &offset, int max_length){
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 
+/*--------------------------------------------------------------------------*/
+void IListener::checkAndSendData(MailBox * mailbox)
+{
+  if ( !isReceived() ) {
+    return;
+  }
+  if ( isDataSent() ) 
+    {
+      return;
+    }
+  if (! isDataReady() ) {
+    return;
+  }
+  IData *data = getData();
+  if ( data->isDataSent(getSource(), getRequiredVersion() ) ){
+    setDataSent(true);
+    return;
+  }
+  data->serialize();
+  if(0)printf("@data sent %s dh:%ld\n",data->getName().c_str(),data->getDataHandleID());
+  //  flushBuffer(data->getHeaderAddress(),data->getPackSize());
+  unsigned long c_handle= mailbox->send(data->getHeaderAddress(),
+					data->getPackSize(),
+					MailBox::DataTag+data->getDataHandleID(),
+					getSource());
+
+  dt_log.addEvent(this,DuctteipLog::Woken);
+  dt_log.addEvent(data,DuctteipLog::DataSent,getSource());
+  setCommHandle(c_handle);
+  setDataSent(true);
+  if(0)printf("data sent:%s\n",data->getName().c_str());
+  dump();
+  data->dump(' ');
+
+
+}
+/*--------------------------------------------------------------------------*/
+void IListener::deserialize(byte *buffer, int &offset, int max_length){
+  DataAccess *data_access = new DataAccess;
+  DataHandle *data_handle = new DataHandle;
+  paste<int>(buffer,offset,&host);
+  data_handle->deserialize(buffer,offset,max_length);
+  IData *data = glbCtx.getDataByHandle(data_handle);
+  data_access->required_version.deserialize(buffer,offset,max_length);
+  data_access->data = data;
+  data_access->required_version.dump();
+  data_request = data_access;
+  dump();
+}
+/*===============================================================================*/

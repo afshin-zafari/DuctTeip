@@ -1,33 +1,9 @@
-#ifndef __GLB_CONTEXT_HPP__
-#define __GLB_CONTEXT_HPP__
+#include "glb_context.hpp"
+#include "context.hpp"
+GlobalContext glbCtx;
 
-#include <list>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sstream>
-#include "data.hpp"
-#include "config.hpp"
-#include "engine.hpp"
-#include "hostpolicy.hpp"
-
-using namespace std;
-extern engine dtEngine;
-
-extern int me;
-class IContext;
-class Config;
-class ContextHostPolicy;
-
-struct PropagateInfo{
-public:
-  int        fromVersion,i,j;
-  string     fromCtx,toCtx;
-  DataHandle data_handle;
-
-  void dump();
   /*-----------------------------------------------------------------------------------------*/
-  void deserializeContext(byte *buffer,int &offset,int max_length,string &ctx){
+  void PropagateInfo::deserializeContext(byte *buffer,int &offset,int max_length,string &ctx){
     int level_count, ctx_level_id ;
     paste<int>(buffer,offset,&level_count);
     ostringstream s;
@@ -38,7 +14,7 @@ public:
     ctx = s.str();      
   }
   /*-----------------------------------------------------------------------------------------*/
-  void   serializeContext(byte *buffer,int &offset,int max_size,string ctx){
+  void   PropagateInfo::serializeContext(byte *buffer,int &offset,int max_size,string ctx){
     int ctx_level_id,level_count=0,local_offset = offset;
     istringstream s(ctx);
     char c;//1.2.1.
@@ -53,7 +29,7 @@ public:
      offset = local_offset;
   }
   /*-----------------------------------------------------------------------------------------*/
-  int    serialize(byte *buffer,int &offset,int max_length){
+  int    PropagateInfo::serialize(byte *buffer,int &offset,int max_length){
     copy<int>(buffer,offset,fromVersion);
     copy<int>(buffer,offset,i);
     copy<int>(buffer,offset,j);
@@ -64,7 +40,7 @@ public:
     return offset;
   }
   /*-----------------------------------------------------------------------------------------*/
-  void deserialize(byte *buffer,int &offset,int max_length){
+  void PropagateInfo::deserialize(byte *buffer,int &offset,int max_length){
     paste<int>(buffer,offset,&fromVersion);
     paste<int>(buffer,offset,&i);
     paste<int>(buffer,offset,&j);
@@ -73,75 +49,25 @@ public:
     deserializeContext(buffer,offset,max_length,fromCtx);
     deserializeContext(buffer,offset,max_length,  toCtx);
   }
-};
-
-typedef struct {
-  int children,seq;
-}LevelInfo;
-
-typedef unsigned long int ContextHandle;
 
 
-#define DONT_CARE_COUNTER -1
-#define BEGIN_CONTEXT_EX(counter,func,r1,r2,w) {bool _b_ = begin_context(this,r1,r2,w,counter,0,1) ; if ( !_b_) {func;} else{
-#define END_CONTEXT_EX()                             }end_context(this);}
-#define BEGIN_CONTEXT_ALL(counter,from,to,r1,r2,w) if(begin_context(this,r1,r2,w,counter,from,to)){
-#define BEGIN_CONTEXT_BY(counter,a,b,c) if(begin_context(this,a,b,c,counter,0,1)){
-#define BEGIN_CONTEXT(a,b,c) if(begin_context(this,a,b,c,DONT_CARE_COUNTER,0,1)){
-#define END_CONTEXT()        }end_context(this);
 
-
-class ContextHeader
-{
-private:
-  list<DataRange *> readRange,writeRange;
-public :
   /*-----------------------------------------------------------------------------------------*/
-  void addDataRange(IData::AccessType daxs,DataRange *dr){
+void ContextHeader::addDataRange(IData::AccessType daxs,DataRange *dr){
     if (daxs == IData::READ)
       readRange.push_back(dr);
     else
       writeRange.push_back(dr);
   }
   /*-----------------------------------------------------------------------------------------*/
-  list<DataRange *> getWriteRange(){
+  list<DataRange *> ContextHeader::getWriteRange(){
     return writeRange;
   }
   /*-----------------------------------------------------------------------------------------*/
-  list<DataRange *> getReadRange (){return readRange;}
+//  list<DataRange *> ContextHeader::getReadRange (){return readRange;}
   /*-----------------------------------------------------------------------------------------*/
-  void clear(){readRange.clear();writeRange.clear();}
-};
 
-/*==================================================================================*/
-typedef struct {
-  IContext *context;
-  unsigned long task_key;
-} TaskKernel;
-
-class GlobalContext
-{
-private:
-  int  sequence,TaskCount;
-  int  counters[9];
-  bool with_propagation;
-
-  list <PropagateInfo *> lstPropTasks;
-  list <IContext *>      children;
-  list <LevelInfo>       lstLevels;
-
-  vector < list <PropagateInfo *> > nodesPropTasks;
-
-  Config              *cfg;
-  ContextHeader       *ctxHeader;
-  ContextHostPolicy   *hpContext;
-  IHostPolicy         *hpData,*hpTask,*hpTaskRead,*hpTaskAdd,*hpTaskPropagate;
-  unsigned long        last_context_handle,last_data_handle;
-  
-  
-public :
-  /*-----------------------------------------------------------------------------------------*/
-  GlobalContext(){
+  GlobalContext::GlobalContext(){
     sequence=-1;
     ctxHeader = new ContextHeader;
     LevelInfo li;
@@ -152,111 +78,36 @@ public :
     last_data_handle = 1000 ;
   }
   /*-----------------------------------------------------------------------------------------*/
-  ~GlobalContext() {
+  GlobalContext::~GlobalContext() {
     delete ctxHeader;
   }
   /*-----------------------------------------------------------------------------------------*/
-  enum Counters{
-    EnterContexts,
-    SkipContexts ,
-    TaskRead     ,
-    VersionTrack ,
-    TaskInsert   ,
-    TaskPropagate,
-    PropagateSize,
-    CompCost,
-    CommCost
-  };
-  enum DataType{
-    InputData,
-    OutputData,
-    InOutData
-  };
+  bool GlobalContext::canAllEnter(){return hpContext->canAllEnter();}
   /*-----------------------------------------------------------------------------------------*/
-  void           setConfiguration       (Config *_cfg);
-  void           dumpStatistics         (Config *cfg);
-  void           updateVersions         (IContext* ctx,ContextHeader *);
-  void 	         endContext             ()		    {}
-  void           beginContext           ()		    { sequence++;}
-  void           setID                  (int id)	    { sequence=id;}
-  void           incrementCounter       (Counters c,int v=1){counters[c] +=v;}
-  void           setTaskCount           (int t)		    {TaskCount = t;}
-  int            getID                  () 		    {return sequence;}
-  int            getDepth               ()		    {return lstLevels.size();}
-  int           *getCounters            () 		    {return counters; }
-  IHostPolicy   *getDataHostPolicy      ()		    {return hpData;}
-  IHostPolicy   *getTaskHostPolicy      ()		    {return hpTask;}
-  IHostPolicy   *getTaskReadHostPolicy  ()		    {return hpTaskRead;}
-  IHostPolicy   *getTaskAddHostPolicy   ()		    {return hpTaskAdd;}
-  ContextHeader *getHeader              ()                  {return ctxHeader;}
-  IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
-  int            getPropagateCount      ()                  {return lstPropTasks.size();}
-  ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
-  bool           canAllEnter(){return hpContext->canAllEnter();}
-  /*-----------------------------------------------------------------------------------------*/
-  ContextHandle       *createContextHandle(){
+
+  ContextHandle *GlobalContext::createContextHandle(){
     ContextHandle *ch = new ContextHandle ; 
     *ch = last_context_handle++;
     return ch;
   }
   /*-----------------------------------------------------------------------------------------*/
-  DataHandle          *createDataHandle (){
+  DataHandle  *GlobalContext::createDataHandle (){
     DataHandle *dh = new DataHandle ; 
     dh->data_handle = last_data_handle++ ;
     return dh;
   }
 
   /*-----------------------------------------------------------------------------------------*/
-  IContext *getContextByHandle ( ContextHandle ch) ;
-  IData    *getDataByHandle(DataHandle *d);
-  void      doPropagation(bool f) {with_propagation = f;}
-  /*-----------------------------------------------------------------------------------------*/
-  void      addContext(IContext *c){
+  void GlobalContext::addContext(IContext *c){
     children.push_back(c);
   }
   /*-----------------------------------------------------------------------------------------*/
-  void getLocalNumBlocks(int *mb, int *nb){
+  void GlobalContext::getLocalNumBlocks(int *mb, int *nb){
     *nb = cfg->getXLocalBlocks();
     *mb = cfg->getYLocalBlocks();
   }
-  /*-----------------------------------------------------------------------------------------*/
-  int getNumThreads(){return cfg->getNumThreads();}
   /*------------------------------*/
-  /*
-  void setEndContext(){
-    if (last_context_boundry == EndContext)
-      return ;
-    //version chain: fromCtx = current ctx , fromVer = current ver
-    last_context_boundry = EndContext;
-    
-  }
-
-  void setBeginContext(){
-    if (last_context_boundry == BeginContext){
-      // version chain: toCtx = currentCtx
-      return ;
-    }
-    //broadcast version chain
-    last_context_boundry = EndContext;
-  }
-  */
-  /*------------------------------*/
-  void setPolicies (IHostPolicy *dhp,
-		    IHostPolicy *thp,
-		    ContextHostPolicy *chp,
-		    IHostPolicy *trp,
-		    IHostPolicy *tap,
-		    IHostPolicy *tpp){
-    hpContext       = chp;
-    hpData          = dhp;
-    hpTask          = thp;
-    hpTaskRead      = trp;
-    hpTaskAdd       = tap;
-    hpTaskPropagate = tpp;
-  }
-
-  /*------------------------------*/
-  void resetCounters() {
+  void GlobalContext::resetCounters() {
     counters[EnterContexts] = 0 ;
     counters[SkipContexts ] = 0 ;
     counters[TaskRead     ] = 0 ;
@@ -275,9 +126,7 @@ public :
     hpTaskAdd->reset();
   }
   /*------------------------------*/
-  DataRange *getIndependentData(IContext *ctx,int data_type);
-  /*------------------------------*/
-  void initPropagateTasks(){
+  void GlobalContext::initPropagateTasks(){
     list<IContext *>::iterator it;
     DataRange *ind_data;
     for(it = children.begin(); it != children.end(); it ++){
@@ -295,7 +144,7 @@ public :
     }    
   }
   /*------------------------------*/
-  int  dumpPropagations(list < PropagateInfo *> prop_info){
+  int  GlobalContext::dumpPropagations(list < PropagateInfo *> prop_info){
     list < PropagateInfo *>::iterator it;
     DataHandle  data_handle;
     int msg_size = 0 ;
@@ -309,28 +158,17 @@ public :
     return msg_size;
   }
   /*------------------------------*/
-  void createPropagateTasks(list<DataRange *>  dr){
+  void GlobalContext::createPropagateTasks(list<DataRange *>  dr){
     list<DataRange *> :: iterator it = dr.begin();
     for ( ; it != dr.end(); ++it ) {
       createPropagateTasksFromRange((*it));
     }
   }
   /*------------------------------*/
-  void createPropagateTasksFromRange(DataRange *  data_range){
-    for ( int r=data_range->row_from; r<= data_range->row_to;r++){
-      for ( int c=data_range->col_from; c<= data_range->col_to;c++){
-	IData &A=*(data_range->d);
-	PropagateInfo *p = new PropagateInfo();
-	p->fromVersion = A(r,c)->getReadVersion().getVersion();
-	p->fromCtx.assign( getLevelString());
-	p->i = r; p->j = c;
-	p->data_handle = *A(r,c)->getDataHandle();
-	lstPropTasks.push_back(p);
-      }
-    }    
+  void GlobalContext::createPropagateTasksFromRange(DataRange *  data_range){
   }
   /*------------------------------*/
-  void createPropagateTasks(){
+  void GlobalContext::createPropagateTasks(){
     if ( with_propagation ) {
       if( !getTaskPropagatePolicy()->isAllowed( hpContext,me) )
 	return ;
@@ -339,30 +177,24 @@ public :
     } 
   }  
   /*------------------------------*/
-  void resetVersiosOfDataRange(DataRange *  data_range){
-    for ( int r=data_range->row_from; r<= data_range->row_to;r++){
-      for ( int c=data_range->col_from; c<= data_range->col_to;c++){
-	IData &A=*(data_range->d);
-	A.resetVersion();
-      }
-    }    
+  void GlobalContext::resetVersiosOfDataRange(DataRange *  data_range){
   }
   /*------------------------------*/
-  void resetVersiosOfDataRangeList(list<DataRange *>  dr){
+  void GlobalContext::resetVersiosOfDataRangeList(list<DataRange *>  dr){
     list<DataRange *> :: iterator it = dr.begin();
     for ( ; it != dr.end(); ++it ) {
       resetVersiosOfDataRange((*it));
     }
   }
   /*------------------------------*/
-  void resetVersiosOfHeaderData(){
+  void GlobalContext::resetVersiosOfHeaderData(){
     resetVersiosOfDataRangeList(ctxHeader->getWriteRange() );
     resetVersiosOfDataRangeList(ctxHeader->getReadRange()  );
   }
   /*------------------------------*/
-  void testPropagatePacking(){
+  void GlobalContext::testPropagatePacking(){
     list < PropagateInfo *> prop_info;
-    DataHandle dh (10,25);
+    DataHandle dh;// (10,25);
 
     PropagateInfo **p= new PropagateInfo*[4];
     for ( int i=0; i<4;i++)
@@ -403,7 +235,7 @@ public :
 
   }
   /*------------------------------*/
-  void unpackPropagateTask(byte *buffer,int length){
+  void GlobalContext::unpackPropagateTask(byte *buffer,int length){
     PropagateInfo P;
     int offset = 0 ;
     while (offset <length) {
@@ -417,7 +249,7 @@ public :
     }
   }
   /*------------------------------*/
-  void packPropagateTask(list < PropagateInfo *> prop_info,int dest_host){
+  void GlobalContext::packPropagateTask(list < PropagateInfo *> prop_info,int dest_host){
     list < PropagateInfo *>::iterator it;
     int msg_max_size = 1024; //prop_info.size() * sizeof(PropagateInfo) ;// todo
     int msg_len = 0;
@@ -438,7 +270,7 @@ public :
     }
   }
   /*------------------------------*/
-  void sendPropagateTasks(){
+  void GlobalContext::sendPropagateTasks(){
     list <PropagateInfo *>::iterator it;
     for ( it = lstPropTasks.begin(); it != lstPropTasks.end();++it){
       int p = getDataHostPolicy()->getHost(Coordinate ((*it)->i,(*it)->j));
@@ -455,14 +287,14 @@ public :
     lstPropTasks.clear();
   }
   /*------------------------------*/
-  void downLevel(){
+  void GlobalContext::downLevel(){
     LevelInfo li  = lstLevels.back();
     li.seq = li.children;
     li.children = 0;
     lstLevels.push_back(li);
   }
   /*------------------------------*/
-  void upLevel(){
+  void GlobalContext::upLevel(){
     LevelInfo  li = lstLevels.back();
     lstLevels.pop_back();
     LevelInfo  liP = lstLevels.back();
@@ -471,14 +303,14 @@ public :
     lstLevels.push_back(liP);
   }
   /*------------------------------*/
-  int  getLevelID(int level){
+  int  GlobalContext::getLevelID(int level){
     list <LevelInfo>::iterator it=lstLevels.begin();
     for ( it  = lstLevels.begin();
 	  it != lstLevels.end(),level>0; ++it,--level ) ;
     return (*it).seq ;
   }
   /*------------------------------*/
-  string getLevelString(){
+  string GlobalContext::getLevelString(){
     list <LevelInfo>::iterator it;
     ostringstream _s;
     for ( it = lstLevels.begin(); it != lstLevels.end(); ++it ) {
@@ -487,34 +319,83 @@ public :
     return _s.str();
   }
   /*------------------------------*/
-  void dumpLevels(char c=' '){
+  void GlobalContext::dumpLevels(char c){
     printf("%c:\n%s\n",c,getLevelString().c_str());
   }
   /*------------------------------*/
-  bool isAnyOwnedBy(ContextHeader* hdr,int me){
+  bool GlobalContext::isAnyOwnedBy(ContextHeader* hdr,int me){
      if ( isAnyOwnedBy(hdr->getWriteRange(),me))
        return true;
      return isAnyOwnedBy(hdr->getReadRange(),me);
    }
   /*------------------------------*/
-  bool isAnyOwnedBy(list<DataRange*> dr,int me){
-    list<DataRange*>::iterator  it = dr.begin();
-    for ( ; it != dr.end() ;++it ){
-      for ( int r = (*it)->row_from; r <=(*it)->row_to; r++){
-	for ( int c = (*it)->col_from; c <=(*it)->col_to; c++){
-	  IData &d=*((*it)->d);
-	  bool b = d(r,c)->isOwnedBy(me) ;
-	  if ( b )
-	    return true;
-	}
-      }
-    }
+  bool GlobalContext::isAnyOwnedBy(list<DataRange*> dr,int me){
     return false;
   }
-  void testHandles();
+/*===================================================================================*/
+IContext *GlobalContext::getContextByHandle(ContextHandle ch) {
+  list<IContext *> ::iterator it;
+  for ( it= children.begin(); it != children.end();++it)
+    if (*(*it)->getContextHandle() == ch) 
+      return *it;
+  return NULL;
+}
+/*--------------------------------------------------------------*/
+IData *GlobalContext::getDataByHandle(DataHandle *d){
+  IContext *ctx = getContextByHandle(d->context_handle);
+  return ctx->getDataByHandle(d);
+}
+/*--------------------------------------------------------------*/
+DataRange *GlobalContext::getIndependentData(IContext *ctx,int data_type){
+  IData * data=NULL ;
+  if ( data_type == InputData)
+    data = ctx->getInputData(); // todo loop for all input data
+  else if (data_type == OutputData)  
+    data = ctx->getOutputData();// todo loop for all output data
+  else if (data_type == InOutData)
+    data = ctx->getInOutData(); // todo loop for all inout data
+  if ( !data ) 
+    return NULL;
+  ContextHandle dch = *data->getParent()->getContextHandle();
+  ContextHandle cch = *ctx->getContextHandle();
+  if ( dch == cch ) 
+    return data->All();
+  return NULL;
+}
 
-};
-
-
-
-#endif //__GLB_CONTEXT_HPP__
+/*--------------------------------------------------------------*/
+void GlobalContext::dumpStatistics(Config *_cfg){
+  if ( me ==0)printf("#STAT:Node\tCtxIn\tCtxSkip\tT.Read\tT.Ins\tT.Prop.\tP.Size\tComm\tTotTask\tNb\tP\n");
+  printf("#STAT:%2d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+	 me,
+	 counters[EnterContexts],
+	 counters[SkipContexts],
+	 counters[TaskRead],
+	 counters[TaskInsert],
+	 counters[TaskPropagate],
+	 counters[PropagateSize],
+	 counters[CommCost],
+	 TaskCount,
+	 _cfg->getXBlocks(),
+	 _cfg->getProcessors());
+}
+/*--------------------------------------------------------------*/
+void GlobalContext::setConfiguration(Config *_cfg){
+  cfg=_cfg;
+  list < PropagateInfo *> lp;
+  for ( int i = 0 ; i <cfg->getProcessors();i++)
+    nodesPropTasks.push_back(lp);
+}
+/*--------------------------------------------------------------*/
+void GlobalContext::testHandles(){
+  list<IContext *>::iterator it;
+  for(it = children.begin();it != children.end(); ++it){
+    (*it)->testHandles();      
+  }
+}
+/*===================================================================================*/
+void PropagateInfo::dump(){
+  IData *data  = glbCtx.getDataByHandle(&data_handle);
+  printf("prop: %s [%s%d] -> [%s0]\n",
+	 data->getName().c_str(),fromCtx.c_str(),fromVersion,toCtx.c_str());
+}

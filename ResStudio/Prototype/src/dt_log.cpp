@@ -1,44 +1,10 @@
-#ifndef __DT_LOG_HPP__
-#define __DT_LOG_HPP__
-#include <iomanip>
+#include "dt_log.hpp"
 #include "listener.hpp"
-
-#define SG_SCHEDULE 1
-class engine;
-extern int me;
-#ifdef MPI_WALL_TIME
-#  pragma message("Scale=1e9")
-static const double SCALE=1000000000.0;
-#else
-#  if SG_SCHEDULE==1
-#    pragma message("Scale=1.0")
-static const double SCALE=1.0;
-#  else
-#    pragma message("Scale=3e9")
-static const double SCALE=3.0e9;
-#  endif
-#endif
-static const double MIN_INIT_VAL=1000000.0;
-typedef struct {
-  double average,maximum,minimum,total;
-  unsigned long count;
-  TimeUnit start;
-}Statistics;
-typedef unsigned long ulong;
-extern int simulation;
-/*----------------------------------------------------------------------------*/
-
+DuctteipLog dt_log;
 /*============================================================================*/
- struct EventInfo {
- public:
-   int proc_id,thread_id,event_id;
-   TimeUnit start,length;
-   string text;
-   ulong handle;
+   EventInfo::EventInfo(){}
 /*----------------------------------------------------------------------------*/
-   EventInfo(){}
-/*----------------------------------------------------------------------------*/
-   EventInfo(int id_,const string &info,ulong h = 0){
+   EventInfo::EventInfo(int id_,const string &info,ulong h){
     event_id = id_;
     proc_id = me ; 
     thread_id = pthread_self(); 
@@ -48,7 +14,7 @@ extern int simulation;
     text.assign(info);
   }
 /*----------------------------------------------------------------------------*/
- EventInfo & operator =(EventInfo &rhs){
+ EventInfo &EventInfo::operator =(EventInfo &rhs){
     event_id = rhs.event_id;
     proc_id = rhs.proc_id ; 
     thread_id = rhs.thread_id;
@@ -59,7 +25,7 @@ extern int simulation;
     return *this;
  }
 /*----------------------------------------------------------------------------*/
-  void dump(ofstream &log_file){
+  void EventInfo::dump(ofstream &log_file){
     if ( event_id < 0 )       return;
     //    printf("dump ev len:%ld\n",length);
     log_file << proc_id << ' ' 
@@ -75,72 +41,11 @@ extern int simulation;
 	     << endl;
 
   }
-};
 /*----------------------------------------------------------------------------*/
-class DuctteipLog{
-private:
-  string log_filename;
-  struct load {
-    TimeUnit t; long val;
-    load(TimeUnit _t, long l):t(_t),val(l){}
-  };
-  list<load*> load_list,export_list,import_list;
-  list<EventInfo*> events_list;
-  long DataPackSize, ListenerPackSize, TaskPackSize;
-  long FLOPS_add,FLOPS_mul,FLOPS_nlin;
-  long *commStats[3];
-  int  nodes;
-  static const  int BIG_SIZE=216010;
-public:
-  unsigned long N,NB,nb,p,q,cores;
-  enum event_t {
-    DataDefined,                  // paired, synch.
-    DataPartitioned,              // paired, synch.
-    Populated,                    // paired, synch.    
-    TaskDefined,                  // paired, synch.
-    ReadTask,                     // paired, synch.
-    TaskSent,                     // single, asynch.
-    ListenerDefined,              // paired, synch.
-    ListenerSent,                 // single, asynch.
-    TaskReceived,                 // single, synch.
-    ListenerReceived,             // single, synch.
-    DataReceived,                 // single, synch.
-    DataSendCompleted,            // single, synch.
-    TaskSendCompleted,            // single, synch.
-    ListenerSendCompleted,        // single, synch.
-    CheckedForListener,           // paired, synch.
-    CheckedForTask,               // paired, synch.
-    CheckedForRun,                // paired, synch.
-    SuperGlueTaskDefine,          // paired, synch.
-    Executed,                     // paired, asynch.
-    RunTimeVersionUpgraded,       // single, synch.
-    Woken,                        // single, synch.
-    DataSent,                     // single, asynch.
-    SkipOverhead,                 // paired, synch.
-    MPITestSent,                  // paired, synch.
-    MPIReceive,                   // paired, synch.
-    MPIProbed,                    // paired, synch.
-    AnySendCompleted,             // paired, synch.
-    LastReceiveCompleted,         // paired, synch.
-    MailboxGetEvent,              // paired, synch.
-    MailboxProcessed,             // paired, synch.
-    WorkProcessed,                // paired, synch.
-    CheckedForTerminate,          // paired, synch.
-    CommFinish,                   // paired, synch.
-    ProgramExecution,             // paired, synch.
-    EventsWork,                   // it's a local counter
-    TaskExported,
-    TaskImported,
-    DataExported,
-    DataImported,
-    NumberOfEvents
-  };
-  Statistics stats[NumberOfEvents];
-/*----------------------------------------------------------------------------*/
-  ~DuctteipLog(){
+  DuctteipLog::~DuctteipLog(){
   }
 /*----------------------------------------------------------------------------*/
-  DuctteipLog(){
+  DuctteipLog::DuctteipLog(){
     FLOPS_add = FLOPS_mul = FLOPS_nlin = 0;
     for ( int i =0 ; i < NumberOfEvents; i ++){
       stats[i].minimum = MIN_INIT_VAL;
@@ -149,7 +54,7 @@ public:
     }
   }
 /*----------------------------------------------------------------------------*/
-  void updateStatisticsPair(int e ){
+  void DuctteipLog::updateStatisticsPair(int e ){
     if ( !isSequentialPairEvent(e) ) 
       return ;
     TimeUnit t;
@@ -168,7 +73,7 @@ public:
 
   }
 /*----------------------------------------------------------------------------*/
-  string  getEventName(int event ) {
+  string  DuctteipLog::getEventName(int event ) {
 #define KeyNamePair(a) case a: return  #a 
     switch ( event )  {
       KeyNamePair(DataDefined);
@@ -214,7 +119,7 @@ public:
     return "";
   }
 /*----------------------------------------------------------------------------*/
-  void addEvent(IDuctteipTask * task,int event,int dest=-1){
+  void DuctteipLog::addEvent(IDuctteipTask * task,int event,int dest){
     stringstream ss; 
     if ( N < BIG_SIZE){
       ss <<  getEventName(event)  << ' ' << task->getName();
@@ -227,7 +132,7 @@ public:
     }
   } 
 /*----------------------------------------------------------------------------*/
-  void addEvent(IData *data,int event,int dest=-1){
+  void DuctteipLog::addEvent(IData *data,int event,int dest){
     stringstream ss; 
     if ( N < BIG_SIZE){
       ss <<  getEventName(event)  << " " << data->getName();
@@ -244,7 +149,7 @@ public:
     }
   } 
 /*----------------------------------------------------------------------------*/
-  void addEvent(engine *eng,int event){
+  void DuctteipLog::addEvent(engine *eng,int event){ 
     stringstream ss; 
     if ( N < BIG_SIZE || event == ProgramExecution){
       ss <<  getEventName(event)  << " ";
@@ -257,7 +162,7 @@ public:
     }
   } 
 /*----------------------------------------------------------------------------*/
-  void addEvent(IListener *listener,int event,int dest =-1){
+  void DuctteipLog::addEvent(IListener *listener,int event,int dest ){
     stringstream ss; 
     if ( N < BIG_SIZE){
       ss <<  getEventName(event)  << " for_Data " << listener->getData()->getName();
@@ -274,7 +179,7 @@ public:
     }
   } 
 /*----------------------------------------------------------------------------*/
-  void addEvent(string  text,int event){
+  void DuctteipLog::addEvent(string  text,int event){
     stringstream ss; 
     if ( N < BIG_SIZE){
       ss <<  getEventName(event)  << " " << text;
@@ -285,13 +190,13 @@ public:
     }
   } 
 /*----------------------------------------------------------------------------*/
-  void addEventNumber (unsigned long num, int e ) {
+  void DuctteipLog::addEventNumber (unsigned long num, int e ) {
     if (e >= NumberOfEvents) return;
     stats[e].count += num;
     stats[e].total = stats[e].minimum = stats[e].maximum = 0;
   }
 /*----------------------------------------------------------------------------*/
-  void setParams(int nodes_,long DataPackSize_, 
+  void DuctteipLog::setParams(int nodes_,long DataPackSize_, 
 		 long ListenerPackSize_,long TaskPackSize_){
     DataPackSize = DataPackSize_;
     ListenerPackSize = ListenerPackSize_;
@@ -305,7 +210,7 @@ public:
     }
   }
 /*----------------------------------------------------------------------------*/
-  void updateCommStats(int event, int dest ){
+  void DuctteipLog::updateCommStats(int event, int dest ){
     if ( event == DataSent || event == DataReceived) {
       commStats[0][dest] += DataPackSize;
       stats[event].count ++;
@@ -318,19 +223,19 @@ public:
     }
   }
 /*----------------------------------------------------------------------------*/
-  void addEventStart(IDuctteipTask * task,int event){addEvent(task,event);} 
-  void addEventStart(IData *data,int event){addEvent(data,event);} 
-  void addEventStart(engine *eng,int event){addEvent(eng,event);}  
-  void addEventStart(IListener *listener,int event){addEvent(listener,event);}  
-  void addEventStart(string  text,int event){addEvent(text,event);}  
+  void DuctteipLog::addEventStart(IDuctteipTask * task,int event){addEvent(task,event);} 
+  void DuctteipLog::addEventStart(IData *data,int event){addEvent(data,event);} 
+  void DuctteipLog::addEventStart(engine *eng,int event){addEvent(eng,event);}  
+  void DuctteipLog::addEventStart(IListener *listener,int event){addEvent(listener,event);}  
+  void DuctteipLog::addEventStart(string  text,int event){addEvent(text,event);}  
 
-  void addEventEnd(IDuctteipTask * task,int event){addEvent(task,event);} 
-  void addEventEnd(IData *data,int event){addEvent(data,event);} 
-  void addEventEnd(engine *eng,int event){addEvent(eng,event);}  
-  void addEventEnd(IListener *listener,int event){addEvent(listener,event);} 
-  void addEventEnd(string  text,int event){addEvent(text,event);} 
+  void DuctteipLog::addEventEnd(IDuctteipTask * task,int event){addEvent(task,event);} 
+  void DuctteipLog::addEventEnd(IData *data,int event){addEvent(data,event);} 
+  void DuctteipLog::addEventEnd(engine *eng,int event){addEvent(eng,event);}  
+  void DuctteipLog::addEventEnd(IListener *listener,int event){addEvent(listener,event);} 
+  void DuctteipLog::addEventEnd(string  text,int event){addEvent(text,event);} 
 /*----------------------------------------------------------------------------*/
-  void updateStatistics(int e,TimeUnit length){
+  void DuctteipLog::updateStatistics(int e,TimeUnit length){
     double len = ((double)length)/SCALE;
     if ( e < 0 || e>= NumberOfEvents) return;
     stats[e].count ++;
@@ -339,7 +244,7 @@ public:
     stats[e].total += len;
 }
 /*----------------------------------------------------------------------------*/
-  bool isSequentialPairEvent(int e){
+  bool DuctteipLog::isSequentialPairEvent(int e){
     if ( 
 	e == TaskDefined  ||
 	e == ReadTask  ||
@@ -363,7 +268,7 @@ public:
     return false;
   }
 /*----------------------------------------------------------------------------*/
-  bool isPairEvent(int e){
+  bool DuctteipLog::isPairEvent(int e){
     if ( 
 	e == DataDefined  ||
 	e == DataPartitioned  ||
@@ -391,7 +296,7 @@ public:
     return false;
   }
 /*----------------------------------------------------------------------------*/
-  void filterEvent(EventInfo *e){
+  void DuctteipLog::filterEvent(EventInfo *e){
     static bool after_populate = false;
     
     if (e->event_id  == CheckedForTerminate || 
@@ -419,7 +324,7 @@ public:
     }
   }
 /*----------------------------------------------------------------------------*/
-  void mergePairEvents(){
+  void DuctteipLog::mergePairEvents(){
     unsigned long merged_count =0;
     list<EventInfo *>::iterator it,it2;
     printf("log merge,events.count :%ld\n",events_list.size());
@@ -449,7 +354,7 @@ public:
     PRINT_IF(1)("log merge,merged events:%ld\n",merged_count);
   }
 /*----------------------------------------------------------------------------*/
-   void dump(long sg_task_count){
+   void DuctteipLog::dump(long sg_task_count){
     char s[20];
     list<EventInfo *>::iterator it;
     sprintf(s,"dt_log_file-%2.2d.txt",me);
@@ -481,7 +386,7 @@ public:
     log_file.close();
   }
 /*----------------------------------------------------------------------------*/
-   void dumpStatistics(){
+   void DuctteipLog::dumpStatistics(){
      char dash[10]="---------";
      printf("@stats Node\tEvent\t\t Count\t Sum.Duration\t Average\t Min\t\t Max\t\t\n");
      for ( int i=0; i < NumberOfEvents ; i ++){
@@ -509,22 +414,22 @@ public:
      }
    }
 /*----------------------------------------------------------------------------*/
-  void logExportTask(long count){
+  void DuctteipLog::logExportTask(long count){
     load * l = new load(getTime(),count);
     export_list.push_back(l);
   }
 /*----------------------------------------------------------------------------*/
-  void logImportTask(long count){
+  void DuctteipLog::logImportTask(long count){
     load * l = new load(getTime(),count);
     import_list.push_back(l);
   }
 /*----------------------------------------------------------------------------*/
-  void logLoadChange(long ld){
+  void DuctteipLog::logLoadChange(long ld){
     load * l = new load(getTime(),ld);
     load_list.push_back(l);
   }
 /*----------------------------------------------------------------------------*/
-  void dumpLoad(list<load*> lst,char *s){
+  void DuctteipLog::dumpLoad(list<load*> lst,char *s){
     list<load *>::iterator it;
     ofstream log_file(s);
     for (it = lst.begin();it != lst.end();it ++){
@@ -534,7 +439,7 @@ public:
     log_file.close();    
   }
 /*----------------------------------------------------------------------------*/
-  void dumpLoads(){
+  void DuctteipLog::dumpLoads(){
     char s[20];
     sprintf(s,"dt_load_file-%2.2d.txt",me);
     dumpLoad(load_list,s);
@@ -544,7 +449,7 @@ public:
     dumpLoad(import_list,s);    
   }
 /*----------------------------------------------------------------------------*/
-  void dumpSimulationResults(long sg_task_count){
+  void DuctteipLog::dumpSimulationResults(long sg_task_count){
     printf("\n@Simulation: N=%ld,P=%d, p=%ld,q=%ld,B=%ld,b=%ld,k=%d,"\
 	   "t=%ld,T=%ld,s=%ld,S=%ld,r=%ld,R=%ld,c=%ld,z=%ld,i=%lf\n",
 	   N,nodes,p,q,NB,nb,me,sg_task_count,stats[TaskDefined].count,
@@ -554,8 +459,5 @@ public:
   }
 /*----------------------------------------------------------------------------*/
 
-};
-extern DuctteipLog dt_log;
 void addLogEventStart(string s , int e ) {  dt_log.addEventStart(s,e);}
 void addLogEventEnd  (string s , int e ) {  dt_log.addEventEnd  (s,e);}
-#endif //__DT_LOG_HPP__

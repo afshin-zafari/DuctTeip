@@ -1,7 +1,7 @@
 #ifndef __CHOL_FACT_HPP__
 #define __CHOL_FACT_HPP__
 
-#include "ductteip.h"
+#include "ductteip.hpp"
 #include "math.h"
 
 //#define ROW_MAJOR 1

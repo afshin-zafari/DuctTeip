@@ -1,4 +1,4 @@
-#include "chol_fact.hpp"
+#include "cholesky.hpp"
 
 
 

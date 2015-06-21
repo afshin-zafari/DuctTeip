@@ -101,8 +101,17 @@ static inline ClockTimeUnit getClockTime(int unit) {
   return (tv.tv_sec*(ClockTimeUnit)unit+tv.tv_usec);
 }
 
-template<class T> void copy(byte * b,int &o,T a);
-template<class T> void paste(byte * b,int &o,T *a);
+template<class T> 
+void copy(byte * b,int &o,T a){
+  memcpy(b+o,(char *)&a,sizeof(a));
+  o +=  sizeof(a);
+}
+template<class T> 
+void paste(byte * b,int &o,T *a){
+  memcpy((char *)a,b+o,sizeof(T));
+  o +=  sizeof(T);
+}
+
 
 
 enum verbs_ {

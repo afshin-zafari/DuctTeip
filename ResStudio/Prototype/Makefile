@@ -1,5 +1,4 @@
 
-prog_list=  1 2 3 4 5 6 7 8 9 # 10 11 12 
 outdir= ./temp
 libfile=./lib/libductteip.a
 SUPERGLUE_DIR=../../../superglue/include
@@ -10,19 +9,9 @@ DUCTTEIP_FLAGS=-I$(HEADER_DIR)
 CPP=mpic++
 LINK=mpif90
 
-
-GCC_COMP_FLAGS=-march=bdver1 -O3 -mfma4 -mavx
-GCC_LINK_FLAGS=-lm  -march=bdver1
-ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
-ACML_LIB=$(ACML_DIR)/lib/libacml.a
-
-EXPORT_PATH := export LD_LIBRARY_PATH='$(ACML_DIR)/lib:$(LD_LIBRARY_PATH)'
-BLAS_COMP_FLAGS=-I$(ACML_DIR)/include 
-BLAS_LINK_FLAGS=-L$(ACML_DIR)/lib -nofor-main
-
 #-----------------------Intel Compiler set---------------------
-LINK_FLAGS=-lm -lrt
-COMP_FLAGS=-fast -mavx  -opt-prefetch -Os -simd -I$(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS)
+LINK_FLAGS=-lm -lrt #-lpthread
+COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) #-mavx  -opt-prefetch -Os -simd
 #########################################################
 headers:=$(notdir $(shell ls -Sr $(HEADER_DIR)/*.hpp))
 objnames:=$(headers:%.hpp=%.o)

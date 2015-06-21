@@ -1,75 +1,11 @@
-#ifndef __ENGINE_HPP__ 
-#define __ENGINE_HPP__
+#include "engine.hpp"
+#include "glb_context.hpp"
+#include "procgrid.hpp"
 
-#define logEvent(a,b) 
+engine dtEngine;
+int version,simulation;
 
-
-
-typedef unsigned char byte;
-#include <pthread.h>
-#include <sched.h>
-#include <errno.h>
-#include <algorithm>
-#include <vector>
-#include <iterator>
-
-#include <dirent.h>
-#include <cstdlib>
-#include <cstdio>
-#include <cassert>
-
-
-#include "config.hpp"
-#include "task.hpp"
-#include "listener.hpp"
-#include "mailbox.hpp"
-#include "mpi_comm.hpp"
-#include "memory_manager.hpp"
-#include "dt_log.hpp"
-extern int me;
-
-struct PropagateInfo;
-DuctteipLog dt_log;
-extern Config config;
-
-struct DuctTeipWork{
-public:
-  enum WorkTag{
-    TaskWork,
-    ListenerWork,
-    DataWork
-  };
-  enum WorkEvent{
-    Ready,
-    Sent,
-    Finished,
-    DataSent,
-    DataReceived,
-    DataUpgraded,
-    DataReady,
-    Received,
-    Added
-  };
-  enum TaskState{
-    Initialized,
-    WaitForData,
-    Running
-  };
-  enum WorkItem{
-    CheckTaskForData,
-    CheckTaskForRun,
-    SendTask,
-    CheckListenerForData,
-    UpgradeData,
-    CheckAfterDataUpgraded,
-    SendListenerData
-  };
-  IDuctteipTask *task;
-  IData *data;
-  IListener *listener;
-  int state,tag,event,host,item;
-  //  DuctTeipWork(){ }
-  DuctTeipWork &operator =(DuctTeipWork *_work){
+  DuctTeipWork &DuctTeipWork::operator =(DuctTeipWork *_work){
     task     = _work->task;
     data     = _work->data;
     listener = _work->listener;
@@ -80,55 +16,15 @@ public:
     host     = _work->host;
     return *this;
   }
-  void dump(){
+  void DuctTeipWork::dump(){
     printf("work dump: tag:%d , item:%d\n",tag,item);
     printf("work dump:  ev:%d , stat:%d\n",event,state);
     printf("work dump: host:%d\n",host);
   }
-};
+
 /*===================================================================*/
-class engine
-{
-private:
-  list<IDuctteipTask*>  task_list,running_tasks,export_tasks,import_tasks;
-  bool                  runMultiThread;
-  byte           *prop_buffer;
-  int             term_ok;
-  int             prop_buffer_length,num_threads,local_nb;
-  MailBox        *mailbox;
-  INetwork         *net_comm;
-  list<DuctTeipWork *> work_queue;
-  pthread_t thread_id;
-  pthread_mutex_t thread_lock;
-  pthread_mutexattr_t mutex_attr;
-  pthread_attr_t attr;
-  long last_task_handle,last_listener_handle;
-  list<IListener *> listener_list;
-  TimeUnit start_time;
-  ClockTimeUnit start_clktime;
-  ThreadManager<Options> *thread_manager;
-  Config *cfg;
-  MemoryManager *data_memory;
-  long skip_term,skip_work,skip_mbox,time_out;
-  enum { Enter, Leave};
-  enum {
-    EVEN_INIT     ,
-    WAIT_FOR_FIRST  ,
-    FIRST_RECV    ,
-    WAIT_FOR_SECOND ,
-    SECOND_RECV   ,
-#if TERMINATE_TREE ==1
-    TERMINATE_INIT=100,
-    LEAF_TERM_OK  =101,
-    ONE_CHILD_OK  =102,
-    ALL_CHILDREN_OK=103,
-    SENT_TO_PARENT=104,
-#endif
-    TERMINATE_OK
-  };
-public:
   /*---------------------------------------------------------------------------------*/
-  engine(){
+  engine::engine(){
     net_comm = new MPIComm;
     mailbox = new MailBox(net_comm);
     initComm();
@@ -145,33 +41,31 @@ public:
     initDLB();
   }
   /*---------------------------------------------------------------------------------*/
-  void start ( int argc , char **argv);
-  /*---------------------------------------------------------------------------------*/
-  void initComm(){
+  void engine::initComm(){
     net_comm->initialize();
     resetTime();
     me = net_comm->get_host_id();
   }
   /*---------------------------------------------------------------------------------*/
 
-  ~engine(){
+  engine::~engine(){
     delete net_comm;
     delete thread_manager;
     delete data_memory;
   }
   /*---------------------------------------------------------------------------------*/
-  void setSkips(long st,long sw,long sm,long to){
+  void engine::setSkips(long st,long sw,long sm,long to){
     skip_term = st;
     skip_work = sw;
     skip_mbox = sm;
     time_out = to;
   }
   /*---------------------------------------------------------------------------------*/
-  ThreadManager<Options> * getThrdManager() {return thread_manager;}
-  int getLocalNumBlocks(){return local_nb;}
+  ThreadManager<Options> * engine::getThrdManager() {return thread_manager;}
+  int engine::getLocalNumBlocks(){return local_nb;}
   /*---------------------------------------------------------------------------------*/
 
-  TaskHandle  addTask(IContext * context,
+  TaskHandle  engine::addTask(IContext * context,
 		      string task_name,
 		      unsigned long key, 
 		      int task_host, 
@@ -199,7 +93,7 @@ public:
     return task_handle;
   }
   /*---------------------------------------------------------------------------------*/
-  void dumpTasks(){
+  void engine::dumpTasks(){
     list<IDuctteipTask *>::iterator it;
     for (  it =task_list.begin();  it!= task_list.end(); it ++) {
       IDuctteipTask &t = *(*it);
@@ -208,18 +102,13 @@ public:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void sendPropagateTask(byte *buffer, int size, int dest_host) {
+  void engine::sendPropagateTask(byte *buffer, int size, int dest_host) {
     mailbox->send(buffer,size,MailBox::PropagationTag,dest_host);
     prop_buffer = buffer;
     prop_buffer_length = size;
   }
   /*---------------------------------------------------------------------------------*/
-  void addPropagateTask(PropagateInfo *P);
-  void receivePropagateTask(byte *buffer, int len);
-  void sendTask(IDuctteipTask* task,int destination);
-  void exportTask(IDuctteipTask* task,int destination);
-  /*---------------------------------------------------------------------------------*/
-  void receivedListener(MailBoxEvent *event){
+  void engine::receivedListener(MailBoxEvent *event){
     IListener *listener = new IListener;
     int offset = 0 ;
     listener->deserialize(event->buffer,offset,event->length);
@@ -245,10 +134,7 @@ public:
 
   }
   /*---------------------------------------------------------------------------------*/
-  void receivedData(MailBoxEvent *event,MemoryItem*);
-  IData *importedData(MailBoxEvent *event,MemoryItem*);
-  /*---------------------------------------------------------------------------------*/
-  void waitForTaskFinish(){
+  void engine::waitForTaskFinish(){
     static long skip_wait=0;
     /*
     if ( ++skip_wait < skip_work){
@@ -296,7 +182,7 @@ public:
   }
   
   /*---------------------------------------------------------------------------------*/
-  void finalize(){
+  void engine::finalize(){
     if ( runMultiThread ) {
       pthread_mutex_destroy(&thread_lock);
       pthread_mutexattr_destroy(&mutex_attr);
@@ -311,7 +197,7 @@ public:
       dumpDLB();
   }
   /*---------------------------------------------------------------------------------*/
-  void globalSync(){
+  void engine::globalSync(){
     dt_log.addEventEnd(this,DuctteipLog::ProgramExecution);
     dt_log.logLoadChange(0);
     dt_log.logImportTask(0);
@@ -331,17 +217,17 @@ public:
 
   }
   /*---------------------------------------------------------------------------------*/
-  TimeUnit elapsedTime(int scale){
+  TimeUnit engine::elapsedTime(int scale){
     TimeUnit t  = getTime();
     return ( t - start_time)/scale;
   }
   /*---------------------------------------------------------------------------------*/
-  void dumpTime(char c=' '){
+  void engine::dumpTime(char c){
     if (DUMP_FLAG)
       printf ("%c time:%Ld\n",c,elapsedTime(TIME_SCALE_TO_MILI_SECONDS));
   }
   /*---------------------------------------------------------------------------------*/
-  bool isAnyUnfinishedListener(){
+  bool engine::isAnyUnfinishedListener(){
     list<IListener *>::iterator it;
     for ( it = listener_list.begin(); it != listener_list.end(); it ++)
       {
@@ -355,7 +241,7 @@ public:
     return false;
   }
   /*---------------------------------------------------------------------------------*/
-  long getUnfinishedTasks(){
+  long engine::getUnfinishedTasks(){
     list<IDuctteipTask *>::iterator it;
     it = task_list.begin();
     for(; it != task_list.end(); ){
@@ -372,7 +258,7 @@ public:
     return task_list.size();
   }
   /*---------------------------------------------------------------------------------*/
-  bool canTerminate(){
+  bool engine::canTerminate(){
     static long skip = 0;
     static TimeUnit t,cost=0;
     t = getTime();
@@ -421,9 +307,9 @@ public:
     return false;
   }
   /*---------------------------------------------------------------------------------*/
-  int  getTaskCount(){    return task_list.size();  }
+  int  engine::getTaskCount(){    return task_list.size();  }
   /*---------------------------------------------------------------------------------*/
-  void show_affinity() {
+  void engine::show_affinity() {
     DIR *dp;
     assert((dp = opendir("/proc/self/task")) != NULL);
     
@@ -447,7 +333,7 @@ public:
     closedir(dp);
   }
   /*---------------------------------------------------------------------------------*/
-  void setConfig(Config *cfg_){
+  void engine::setConfig(Config *cfg_){
     cfg = cfg_;
     num_threads = cfg->getNumThreads();
     local_nb = cfg->getXLocalBlocks();
@@ -480,7 +366,7 @@ public:
 
   }
   /*---------------------------------------------------------------------------------*/
-  void prepareReceives(){
+  void engine::prepareReceives(){
     IListener lsnr;
     mailbox->prepareListenerReceive(lsnr.getPackSize());
 #if TERMINATE_TREE==0
@@ -497,7 +383,7 @@ public:
 
   }
   /*---------------------------------------------------------------------------------*/
-  void doProcess(){
+  void engine::doProcess(){
 
     prepareReceives();
 
@@ -526,8 +412,8 @@ public:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  static 
-  void *doProcessLoop(void *p){
+  
+  void *engine::doProcessLoop(void *p){
     engine *_this = (engine *)p;
     printf("do process loop started, thread-id:%ld\n",pthread_self());
     //threadInfo(0);
@@ -545,7 +431,7 @@ public:
    pthread_exit(NULL);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForDataReady(list<DataAccess *> *data_list){
+  void engine::putWorkForDataReady(list<DataAccess *> *data_list){
     list<DataAccess *>::iterator it;
     for (it =data_list->begin(); it != data_list->end() ; it ++) {
       IData *data=(*it)->data;
@@ -553,13 +439,12 @@ public:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  MemoryItem *newDataMemory(){
+  MemoryItem *engine::newDataMemory(){
     MemoryItem *m = data_memory->getNewMemory();
     return m;
   }
-private :
   /*---------------------------------------------------------------------------------*/
-  void putWorkForCheckAllTasks(){
+  void engine::putWorkForCheckAllTasks(){
     list<IDuctteipTask *>::iterator it;
     it = task_list.begin();
     for(; it != task_list.end(); ){
@@ -585,7 +470,7 @@ private :
     //printf("------------------------------------\n");
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForReceivedListener(IListener *listener){
+  void engine::putWorkForReceivedListener(IListener *listener){
     DuctTeipWork *work = new DuctTeipWork;
     work->listener  = listener;
     work->tag   = DuctTeipWork::ListenerWork;
@@ -595,7 +480,7 @@ private :
     work_queue.push_back(work);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForSendingTask(IDuctteipTask *task){
+  void engine::putWorkForSendingTask(IDuctteipTask *task){
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -605,7 +490,7 @@ private :
     work_queue.push_back(work);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForPropagateTask(IDuctteipTask *task){
+  void engine::putWorkForPropagateTask(IDuctteipTask *task){
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -615,7 +500,7 @@ private :
     work_queue.push_back(work);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForNewTask(IDuctteipTask *task){
+  void engine::putWorkForNewTask(IDuctteipTask *task){
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -629,7 +514,7 @@ private :
     work_queue.push_back(second_work);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForReceivedTask(IDuctteipTask *task){
+  void engine::putWorkForReceivedTask(IDuctteipTask *task){
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -643,7 +528,7 @@ private :
     work_queue.push_back(second_work);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForFinishedTask(IDuctteipTask * task){
+  void engine::putWorkForFinishedTask(IDuctteipTask * task){
     DuctTeipWork *work = new DuctTeipWork;
     work->task  = task;
     work->tag   = DuctTeipWork::TaskWork;
@@ -653,7 +538,7 @@ private :
     work_queue.push_back(work);
   }
   /*---------------------------------------------------------------------------------*/
-  void putWorkForSingleDataReady(IData* data){
+  void engine::putWorkForSingleDataReady(IData* data){
     DuctTeipWork *work = new DuctTeipWork;
     work->data = data;
     work->tag   = DuctTeipWork::DataWork;
@@ -662,7 +547,7 @@ private :
     work_queue.push_back(work);      
   }
   /*---------------------------------------------------------------------------------*/
-  void receivedTask(MailBoxEvent *event){
+  void engine::receivedTask(MailBoxEvent *event){
     IDuctteipTask *task = new IDuctteipTask;
     int offset = 0 ;
     task->deserialize(event->buffer,offset,event->length);
@@ -678,7 +563,7 @@ private :
 
   }
   /*---------------------------------------------------------------------------------*/
-  void importedTask(MailBoxEvent *event){
+  void engine::importedTask(MailBoxEvent *event){
     IDuctteipTask *task = new IDuctteipTask;
     int offset = 0 ;
     task->deserialize(event->buffer,offset,event->length);
@@ -699,7 +584,7 @@ private :
 
   }
   /*---------------------------------------------------------------------------------*/
-  long int checkRunningTasks(int v=0){
+  long int engine::checkRunningTasks(int v){
 
     list<IDuctteipTask *>::iterator it;
     int cnt =0 ;
@@ -733,12 +618,12 @@ private :
     return cnt+import_tasks.size()+export_tasks.size();
   }
   /*---------------------------------------------------------------------------------*/
-  void  checkMigratedTasks(){
+  void  engine::checkMigratedTasks(){
     checkImportedTasks();
     checkExportedTasks();
   }
   /*---------------------------------------------------------------------------------*/
-  void  checkImportedTasks(){
+  void  engine::checkImportedTasks(){
 
     list<IDuctteipTask *>::iterator task_it;
     for(task_it = import_tasks.begin(); task_it != import_tasks.end(); ){
@@ -775,7 +660,7 @@ private :
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void  checkExportedTasks(){
+  void  engine::checkExportedTasks(){
     if (dlb_state == TASK_EXPORTED && export_tasks.size() ==0){
       printf("export task list emptied.\n");
       dlb_state=DLB_STATE_NONE;
@@ -826,7 +711,7 @@ private :
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void doProcessWorks(){
+  void engine::doProcessWorks(){
     static int skip=0;
     static TimeUnit t,cost = 0;
     t = getTime();
@@ -854,7 +739,7 @@ private :
     criticalSection(Leave); 
   }
   /*---------------------------------------------------------------------------------*/
-  bool isDuplicateListener(IListener * listener){
+  bool engine::isDuplicateListener(IListener * listener){
     list<IListener *>::iterator it;
     for(it = listener_list.begin(); it != listener_list.end();it ++){
       IListener *lsnr=(*it);
@@ -867,7 +752,7 @@ private :
     return false;
   }
   /*---------------------------------------------------------------------------------*/
-  bool addListener(IListener *listener ){
+  bool engine::addListener(IListener *listener ){
     if (isDuplicateListener(listener))
           return false;
     int handle = last_listener_handle ++;
@@ -879,7 +764,7 @@ private :
     return true;
   }
   /*---------------------------------------------------------------------------------*/
-  void checkTaskDependencies(IDuctteipTask *task){
+  void engine::checkTaskDependencies(IDuctteipTask *task){
     list<DataAccess *> *data_list= task->getDataAccessList();
     list<DataAccess *>::iterator it;
     for (it = data_list->begin(); it != data_list->end() ; it ++) {
@@ -906,8 +791,7 @@ private :
     }
   }
   /*---------------------------------------------------------------------------------*/
-public:
-  void runFirstActiveTask(){
+  void engine::runFirstActiveTask(){
     if (!cfg->getDLB())
       return;
     if(getActiveTasksCount()>DLB_BUSY_TASKS){
@@ -925,9 +809,9 @@ public:
       return;
     }
   }
-private:
+
   /*---------------------------------------------------------------------------------*/
-  long getActiveTasksCount(){
+  long engine::getActiveTasksCount(){
     list<IDuctteipTask *>::iterator it;
     long count = 0 ;
     if(running_tasks.size() && 0 )
@@ -962,7 +846,7 @@ private:
     return count;
   }
   /*---------------------------------------------------------------------------------*/
-  void executeTaskWork(DuctTeipWork * work){
+  void engine::executeTaskWork(DuctTeipWork * work){
     switch (work->item){
     case DuctTeipWork::UpgradeData:
       work->task->upgradeData('W');
@@ -1007,7 +891,7 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void executeDataWork(DuctTeipWork * work){
+  void engine::executeDataWork(DuctTeipWork * work){
     switch (work->item){
     case DuctTeipWork::CheckAfterDataUpgraded:
       list<IListener *>::iterator lsnr_it;
@@ -1059,7 +943,7 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void executeListenerWork(DuctTeipWork * work){
+  void engine::executeListenerWork(DuctTeipWork * work){
     switch (work->item){
     case DuctTeipWork::CheckListenerForData:
       {
@@ -1070,7 +954,7 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void executeWork(DuctTeipWork *work){
+  void engine::executeWork(DuctTeipWork *work){
     switch (work->tag){
     case DuctTeipWork::TaskWork:      executeTaskWork(work);      break;
     case DuctTeipWork::ListenerWork:  executeListenerWork(work);  break;
@@ -1079,7 +963,7 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void doProcessMailBox(){
+  void engine::doProcessMailBox(){
     MailBoxEvent event ;
     bool wait= false,completed,found;
     static long int skip=0;
@@ -1128,7 +1012,7 @@ private:
     processEvent(event);
   }
   /*---------------------------------------------------------------------------------*/
-  void processEvent(MailBoxEvent &event){
+void engine::processEvent(MailBoxEvent &event){
     dt_log.addEventStart(this,DuctteipLog::MailboxProcessed);
     PRINT_IF(IRECV)("mbox after getEvent, found and completed.\n");
     dumpTime();
@@ -1251,7 +1135,7 @@ private:
     dt_log.addEventEnd(this,DuctteipLog::MailboxProcessed);
   }
   /*---------------------------------------------------------------------------------*/
-  IListener *getListenerForData(IData *data){
+  IListener *engine::getListenerForData(IData *data){
     list<IListener *>::iterator it ;
     for(it = listener_list.begin();it != listener_list.end(); it ++){
       IListener *listener = (*it);
@@ -1264,7 +1148,7 @@ private:
     return NULL;
   }
   /*---------------------------------------------------------------------------------*/
-  void dumpListeners(){
+  void engine::dumpListeners(){
     
     list<IListener *>::iterator it;
     for (it = listener_list.begin(); it != listener_list.end(); it ++){
@@ -1272,14 +1156,14 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void dumpAll(){
+  void engine::dumpAll(){
     printf("------------------------------------------------\n");
     dumpTasks();
     dumpListeners();
     printf("------------------------------------------------\n");
   }
   /*---------------------------------------------------------------------------------*/
-  void removeListenerByHandle(int handle ) {
+  void engine::removeListenerByHandle(int handle ) {
     list<IListener *>::iterator it;
     for ( it = listener_list.begin(); it != listener_list.end(); it ++){
       IListener *listener = (*it);
@@ -1292,7 +1176,7 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void removeTaskByHandle(TaskHandle task_handle){
+  void engine::removeTaskByHandle(TaskHandle task_handle){
     list<IDuctteipTask *>::iterator it;
     criticalSection(Enter);
     for ( it = task_list.begin(); it != task_list.end(); it ++){
@@ -1306,7 +1190,7 @@ private:
     }
   }
   /*---------------------------------------------------------------------------------*/
-  void criticalSection(int direction){
+  void engine::criticalSection(int direction){
     if ( !runMultiThread)
       return;
     if ( direction == Enter )
@@ -1315,7 +1199,7 @@ private:
       pthread_mutex_unlock(&thread_lock);
   }
   /*---------------------------------------------------------------------------------*/
-  IDuctteipTask *getTaskByHandle(TaskHandle  task_handle){
+  IDuctteipTask *engine::getTaskByHandle(TaskHandle  task_handle){
     list<IDuctteipTask *>::iterator it;
     criticalSection(Enter); 
     for ( it = task_list.begin(); it != task_list.end(); it ++){
@@ -1329,7 +1213,7 @@ private:
     return NULL;
   }
   /*---------------------------------------------------------------------------------*/
-  IDuctteipTask *getTaskByCommHandle(unsigned long handle){
+  IDuctteipTask *engine::getTaskByCommHandle(unsigned long handle){
     list<IDuctteipTask *>::iterator it;
     criticalSection(Enter); 
     for ( it = task_list.begin(); it != task_list.end(); it ++){
@@ -1344,7 +1228,7 @@ private:
     return NULL;
   }
   /*---------------------------------------------------------------------------------*/
-  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) {
+  IListener *engine::getListenerByCommHandle ( unsigned long  comm_handle ) {
     list<IListener *>::iterator it;
     for (it = listener_list.begin(); it !=listener_list.end();it ++){
       IListener *listener=(*it);
@@ -1356,11 +1240,11 @@ private:
   }
 
   /*---------------------------------------------------------------*/
-  void resetTime(){
+  void engine::resetTime(){
     start_time = getTime();
   }
   /*---------------------------------------------------------------------------------*/
-  void sendTerminateOK_old(){
+  void engine::sendTerminateOK_old(){
     PRINT_IF(TERMINATE_FLAG) ( "send,term state:%d\n" , term_ok ) ;
 
     if ( me == 0 && term_ok == EVEN_INIT  ) {
@@ -1388,7 +1272,7 @@ private:
 
   }
   /*---------------------------------------------------------------------------------*/
-  void receivedTerminateOK_old(){
+  void engine::receivedTerminateOK_old(){
     PRINT_IF(TERMINATE_FLAG) ( "recv,term state:%d\n" , term_ok ) ;
     if ( term_ok == WAIT_FOR_FIRST)
       term_ok = FIRST_RECV;
@@ -1398,11 +1282,11 @@ private:
     
   }
   /*---------------------------------------------------------------------------------*/
-  inline bool IsOdd (int a){return ( (a %2 ) ==1);}
-  inline bool IsEven(int a){return ( (a %2 ) ==0);}
+  inline bool engine::IsOdd (int a){return ( (a %2 ) ==1);}
+  inline bool engine::IsEven(int a){return ( (a %2 ) ==0);}
   /*---------------------------------------------------------------------------------*/
 #if TERMINATE_TREE==0
-  void sendTerminateOK(){
+  void engine::sendTerminateOK(){
     bool odd_node  = IsOdd (me);
     bool even_node = IsEven(me);
     int dest;
@@ -1442,7 +1326,7 @@ private:
     
   }
   /*---------------------------------------------------------------------------------*/
-  void receivedTerminateOK(int from){
+  void engine::receivedTerminateOK(int from){
     bool odd_node  = IsOdd (me);
     bool even_node = IsEven(me);
     PRINT_IF(TERMINATE_FLAG)("term ok recv %d\n",from);
@@ -1478,7 +1362,7 @@ private:
     PRINT_IF(TERMINATE_FLAG)("term-ok recv from :%d,term-ok:%d\n",from,term_ok);
   }
   /*---------------------------------------------------------------------------------*/
-  void sendTerminateCancel(){
+  void engine::sendTerminateCancel(){
     bool odd_node = IsOdd(me);
     bool even_node = IsEven(me);
     int dest;
@@ -1508,7 +1392,7 @@ private:
     
   }
   /*---------------------------------------------------------------------------------*/
-  void receivedTerminateCancel( int from ) {
+  void engine::receivedTerminateCancel( int from ) {
     bool odd_node = IsOdd (me); 
     bool even_node= IsEven(me);
     int n = net_comm->get_host_count();
@@ -1533,7 +1417,7 @@ private:
   }
 #endif // TERMINATE_TREE
   /*---------------------------------------------------------------------------------*/
-  void createThreads(){
+  void engine::createThreads(){
     /*
       init(admin)                          mt lk
       signal(admin,start)                  crt thrd
@@ -1583,7 +1467,7 @@ private:
     15 17 19 21 23  25 27  29 16 18 20  22 24  26 28  30
   ============================================================
    */
-  int getParentNodeInTree(int node){
+  int engine::getParentNodeInTree(int node){
     int parent = -1;
     if ( node <2 ) {
       PRINT_IF(TERMINATE_FLAG)("parent of node:%d is %d\n",node,node-1);
@@ -1597,7 +1481,7 @@ private:
     PRINT_IF(TERMINATE_FLAG)("parent of :%d is :%d\n",node,parent);
     return parent;
   }
-  void getChildrenNodesInTree(int node,int *nodes,int *count){
+  void engine::getChildrenNodesInTree(int node,int *nodes,int *count){
     
     int N = net_comm->get_host_count();
     int left=2 *node + node%2;
@@ -1618,7 +1502,7 @@ private:
     }
     PRINT_IF(TERMINATE_FLAG)("children of %d is %d,[0]=%d,[1]=%d\n",node,*count,nodes[0],nodes[1]);
   }
-  bool amILeafInTree(){
+  bool engine::amILeafInTree(){
     const int TREE_BASE=2; // binary tree
     int n,nodes[TREE_BASE];    
     getChildrenNodesInTree(me,nodes,&n);
@@ -1627,7 +1511,7 @@ private:
       return true;
     return false;
   }
-  void sendTerminateOK(){
+  void engine::sendTerminateOK(){
     PRINT_IF(TERMINATE_FLAG)("send_term_ok called by node %d, term_ok:%d\n",me,term_ok);
     int parent = getParentNodeInTree(me);
     if (amILeafInTree() && term_ok ==TERMINATE_INIT){      
@@ -1660,7 +1544,7 @@ private:
     }
     
   }
-  void receivedTerminateOK(int from){
+  void engine::receivedTerminateOK(int from){
     const int TREE_BASE=2; // binary tree
     int n,nodes[TREE_BASE];
     int parent = getParentNodeInTree(me);
@@ -1695,56 +1579,11 @@ private:
 			       me,n,nodes[0],nodes[1],term_ok);
     }
   }
-  void receivedTerminateCancel(int from){}
-  void sendTerminateCancel(){}
+  void engine::receivedTerminateCancel(int from){}
+  void engine::sendTerminateCancel(){}
 #endif
-  /*======================================================================*/
-  struct DLB_Statistics{
-    unsigned long tot_try,
-      tot_failure,
-      tot_tick,
-      max_loc_fail,export_task,export_data,import_task,import_data,max_para,max_para2;
-    ClockTimeUnit tot_cost,
-      tot_silent;      
-  };
-  DLB_Statistics dlb_profile;
-  int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
-  unsigned long dlb_failure,dlb_glb_failure;
-  ClockTimeUnit dlb_silent_start;
-  enum DLB_STATE{
-    DLB_IDLE,
-    DLB_BUSY,
-    TASK_EXPORTED,
-    TASK_IMPORTED,
-    DLB_STATE_NONE
-  };
-  enum DLB_SUBSTATE{
-    ACCEPTED,
-    EARLY_ACCEPT
-  };
-  enum DLB_STAGE{
-    DLB_FINDING_IDLE,
-    DLB_FINDING_BUSY,
-    DLB_SILENT,
-    DLB_NONE
-  };
-  enum Limits{
-    SILENT_PERIOD=100,
-    FAILURE_MAX=5
-  };
-  struct TimeDLB
-  {
-    ClockTimeUnit t;
-    engine *e;
-    TimeDLB(engine *_e):e(_e){t = getClockTime(MICRO_SECONDS);}
-    ~TimeDLB(){
-      e->dlb_profile.tot_cost += getClockTime(MICRO_SECONDS) - t;
-    }
-  };
-  int failures[FAILURE_MAX];
-#define TIME_DLB TimeDLB(this)
   /*---------------------------------------------------------------*/
-  void initDLB(){
+  void engine::initDLB(){
     dlb_state = DLB_STATE_NONE;
     dlb_substate = DLB_NONE;
     dlb_stage = DLB_NONE;
@@ -1761,14 +1600,14 @@ private:
     srand(time(NULL));
   }
   /*---------------------------------------------------------------*/
-  void updateDLBProfile(){
+  void engine::updateDLBProfile(){
     dlb_profile.tot_failure+=dlb_failure+dlb_glb_failure;
     dlb_profile.max_loc_fail=
       (dlb_profile.max_loc_fail >dlb_failure) ?
        dlb_profile.max_loc_fail :dlb_failure  ;
   }
   /*---------------------------------------------------------------*/
-  void restartDLB(int s=-1){    
+  void engine::restartDLB(int s){    
     TIME_DLB;
     if ( dlb_state == TASK_IMPORTED || dlb_state == TASK_EXPORTED){
       if(0)printf("state = %d(Imp=2,Exp=3), =>no restart.\n",dlb_state);
@@ -1790,18 +1629,18 @@ private:
     dlb_silent_start = 0 ;
   }
   /*---------------------------------------------------------------*/
-  void goToSilent(){
+  void engine::goToSilent(){
     // log_event start silent
     dlb_failure =0;
     dlb_silent_start = getClockTime(MICRO_SECONDS);
     dlb_stage = DLB_SILENT;
     PRINT_IF(DLB_DEBUG)("stage set to SILENT.\n");
   }
-  bool passedSilentDuration(){
+  bool engine::passedSilentDuration(){
     return ((unsigned long)getClockTime(MICRO_SECONDS) > (unsigned long)SILENT_PERIOD ) ;
   }
   /*---------------------------------------------------------------*/
-  void dumpDLB(){
+  void engine::dumpDLB(){
     printf("DLB Stats:\n");
     printf("try:%ld fail:%ld tick:%ld decline:%ld\n",
 	   dlb_profile.tot_try,
@@ -1821,7 +1660,7 @@ private:
 	   dlb_profile.max_para2);
   }
   /*---------------------------------------------------------------*/
-  int getDLBStatus(){
+  int engine::getDLBStatus(){
     PRINT_IF(0&&DLB_DEBUG)("task#:%ld active:%ld\n",running_tasks.size(),getActiveTasksCount());
     if ( (running_tasks.size()-getActiveTasksCount() )> DLB_BUSY_TASKS){
       PRINT_IF(DLB_DEBUG)("BUSY\n");
@@ -1831,7 +1670,7 @@ private:
     return DLB_IDLE;
   }
   /*---------------------------------------------------------------*/
-  void doDLB(int st=-1){
+  void engine::doDLB(int st){
     TIME_DLB;
     if (!cfg->getDLB())
       return;
@@ -1883,7 +1722,7 @@ private:
       }
   }
   /*---------------------------------------------------------------*/
-  void findBusyNode(){
+  void engine::findBusyNode(){
     if ( dlb_stage == DLB_FINDING_BUSY ) 
       return;
     dlb_profile.tot_try++;
@@ -1894,7 +1733,7 @@ private:
     mailbox->send((byte*)&dlb_node,1,MailBox::FindBusyTag,dlb_node);
   }
   /*---------------------------------------------------------------*/
-  void findIdleNode(){
+  void engine::findIdleNode(){
     if ( dlb_stage == DLB_FINDING_IDLE ) 
       return;
     dlb_profile.tot_try++;
@@ -1905,7 +1744,7 @@ private:
     mailbox->send((byte*)&dlb_node,1,MailBox::FindIdleTag,dlb_node);
   }
   /*---------------------------------------------------------------*/
-  void received_FIND_IDLE(int p){
+  void engine::received_FIND_IDLE(int p){
     TIME_DLB;
     // log_event received find_idle
     if ( dlb_state == DLB_IDLE ) {
@@ -1915,9 +1754,9 @@ private:
     PRINT_IF(DLB_DEBUG)("I'm not IDLE(%d) or not Silent(%d). Decline Import tasks.\n",dlb_state,dlb_stage);
     declineImportTasks(p);
   }
-  void receivedImportRequest(int p){ received_FIND_IDLE(p);}
+  void engine::receivedImportRequest(int p){ received_FIND_IDLE(p);}
   /*---------------------------------------------------------------*/
-  void received_FIND_BUSY(int p ) {
+void engine::received_FIND_BUSY(int p ) {
     TIME_DLB;
     // log_event received find_busy
     dlb_substate = DLB_NONE;
@@ -1937,9 +1776,9 @@ private:
       }
     }
   }
-  void receivedExportRequest(int p){received_FIND_BUSY(p);}
+  void engine::receivedExportRequest(int p){received_FIND_BUSY(p);}
   /*---------------------------------------------------------------*/
-  void received_DECLINE(int p){
+  void engine::received_DECLINE(int p){
     TIME_DLB;
     if(DLB_DEBUG)printf("decline from %d\n",p);
     // log_event received decline
@@ -1950,9 +1789,9 @@ private:
     if(DLB_DEBUG)printf("%d\n",__LINE__);
     restartDLB();    
   }
-  void receivedDeclineMigration(int p){received_DECLINE(p); }
+void engine::receivedDeclineMigration(int p){received_DECLINE(p); }
   /*---------------------------------------------------------------*/
-  IDuctteipTask *selectTaskForExport(){
+  IDuctteipTask *engine::selectTaskForExport(){
     list<IDuctteipTask*>::iterator it;
     for(it=running_tasks.begin();it != running_tasks.end();it++){
       IDuctteipTask *t = *it;
@@ -1975,7 +1814,7 @@ private:
     return NULL;
   }
   /*---------------------------------------------------------------*/
-  void exportTasks(int p){
+  void engine::exportTasks(int p){
     if (DLB_DEBUG)printf("export tasks to %d\n",p);
     IDuctteipTask *t;
     do{
@@ -2030,7 +1869,7 @@ private:
     }while( t !=NULL);
   }
   /*---------------------------------------------------------------*/
-  void importData(MailBoxEvent *event){
+  void engine::importData(MailBoxEvent *event){
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
 	if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
@@ -2059,7 +1898,7 @@ private:
     }
   }
   /*---------------------------------------------------------------*/
-  void receiveTaskOutData(MailBoxEvent *event){
+  void engine::receiveTaskOutData(MailBoxEvent *event){
     dlb_profile.import_data++;
     IData *data = importedData(event,event->getMemoryItem());
     data->dumpCheckSum('r');
@@ -2096,7 +1935,7 @@ private:
 
   }
   /*---------------------------------------------------------------*/
-  void receivedMigrateTask(MailBoxEvent *event){
+  void engine::receivedMigrateTask(MailBoxEvent *event){
     dlb_profile.import_task++;    
     importedTask(event);
     PRINT_IF(DLB_DEBUG)("received tasks from %d\n",event->host);
@@ -2109,7 +1948,7 @@ private:
     restartDLB();     
   }
   /*---------------------------------------------------------------*/
-  void received_ACCEPTED(int p){
+  void engine::received_ACCEPTED(int p){
     TIME_DLB;
     dlb_stage = DLB_NONE;
     PRINT_IF(DLB_DEBUG)("stage reset to NONE %d.\n",__LINE__);
@@ -2133,21 +1972,21 @@ private:
     restartDLB();
   }
   /*---------------------------------------------------------------*/
-  void declineImportTasks(int p){    
+  void engine::declineImportTasks(int p){    
     dlb_glb_failure ++;
     // log_event decline import (p)
     PRINT_IF(DLB_DEBUG)("send decline  to :%d\n",p);
     mailbox->send((byte*)&p,1,MailBox::DeclineMigrateTag,p);
   }
   /*---------------------------------------------------------------*/
-  void declineExportTasks(int p){    
+  void engine::declineExportTasks(int p){    
     dlb_glb_failure ++;
     // log_event decline export (p)
     PRINT_IF(DLB_DEBUG)("send decline  to :%d\n",p);
     mailbox->send((byte*)&p,1,MailBox::DeclineMigrateTag,p);
   }
   /*---------------------------------------------------------------*/
-  void acceptImportTasks(int p){    
+  void engine::acceptImportTasks(int p){    
     // log_event accept import  (p)
     dlb_substate = ACCEPTED;
     dlb_state = TASK_IMPORTED;
@@ -2155,10 +1994,7 @@ private:
     mailbox->send((byte*)&p,1,MailBox::AcceptMigrateTag,p);
   }
   /*---------------------------------------------------------------*/
-private:
-  vector<int> dlb_fail_list;
-public:
-  bool isInList(vector<int>&L,int v){
+  bool engine::isInList(vector<int>&L,int v){
     vector<int>::iterator it;
     for (it=L.begin() ;it!=L.end();it++) {
       if (*it == v ) 
@@ -2166,7 +2002,7 @@ public:
     }
     return false;
   }
-  int getRandomNodeEx(){
+  int engine::getRandomNodeEx(){
     vector<int> &L=dlb_fail_list;
     vector<int>::iterator it;
     //    for (it=L.begin() ;it!=L.end();it++) printf(" %d ",*it);printf("<-\n");
@@ -2185,7 +2021,7 @@ public:
     return p;
   }
   /*---------------------------------------------------------------*/
-  int getRandomNodeOld(int exclude =-1){
+  int engine::getRandomNodeOld(int exclude){
     srand(time(NULL));
     int np = net_comm->get_host_count();
     int p=me;
@@ -2196,8 +2032,176 @@ public:
   /*---------------------------------------------------------------------------------*/
 
 
+void engine::receivePropagateTask(byte *buffer, int len){
+  PropagateInfo *p = new PropagateInfo;
+  int offset =0 ;
+  p->deserialize(buffer,offset,len);
+  addPropagateTask(p);
+}
+/*--------------------------------------------------------------*/
+void engine::addPropagateTask(PropagateInfo *P){
+  IDuctteipTask *task = new IDuctteipTask(P);
+  string s("PROPTASK");
+  task->setName(s);
+  criticalSection(Enter) ;
+  TaskHandle task_handle = last_task_handle ++;
+  task->setHandle(task_handle);
+  task_list.push_back(task);
+  putWorkForPropagateTask(task);
+  criticalSection(Leave) ;
+}
+void engine:: sendTask(IDuctteipTask* task,int destination){
+  MessageBuffer *m = task->serialize();
+  unsigned long ch =  mailbox->send(m->address,m->size,MailBox::TaskTag,destination);
+  task->setCommHandle (ch);
+  dt_log.addEvent(task,DuctteipLog::TaskSent,destination);  
+}
+/*--------------------------------------------------------------*/
+void engine:: exportTask(IDuctteipTask* task,int destination){
+  MessageBuffer *m = task->serialize();
+  unsigned long ch =  mailbox->send(m->address,m->size,MailBox::MigrateTaskTag,destination);
+  task->setCommHandle (ch);
+  printf("Task is exported:%s\n",task->getName().c_str());
+  task->dump();
+  dt_log.addEvent(task,DuctteipLog::TaskExported,destination);  
+}
+/*=====================================================================*/
+void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
+  int offset =0 ;
+  const bool header_only = true;
+  const bool all_content = false;
+  DataHandle dh;
+  dh.deserialize(event->buffer,offset,event->length);
+  //  flushBuffer(event->buffer,event->length);
+  if(0)printf("dh:%ld\n",dh.data_handle);
+  IData *data = glbCtx.getDataByHandle(&dh);
+  offset =0 ;
+  if(0)printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
+  data->deserialize(event->buffer,offset,event->length,mi,all_content);
+  if(0)printf("data rcvd:%s,cnt:%p\n",data->getName().c_str(),data->getContentAddress());
+  data->dump(' ');
+  putWorkForSingleDataReady(data);
+  dt_log.addEvent(data,DuctteipLog::DataReceived);
+}
+/*--------------------------------------------------------------------------*/
+IData * engine::importedData(MailBoxEvent *event,MemoryItem *mi){
+  int offset =0 ;
+  const bool header_only = true;
+  const bool all_content = false;
+  DataHandle dh;
 
-};
+  if (0){
+    double sum = 0.0,*contents=(double *)(event->buffer+192);
+    long size = (event->length -192)/sizeof(double);
+    for ( long i=0; i< size; i++)
+      sum += contents[i];
+    printf("+++sum i , -----,%lf adr:%p,%p,%p\n",
+	   sum,contents,event->memory->getAddress(),event->buffer);
+  }
 
+  dh.deserialize(event->buffer,offset,event->length);
+  IData *data = glbCtx.getDataByHandle(&dh);
+  void dumpData(double *, int ,int, char);
+  if (0){
+    double sum = 0.0,*contents=(double *)(event->buffer+192);
+    long size = (event->length -192)/sizeof(double);
+    for ( long i=0; i< size; i++)
+      sum += contents[i];
+    printf("+++sum i , -----,%lf adr:%p,%p,%p\n",
+	   sum,contents,event->memory->getAddress(),event->buffer);
+  }
 
-#endif //__ENGINE_HPP__
+    if ( 0 ) {
+      printf("Buffer:%p Header size:%d\n",event->buffer,data->getHeaderSize());
+      double *A=(double *)(event->buffer+data->getHeaderSize());
+      for ( int i=0;i<5;i++)
+	for (int j=0;j<5;j++){
+	  dumpData(A+i*12*12+j*5*12*12,12,12,'I');
+	}
+    }
+    if(0)printf("ev.mem dump:\n   ");
+    event->memory->dump();
+    if(0)printf("data-before.mem dump:\n   ");
+    mi = data->getDataMemory();
+    if ( mi != NULL ) {
+      mi->dump();
+      memcpy(data->getContentAddress(),event->buffer+data->getHeaderSize(),data->getContentSize());
+    }
+    else{
+      if(0)printf("NULL\n");
+      data->setDataMemory(event->memory);
+      data->setContentSize(event->length-data->getHeaderSize());
+      mi = data->getDataMemory();
+      data->prepareMemory();
+    }
+    if (0 ) {
+      MemoryItem *mi2 = data->getDataMemory();
+      printf("data-after.mem dump:\n   ");
+      mi2->dump();
+    }
+  if ( mi == NULL) {
+    printf("preparememory.///////////////////////////////////////////////// \n");
+    data->prepareMemory();
+  }
+  if(0)printf("imported data %s, mem:%p len:%d size:%d sz2:%d\n",data->getName().c_str(),
+	 data->getContentAddress(),event->length,
+	 data->getContentSize(),event->length-data->getHeaderSize());
+
+  offset=0;
+  data->deserialize(event->buffer,offset,event->length,mi,header_only);
+  if(0)printf("Data is imported:\n");data->dump('N');
+  dt_log.addEvent(data,DuctteipLog::DataImported);
+  return data;
+}
+void engine::start ( int argc , char **argv){
+    int N,Nb,P,p,q,nb,nt,dlb,ipn;
+    long st=100,sw=100,sm=1000,to=2000;
+    p  = atoi(argv[1]);
+    q  = atoi(argv[2]);
+    N  = atoi(argv[3]);
+    Nb = atoi(argv[4]);
+    nb = atoi(argv[5]);
+    nt = atoi(argv[6]);
+    dlb = atoi(argv[7]);
+    ipn= atoi(argv[8]);
+    if ( argc > 9 ) 
+      to = atol(argv[9]);
+    if ( argc > 10 ) 
+      sw = atoi(argv[10]);
+    if ( argc > 11 ) 
+      sm = atoi(argv[11]);    
+    if ( argc > 12 ) 
+      st = atoi(argv[12]);    
+    if ( dlb ==-1){
+      simulation = 1; 
+      dlb=0;
+    }
+    P = p * q;
+    printf("ipn:%d, P:%d,p:%d,q:%d\n",ipn,P,p,q);
+    printf("N:%d, Nb:%d,nb:%d,nt:%d dlb:%d\n",N,Nb,nb,nt,dlb);
+  
+    setSkips(st,sw,sm,to);
+  
+
+    config.setParams(N,N,Nb,Nb,P,p,q,nb,nb,nt,dlb,ipn);
+    ProcessGrid *_PG = new ProcessGrid(P,p,q);
+    ProcessGrid &PG=*_PG;
+
+    DataHostPolicy      *hpData    = new DataHostPolicy    (DataHostPolicy::BLOCK_CYCLIC         , PG );
+    TaskHostPolicy      *hpTask    = new TaskHostPolicy    (TaskHostPolicy::WRITE_DATA_OWNER     , PG );
+    ContextHostPolicy   *hpContext = new ContextHostPolicy (ContextHostPolicy::ALL_ENTER         , PG );
+    TaskReadPolicy      *hpTaskRead= new TaskReadPolicy    (TaskReadPolicy::ALL_READ_ALL         , PG );
+    TaskAddPolicy       *hpTaskAdd = new TaskAddPolicy     (TaskAddPolicy::WRITE_DATA_OWNER      , PG );
+    TaskPropagatePolicy *hpTaskProp=new TaskPropagatePolicy(TaskPropagatePolicy::GROUP_LEADER    , PG );
+
+    hpContext->setGroupCount(1,2,1);  // all processors allowed for first level,
+    // divide them by 2 for second level
+    // all (from previous level) for third level
+    glbCtx.setPolicies(hpData,hpTask,hpContext,hpTaskRead,hpTaskAdd,hpTaskProp);
+    glbCtx.setConfiguration(&config);
+    setConfig(&config);
+    glbCtx.doPropagation(false);
+  
+    doProcess();
+  }
+

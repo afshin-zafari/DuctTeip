@@ -1,4 +1,4 @@
-#include "ductteip.h"
+#include "ductteip.hpp"
 /*----------------------------------------------------------------------------*/
 struct SyncTask : public Task<Options, -1> {
   IDuctteipTask *dt_task ;

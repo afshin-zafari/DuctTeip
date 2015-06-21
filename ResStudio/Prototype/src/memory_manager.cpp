@@ -1,35 +1,13 @@
-#ifndef __MEMORY_MANAGER_HPP__ 
-#define  __MEMORY_MANAGER_HPP__
-#include "basic.hpp"
-//#include <list>
-#include <vector>
-
-typedef unsigned long MemoryKey;
+#include "memory_manager.hpp"
 /*----------------------------------------------------------------------------*/
-struct MemoryItem{
-private:
-  unsigned long  size;
-  MemoryKey      key;
-  byte          *address;
-  int            state;
-public:
-  enum MemoryState{
-    Initialized,
-    Allocated,
-    InUse,
-    Ready,
-    Deallocated
-  };
-
-/*----------------------------------------------------------------------------*/
-  MemoryItem () {
+MemoryItem::MemoryItem () {
     PRINT_IF(0) ("mitem empty ctor\n");
     address = NULL;
     size    = 0;
     key     = -1;
     state   = Deallocated;
   }
-  MemoryItem(int size_,MemoryKey key_){
+  MemoryItem::MemoryItem(int size_,MemoryKey key_){
     address = new byte[size_];
     TRACE_ALLOCATION(size_);
     state = Ready;
@@ -39,42 +17,36 @@ public:
     dump();
   }
 /*----------------------------------------------------------------------------*/
-  ~MemoryItem(){
+  MemoryItem::~MemoryItem(){
     PRINT_IF(0)("mitem dtor\n");
     delete[] address;
   }
 /*----------------------------------------------------------------------------*/
-  void setState(int s ) {state = s;} 
+  void MemoryItem::setState(int s ) {state = s;} 
 /*----------------------------------------------------------------------------*/
-  MemoryKey getKey() { return key;}
+  MemoryKey MemoryItem::getKey() { return key;}
 /*----------------------------------------------------------------------------*/
-  unsigned long getSize() { return size;}
+  unsigned long MemoryItem::getSize() { return size;}
 /*----------------------------------------------------------------------------*/
-  int getState() { return state;}
+  int MemoryItem::getState() { return state;}
 /*----------------------------------------------------------------------------*/
-  byte *getAddress() { 
+  byte *MemoryItem::getAddress() { 
     PRINT_IF(0)("mitem getadr:%p\n",address);
     return address;
   }
 /*----------------------------------------------------------------------------*/
-  void dump(){
+  void MemoryItem::dump(){
     //    if ( DUMP_FLAG)
       PRINT_IF(0)("mitem ,size:%ld,key:%ld,adr:%p,state:%d\n",size,key,address,state);
   }
 /*----------------------------------------------------------------------------*/
-};
-/*============================================================================*/
 
 /*============================================================================*/
 
-class MemoryManager{
-private:
-  vector <MemoryItem *> memory_list;
-  unsigned long       element_size;
-  MemoryKey           last_key;
-public:
+/*============================================================================*/
+
 /*----------------------------------------------------------------------------*/
-  MemoryManager(int elem_count, int elem_size){
+MemoryManager::MemoryManager(int elem_count, int elem_size){
     element_size = elem_size;
     
     last_key = 0 ; 
@@ -82,13 +54,13 @@ public:
     expandMemoryItems(elem_count);
   }
 /*----------------------------------------------------------------------------*/
- ~MemoryManager(){
+ MemoryManager::~MemoryManager(){
    PRINT_IF(0)("mmngr dtor\n");
    memory_list.clear();
  }
 
 /*----------------------------------------------------------------------------*/
-  MemoryItem *getNewMemory(){
+  MemoryItem *MemoryManager::getNewMemory(){
     MemoryItem *m = NULL;
     m = findFreeMemory();
     if ( m == NULL ) {
@@ -100,7 +72,7 @@ public:
     return m;
   }
 /*----------------------------------------------------------------------------*/
-  MemoryItem *expandMemoryItems(int n =0){
+  MemoryItem *MemoryManager::expandMemoryItems(int n ){
     MemoryItem * first_mem,*m;
     int elem_count = memory_list.size();
     int expand  = (elem_count ==0)?n:elem_count/2 + 1;
@@ -114,7 +86,7 @@ public:
     return first_mem;
   }
 /*----------------------------------------------------------------------------*/
-  MemoryItem *findFreeMemory(){
+  MemoryItem *MemoryManager::findFreeMemory(){
     MemoryItem *m = NULL;
     vector<MemoryItem *>::iterator it;
     for(it = memory_list.begin() ; it != memory_list.end() ; it ++){
@@ -127,8 +99,4 @@ public:
     return NULL;
   }
 /*----------------------------------------------------------------------------*/
-  void freeMemoryItem(MemoryItem *m ) {m->setState(MemoryItem::Ready);}
-  
-};
-/*============================================================================*/
-#endif // __MEMORY_MANAGER_HPP__
+  void MemoryManager::freeMemoryItem(MemoryItem *m ) {m->setState(MemoryItem::Ready);}

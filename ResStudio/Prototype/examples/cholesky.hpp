@@ -32,7 +32,13 @@ public:
   Cholesky(DuctTeip_Data *inData=NULL )  {
     name=static_cast<string>("chol");
     if ( inData !=NULL){
-      M  = inData;
+      if ( !inData->getParent() ){
+	setParent(this);
+	inData->setDataHandle(createDataHandle());
+      }
+      M  = inData->clone();
+      printf("4)Data Chol created,Nb=%d.\n",inData->getXLocalNumBlocks());
+      printf("6)Data Chol created,Nb=%d.\n",     M->getXLocalNumBlocks());
       M->setParent(this);
       M->configure();
     }else{
@@ -153,8 +159,10 @@ public:
 /*----------------------------------------------------------------------------*/
   void Cholesky_taskified(){
     IData &A=*M;
-    int Nb = A.getXLocalNumBlocks();
+    int Nb = A.getXNumBlocks();
+    printf("Inside taskified, Nb=%d.\n",Nb);
     for ( int i = 0; i< Nb ; i++) {
+      printf("Inside taskified i=%d.\n",i);
       for(int l = 0;l<i;l++){
 	DuctTeip_Submit(syrk,A(i,l),A(i,i));
 	for (int k = i+1; k<Nb ; k++){
@@ -330,9 +338,12 @@ public:
 Cholesky *Cholesky_DuctTeip(DuctTeip_Data &A){
 
   TRACE_LOCATION;
+  printf("2)Data Chol created,Nb=%d.\n",A.getXNumBlocks());
   Cholesky *C=new Cholesky(static_cast<DuctTeip_Data *>(&A));
   TRACE_LOCATION;
+  printf("3)Data Chol created,Nb=%d.\n",A.getXNumBlocks());
   C->Cholesky_taskified();
+  printf("Taskified returensd.\n");
   TRACE_LOCATION;
   return C;
 }

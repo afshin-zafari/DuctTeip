@@ -1,2 +1,3 @@
 temp/*
-lib/*
+lib/lib*.a
+examples/bin/*

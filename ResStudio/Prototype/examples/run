@@ -5,13 +5,24 @@
 ipn=4
 P=4
 p=4;q=1
-nt=4
+nt=2
 DLB=0
-params[1]="$p $q 48 8 2 $nt $DLB $ipn 10"
+params="$p $q 48 8 2 $nt $DLB $ipn 3"
+#params="$p $q 96 4 2 $nt $DLB $ipn 3"
 ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
 ACML_LIB=$ACML_DIR/lib/libacml.a
 
 export LD_LIBRARY_PATH=$ACML_DIR/lib:$LD_LIBRARY_PATH
+cd ..
+#make clean
+make
+cd examples
+make clean 
+make
+cd bin
+mpirun -n $P -npernode $ipn --output-filename test.out cholesky $params
+echo "Finished."
+grep -i "error" test.out.*
+cd ..
 
-mpirun -n $P -npernode $ipn --output-filename test.out ./cholesky
 

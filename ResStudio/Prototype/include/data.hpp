@@ -81,7 +81,11 @@ public:
   /*--------------------------------------------------------------------------*/
   int  getXLocalNumBlocks( ) {    return local_nb;  }
   /*--------------------------------------------------------------------------*/
+  int  getXNumBlocks     ( ) {    return Nb;  }
+  /*--------------------------------------------------------------------------*/
   int  getYLocalNumBlocks( ) {    return local_mb;  }
+  /*--------------------------------------------------------------------------*/
+  int  getYNumBlocks     ( ) {    return Mb;  }
   /*--------------------------------------------------------------------------*/
   int  getXLocalDimension( ) {    return local_n ;  }
   /*--------------------------------------------------------------------------*/
@@ -148,6 +152,7 @@ public:
   DuctTeip_Data(int M, int N);  
   void configure();
   DuctTeip_Data(int M, int N,IContext *alg);
+  DuctTeip_Data *clone();
 };
 
 

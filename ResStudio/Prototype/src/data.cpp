@@ -696,7 +696,7 @@ void IData:: allocateMemory(){
       content_size=1;
     data_memory = dtEngine.newDataMemory();
 
-    PRINT_IF(0)("@DataMemory %s block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
+    PRINT_IF(1)("@DataMemory %s block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
 		getName().c_str(),N,parent_data->Nb,M,parent_data->Mb,getContentAddress() );
   }
 }
@@ -825,13 +825,26 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
   
 }
 
-DuctTeip_Data::DuctTeip_Data(int M, int N):Data("",M,N,NULL){  }
+/*--------------------------------------------------------------------------*/
+DuctTeip_Data::DuctTeip_Data(int M, int N):Data("",M,N,NULL){
+  configure();
+}
+/*--------------------------------------------------------------------------*/
+DuctTeip_Data::DuctTeip_Data(int M, int N,IContext  *alg):Data("",M,N,alg){
+  configure();
+  
+}
+/*--------------------------------------------------------------------------*/
 void  DuctTeip_Data::configure(){
-  setDataHandle( getParent()->createDataHandle());
+  if ( getParent())
+    setDataHandle( getParent()->createDataHandle());
   setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
   setLocalNumBlocks(config.nb,config.nb);
+  printf("config.Nb=%d.\n",config.Nb);
   setPartition ( config.Nb,config.Nb ) ;      
+  printf("data.Nb=%d.\n",Nb);
 }
-DuctTeip_Data::DuctTeip_Data(int M, int N,IContext  *alg):Data("",M,N,alg){
-  configure();    
+/*--------------------------------------------------------------------------*/
+DuctTeip_Data *DuctTeip_Data::clone(){
+  return new DuctTeip_Data(*this);
 }

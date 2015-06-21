@@ -28,19 +28,19 @@ GCC_COMP_FLAGS=$(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS)
 #########################################################
 headers:=$(shell ls -Sr *.hpp)
 
-all: cholesky
+all: bin/cholesky
 
-cholesky: cholesky.o
+bin/cholesky: bin/cholesky.o
 	$(info )
 	$(info Link with DTLib.)
-	$(LINKER) cholesky.o -L../lib -lductteip $(LINK_FLAGS) -o cholesky 
+	$(LINKER) bin/cholesky.o -L../lib -lductteip $(LINK_FLAGS) -o bin/cholesky 
 	$(info )
 
-cholesky.o : cholesky.cpp $(headers)
+bin/cholesky.o : cholesky.cpp $(headers)
 	$(info )
 	$(info Compile the source file.)
-	$(CPP) -c cholesky.cpp -o cholesky.o $(COMP_FLAGS)
+	$(CPP) -c cholesky.cpp -o bin/cholesky.o $(COMP_FLAGS)
 	$(info )
 
 clean: 
-	rm *.o cholesky
+	rm bin/*

@@ -9,9 +9,19 @@ DUCTTEIP_FLAGS=-I$(HEADER_DIR)
 CPP=mpic++
 LINK=mpif90
 
+
+ifeq ($(CXX),icpc)
 #-----------------------Intel Compiler set---------------------
-LINK_FLAGS=-lm -lrt #-lpthread
-COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) #-mavx  -opt-prefetch -Os -simd
+	LINK_FLAGS=-lm -lrt 
+	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 -mavx  -opt-prefetch -Os -simd 
+else
+#-----------------------GCC Compiler set---------------------
+	GCOV_FLAGS=-fprofile-arcs -ftest-coverage
+	OPTIM_FLAGS=-mavx -march=bdver1 -mfma4 -Ofast  -Wwrite-strings
+	SPECIAL_FLAGS=$(OPTIM_FLAGS)     
+	LINK_FLAGS=-lm -lrt -lpthread
+	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS) 
+endif
 #########################################################
 headers:=$(notdir $(shell ls -Sr $(HEADER_DIR)/*.hpp))
 objnames:=$(headers:%.hpp=%.o)
@@ -35,14 +45,18 @@ $(libfile)($(outdir)/*.o) : $(objects)
 	@ar rcsv $(libfile) $?
 
 $(objects):  $(outdir)/%.o:  $(SOURCE_DIR)/%.cpp $(HEADER_DIR)/%.hpp
-	$(info  )
-	$(info ---------------------------------------------------------)
-	$(info $? is changed, then compile it.)
-	$(info ---------------------------------------------------------)
-	$(info  )
-	$(info mpic++ -c $< -o $@)
+	$(info compile $(notdir $<) )
 	@$(CPP) -c -o $@ $< $(COMP_FLAGS)
 
+#	$(info  )
+#	$(info ---------------------------------------------------------)
+#	$(info $? is changed, then compile it.)
+#	$(info ---------------------------------------------------------)
+#	$(info  )
 
+
+
+test:
+	cd tests/gtests;pwd;bash ./run;cd ../..
 clean: 
 	rm $(outdir)/*.o $(libfile)

@@ -29,8 +29,15 @@ class DataVersion;
 class DataHandle;
 //template <typename T > class Handle;
 class IContext;
+class IDuctteipTask;
 
-
+struct KernelTask : Task<Options>{
+  IDuctteipTask* dt_task;
+  KernelTask(IDuctteipTask*);
+  ~KernelTask();
+  void run(TaskExecutor<Options> &te);
+  string get_name();
+};
 
 typedef unsigned long TaskHandle;
 /*======================= IDuctteipTask ==============================================*/
@@ -49,6 +56,8 @@ private:
   pthread_mutexattr_t  task_finish_ma;
   Handle<Options>    *sg_handle;
   bool                exported,imported;
+  TaskBase<Options>  *sg_task;
+  TaskExecutor<Options> *te;
 public:
   enum TaskType{
     NormalTask,
@@ -62,42 +71,38 @@ public:
     CanBeCleared
   };
   /*--------------------------------------------------------------------------*/
-  IDuctteipTask (IContext *context,
-		 string _name,
-		 unsigned long _key,
-		 int _host, 
-		 list<DataAccess *> *dlist);
+   IDuctteipTask();
+   IDuctteipTask(PropagateInfo *P);
+   IDuctteipTask(IContext *,string,ulong,int,list<DataAccess *> *);
   ~IDuctteipTask();
-  IDuctteipTask();
-  IDuctteipTask(PropagateInfo *P);
   pthread_mutex_t * getTaskFinishMutex();
   void createSyncHandle();
   Handle<Options> *getSyncHandle();
   DuctTeip_Data *getArgument(int index);
-  IData *getDataAccess(int index);
+  IData  *getDataAccess(int index);
   void    setHost(int h )    ;
   int     getHost()          ;
   string  getName()          ;
-  unsigned long getKey();
-  void       setHandle(TaskHandle h)     ;
+  ulong   getKey();
+  void    setHandle(TaskHandle h)     ;
   TaskHandle getHandle()                 ;
-  void          setCommHandle(unsigned long h) ;
-  unsigned long getCommHandle()                ;
+  void       setCommHandle(unsigned long h) ;
+  ulong getCommHandle()                ;
   list<DataAccess *> *getDataAccessList() ;
   void dumpDataAccess(list<DataAccess *> *dlist);
   void dump(char c=' ');
   bool isFinished();
-  int getState();
+  int  getState();
   void setState( int s) ;
-  void    setName(string n ) ;
-  int getPackSize();
+  void setName(string n ) ;
+  int  getPackSize();
   bool canBeCleared() ;
   bool isUpgrading()  ;
   void upgradeData(char);
   bool canRun(char c=' ');
   void setFinished(bool f);
   void run();
-  int serialize(byte *buffer,int &offset,int max_length);
+  int  serialize(byte *buffer,int &offset,int max_length);
   MessageBuffer *serialize();
   void deserialize(byte *buffer,int &offset,int max_length);
   void setExported(bool f) ;
@@ -105,7 +110,11 @@ public:
   void setImported(bool f) ;
   bool isImported();
   bool isRunning();
-  void runPropagateTask();
+  void runPropagateTask(); 
+  IContext *getParentContext(); 
+  TaskExecutor<Options> *getTaskExecutor();
+  void setTaskExecutor(TaskExecutor<Options> *);
+  TaskBase<Options>*getKernelTask();
 };
 /*======================= IDuctteipTask ==============================================*/
 

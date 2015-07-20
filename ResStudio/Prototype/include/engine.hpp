@@ -78,24 +78,27 @@ class engine
 private:
   list<IDuctteipTask*>  task_list,running_tasks,export_tasks,import_tasks;
   bool                  runMultiThread;
-  byte           *prop_buffer;
-  int             term_ok;
-  int             prop_buffer_length,num_threads,local_nb;
-  MailBox        *mailbox;
-  INetwork         *net_comm;
-  list<DuctTeipWork *> work_queue;
-  pthread_t thread_id;
-  pthread_mutex_t thread_lock;
-  pthread_mutexattr_t mutex_attr;
-  pthread_attr_t attr;
-  long last_task_handle,last_listener_handle;
-  list<IListener *> listener_list;
-  TimeUnit start_time;
-  ClockTimeUnit start_clktime;
-  ThreadManager<Options> *thread_manager;
-  Config *cfg;
-  MemoryManager *data_memory;
-  long skip_term,skip_work,skip_mbox,time_out;
+  byte                  *prop_buffer;
+  int             	term_ok;
+  int             	prop_buffer_length,num_threads,local_nb;
+  MailBox        	*mailbox;
+  INetwork         	*net_comm;
+  list<DuctTeipWork *> 	work_queue;
+  pthread_t 		thread_id,mbsend_tid,mbrecv_tid;
+  pthread_mutex_t 	thread_lock,work_ready_mx;
+  pthread_mutexattr_t 	mutex_attr;
+  pthread_cond_t 	work_ready_cv;
+  pthread_attr_t 	attr;
+  long                  last_task_handle,last_listener_handle;
+  list<IListener *> 	listener_list;
+  TimeUnit 		start_time,wasted_time;
+  ClockTimeUnit 	start_clktime;
+  SuperGlue<Options>    *thread_manager;
+  Config 		*cfg;
+  MemoryManager 	*data_memory;
+  long 			skip_term,skip_work,skip_mbox,time_out;
+  int 			thread_model;
+  bool 			task_submission_finished;
   enum { Enter, Leave};
   enum {
     EVEN_INIT     ,
@@ -103,23 +106,22 @@ private:
     FIRST_RECV    ,
     WAIT_FOR_SECOND ,
     SECOND_RECV   ,
-#if TERMINATE_TREE ==1
     TERMINATE_INIT=100,
     LEAF_TERM_OK  =101,
     ONE_CHILD_OK  =102,
     ALL_CHILDREN_OK=103,
     SENT_TO_PARENT=104,
-#endif
     TERMINATE_OK
   };
 public:
+  enum { MAIN_THREAD, ADMIN_THREAD,MBSEND_THREAD,MBRECV_THREAD,TASK_EXEC_THREAD};
   /*---------------------------------------------------------------------------------*/
   engine();
   void start ( int argc , char **argv);
   void initComm();
   ~engine();
   void setSkips(long st,long sw,long sm,long to);
-  ThreadManager<Options> * getThrdManager() ;
+  SuperGlue<Options> * getThrdManager() ;
   int getLocalNumBlocks();
   TaskHandle  addTask(IContext * context,
 		      string task_name,
@@ -150,7 +152,11 @@ public:
   void setConfig(Config *cfg_);
   void prepareReceives();
   void doProcess();
-  static void *doProcessLoop(void *p);
+  static void *doProcessLoop  (void *);
+  static void *runMBSendThread(void *);
+  static void *runMBRecvThread(void *);
+  void signalWorkReady(IDuctteipTask *p=NULL);
+  bool mb_canTerminate(int send_or_recv);
   void putWorkForDataReady(list<DataAccess *> *data_list);
   MemoryItem *newDataMemory();
 private :
@@ -196,15 +202,8 @@ private:
   void receivedTerminateOK_old();
     inline bool IsOdd (int a);
     inline bool IsEven(int a);
-#if TERMINATE_TREE==0
-  void sendTerminateOK();
-  void receivedTerminateOK(int from);
-  void sendTerminateCancel();
-  void receivedTerminateCancel( int from ) ;
-#endif // TERMINATE_TREE
   /*---------------------------------------------------------------------------------*/
   void createThreads();
-#if TERMINATE_TREE==1
   int getParentNodeInTree(int node);
   void getChildrenNodesInTree(int node,int *nodes,int *count);
   bool amILeafInTree();
@@ -212,7 +211,6 @@ private:
   void receivedTerminateOK(int from);
   void receivedTerminateCancel(int from);
   void sendTerminateCancel();
-#endif
   /*======================================================================*/
   struct DLB_Statistics{
     unsigned long tot_try,
@@ -292,12 +290,18 @@ public:
   bool isInList(vector<int>&L,int v);
   int getRandomNodeEx();
   int getRandomNodeOld(int exclude =-1);
+  void setThreadModel(int);
+  int  getThreadModel();
+  long getThreadId(int);
+  MemoryManager *getMemoryManager();
+  void doSelfTerminate();
+  void waitForWorkReady();
 };
 
-#define  DuctTeip_Submit(k,args...) AddTask(this,#k,k,args)
+#define  DuctTeip_Submit(k,args...) AddTask((IContext*)this,#k,k,args)
 void AddTask ( IContext *,string ,unsigned long,IData *,IData *d2,IData *d3);
 void AddTask ( IContext *,string ,unsigned long,IData *                    );
 void AddTask ( IContext *,string ,unsigned long,IData *,IData *d2          );
 
-
+extern engine dtEngine;
 #endif //__ENGINE_HPP__

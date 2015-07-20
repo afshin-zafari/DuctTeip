@@ -45,9 +45,10 @@ IContext::IContext(string _name){
     IData* data;
     for (it = dlist.begin(); it != dlist.end();++it) {
       data = (*it)->getDataByHandle(dh);
-      if ( data ) 
+      if ( data ) {
 	if ( data ->getName().size() != 0 ) 
 	  return data;
+      }
     }
     return NULL;
   }
@@ -95,6 +96,7 @@ IContext::IContext(string _name){
 /*--------------------------------------------------------------------------------------*/
   void IContext::addInOutData(IData *_d){
     in_outData.push_back(_d);
+    LOG_INFO(LOG_MULTI_THREAD,"add in-out data ptr:%p, len:%d\n",_d,in_outData.size());
   }
 /*--------------------------------------------------------------------------------------*/
   void IContext::resetVersions(){
@@ -247,7 +249,6 @@ void AddTask ( IContext *ctx,
   ContextHeader *c=NULL;
   if ( !glbCtx.getTaskReadHostPolicy()->isAllowed(ctx,c) ){
     printf("ctx read task disallowed.\n");
-    dt_log.addEventEnd("ReadTask",DuctteipLog::ReadTask);
     return;
   }
 
@@ -260,7 +261,7 @@ void AddTask ( IContext *ctx,
   dr->col_from = dr->col_to = b.bx;
   c = new ContextHeader ;
   c->addDataRange(IData::WRITE,dr);
-  dt_log.addEventStart("ReadTask",DuctteipLog::ReadTask);
+  LOG_EVENT(DuctteipLog::ReadTask);
 
   
 
@@ -302,14 +303,10 @@ void AddTask ( IContext *ctx,
 
     TaskHandle task_handle =dtEngine.addTask(ctx,s,key,d3->getHost(),dlist);
     
-    PRINT_IF(INSERT_TASK_FLAG) (" @Insert TASK:%s(%ld)  %s,host=%d\n", s.c_str(),task_handle,d3->isOwnedBy(me)?"*":"",me);
     if (d1) d1->dump(' ');
     if (d2) d2->dump(' ');
     d3->dump(' ');
     
-  }
-  else{
-    PRINT_IF(SKIP_TASK_FLAG)(" @Skip TASK:%s  %s,host=%d\n", s.c_str(),d3->isOwnedBy(me)?"*":"",me);
   }
 
   if ( d1 != NULL ) d1->incrementVersion(IData::READ);
@@ -319,7 +316,6 @@ void AddTask ( IContext *ctx,
   delete dr;
   c->clear();
   delete c;
-  dt_log.addEventEnd("ReadTask",DuctteipLog::ReadTask);
 }
 void AddTask ( IContext *ctx,string s,unsigned long key,IData *d1                    ) { AddTask ( ctx,s,key,NULL,NULL , d1);}
 void AddTask ( IContext *ctx,string s,unsigned long key,IData *d1,IData *d2          ) { AddTask ( ctx,s,key,d1  ,NULL , d2);}

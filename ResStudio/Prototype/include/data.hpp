@@ -14,17 +14,17 @@
 #include "dt_log.hpp"
 #include "data_basic.hpp"
 #include "hostpolicy.hpp"
-//#include "glb_context.hpp"
+#include "listener.hpp"
 using namespace std;
 
 extern int me;
 //class IData;
 class IHostPolicy ;
 class IContext;
-class IListener;
+//class IListener;
 class IDuctteipTask;
 class MailBox;
-typedef IListener DataListener;
+//typedef IListener DataListener;
 
 /*========================== IData Class =====================================*/
 class IData
@@ -96,11 +96,10 @@ public:
   /*--------------------------------------------------------------------------*/
   void dataIsSent(int _host) ;
   /*--------------------------------------------------------------------------*/
-  void listenerAdded(DataListener *,int host , DataVersion version ) ;
+  void listenerAdded(IListener *,int host , DataVersion version ) ;
   /*--------------------------------------------------------------------------*/
   DataVersion getRunTimeVersion(byte type); 
   void setRunTimeVersion(string to_ctx, int to_version);
-  void deleteListenersForOldVersions();
   void incrementRunTimeVersion(byte type,int v = 1 );
   int   getHost();
   IData *operator () (const int i,const int j=0) ;    
@@ -137,7 +136,7 @@ public:
   void dumpCheckSum(char c='i');
   bool isExportedTo(int p ) ;
   void setExportedTo(int p);
-
+  void setName(string s);
 };
 /*========================== IData Class =====================================*/
 

@@ -3,6 +3,8 @@
 #include "glb_context.hpp"
 #include "context.hpp"
 
+
+#define SUBTASK 0
   /*--------------------------------------------------------------------------*/
   IDuctteipTask::IDuctteipTask (IContext *context,
 		 string _name,
@@ -25,6 +27,9 @@
     pthread_mutexattr_settype(&task_finish_ma,PTHREAD_MUTEX_ERRORCHECK);
     pthread_mutex_init(&task_finish_mx,&task_finish_ma);
     exported = imported = false;
+#if SUBTASK ==1
+    sg_task = new KernelTask(this);
+#endif
 
   }
   /*--------------------------------------------------------------------------*/
@@ -43,6 +48,7 @@ IDuctteipTask::~IDuctteipTask(){
     message_buffer = NULL;
     sg_handle = NULL;
     exported = imported = false;
+    //    sg_task = new KernelTask(this);    
   }
   /*--------------------------------------------------------------------------*/
   pthread_mutex_t * IDuctteipTask::getTaskFinishMutex(){
@@ -70,12 +76,10 @@ IDuctteipTask::~IDuctteipTask(){
   void    IDuctteipTask::setHost(int h )    { host = h ;  }
   int     IDuctteipTask::getHost()          { return host;}
   string  IDuctteipTask::getName()          { return name + '-'+ to_string(handle);}
-  unsigned long IDuctteipTask::getKey(){ return key;}
-
-  void       IDuctteipTask::setHandle(TaskHandle h)     { handle = h;}
+  ulong   IDuctteipTask::getKey(){ return key;}
+  void    IDuctteipTask::setHandle(TaskHandle h)     { handle = h;}
   TaskHandle IDuctteipTask::getHandle()                 {return handle;}
-
-  void          IDuctteipTask::setCommHandle(unsigned long h) { comm_handle = h;   }
+  void          IDuctteipTask::setCommHandle(ulong h) { comm_handle = h;   }
   unsigned long IDuctteipTask::getCommHandle()                { return comm_handle;}
 
   /*--------------------------------------------------------------------------*/
@@ -120,14 +124,19 @@ IDuctteipTask::~IDuctteipTask(){
     bool dbg=  (c !=' ')|| DLB_MODE;
     bool result=true;
     char stats[8]="WRFUC";
+    TimeUnit t= getTime();
+    static TimeUnit tot=0;
     char xi=isExported()?'X':(isImported()?'I':' ');
     if ( isExported() ) {
+      LOG_INFO(LOG_TASKS,"Task is exported.\n");
       return false;
     }
     if ( state == Finished ) {
+      LOG_INFO(LOG_TASKS,"Task already finished.\n");
       return false;
     }
     if ( state >= Running ){
+      LOG_INFO(LOG_TASKS,"Task is still running.\n");
       return false;
     }
     if (0 && dbg)printf("**task %s dep :  state:%d\n",	   getName().c_str(),	   state);
@@ -146,6 +155,14 @@ IDuctteipTask::~IDuctteipTask(){
       
       
       if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
+	/*
+	LOG_INFO(LOG_MULTI_THREAD ,"(%c)Task %s data %s is not ready,rt:ver:%s  rq-ver:%s.\n",
+		 c,
+		 getName().c_str(),
+		 (*it)->data->getName().c_str(),
+		 (*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str(),
+		 (*it)->required_version.dumpString().c_str());
+	*/
 	result=false;      
       }
     }
@@ -153,6 +170,8 @@ IDuctteipTask::~IDuctteipTask(){
       if(dbg)printf("%c(%c)%s %c%c\n%s %ld\n",c,result?'+':'-',s1.c_str(),stats[state-2],xi,s2.c_str(),getTime());
       else   printf("%c[%c]%s %c%c\n%s %ld\n",c,result?'+':'-',s1.c_str(),stats[state-2],xi,s2.c_str(),getTime());
     }
+    tot += getTime() - t;
+    //    LOG_INFO(LOG_MULTI_THREAD ,"Local cost %ld\n",tot);
     return result;
   }
   /*--------------------------------------------------------------------------*/
@@ -249,8 +268,11 @@ void IDuctteipTask::run(){
   }
   else{
     state = Running;
-    if(0)printf("%s starts running:\n",getName().c_str());
+#if SUBTASK ==1
+    dtEngine.getThrdManager()->submit(sg_task);
+#else
     parent_context->runKernels(this);
+#endif
   }
 }
 /*--------------------------------------------------------------*/
@@ -259,28 +281,56 @@ void IDuctteipTask::setFinished(bool flag){
     return ;
   state = IDuctteipTask::Finished;
   dt_log.addEventEnd(this,DuctteipLog::Executed);
-  PRINT_IF(OVERSUBSCRIBED)("-----task:%s finish mutex unlocked,time:%Ld,st:%d,fin=%d,",
-			   getName().c_str(),getTime(),state,IDuctteipTask::Finished);
-  PRINT_IF(OVERSUBSCRIBED)("remained:%ld\n",dtEngine.getUnfinishedTasks());
+  //  LOG_INFO(LOG_MULTI_THREAD,"%s\n",getName().c_str());
+  dtEngine.signalWorkReady(this);
 }
 /*--------------------------------------------------------------*/
 void IDuctteipTask::upgradeData(char c){
   list<DataAccess *>::iterator it;
-  string s;
-  s=getName();
   if ( type == PropagateTask ) 
     return;
   for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-    s+="\n         - "+(*it)->data->getName()+" "+(*it)->data->dumpVersionString();
-    PRINT_IF(DATA_UPGRADE_FLAG)("** data upgraded :%s,%Ld\n",
+    
+    LOG_INFO(LOG_TASKS,"data:%s,%Ld\n",
 				(*it)->data->getName().c_str(),
 				dtEngine.elapsedTime(TIME_SCALE_TO_MILI_SECONDS));
     (*it)->data->incrementRunTimeVersion((*it)->type);
-    s+="\n                   "+(*it)->data->dumpVersionString();
+    /*
+    LOG_INFO(LOG_MULTI_THREAD,"%s, data:%s, rt-ver:%s\n",
+	     getName().c_str(),
+	     (*it)->data->getName().c_str(),
+	     (*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str());
+    */
+    
     dt_log.addEvent((*it)->data, DuctteipLog::RunTimeVersionUpgraded);    
 
   }
-  if(0)printf("%c(*)%s %ld\n",c,s.c_str(),getTime());
   state = CanBeCleared;
   dtEngine.putWorkForDataReady(data_list);
 }
+/*--------------------------------------------------------------*/
+KernelTask::KernelTask(IDuctteipTask *t):dt_task(t){
+  register_access(ReadWriteAdd::read, *dt_task->getSyncHandle());
+}
+/*--------------------------------------------------------------*/
+KernelTask::~KernelTask(){
+  dt_task->setFinished(true);
+}
+/*--------------------------------------------------------------*/
+void KernelTask::run(TaskExecutor<Options> &te){
+  dt_task->setTaskExecutor(&te);
+  dt_task->getParentContext()->runKernels(dt_task);
+}
+/*--------------------------------------------------------------*/
+string KernelTask::get_name(){
+  return dt_task->getName() + "Kernel";
+}
+/*--------------------------------------------------------------*/
+IContext *IDuctteipTask::getParentContext(){return parent_context;}
+/*--------------------------------------------------------------*/
+TaskExecutor<Options> *IDuctteipTask::getTaskExecutor(){return te;}
+/*--------------------------------------------------------------*/
+void IDuctteipTask::setTaskExecutor(TaskExecutor<Options> *tt){te=tt;}
+/*--------------------------------------------------------------*/
+TaskBase<Options>*IDuctteipTask::getKernelTask(){return sg_task;}
+/*--------------------------------------------------------------*/

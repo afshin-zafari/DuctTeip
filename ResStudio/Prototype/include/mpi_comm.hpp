@@ -5,6 +5,10 @@
 #include "mpi.h"
 #include "network.hpp"
 #include "dt_log.hpp"
+#include "memory_manager.hpp"
+#include "mailbox.hpp"
+#include "engine.hpp"
+
 
 extern int me;
 
@@ -14,6 +18,8 @@ public:
   MPI_Request *request;
   int tag;
   unsigned long handle,length;
+  byte *buf;
+  MemoryItem *mem;
   ClockTimeUnit start_time;
   CommRequest():request(NULL),tag(-1),handle(-1){}
   CommRequest(MPI_Request *mr,int t,unsigned long h,unsigned long len=0);
@@ -22,7 +28,7 @@ public:
 /*============================================================================*/
 typedef struct {
   MPI_Request *list;
-  int count,postdata_index,send_index,postlsnr_index,postterm_index;
+  int count,send_index;
   unsigned long *handles;
   int *tags;
 }RequestList;
@@ -30,39 +36,40 @@ typedef struct {
 class MPIComm : public  INetwork
 {
 private:
-  unsigned long last_comm_handle,last_postdata,last_postlsnr,last_postterm;// ToDo
-  list <CommRequest*> request_list,postdata_list,postlsnr_list,postterm_list;
-  int rank;
-  bool  thread_enabled;
-  unsigned long tot_sent_len;
-  TimeUnit tot_sent_time;
-  MPI_Request  last_receive;
+  list <CommRequest*> request_list;
+  ulong           last_comm_handle;
+  int             rank,prcv_count;
+  bool            thread_enabled;
+  ulong           tot_sent_len;
+  TimeUnit        tot_sent_time,recv_time;
+  MPI_Request     last_receive,*prcv_reqs;
+  vector<CommRequest *> prcv_vect;
+  pthread_mutex_t send_mx;
+  pthread_cond_t  send_cv;
 public:
   /*--------------------------------------------------------------------------*/
-  MPIComm(){}
-  void initialize();
+  MPIComm(){recv_time=0;}
   ~MPIComm();
-  bool canTerminate();
-  unsigned long send ( byte *buffer, int length, int tag, int dest,bool wait=false);
-  unsigned long  postDataReceive(byte *buffer, int length , int tag, int source,unsigned long key);
-  unsigned long  postListenerReceive(byte *buffer, int length ,int tag, int source);
-  unsigned long  postTerminateReceive(byte *buffer, int length ,int tag, int source);
-  bool isAnyDataPostCompleted(int *tag,unsigned long *handle);
-  bool isAnyListenerPostCompleted(int *tag,unsigned long *handle);
-  bool isAnyTerminatePostCompleted(int *tag,unsigned long *handle);
-  bool isAnyPostCompleted(int *tag,unsigned long *handle);
-  int receive ( byte *buffer, int length, int tag, int source,bool wait=true);
-  bool isLastReceiveCompleted(bool *is_any);
-  bool isAnySendCompleted(int *tag,unsigned long *handle);
-  int probe(int *tag,int *source,int *length,bool wait);
-  int probeTags(int *tag,int n,int *source,int *length,int *outtag);
-  int initialize(int argc,char **argv);
-  int finish();    
-  int get_host_id();
-  int get_host_count();
-  bool canMultiThread() ;    
-  void barrier();    
-  void getRequestList(RequestList *req_list);
+  ulong send ( byte *buffer, int length, int tag, int dest,bool wait=false);
+  void  initialize();
+  bool  canTerminate();
+  int   receive ( byte *buffer, int length, int tag, int source,bool wait=true);
+  bool  isAnySendCompleted(int *tag,unsigned long *handle);
+  int   probe(int *tag,int *source,int *length,bool wait);
+  int   probeTags(int *tag,int n,int *source,int *length,int *outtag);
+  int   initialize(int argc,char **argv);
+  int   finish();    
+  int   get_host_id();
+  int   get_host_count();
+  bool  canMultiThread() ;    
+  void  barrier();    
+  void  getRequestList(RequestList *req_list);
+  void  waitForAnySendComplete(int *tag,ulong *handle);
+  void  waitForAnyReceive(int *,int *,int *);
+  void  waitForSend();
+  void  removeRequest(MPI_Request req,ulong handle);
+  void postReceiveData(int,int, void *);
+  bool anyDataReceived(void  *event);
 
 };
 #endif //__MPI_COMM_HPP__

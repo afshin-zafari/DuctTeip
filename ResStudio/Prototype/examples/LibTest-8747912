@@ -1,0 +1,33 @@
+mod: loaded OpenMPI 1.8.1, compiled with intel13.1 (found in /opt/openmpi/1.8.1intel13.1/)
++ P=2
++ p=2
++ q=1
++ ipn=1
++ N=15120
++ B=7
++ b=6
++ nt=16
++ DLB=0
++ params='2 1 15120 7 6 16 0 1 50'
++ outfile=devel_test.out
++ ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
++ ACML_LIB=/home/afshin/acml/acmllib/ifort64_fma4/lib/libacml.a
++ alloc_mem='--mca mpi_show_mpi_alloc_mem_leaks 0 '
++ handle_leaks='--mca mpi_show_handle_leaks 1 '
++ show_params=' --mca mpi_show_mca_params 0 '
++ full_help=' --mca orte_base_help_aggregate 0 '
++ free_handles=' --mca mpi_no_free_handles 1'
++ mca_params=' --mca mpi_show_mca_params 0  --mca mpi_show_handle_leaks 1  --mca mpi_show_mpi_alloc_mem_leaks 0   --mca orte_base_help_aggregate 0   --mca mpi_no_free_handles 1'
++ mpi_params=' --mca mpi_show_mca_params 0  --mca mpi_show_handle_leaks 1  --mca mpi_show_mpi_alloc_mem_leaks 0   --mca orte_base_help_aggregate 0   --mca mpi_no_free_handles 1 --map-by ppr:1:node --output-filename devel_test.out '
++ export LD_LIBRARY_PATH=/home/afshin/acml/acmllib/ifort64_fma4/lib:/opt/openmpi/1.8.1intel13.1/lib:/sw/comp/intel/Compiler/composer_xe_2013.3.163/compiler/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/mkl/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/ipp/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/tbb/intel64/em64t/cc4.1.0_libc2.4_kernel2.6.16.21
++ LD_LIBRARY_PATH=/home/afshin/acml/acmllib/ifort64_fma4/lib:/opt/openmpi/1.8.1intel13.1/lib:/sw/comp/intel/Compiler/composer_xe_2013.3.163/compiler/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/mkl/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/ipp/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/tbb/intel64/em64t/cc4.1.0_libc2.4_kernel2.6.16.21
++ cd bin
++ mpirun -n 2 --mca mpi_show_mca_params 0 --mca mpi_show_handle_leaks 1 --mca mpi_show_mpi_alloc_mem_leaks 0 --mca orte_base_help_aggregate 0 --mca mpi_no_free_handles 1 --map-by ppr:1:node --output-filename devel_test.out cholesky 2 1 15120 7 6 16 0 1 50
++ echo Finished.
+Finished.
++ grep -i error devel_test.out.1.0 devel_test.out.1.1
+devel_test.out.1.0:      src/engine.cpp, 241, canTerminate                    , tid: 80500700,  52691 ::error: timeout
+devel_test.out.1.0:error: [4321,2161]A(2,1).(0,0):2159.000000 != -1.000000
+devel_test.out.1.1:      src/engine.cpp, 241, canTerminate                    , tid: D8000700,  52124 ::error: timeout
+devel_test.out.1.1:error: [2161,3]A(1,0).(0,1):0.000000 != -1.000000
++ cd ..

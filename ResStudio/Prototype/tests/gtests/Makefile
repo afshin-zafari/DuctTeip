@@ -1,22 +1,42 @@
 DUCTTEIP_DIR=/pica/h1/afshin/TBP/DuctTeip/ResStudio/Prototype
+DUCTTEIP_INC=$(DUCTTEIP_DIR)/include
+DUCTTEIP_LIB=$(DUCTTEIP_DIR)/lib
+
 GTEST_DIR=/pica/h1/afshin/gtest/gtest-1.7.0
 GTEST_DIR_INC=$(GTEST_DIR)/include
 GTEST_DIR_LIB=$(GTEST_DIR)/lib/.libs
+
+
 GTEST_MAIN_SRC=$(GTEST_DIR)/gtest_main.cc
 GTEST_MAIN_OBJ=$(GTEST_DIR)/gtest_main.o
-CFLAGS= -c -I$(DUCTTEIP_DIR) -I$(GTEST_DIR_INC)
-CFLAGS_LIB= -L$(GTEST_DIR_LIB) -lgtest -L /opt/openmpi/1.6intel13.1/lib
+SUPERGLUE_INC=/pica/h1/afshin/TBP/superglue/include
+CFLAGS= -c -I$(DUCTTEIP_INC) -I$(GTEST_DIR_INC) -I$(SUPERGLUE_INC) 
+CFLAGS_LIB= -L$(GTEST_DIR_LIB) -L$(DUCTTEIP_LIB) -lgtest -lductteip -lm -lrt -lstdc++ 
 CXX=mpic++
 
 
-all: config_utest.o config_utest 
+outdir=./temp
+appdir=./bin
+TEST_CASES:=$(notdir $(wildcard *.cpp) )
+objnames:=$(TEST_CASES:%.cpp=%.o)
+objects:=$(addprefix $(outdir)/,$(objnames))
+appnames:=$(TEST_CASES:%.cpp=%.test)
+apps:=$(addprefix $(appdir)/,$(appnames))
 
-config_utest.o: config_utest.cpp $(DUCTTEIP_DIR)/config.hpp
-	$(CXX) $(CFLAGS) config_utest.cpp -o config_utest.o
+all: $(apps)
 
-config_utest: config_utest.o
-	$(CXX) $(CFLAGS_LIB) config_utest.o -o $@
+
+$(objects): $(outdir)/%.o: %.cpp
+	@$(CXX) $(CFLAGS) $< -o $@
+
+$(apps): $(appdir)/%.test: $(outdir)/%.o 
+	$(info )
+	@$(CXX) $<  $(CFLAGS_LIB) -o $@
+	$(info --------------------------------------------------)
+	$(info --> $(@F))
+	$(info --------------------------------------------------)
+
 
 clean:
-	rm config_utest.o config_utest
+	@rm -r $(apps) $(objects) $(outdir)/* > /dev/null 2>&1
 .PHONY: all clean

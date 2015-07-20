@@ -19,9 +19,8 @@ int ProcessGrid::getProcessorCount(){return P;}
 int ProcessGrid::getGroupCount() {return G;}
 /*-----------------------------------------------*/
 bool ProcessGrid::isInList(int _p, list<int> *plist){
-  list<int>::iterator it ;
-  for ( it = plist->begin(); it != plist->end(); it ++ )
-    if ( *it == _p )
+  for( int i : *plist)
+    if ( i == _p )
       return true;
   return false;
 }

@@ -9,7 +9,7 @@ struct TrsmTask : public Task<Options, 3> {
     os << setfill('0') << setw(4) <<dt_task->getHandle() << " sg_trsm ";
     log_name = os.str();
   }
-    void run() {
+    void run(TaskExecutor<Options> &te) {
       if ( simulation) return;
       PRINT_IF(KERNEL_FLAG)("[%ld] : sg_trsm task starts running.A:%s, B:%s\n",pthread_self(),
 			  getAccess(1).getHandle()->name,
@@ -25,20 +25,23 @@ struct TrsmTask : public Task<Options, 3> {
       dumpData(b,M,N,'t');
       if (DEBUG_DLB_DEEP) printf("[%ld] r  T: %p %ld %p\n",pthread_self(),a,M*M*sizeof(double),a+M*M);
       if (DEBUG_DLB_DEEP) printf("[%ld]  w T: %p %ld %p\n",pthread_self(),b,M*M*sizeof(double),b+M*M);
-#ifdef BLAS
-      // void dtrsm(char side, char uplo, char transa, char diag, 
-      //            int m, int n, double alpha, double *a, int lda, double *b, int ldb);
-      dtrsm('R','L','T','N',N,N,1.0,a,N,b,N);
-#else
-      for ( int i = 0 ; i < M; i ++){
-	for ( int j =0 ; j< M; j++){
-	  for ( int k=0;k<i;k++) {
-	    Mat(b,j,i) -= Mat(b,j,k) *Mat(a,i,k);
+      if(config.using_blas){
+	// void dtrsm(char side, char uplo, char transa, char diag, 
+	//            int m, int n, double alpha, double *a, int lda, double *b, int ldb);
+	//	LOG_INFO(LOG_MULTI_THREAD,"a mem:%p, N:%d\n",a,N);
+	//	LOG_INFO(LOG_MULTI_THREAD,"b mem:%p, N:%d\n",b,N);
+	dtrsm('R','L','T','N',N,N,1.0,a,N,b,N);
+      }
+      else{
+	for ( int i = 0 ; i < M; i ++){
+	  for ( int j =0 ; j< M; j++){
+	    for ( int k=0;k<i;k++) {
+	      Mat(b,j,i) -= Mat(b,j,k) *Mat(a,i,k);
+	    }
+	    Mat(b,j,i) /= Mat(a,i,i);
 	  }
-	  Mat(b,j,i) /= Mat(a,i,i);
 	}
       }
-#endif
       dumpData(b,M,N,'T');
       if ( ! check_trsm(b,M,N)){
 	printf("CalcError in Task:%s,%s\n",dt_task->getName().c_str(),log_name.c_str());

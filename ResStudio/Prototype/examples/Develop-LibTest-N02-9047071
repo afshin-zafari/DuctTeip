@@ -1,0 +1,37 @@
+mod: loaded OpenMPI 1.4.5, compiled with intel13.1 (found in /opt/openmpi/1.4.5intel13.1/)
+          Thread support: posix (mpi: yes, progress: no)
+   FT Checkpoint support: no  (checkpoint thread: no)
++ DLB=0
++ P=2
++ p=2
++ q=1
++ ipn=1
++ nt=16
++ N=15120
++ ps=2500
++ B=14
++ b=3
++ to=50
++ outfile=devel_test_N02.out
++ params='-P 2 -p 2 -q 1 -N 15120 14 3 -I 1 -T 50 -t 16 -S 2500'
++ params_long='--num-proc 2 --proc-grid-row 2 --proc-grid-col 1 --data-rows 15120 14 3 --ipn 1 --timeout 50 --num-threads 16 --poll-sleep 2500 '
++ ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
++ ACML_LIB=/home/afshin/acml/acmllib/ifort64_fma4/lib/libacml.a
++ alloc_mem='--mca mpi_show_mpi_alloc_mem_leaks 1 '
++ handle_leaks='--mca mpi_show_handle_leaks 1 '
++ show_params=' --mca mpi_show_mca_params 1 '
++ full_help=' --mca orte_base_help_aggregate 0 '
++ free_handles=' --mca mpi_no_free_handles 1'
++ mca_params=' --mca mpi_show_mca_params 1  --mca mpi_show_handle_leaks 1  --mca mpi_show_mpi_alloc_mem_leaks 1   --mca orte_base_help_aggregate 0   --mca mpi_no_free_handles 1'
++ mpi_params=' --map-by ppr:1:node --output-filename devel_test_N02.out '
++ mpi_params=' -npernode 1 --output-filename devel_test_N02.out'
++ export LD_LIBRARY_PATH=/home/afshin/acml/acmllib/ifort64_fma4/lib:/opt/openmpi/1.4.5intel13.1/lib:/sw/comp/intel/Compiler/composer_xe_2013.3.163/compiler/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/mkl/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/ipp/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/tbb/intel64/em64t/cc4.1.0_libc2.4_kernel2.6.16.21
++ LD_LIBRARY_PATH=/home/afshin/acml/acmllib/ifort64_fma4/lib:/opt/openmpi/1.4.5intel13.1/lib:/sw/comp/intel/Compiler/composer_xe_2013.3.163/compiler/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/mkl/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/ipp/lib/intel64:/sw/comp/intel/Compiler/composer_xe_2013.3.163/tbb/intel64/em64t/cc4.1.0_libc2.4_kernel2.6.16.21
++ cd bin
++ mpirun -n 2 -npernode 1 --output-filename devel_test_N02.out cholesky --num-proc 2 --proc-grid-row 2 --proc-grid-col 1 --data-rows 15120 14 3 --ipn 1 --timeout 50 --num-threads 16 --poll-sleep 2500
++ echo Finished.
+Finished.
++ grep -i error devel_test_N02.out.1.0 devel_test_N02.out.1.1
++ grep '\[\*' devel_test_N02.out.1.0 devel_test_N02.out.1.1
+devel_test_N02.out.1.0:[****] Time= 7.465863, N = 15120 , NB= 14 , nb= 3 , p= 2, q = 1, gf= 154.331328
++ cd ..

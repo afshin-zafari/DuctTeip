@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <sched.h>
 #include <errno.h>
+#include <pthread.h>
 
 
 #define registerAccess register_access
@@ -26,13 +27,14 @@
 #endif
 
 
+#define PRINT_IF(a) if(a)printf
 #define DLB_DEBUG 0
 #define DLB_BUSY_TASKS 5
 #define DLB_MODE 0
+#define POST_RECV_DATA 1
 
 #define DEBUG 0
 
-#define TERMINATE_TREE  1
 
 #define DUMP_FLAG DEBUG
 #define EXPORT_FLAG 0
@@ -46,15 +48,40 @@
 #define OVERSUBSCRIBED    0
 #define POSTPRINT         0
 
-#define TRACE_LOCATION printf("%s , %d\n",__FILE__,__LINE__);
-//#define  TRACE_LOCATION
-//#define TRACE_ALLOCATION(a) printf("alloc mem %s,%d, %ld\n",__FILE__,__LINE__,a)
-#define TRACE_ALLOCATION(a) 
-//#define TRACE(a) TRACE_LOCATION;printf(a);
-#define TRACE(a)
 
-
+typedef unsigned long ulong;
 typedef unsigned char byte;
+
+
+#define LOG_MULTI_THREAD 1
+#define LOG_DLB          2
+#define LOG_CONFIG       4
+#define LOG_DATA         8
+#define LOG_COMM         16
+#define LOG_PROFILE      32
+#define LOG_TASKS        64
+#define LOG_LISTENERS    128
+#define LOG_TESTS        1024
+
+
+#define DEBUG   0
+#define RELEASE 1
+
+#define BUILD DEBUG
+
+#define LOG_FLAG  (LOG_MULTI_THREAD +LOG_PROFILE)
+#if BUILD == RELEASE
+#define LOG_INFO(a,b,c...) 
+#else
+#define LOG_INFO(f,p,args...) if((LOG_FLAG &(f))||((f)==LOG_TESTS)){		\
+    fprintf(stderr,"%20s,%4d, %-32s, tid:%9ld, %6ld ::",__FILE__,__LINE__,__FUNCTION__,(ulong)pthread_self(),UserTime()); \
+    fprintf(stderr,p , ##args);						\
+  }
+#endif
+#define LOG_ERROR(p,args...) fprintf(stderr,p , ##args )
+
+
+
 using namespace std;
 
 struct Buffer{
@@ -84,7 +111,9 @@ typedef unsigned long ClockTimeUnit;
 #ifdef MPI_WALL_TIME
 typedef unsigned long TimeUnit;
 static inline TimeUnit getTime(){
-  return (TimeUnit)(MPI_Wtime()*1000000000);  
+  double ti=MPI_Wtick()/1000;
+  
+  return (TimeUnit)(MPI_Wtime()/ti);  
 }
 #else
 typedef Time::TimeUnit  TimeUnit;
@@ -93,6 +122,10 @@ static inline TimeUnit getTime(){
 }
 #endif
 
+TimeUnit UserTime    ();
+void     SetStartTime();
+extern TimeUnit StartTime     ;
+
 static inline ClockTimeUnit getClockTime(int unit) {
   timeval tv;
   gettimeofday(&tv, 0);
@@ -100,6 +133,8 @@ static inline ClockTimeUnit getClockTime(int unit) {
     return (tv.tv_sec*(ClockTimeUnit)unit+tv.tv_usec/unit);
   return (tv.tv_sec*(ClockTimeUnit)unit+tv.tv_usec);
 }
+
+void flushBuffer(byte *,int);
 
 template<class T> 
 void copy(byte * b,int &o,T a){
@@ -113,58 +148,5 @@ void paste(byte * b,int &o,T *a){
 }
 
 
-
-enum verbs_ {
-  V_RCVD,
-  V_SEND,
-  V_TERMINATED,
-  V_ADDED,
-  V_CHECK_DEP,
-  V_DUMP,
-  V_CHECK_RDY,
-  V_REMOVE
-} ;
-
-enum objects_{
-  O_TASK,
-  O_DATA,
-  O_LSNR,
-  O_PROG
-};
-
-
-
-#define PRINT_IF(a) if(a) printf
-
-# if EXPORT_FLAG != 0
-#  define export(a,b) export_( a,b,__FILE__,__LINE__)
-#  define export_end(a) export_end_(a,__FILE__,__LINE__)
-#  define export_prefix printf("\nfile:%-12.12s,line:%4.4d,time:%ld,thread-id:%ld",file.c_str(),line,(long)getTime(),pthread_self())
-
-    void export_(int verb, int object,string file,int line)
-    {
-      export_prefix;
-      printf(" ,verb:%s,obj:%s,",verb_str(verb).c_str(),obj_str(object).c_str());
-    }
-    void export_end_(int verb,string file,int  line)
-    {
-      export_prefix;
-      printf(",/verb:%s,\n",verb_str(verb).c_str());      
-    }
-#  define export_int(a)    printf ( ",%s:%d," ,#a,a)
-#  define export_long(a)   printf ( ",%s:%ld,",#a,a)
-#  define export_time(a)   printf ( ",%s:%Ld,",#a,a)
-#  define export_str(a)    printf ( ",%s:%s," ,#a,a)
-#  define export_info(f,v) printf ( f,v)
-# else // undefine all export macros 
-#  define export(a,b) 
-#  define export_end(a) 
-#  define export_prefix 
-#  define export_int(a)    
-#  define export_long(a)   
-#  define export_time(a) 
-#  define export_str(a)    
-#  define export_info(f,v) 
-# endif // EXPORT_FLAG
 
 #endif //__BASIC_HPP__

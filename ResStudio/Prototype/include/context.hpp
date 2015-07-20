@@ -18,7 +18,6 @@
 #include "data_basic.hpp"
 
 using namespace std;
-extern engine dtEngine;
 
 extern int me,version,simulation;
 

@@ -68,7 +68,7 @@ DuctteipLog dt_log;
       stats[e].count ++;
     }
     if ( e == ProgramExecution ) {
-      printf("ProgExec , st:%ld end:%ld\n",stats[e].start,t ) ;
+      LOG_INFO(LOG_PROFILE,"ProgExec , st:%ld end:%ld\n",stats[e].start,t ) ;
     }
 
   }
@@ -158,7 +158,7 @@ DuctteipLog dt_log;
       updateStatisticsPair(event);
     }
     if ( event == ProgramExecution ) {
-      printf ( "ProgExec index:%ld , dur:%lf\n",events_list.size(),stats[ProgramExecution].total ) ;
+      LOG_INFO(LOG_PROFILE, "ProgExec index:%ld , dur:%lf\n",events_list.size(),stats[ProgramExecution].total ) ;
     }
   } 
 /*----------------------------------------------------------------------------*/
@@ -201,7 +201,7 @@ DuctteipLog dt_log;
     DataPackSize = DataPackSize_;
     ListenerPackSize = ListenerPackSize_;
     TaskPackSize = TaskPackSize_;
-    printf("@stats Msg Sizes D,T,L: %ld,%ld,%ld\n",DataPackSize,TaskPackSize,ListenerPackSize);
+    fprintf(stderr,"@stats Msg Sizes D,T,L: %ld,%ld,%ld\n",DataPackSize,TaskPackSize,ListenerPackSize);
     nodes = nodes_;
     for ( int i =0; i< 3; i++){
       commStats[i] = new long[nodes];
@@ -327,7 +327,7 @@ DuctteipLog dt_log;
   void DuctteipLog::mergePairEvents(){
     unsigned long merged_count =0;
     list<EventInfo *>::iterator it,it2;
-    printf("log merge,events.count :%ld\n",events_list.size());
+    fprintf(stderr,"log merge,events.count :%ld\n",events_list.size());
     
     for ( it = events_list.begin();it !=  events_list.end(); it++) {
       EventInfo *e1 = (*it);
@@ -351,7 +351,6 @@ DuctteipLog dt_log;
 	updateStatistics(e1->event_id,e1->length);
       
     }
-    PRINT_IF(1)("log merge,merged events:%ld\n",merged_count);
   }
 /*----------------------------------------------------------------------------*/
    void DuctteipLog::dump(long sg_task_count){
@@ -381,23 +380,24 @@ DuctteipLog dt_log;
     if ( !simulation)
       dumpStatistics();
     if ( me == 0)
-      printf("[****] Time= %lf, N = %ld , NB= %ld , nb= %ld , p= %ld, q = %ld, gf= %lf\n",
+      fprintf(stderr,"[****] Time= %lf, N = %ld , NB= %ld , nb= %ld , p= %ld, q = %ld, gf= %lf\n",
 	     stats[ProgramExecution].total,N,NB,nb,p,q,double(N*N*N/3e9/stats[ProgramExecution].total));
     log_file.close();
   }
 /*----------------------------------------------------------------------------*/
    void DuctteipLog::dumpStatistics(){
+     return ; 
      char dash[10]="---------";
-     printf("@stats Node\tEvent\t\t Count\t Sum.Duration\t Average\t Min\t\t Max\t\t\n");
+     fprintf(stderr,"@stats Node\tEvent\t\t Count\t Sum.Duration\t Average\t Min\t\t Max\t\t\n");
      for ( int i=0; i < NumberOfEvents ; i ++){
        if (stats[i].minimum == MIN_INIT_VAL ) 
 	 stats[i].minimum =0;
        if ( !isPairEvent(i) && i != EventsWork){
-	printf("@stats %d %22.22s %6ld\t %10s \t %10s \t %10s \t %10s\n",
+	fprintf(stderr,"@stats %d %22.22s %6ld\t %10s \t %10s \t %10s \t %10s\n",
 	       me,getEventName(i).c_str(),stats[i].count,dash,dash,dash,dash);
       }
       else
-	printf("@stats %d %22.22s %6ld\t %9.2lf \t %9.2lf \t %9.2lf \t %9.2lf\n",
+	fprintf(stderr,"@stats %d %22.22s %6ld\t %9.2lf \t %9.2lf \t %9.2lf \t %9.2lf\n",
 	       me,getEventName(i).c_str(),
 	       stats[i].count,
 	       stats[i].total,
@@ -408,9 +408,9 @@ DuctteipLog dt_log;
    
      for ( int i=0; i< nodes; i++){
        if ( i == me ) continue;
-       printf("@stats %d     SentDataSize %7ld ToNode %d\n",me,commStats[0][i],i);
-       printf("@stats %d SentListenerSize %7ld ToNode %d\n",me,commStats[1][i],i);
-       printf("@stats %d     SentTaskSize %7ld ToNode %d\n",me,commStats[2][i],i);
+       fprintf(stderr,"@stats %d     SentDataSize %7ld ToNode %d\n",me,commStats[0][i],i);
+       fprintf(stderr,"@stats %d SentListenerSize %7ld ToNode %d\n",me,commStats[1][i],i);
+       fprintf(stderr,"@stats %d     SentTaskSize %7ld ToNode %d\n",me,commStats[2][i],i);
      }
    }
 /*----------------------------------------------------------------------------*/
@@ -440,7 +440,7 @@ DuctteipLog dt_log;
   }
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::dumpLoads(){
-    char s[20];
+    char s[40];
     sprintf(s,"dt_load_file-%2.2d.txt",me);
     dumpLoad(load_list,s);
     sprintf(s,"dt_export_file-%2.2d.txt",me);
@@ -450,7 +450,7 @@ DuctteipLog dt_log;
   }
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::dumpSimulationResults(long sg_task_count){
-    printf("\n@Simulation: N=%ld,P=%d, p=%ld,q=%ld,B=%ld,b=%ld,k=%d,"\
+    fprintf(stderr,"\n@Simulation: N=%ld,P=%d, p=%ld,q=%ld,B=%ld,b=%ld,k=%d," \
 	   "t=%ld,T=%ld,s=%ld,S=%ld,r=%ld,R=%ld,c=%ld,z=%ld,i=%lf\n",
 	   N,nodes,p,q,NB,nb,me,sg_task_count,stats[TaskDefined].count,
 	   stats[DataSent].count,stats[DataSent].count*DataPackSize, 
@@ -458,6 +458,33 @@ DuctteipLog dt_log;
 	   cores,N/NB/nb,stats[ProgramExecution].total);
   }
 /*----------------------------------------------------------------------------*/
+void  DuctteipLog::addEventSummary(int e, TimeUnit st, TimeUnit dur){
+  EventInfo *ee = new EventInfo;
+  ee->event_id  = e;
+  ee->proc_id   = me;
+  ee->thread_id = pthread_self();
+  ee->start     = st;
+  ee->length    = dur;
+  summary_list.push_back(ee);  
+}
+/*----------------------------------------------------------------------------*/
 
 void addLogEventStart(string s , int e ) {  dt_log.addEventStart(s,e);}
 void addLogEventEnd  (string s , int e ) {  dt_log.addEventEnd  (s,e);}
+
+/*----------------------------------------------------------------------------*/
+Timer::Timer(int e, const char *f, int l, const char *fx):event(e),line(l){
+  st = getTime();
+  strcpy(file,f );
+  strcpy(func,fx);
+  dt_log.addEventNumber(1,e);
+}
+/*----------------------------------------------------------------------------*/
+Timer::~Timer(){
+  end = getTime();
+  long dur = (end-st)/1000000;
+  fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",file,line,func,(ulong)pthread_self(),UserTime()); 
+  fprintf(stderr,"event:%22s, dur:%ld\n",dt_log.getEventName(event).c_str(),dur);
+  dt_log.addEventSummary(event,st,dur);
+}
+

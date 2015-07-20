@@ -3,6 +3,9 @@
 #include <iomanip>
 #include "dt_task.hpp"
 
+
+
+
 #define SG_SCHEDULE 1
 class engine;
 class IListener;
@@ -29,13 +32,16 @@ extern int simulation;
 /*============================================================================*/
  struct EventInfo {
  public:
-   int proc_id,thread_id,event_id;
+   int      proc_id,thread_id,event_id;
    TimeUnit start,length;
-   string text;
-   ulong handle;
+   string   text;
+   ulong    handle;
+   /*++++++++++++++*/
    EventInfo();
    EventInfo(int id_,const string &info,ulong h = 0);
+   
    EventInfo & operator =(EventInfo &rhs);
+   
    void dump(ofstream &log_file);
  };
 /*----------------------------------------------------------------------------*/
@@ -47,7 +53,7 @@ private:
     load(TimeUnit _t, long l):t(_t),val(l){}
   };
   list<load*> load_list,export_list,import_list;
-  list<EventInfo*> events_list;
+  list<EventInfo*> events_list,summary_list;
   long DataPackSize, ListenerPackSize, TaskPackSize;
   long FLOPS_add,FLOPS_mul,FLOPS_nlin;
   long *commStats[3];
@@ -108,6 +114,7 @@ public:
   void addEvent(engine *eng,int event);
   void addEvent(IListener *listener,int event,int dest =-1);
   void addEvent(string  text,int event);
+  void addEventSummary(int e, TimeUnit st, TimeUnit dur);
   void addEventNumber (unsigned long num, int e ) ;
   void setParams(int nodes_, long, long, long );
   void updateCommStats(int event, int dest );
@@ -138,6 +145,27 @@ public:
   void dumpSimulationResults(long sg_task_count);
 
 };
+/*----------------------------------------------------------------------------*/
+class Timer{
+public:
+  int event,line;
+  char file[100],func[100];
+  TimeUnit st,end;
+   Timer(int e,const char *f, int l, const char *fx);
+  ~Timer();
+};
+#if BUILD == RELEASE
+#define TIMER(e)
+#define TIMERX(a,e) 
+#else
+#define TIMER(e)    Timer _((int)(e),__FILE__,__LINE__,__FUNCTION__);
+#define TIMERX(a,e) Timer a((int)(e),__FILE__,__LINE__,__FUNCTION__);
+#endif
+
+#define LOG_EVENT(e) //TIMER(e)
+#define LOG_EVENTX(a,e) //TIMERX(a,e)
+#define LOG_METRIC(m) dt_log.addEventNumber(1,m)
+
 extern DuctteipLog dt_log;
 void addLogEventStart(string s , int e ) ;
 void addLogEventEnd  (string s , int e ) ;

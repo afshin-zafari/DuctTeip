@@ -25,8 +25,6 @@ private:
 public:
   Partition ( int dim_cnt=2 ,MemoryAlignment algn=COL_MAJOR){
     dimensions = new Dimension  [dim_cnt];
-    //printf ("partition ctor,dim:%p\n",dimensions);
-    //TRACE_ALLOCATION(dim_cnt * sizeof(Dimension));
     dim_count = dim_cnt;
     element_alignment = algn;
     block_alignment=algn;
@@ -67,17 +65,22 @@ public:
   } 
   /*--------------------------------------------------------------------------*/
   void dump(){
-    printf("xe:%d,ye:%d, xeb:%d, yeb:%d mem:%p\n",X_E(),Y_E(),X_EB(),Y_EB(),memory);
+#if BUILD ==RELEASE
+    return;
+#else
+    return;
+    fprintf(stderr,"xe:%d,ye:%d, xeb:%d, yeb:%d mem:%p\n",X_E(),Y_E(),X_EB(),Y_EB(),memory);
     for ( int i = 0 ; i < X_E() ; i ++ ) {
       if ( i % Y_EB()  == 0 && i ) 
-	printf ("\n");
+	fprintf (stderr,"\n");
       for ( int j = 0 ; j < Y_E() ; j ++) {
 	if ( j % X_EB() == 0  && j )
-	  printf ( ", " ) ;
-	printf ("%5.1lf ", memory[i * X_E() + j ]);
+	  fprintf (stderr, ", " ) ;
+	fprintf (stderr,"%5.1lf ", memory[i * X_E() + j ]);
       }
-      printf ("\n");
+      fprintf (stderr,"\n");
     }
+#endif
   }
   /*--------------------------------------------------------------------------*/
   void dumpBlocks(){
@@ -162,7 +165,7 @@ public:
     }
     X_EB() = X_E() / X_B();
     Y_EB() = Y_E() / Y_B();
-    printf("yeb:%d,ye/yb:%d,xeb:%d,xe/xb:%d\n",Y_EB(),Y_E()/Y_B(),X_EB(),X_E()/X_B());
+    //    LOG_INFO(LOG_DATA,"yeb:%d,ye/yb:%d,xeb:%d,xe/xb:%d\n",Y_EB(),Y_E()/Y_B(),X_EB(),X_E()/X_B());
   }
   /*--------------------------------------------------------------------------*/
   void setElementsInfoX (int count, int stride=0 ) {
@@ -268,6 +271,8 @@ struct Options : public DefaultOptions<Options> {
   typedef Enable Logging;
   typedef Trace<Options> TaskExecutorInstrumentation;
   typedef Enable TaskName;
+  typedef Enable PassTaskExecutor;
+  typedef Enable Subtasks;
 };
 /*===================== SuperGlue Handle ================================================*/
 

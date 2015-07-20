@@ -1,42 +1,46 @@
 #include "mpi_comm.hpp"
+/*--------------------------------------------------------------------------*/
 CommRequest::CommRequest(MPI_Request *mr,int t,unsigned long h,unsigned long len):
   request(mr),tag(t),handle(h),length(len)
 {
   start_time = getClockTime(MICRO_SECONDS);
 }
 
+/*--------------------------------------------------------------------------*/
 void MPIComm::initialize(){
-  int thread_level,request=MPI_THREAD_SINGLE;
+  int thread_level,request=MPI_THREAD_SERIALIZED;
   int err = MPI_Init_thread(NULL,NULL,request,&thread_level);
   thread_enabled = (request == thread_level) ;
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
-  printf("result of MPI_Init:%d, host=%d, thread-support:%d,requested:%d, err:%d thrd-enabled:%d\n",
-	 err,rank,thread_level,MPI_THREAD_FUNNELED,err,thread_enabled);
+  LOG_INFO(LOG_MULTI_THREAD,"result:%d, host=%d, thread-support:%d,requested:%d,  thrd-enabled:%d\n",
+	 err,rank,thread_level,request,thread_enabled);
 
   last_comm_handle = 0 ;
-  last_postdata    = 0 ;
-  last_postlsnr    = 0 ;
-  last_postterm    = 0 ;
 
   last_receive = MPI_REQUEST_NULL;
   tot_sent_time = 0L;
   tot_sent_len = 0;
+  pthread_mutexattr_t send_mxattr;
+  pthread_mutexattr_init(&send_mxattr);
+  pthread_mutexattr_settype(&send_mxattr,PTHREAD_MUTEX_RECURSIVE);
+  pthread_mutex_init(&send_mx,&send_mxattr);
+  pthread_cond_init(&send_cv,NULL);
 }
 /*--------------------------------------------------------------------------*/
 MPIComm::~MPIComm(){
-  int stat = MPI_Finalize();
-  printf("result of MPI_Finalize:%d, host=%d\n",stat,rank);
+  //  int stat = MPI_Finalize();
+  //  LOG_INFO(LOG_COMM,"result:%d, host=%d\n",stat,rank);
 }
   
 /*--------------------------------------------------------------------------*/
 bool MPIComm::canTerminate(){
   bool allSendFinished = (request_list.size() == 0 );
-  PRINT_IF(0)("req list size:%ld\n",request_list.size());
   return allSendFinished;
 }
   
 /*--------------------------------------------------------------------------*/
-unsigned long MPIComm::send ( byte *buffer, int length, int tag, int dest,bool wait){
+ulong  MPIComm::send(byte *buffer,int length,int tag,int dest,bool wait){
+  
   MPI_Request *mpi_request = new MPI_Request;
   int result ;
   if (wait)
@@ -44,222 +48,61 @@ unsigned long MPIComm::send ( byte *buffer, int length, int tag, int dest,bool w
   else
     result= MPI_Isend(buffer,length,MPI_BYTE,dest,tag,MPI_COMM_WORLD,mpi_request);
   CommRequest *comm_request = new CommRequest(mpi_request,tag,++last_comm_handle,length);
+  LOG_INFO(LOG_COMM,"msg tag %d sent to %d\n",tag,dest);
+  pthread_mutex_lock(&send_mx);
   request_list.push_back(comm_request);
-  PRINT_IF(0)("req list size in send function:%ld,tag:%d\n",request_list.size(),tag);
-  if(0)
-    if ( tag == 10 || tag ==2){
-      double * M= (double*)(buffer+192);
-      int size = (length -192)/sizeof(double);
-      double sum=0.0;
-      for (int i=0;i<size;i++)
-	sum+= M[i];
-      //printf("@Checksum s :%lf\n",sum);
-      /*
-	for ( int i=0;i<5;i++)
-	for ( int j =0;j<5;j++){
-	sum += M[];
-	}
-      */
-    }
+  pthread_cond_signal(&send_cv);
+  pthread_mutex_unlock(&send_mx);
+  //flushBuffer(buffer,64);
   return last_comm_handle  ; 
-}
-/*--------------------------------------------------------------------------*/
-unsigned long  MPIComm::postDataReceive(byte *buffer, int length , int tag, int source,unsigned long key){
-
-  MPI_Request *mpi_request = new MPI_Request;
-  last_postdata++;
-  PRINT_IF(POSTPRINT)("postDataRecv, buf:%p,len:%d,source:%d,handle:%ld\n",
-		      buffer,length,source,last_postdata);
-  int result = MPI_Recv_init(buffer,length,MPI_BYTE,source,tag+key,MPI_COMM_WORLD,mpi_request);
-  MPI_Start(mpi_request);
-  CommRequest *comm_request = new CommRequest(mpi_request,tag,last_postdata);
-  postdata_list.push_back(comm_request);
-  return last_postdata;
-}
-/*-------------------------------------------------------------------------------*/
-unsigned long  MPIComm::postListenerReceive(byte *buffer, int length ,int tag, int source){
-  MPI_Request *mpi_request = new MPI_Request;
-  PRINT_IF(POSTPRINT)("postLsnr, buf:%p,len:%d,source:%d,handle:%ld\n",
-		      buffer,length,source,last_postlsnr+1);
-  int result = MPI_Recv_init(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,mpi_request);
-  MPI_Start(mpi_request);
-  CommRequest *comm_request = new CommRequest(mpi_request,tag,++last_postlsnr);
-  postlsnr_list.push_back(comm_request);
-  return last_postlsnr;
-    
-}
-/*-------------------------------------------------------------------------------*/
-unsigned long  MPIComm::postTerminateReceive(byte *buffer, int length ,int tag, int source){
-
-
-  MPI_Request *mpi_request = new MPI_Request;
-  PRINT_IF(POSTPRINT)("postTerm, buf:%p,len:%d,source:%d,handle:%ld\n",
-		      buffer,length,source,last_postterm+1);
-  int result = MPI_Recv_init(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,mpi_request);
-  MPI_Start(mpi_request);
-  CommRequest *comm_request = new CommRequest(mpi_request,tag,++last_postterm);
-  postterm_list.push_back(comm_request);
-
-  return last_postterm;
-    
-}
-/*--------------------------------------------------------------------------*/
-bool MPIComm::isAnyDataPostCompleted(int *tag,unsigned long *handle){
-  list <CommRequest*>::iterator it;
-  MPI_Status st;
-  int flag=0;
-  int  DataTag = 2; //todo
-  for (it = postdata_list.begin(); it != postdata_list.end() ; ++it) {
-    MPI_Test((*it)->request,&flag,&st);
-    PRINT_IF(POSTPRINT)("postData checked , handle:%d, status:%d\n",(*it)->handle,st);
-    if ( flag ) {
-      *tag = DataTag; //(*it)->tag;
-      *handle = (*it)->handle;
-      PRINT_IF(POSTPRINT)("postData Completed, handle%ld\n",*handle);
-      if (*(*it)->request != MPI_REQUEST_NULL) 
-	MPI_Request_free((*it)->request);
-      postdata_list.erase(it); 
-      return true;
-    }
-  }
-  PRINT_IF(POSTPRINT)("no postData completed yet.\n");
-  return false;
-}
-/*--------------------------------------------------------------------------*/
-bool MPIComm::isAnyListenerPostCompleted(int *tag,unsigned long *handle){
-  list <CommRequest*>::iterator it;
-  MPI_Status st;
-  int flag=0;
-  for (it = postlsnr_list.begin(); it != postlsnr_list.end() ; ++it) {
-    MPI_Test((*it)->request,&flag,&st);
-    PRINT_IF(POSTPRINT)("postLsnr checked , handle:%d, status:%d\n",(*it)->handle,st);
-    if ( flag ) {
-      *tag = (*it)->tag;
-      *handle = (*it)->handle;
-      PRINT_IF(POSTPRINT)("postLsnrCompleted, handle:%ld,tag:%d\n",*handle,*tag);
-      if (*(*it)->request != MPI_REQUEST_NULL) 
-	MPI_Request_free((*it)->request);
-      postlsnr_list.erase(it); 
-      return true;
-    }
-  }
-  PRINT_IF(POSTPRINT)("no postLsnr completed yet.\n");
-  return false;
-    
-}
-/*--------------------------------------------------------------------------*/
-bool MPIComm::isAnyTerminatePostCompleted(int *tag,unsigned long *handle){
-  list <CommRequest*>::iterator it;
-  MPI_Status st;
-  int flag=0;
-  PRINT_IF(POSTPRINT)("postTerm checked ,list size:%ld\n",postterm_list.size());
-  it = postterm_list.begin();
-  if ( postterm_list.size() == 0) 
-    return false;
-  do  {
-    MPI_Test((*it)->request,&flag,&st);
-    PRINT_IF(POSTPRINT)("postTerm checked , handle:%ld, status:%d\n",(*it)->handle,st);
-    if ( flag ) {
-      *tag = (*it)->tag;
-      *handle = (*it)->handle;
-      PRINT_IF(POSTPRINT)("postTerm Completed, handle:%ld,tag:%d\n",*handle,*tag);
-      if (*(*it)->request != MPI_REQUEST_NULL) 
-	MPI_Request_free((*it)->request);
-      postterm_list.erase(it); 
-      PRINT_IF(POSTPRINT)("postTerm after completion ,list size:%ld\n",postterm_list.size());
-      return true;
-    }
-    it++;
-  }while(it != postterm_list.end() );
-  PRINT_IF(POSTPRINT)("no postTerm completed yet.\n");
-  return false;
-    
-}
-/*--------------------------------------------------------------------------*/
-bool MPIComm::isAnyPostCompleted(int *tag,unsigned long *handle){
-  if (isAnyDataPostCompleted(tag,handle))
-    return true;
-  if (isAnyListenerPostCompleted(tag,handle))
-    return true;
-  if (isAnyTerminatePostCompleted(tag,handle)){
-    PRINT_IF(POSTPRINT)("post term return is true.\n");
-    return true;
-  }
-  return false;
 }
 /*--------------------------------------------------------------------------*/
 int MPIComm::receive ( byte *buffer, int length, int tag, int source,bool wait){
   MPI_Status status;
-  int result;
-  addLogEventStart("MPIReceive",DuctteipLog::MPIReceive);
-  if ( wait ) 
+  int        result;
+
+  TimeUnit t = getTime();
+  LOG_EVENT(DuctteipLog::MPIReceive);
+
+  if ( wait ) {
     result = MPI_Recv(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,&status);
-  else
-    result = MPI_Irecv(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,&last_receive);
-  addLogEventEnd  ("MPIReceive",DuctteipLog::MPIReceive);
-
-  if (  tag == 10 || tag == 13) {
-    if (0){
-      double sum = 0.0,*contents=(double *)(buffer+192);
-      long size = (length-192)/sizeof(double);
-      for ( long i=0; i< size; i++)
-	sum += contents[i];
-      printf("+++sum i , ---------,%lf adr:%p\n",sum,contents);
-    }
+    int stat_length ;
+    MPI_Get_count(&status,MPI_BYTE,&stat_length);
+    LOG_INFO(LOG_COMM,"res:%d, src:%d, tag:%d, st.len:%d\n",
+	     result,status.MPI_SOURCE,status.MPI_TAG,stat_length);
   }
-
-
+  else{
+    result = MPI_Irecv(buffer,length,MPI_BYTE,source,tag,MPI_COMM_WORLD,&last_receive);
+    LOG_INFO(LOG_COMM,"res:%d, src:%d, tag:%d, len:%d\n", result,source,tag,length);
+  }
+  if ( wait ) {
+    recv_time += getTime() - t;
+  }
 
   return result;
 }
 /*--------------------------------------------------------------------------*/
-bool MPIComm::isLastReceiveCompleted(bool *is_any){
-  int flag;
-  MPI_Status status;
-  *is_any=true;
-    
-  PRINT_IF(IRECV)("LRC enter\n");
-  if ( last_receive != MPI_REQUEST_NULL){
-    MPI_Test (&last_receive,&flag,&status);
-    *is_any = true;
-    PRINT_IF(IRECV)("last receive exists,finsihed:%d,%p,req-null:%p\n",
-		    flag,last_receive,MPI_REQUEST_NULL);
-  }
-  else{
-    *is_any = false;
-    PRINT_IF(IRECV)("last receive NOT exists.\n");
-  }
-  PRINT_IF(IRECV)("LRC exit.flag:%d\n",flag);
-  return (flag!=0);
-}
-/*--------------------------------------------------------------------------*/
 bool MPIComm::isAnySendCompleted(int *tag,unsigned long *handle){
   list <CommRequest*>::iterator it;
+  CommRequest* req;
   MPI_Status st;
   int flag=0;
-  addLogEventStart("MPI_Test",DuctteipLog::MPITestSent);
+  LOG_EVENT(DuctteipLog::MPITestSent);
   for (it = request_list.begin(); it != request_list.end() ; ++it) {
-    MPI_Test((*it)->request,&flag,&st);//MPI_STATUS_IGNORE);
-    if ( flag ) {
-      *tag = (*it)->tag;
-      *handle = (*it)->handle;
-      if ((*it)->tag ==2 ) {
-	ClockTimeUnit t = getClockTime(MICRO_SECONDS) - (*it)->start_time;
+    req = (*it);
+    MPI_Test(req->request,&flag,&st);
+    if ( flag ){
+      *tag = req->tag;
+      *handle = req->handle;
+      if (req->tag ==2 ) {
+	ClockTimeUnit t = getClockTime(MICRO_SECONDS) - req->start_time;
 	tot_sent_time +=t;
-	tot_sent_len +=(*it)->length;
-	//printf("tot bytes sent:%8ld,tot time:%8ld,last-bytes:%6ld,last-time:%6ld , ",
-	//	 tot_sent_len,tot_sent_time ,(*it)->length,t);
-	//printf("avg BW:%3.1lf Gb/s\n",tot_sent_len/(double)(tot_sent_time)*3 );
+	tot_sent_len +=req->length;
       }
-      PRINT_IF(POSTPRINT)("sent is complete, tag:%d, handle:%ld\n",*tag,*handle);
-      if (*(*it)->request != MPI_REQUEST_NULL) 
-	MPI_Request_free((*it)->request);
-      addLogEventEnd("MPI_Test",DuctteipLog::MPITestSent);
       request_list.erase(it); 
       return flag;
     }
   }
-  addLogEventEnd("MPI_Test",DuctteipLog::MPITestSent);
   return (flag!=0);
 }
 /*--------------------------------------------------------------------------*/
@@ -267,17 +110,18 @@ int MPIComm::probe(int *tag,int *source,int *length,bool wait){
   int exists=0;
   MPI_Status status;
     
-  addLogEventStart ( "MPI_Probe", DuctteipLog::MPIProbed);
-  if (wait ) 
+  LOG_EVENT(DuctteipLog::MPIProbed);
+  if (wait ) {
     MPI_Probe (MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,      &status);
+    exists = 1;
+  }
   else
     MPI_Iprobe(MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&exists,&status);
-  addLogEventEnd ("MPI_Probe", DuctteipLog::MPIProbed);
-  PRINT_IF(IRECV)("after probe exists:%d\n",exists);
   if ( exists ) {
     *source = status.MPI_SOURCE;
     *tag = status.MPI_TAG;
     MPI_Get_count(&status,MPI_BYTE,length);
+    LOG_INFO(LOG_COMM,"after probe exists:%d, src:%d, tag:%d, len:%d\n",exists,*source,*tag,*length);
     return true;
   }    
   return false;
@@ -290,7 +134,6 @@ int MPIComm::probeTags(int *tag,int n,int *source,int *length,int *outtag){
   for ( int i=0;i < n ; i++){
     MPI_Iprobe(MPI_ANY_SOURCE,tag[i],MPI_COMM_WORLD,&exists,&status);
     if ( exists ) {
-      PRINT_IF(0)(" probe tag[%d]:%d exists:%d\n",i,tag[i],exists);
       *source = status.MPI_SOURCE;
       *outtag = status.MPI_TAG;
       MPI_Get_count(&status,MPI_BYTE,length);
@@ -305,30 +148,17 @@ int MPIComm::initialize(int argc,char **argv){return MPI_Init(&argc,&argv);}//To
 int MPIComm::finish(){    
   list<CommRequest*>::iterator it;
   int r;
-  bool dbg=true;
-  printf("err-req:%d\n",MPI_ERR_REQUEST);
+  int flag;
+  MPI_Status st;
+  
   for (it = request_list.begin(); it != request_list.end(); it ++){
-    r = MPI_Request_free((*it)->request);
-    //      if(dbg)printf ("req-list:%d,",r);
+    LOG_INFO(LOG_COMM,"request with tag:%d, handle:%d cancelled.\n",
+	     (*it)->tag,(*it)->handle);
+    MPI_Cancel((*it)->request);
   }
-    
-  for (it = postdata_list.begin(); it != postdata_list.end(); it ++){
-    r = MPI_Request_free((*it)->request);
-    if(dbg)printf ("pdata:%d,",r);
-  }
-  for (it = postlsnr_list.begin(); it != postlsnr_list.end(); it ++){
-    r=MPI_Request_free((*it)->request);
-    if(dbg)printf ("lsnr:%d,",r);
-  }
-  for (it = postterm_list.begin(); it != postterm_list.end(); it ++){
-    r=MPI_Request_free((*it)->request);
-    if(dbg)printf ("term:%d,",r);
-  }
-  if ( last_receive != MPI_REQUEST_NULL ) {
-    r = MPI_Request_free(&last_receive);
-    if(dbg)printf ("last-rcv:%d,\n",r);
-  }
-    
+  LOG_INFO(LOG_COMM,"mpi finalized.\n");
+  LOG_INFO(LOG_MULTI_THREAD,"recv_time:%ld\n", recv_time);
+
   return MPI_Finalize();  
 } 
 /*--------------------------------------------------------------------------*/
@@ -349,39 +179,132 @@ bool MPIComm::canMultiThread() {    return thread_enabled;  }
 void MPIComm::barrier(){    MPI_Barrier(MPI_COMM_WORLD);  }
 /*-------------------------------------------------------------------------------*/
 void MPIComm::getRequestList(RequestList *req_list){
-  int post_count = postdata_list.size();
-  int send_count = request_list.size();
-  int listener_count = postlsnr_list.size();
-  int terminate_count = postterm_list.size();
-  int total_count = post_count+send_count+listener_count+terminate_count;
-  int index=0;
-  req_list->count = total_count;
-  req_list->list = new MPI_Request[total_count];
-  req_list->handles = new unsigned long [total_count];
-  req_list->tags = new int [total_count];
   list<CommRequest*>::iterator it;
+
+  int index=0;
+
+  int total_count   = request_list.size();
+  req_list->count   = total_count;
+  req_list->list    = new MPI_Request   [total_count];
+  req_list->handles = new unsigned long [total_count];
+  req_list->tags    = new int           [total_count];
+  
   for (it = request_list.begin(); it != request_list.end(); it ++){
-    req_list->list   [index  ] = *((*it)->request);
-    req_list->tags   [index  ] = (*it)->tag;      
-    req_list->handles[index++] = (*it)->handle;      
+    req_list->list   [index  ] = *((*it)->request) ;
+    req_list->tags   [index  ] =   (*it)->tag      ;      
+    req_list->handles[index++] =   (*it)->handle   ;
   }
+  
   req_list->send_index = index;
-  for (it = postdata_list.begin(); it != postdata_list.end(); it ++){
-    req_list->list   [index  ] = *((*it)->request);
-    req_list->tags   [index  ] = (*it)->tag;      
-    req_list->handles[index++] = (*it)->handle;      
+}
+/*-------------------------------------------------------------------------------*/
+void MPIComm::removeRequest(MPI_Request req,ulong handle){
+  list<CommRequest*>::iterator it;
+
+  int index=0;
+
+  for (it = request_list.begin(); it != request_list.end(); it ++){
+    LOG_INFO(LOG_COMM,"req:%x, exs-req:%x\n",req,*((*it)->request));
+    LOG_INFO(LOG_COMM,"handle:%x, exs-handle:%x\n",handle,(*it)->handle);
+    if ( req == *((*it)->request) ||
+	 handle == (*it)->handle   ){
+      LOG_INFO(LOG_COMM,"deleted req:%x tag:%d\n",req,(*it)->tag);
+      request_list.erase(it);
+      break;
+    }
+  }     
+  
+}
+/*-------------------------------------------------------------------------------*/
+void MPIComm::waitForSend(){
+  pthread_mutex_lock(&send_mx);
+  pthread_cond_wait(&send_cv,&send_mx);
+}
+/*-------------------------------------------------------------------------------*/
+void MPIComm::waitForAnySendComplete(int *tag,ulong *handle){
+  RequestList req_list;
+  int 	      index=-1;
+  MPI_Status  st;
+
+  LOG_INFO(LOG_COMM,"send count:%d\n",request_list.size());
+  if (request_list.size()==0){
+    waitForSend(); 
+    pthread_mutex_unlock(&send_mx);
   }
-  req_list->postdata_index = index;
-  for (it = postlsnr_list.begin(); it != postlsnr_list.end(); it ++){
-    req_list->list   [index  ] = *((*it)->request);
-    req_list->tags   [index  ] = (*it)->tag;      
-    req_list->handles[index++] = (*it)->handle;      
+
+  getRequestList(&req_list);
+
+  LOG_INFO(LOG_COMM,"send list count:%d\n",req_list.count);
+  LOG_INFO(LOG_COMM,"REQ-list[0]:%x\n",req_list.list[0]);
+
+  MPI_Waitany(req_list.count,req_list.list,&index,&st);
+  *tag    = req_list.tags   [index];
+  *handle = req_list.handles[index];
+  
+  removeRequest(req_list.list[index],*handle);
+  
+  LOG_INFO(LOG_COMM,"WaitResult:%d, no-req:%d\n",index,MPI_UNDEFINED);
+}
+/*-------------------------------------------------------------------------------*/
+void MPIComm::waitForAnyReceive(int *tag,int *src,int *len){  
+  probe(tag,src,len,true);
+  LOG_INFO(LOG_COMM,"recv t:%d, src:%d, len:%d\n",*tag,*src,*len);
+}
+/*-------------------------------------------------------------------------------*/
+void MPIComm::postReceiveData(int n ,int data_size,void *m){
+  const int DATA_TAG = 2;
+  MemoryManager *mem_mgr = (MemoryManager *)m;
+  LOG_INFO(LOG_MULTI_THREAD,"n:%d, size:%d mem:%p, mngr:%p\n",n,data_size,m,mem_mgr);
+  prcv_reqs = new MPI_Request[n];
+  prcv_vect.resize(n);
+  for(int from =0; from < n; from ++){
+    prcv_vect[from]         = new CommRequest();
+    LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d]:%p\n",from,prcv_vect[from]);
+    prcv_vect[from]->mem    = mem_mgr->getNewMemory();
+    byte *buf               = prcv_vect[from]->mem->getAddress();
+    prcv_vect[from]->buf    = buf;
+    LOG_INFO(LOG_MULTI_THREAD,"buf :%p, prcv_vect[%d].buf:%p\n",buf,from,prcv_vect[from]->buf);
+    prcv_vect[from]->tag    = DATA_TAG;
+    prcv_vect[from]->length = data_size;
+    prcv_vect[from]->handle = 0;
+
+    MPI_Irecv(buf,data_size,MPI_BYTE,from,DATA_TAG,MPI_COMM_WORLD,&prcv_reqs[from]);
+    prcv_vect[from]->request = &prcv_reqs[from];
   }
-  req_list->postlsnr_index = index;
-  for (it = postterm_list.begin(); it != postterm_list.end(); it ++){
-    req_list->list   [index  ] = *((*it)->request);
-    req_list->tags   [index  ] = (*it)->tag;      
-    req_list->handles[index++] = (*it)->handle;      
-  }
-  req_list->postterm_index = index;
+  prcv_count = n;
+}
+/*-------------------------------------------------------------------------------*/
+bool MPIComm::anyDataReceived(void * e){
+  MPI_Status st;
+  int index,flag;
+  MailBoxEvent *event = (MailBoxEvent *)e;
+  if ( prcv_count ==0 )
+    return false;
+  MPI_Testany(prcv_count,prcv_reqs,&index,&flag,&st);
+  if ( !flag || index == MPI_UNDEFINED)
+    return false;
+  LOG_INFO(LOG_MULTI_THREAD,"Flag:%d, From:%d, count:%d\n",flag,index,prcv_count);
+  event->direction = MailBoxEvent::Received;
+  event->length    = prcv_vect[index]->length;
+  event->host      = index;
+  event->tag       = prcv_vect[index]->tag ; 
+  event->handle    = 0;
+  event->memory    = prcv_vect[index]->mem;
+  event->buffer    = prcv_vect[index]->buf;
+
+  prcv_vect[index]->mem = dtEngine.newDataMemory();
+  prcv_vect[index]->buf = prcv_vect[index]->mem->getAddress();
+  //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].buf:%p\n",index,prcv_vect[index]->buf);
+  //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].len:%d\n",index,prcv_vect[index]->length);
+  //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].tag:%d\n",index,prcv_vect[index]->tag);
+  MPI_Irecv( prcv_vect[index]->buf,
+	     prcv_vect[index]->length , MPI_BYTE,
+	     index, // from node
+	     prcv_vect[index]->tag    , 
+	     MPI_COMM_WORLD,
+	    &prcv_reqs[index]);
+  prcv_vect[index]->request = &prcv_reqs[index];
+
+  return true;
+
 }

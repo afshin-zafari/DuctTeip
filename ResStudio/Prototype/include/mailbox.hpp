@@ -19,10 +19,10 @@ public :
   int tag,host;
   MemoryItem *memory;
   /*-------------------------------------------------------------------------------*/
-  MailBoxEvent(byte *b,int l,int t,int s);
-  void setMemoryItem(MemoryItem *m);
+              MailBoxEvent(byte *b,int l,int t,int s);
+  void        setMemoryItem(MemoryItem *m);
   MemoryItem *getMemoryItem();
-  MailBoxEvent();
+   MailBoxEvent();
   ~MailBoxEvent();
   MailBoxEvent &operator =(MailBoxEvent &rhs);
   void dump();
@@ -34,6 +34,7 @@ private:
   INetwork *comm;
   MailBoxEvent last_receive_event,shared_event;
   list <MailBoxEvent *> post_list;
+  bool self_terminate_received, self_terminate_sent;;
 public:
   /*-------------------------------------------------------------------------------*/
   MailBox(INetwork *net):comm(net){}
@@ -45,7 +46,8 @@ public:
     PropagationTag,
     TerminateOKTag,
     TerminateCancelTag,
-    FindIdleTag,//7
+    SelfTerminate,
+    FindIdleTag,//8
     FindBusyTag,
     MigrateTaskTag,
     MigrateDataTag,
@@ -54,16 +56,12 @@ public:
     MigratedTaskOutDataTag
   } ;
   /*-------------------------------------------------------------------------------*/
-  unsigned long  send(byte *buffer, int length, int tag, int destination,bool wait=false);
-  inline void getLRNeighbors(int org,int *left,int *right);
-  unsigned long prepareTerminateReceiveForHost(int source);
-  void  prepareTerminateReceive(int source1,int source2, int source3);
-  void  prepareListenerReceive(int length,int host=-1);
-  unsigned long prepareDataReceive(MemoryItem  *mi,int source,unsigned long key);
-  void dumpPosts();
-  bool getPostEvent(MailBoxEvent *event,int tag,unsigned long  handle);
-  bool checkPostedReceives(MailBoxEvent *event);
-  bool getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed,bool wait = false);
+  unsigned long  send                  (byte *, int, int, int,bool wait=false);
+  inline void 	 getLRNeighbors        (int ,int *,int *);
+  bool 		 getEvent              (MemoryManager *,MailBoxEvent *,bool *,bool wait = false);
+  void 		 waitForAnySendComplete(MailBoxEvent *);
+  void 		 waitForAnyReceive     (MemoryManager *,MailBoxEvent *);
+  bool 		 getSelfTerminate      (int send_or_recv);
 };
 
 #endif //__MAILBOX_HPP__

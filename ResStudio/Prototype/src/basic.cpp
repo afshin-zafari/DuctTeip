@@ -6,7 +6,6 @@
     content.size = content_size ;
 
             address = new byte[size];
-	    TRACE_ALLOCATION(size);
      header.address = address;
     content.address = address + header_size;
 
@@ -33,63 +32,11 @@ void flushBuffer(byte *buffer,int length){
   printf("\n");
 }
 
+TimeUnit StartTime;
+void SetStartTime(){StartTime = getTime();}
+TimeUnit UserTime(){  return (getTime() - StartTime)/1000000;}
 
 
-string verb_str(int verb){
-  switch(verb){
-  case V_SEND:
-    return "send";
-  case V_RCVD:
-    return "received";
-  case V_TERMINATED:
-    return "terminated";
-  case V_ADDED:
-    return "added";
-  case V_CHECK_DEP:
-    return "check_dep";
-  case V_DUMP:
-    return "dump";
-  case V_CHECK_RDY:
-    return "check_ready";
-  case V_REMOVE:
-    return "remove";
-  default:
-    return "Not Defined";
-  }
-}
-
-string obj_str(int obj ) {
-  switch(obj){
-  case O_TASK:
-    return "task";
-  case O_DATA:
-    return "data";
-  case O_LSNR:
-    return "listener";
-  case O_PROG:
-    return "program";
-    
-  }
-  return "";
-}
-
-/*
-void threadInfo(int arg){
-  sched_param sp;
-  int r;
-  if ( arg == 1 ) {
-    sp.sched_priority=1;
-    r=pthread_setschedparam(pthread_self(),SCHED_FIFO,&sp);
-  }
-  int schd;
-  int r2=pthread_getschedparam (pthread_self(),&schd,&sp);
-  //  sched_getparam(0,&sp);
-  if(0){
-    printf("fifo:%d,other:%d,batch:%d,rr:%d,idle:%d\n",SCHED_FIFO,SCHED_OTHER,SCHED_BATCH,SCHED_RR,SCHED_IDLE);
-    printf("esrch:%d,einval:%d,eperm:%d\n",ESRCH,EINVAL,EPERM);
-  }
-}
-*/
 void nanoSleep(int n=1){
   //return;
   timespec ts;

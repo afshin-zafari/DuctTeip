@@ -57,116 +57,6 @@ inline void MailBox::getLRNeighbors(int org,int *left,int *right){
 }
 
 /*-------------------------------------------------------------------------------*/
-unsigned long MailBox::prepareTerminateReceiveForHost(int source){
-  unsigned long comm_handle;
-  MailBoxEvent  *event = new MailBoxEvent();
-  int length;
-    
-  length = sizeof(int);
-  event->memory =  NULL;
-  event->buffer = new byte[length];
-  event->direction = MailBoxEvent::Received;
-  event->length = length;
-  event->host   = source;
-  event->tag = TerminateOKTag ; 
-  event->handle  = comm->postTerminateReceive(event->buffer,event->length,TerminateOKTag,source);
-  PRINT_IF(POSTPRINT)("posted TermOK for host:%d,handle:%ld\n",source,event->handle);
-  post_list.push_back(event);
-  dumpPosts();
-  return event->handle;
-}
-
-/*-------------------------------------------------------------------------------*/
-void  MailBox::prepareTerminateReceive(int source1,int source2, int source3){
-#if TERMINATE_TREE == 0     
-  getLRNeighbors(me,&source1,&source2);
-#endif
-  if (source1 >=0)
-    prepareTerminateReceiveForHost(source1);
-  if (source2 >=0)
-    prepareTerminateReceiveForHost(source2);
-  if (source3 >=0)
-    prepareTerminateReceiveForHost(source3);
-  return ;
-}
-
-/*-------------------------------------------------------------------------------*/
-void  MailBox::prepareListenerReceive(int length,int host){
-  unsigned long comm_handle;
-  PRINT_IF(POSTPRINT)("lsnr pack size:%d\n",length);
-  int node_count = comm->get_host_count();
-  for (int source =0 ; source < node_count; source++){
-    if ( source ==  me ) continue;
-    if ( host != -1 ) 
-      if ( source != host ) 
-	continue;
-    MailBoxEvent  *event = new MailBoxEvent();
-    event->memory =  NULL;
-    event->buffer = new byte[length];
-    event->direction = MailBoxEvent::Received;
-    event->length = length;
-    event->host   = source;
-    event->tag = ListenerTag ; 
-    event->handle  = comm->postListenerReceive(event->buffer,event->length,ListenerTag,source);
-    PRINT_IF(POSTPRINT)("posted Lsnr for host:%d,handle:%ld\n",source,event->handle);
-    post_list.push_back(event);
-    dumpPosts();
-  }
-    
-  return ;
-}
-/*-------------------------------------------------------------------------------*/
-unsigned long MailBox::prepareDataReceive(MemoryItem  *mi,int source,unsigned long key){
-  unsigned long comm_handle;
-  MailBoxEvent  *event = new MailBoxEvent();
-  event->memory = mi;
-  event->buffer = mi->getAddress();
-  event->direction = MailBoxEvent::Received;
-  event->length = mi->getSize();
-  event->host   = source;
-  event->tag = DataTag ; 
-  event->handle  = comm->postDataReceive(event->buffer,event->length,DataTag,source,key);
-  PRINT_IF(POSTPRINT)("posted Data for host:%d,handle:%ld\n",source,event->handle);
-  post_list.push_back(event);
-  dumpPosts();
-  return event->handle;
-}
-/*-------------------------------------------------------------------------------*/
-void MailBox::dumpPosts(){
-  if (!(POSTPRINT)) return;
-  list<MailBoxEvent*>::iterator it;
-  printf("-----------post events list----------\n");
-  for (it = post_list.begin(); it != post_list.end(); it ++){
-    MailBoxEvent*ev=(*it);
-    printf ("h:%ld, t:%d\n",ev->handle  ,ev->tag);
-  }
-}
-/*-------------------------------------------------------------------------------*/
-bool MailBox::getPostEvent(MailBoxEvent *event,int tag,unsigned long  handle){
-  list<MailBoxEvent*>::iterator it;
-  for (it = post_list.begin(); it != post_list.end(); it ++){
-    MailBoxEvent*ev=(*it);
-    PRINT_IF(POSTPRINT) ("h:%ld, inh:%ld , t:%d,int:%d\n",ev->handle , handle ,ev->tag , tag);
-    if (ev->handle != handle || ev->tag != tag)
-      continue;
-    *event = *ev;
-    post_list.erase(it);
-    return true;
-  }
-  printf("error: not found event\n");
-  return false;
-}
-/*-------------------------------------------------------------------------------*/
-bool MailBox::checkPostedReceives(MailBoxEvent *event){
-  int length,source,tag;
-  unsigned long handle;
-  bool found;
-  found = comm->isAnyPostCompleted(&tag,&handle);
-  if ( !found ) 
-    return false;
-  found = getPostEvent(event,tag,handle);
-  return found;
-}
 
 /*-------------------------------------------------------------------------------*/
 bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed,bool wait ){
@@ -174,25 +64,40 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
   int length,source,tag;
   unsigned long handle;
   bool found=false;
-  if ( checkPostedReceives(event) ) {
-    PRINT_IF(0)("post completed for tag:%d\n",event->tag);
-    if ( event->tag == 10 || event->tag ==2){
-      double * M= (double*)(event->buffer+192);
-      int size = (event->length -192)/sizeof(double);
-      double sum=0.0;
-      for (int i=0;i<size;i++)
-	sum+= M[i];
-      if(0)printf("@Checksum z :%lf\n",sum);
-      /*
-	for ( int i=0;i<5;i++)
-	for ( int j =0;j<5;j++){
-	sum += M[];
-	}
-      */
-    }
+#if POST_RECV_DATA == 1
+  //  LOG_INFO(LOG_MULTI_THREAD,"call anyDataReceived\n");
+  if ( comm->anyDataReceived(event) ){
     *completed = true;
     return true;
   }
+#endif
+  found = comm->probe(&tag,&source,&length,wait);
+  if (found){
+#if POST_RECV_DATA == 1
+    if ( tag == DataTag )
+      return false;
+#endif
+    event->direction = MailBoxEvent::Received;
+    event->length = length;
+    event->host   = source;
+    event->tag    = tag ; 
+    event->handle = 0;
+    if ( tag == MigrateDataTag ||
+	 tag == DataTag ||
+	 tag == MigratedTaskOutDataTag){
+      event->memory = memman->getNewMemory();
+      event->buffer = event->memory->getAddress();
+    }
+    else{      
+      event->memory =  NULL;
+      event->buffer = new byte[length];
+    }
+    int res=comm->receive(event->buffer,length,tag,source,true);
+    *completed = (res==0);
+    LOG_INFO(LOG_MULTI_THREAD,"buf:%p,result:%d, completed:%d, tag:%d\n",event->buffer,res,*completed,tag);
+    return true;
+  }
+
   int dlbtags[7]={    
     FindIdleTag,
     FindBusyTag,
@@ -210,7 +115,6 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
     event->length = length;
     event->host = source;
     event->direction = MailBoxEvent::Received;
-    //printf("DLB rcv src:%d,tag:%d,len:%d\n",source,tag,length);
     if (length <=2){
       byte p;
       int res=comm->receive(&p,1,tag,source,true);
@@ -221,23 +125,13 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
       event->memory = memman->getNewMemory();
       event->buffer = event->memory->getAddress();
       event->memory->setState(MemoryItem::InUse);
-      if(0)printf("DLB DATA rcv src:%d,tag:%d,len:%d,buf:%p\n",source,tag,length,event->buffer);
+    LOG_INFO(LOG_MULTI_THREAD,"DLB DATA rcv src:%d,tag:%d,len:%d,buf:%p\n",source,tag,length,event->buffer);
     }
     else{
       event->buffer = new byte[event->length];
     }
       
-    int res=comm->receive(event->buffer,length,tag,source,true);
-    if (  tag == MigrateDataTag || tag == MigratedTaskOutDataTag) {
-      if (0){
-	double sum = 0.0,*contents=(double *)(event->buffer+192);
-	long size = (length-192)/sizeof(double);
-	for ( long i=0; i< size; i++)
-	  sum += contents[i];
-	printf("+++sum i , ---------,%lf adr:%p\n",sum,contents);
-      }
-    }
-      
+    int res=comm->receive(event->buffer,length,tag,source,true);      
     if(0)printf("et , el, es : %d,%d,%d\n",event->tag,event->length,event->host);
     *completed = true;
     return true;
@@ -248,6 +142,7 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
     addLogEventEnd("AnySendCompleted",DuctteipLog::AnySendCompleted);
     if ( (tag != TerminateOKTag) && (tag !=  TerminateCancelTag) ) 
       if ( found ) {
+	LOG_INFO(LOG_MULTI_THREAD,"AnySendCompleted=True, tag:%d. \n",tag);
 	event->tag = tag;
 	event->handle = handle;
 	event->direction = MailBoxEvent::Sent;
@@ -256,5 +151,60 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
       }
   }
   return false;
+}
+/*-------------------------------------------------------------------------------*/
+void MailBox::waitForAnySendComplete(MailBoxEvent *event){
+  int   tag;
+  ulong handle;
+  comm->waitForAnySendComplete(&tag,&handle);
+  if ( (tag != TerminateOKTag) && (tag !=  TerminateCancelTag) ){
+    event->tag = tag;
+    event->handle = handle;
+    event->direction = MailBoxEvent::Sent;
+  }
+  if ( tag == SelfTerminate )
+    self_terminate_sent= true;
+  
+}
+/*-------------------------------------------------------------------------------*/
+void MailBox::waitForAnyReceive(MemoryManager *memman,MailBoxEvent *event){
+  int length,source,tag;
+  comm->waitForAnyReceive(&tag,&source,&length);
+  LOG_INFO(LOG_MULTI_THREAD,"message rcvd src:%d,tag:%d,len:%d\n",source,tag,length);
+
+  
+  event->tag       = tag;
+  event->length    = length;
+  event->host      = source;
+  event->direction = MailBoxEvent::Received;
+  if (false && length <=4){
+    byte p[4];
+    int res=comm->receive(p,length,tag,source,true);
+    LOG_INFO(LOG_MULTI_THREAD,"len:%d, tag:%d, src:%d\n",length,tag,source);
+    return ;
+  }
+  if (  tag == DataTag        ||
+	tag == MigrateDataTag ||
+	tag == MigratedTaskOutDataTag) {
+    event->memory = memman->getNewMemory();
+    event->buffer = event->memory->getAddress();
+    event->memory->setState(MemoryItem::InUse);
+  }
+  else{
+    event->buffer = new byte[event->length];
+    LOG_INFO(LOG_MULTI_THREAD,"len:%d, tag:%d, src:%d\n",length,tag,source);
+  }
+      
+  int res=comm->receive(event->buffer,length,tag,source,true);
+  if ( tag == SelfTerminate)
+    self_terminate_received=true;
+  LOG_INFO(LOG_MULTI_THREAD,"message rcvd src:%d,tag:%d,len:%d,buf:%p\n",source,tag,event->length,event->buffer);
+}
+/*-------------------------------------------------------------------------------*/
+bool MailBox::getSelfTerminate(int send_or_recv){
+  if (send_or_recv ==0)
+    return self_terminate_sent;
+  return  self_terminate_received;
+  
 }
 /*-------------------------------------------------------------------------------*/

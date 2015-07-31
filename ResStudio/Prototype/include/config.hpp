@@ -12,7 +12,7 @@ class Config
 private:
 public:
   short int N,M,Nb,Mb,P,p,q,mb,nb,nt,ipn,to,ps;
-  bool dlb,using_blas,row_major,column_major;
+  bool dlb,using_blas,row_major,column_major,simulation;
   Config();
   void setParams( int n,int m , 
 		  int ynb , int xnb ,

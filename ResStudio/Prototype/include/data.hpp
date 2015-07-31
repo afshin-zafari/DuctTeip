@@ -112,10 +112,10 @@ public:
   void serialize(byte *buffer , int &offset, int max_length);
   byte *serialize();
   void deserialize(byte *buffer, int &offset,int max_length,MemoryItem *mi,bool header_only = true);
-  int getContentSize();
+  int  getContentSize();
   void setContentSize(long s){content_size =s;}
-  int getHeaderSize();
-  int getPackSize(); 
+  int  getHeaderSize();
+  int  getPackSize(); 
   void testHandles();
   bool isOwnedBy(int p ) ;
   void incrementVersion ( AccessType a);
@@ -126,11 +126,6 @@ public:
   void setPartition(int _mb, int _nb);
   void resetVersion();
   Coordinate  getBlockIdx(){ return blk;  }
-  DataRange  *RowSlice(int r , int i, int j ) ;
-  DataRange  *ColSlice(int c , int i, int j ) ;
-  DataRange  *Region(int fr, int tr, int fc, int tc ) ;
-  DataRange  *Cell(int i, int j ) ;
-  DataRange  *All();
   list<IListener *>          &getListeners(){return listeners;}
   list<IDuctteipTask *>      &getTasks(){return tasks_list;}
   void dumpCheckSum(char c='i');

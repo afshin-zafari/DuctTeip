@@ -11,6 +11,7 @@ typedef unsigned char byte;
 #include <errno.h>
 #include <algorithm>
 #include <vector>
+#include <map>
 #include <iterator>
 
 #include <dirent.h>
@@ -26,6 +27,8 @@ typedef unsigned char byte;
 #include "mpi_comm.hpp"
 #include "memory_manager.hpp"
 #include "dt_log.hpp"
+#include "dlb.hpp"
+
 extern int me;
 
 struct PropagateInfo;
@@ -73,9 +76,9 @@ public:
   void dump();
 };
 /*===================================================================*/
-class engine
-{
+class engine{
 private:
+  friend class DLB;
   list<IDuctteipTask*>  task_list,running_tasks,export_tasks,import_tasks;
   bool                  runMultiThread;
   byte                  *prop_buffer;
@@ -96,10 +99,13 @@ private:
   SuperGlue<Options>    *thread_manager;
   Config 		*cfg;
   MemoryManager 	*data_memory;
-  long 			skip_term,skip_work,skip_mbox,time_out;
+  //  long 			skip_term,skip_work,skip_mbox,
+  long time_out;
   int 			thread_model;
   bool 			task_submission_finished;
-  enum { Enter, Leave};
+  map<long,double>      avg_durations;
+  map<long,long>        cnt_durations;
+  enum {Enter,Leave};
   enum {
     EVEN_INIT     ,
     WAIT_FOR_FIRST  ,
@@ -120,18 +126,14 @@ public:
   void start ( int argc , char **argv);
   void initComm();
   ~engine();
-  void setSkips(long st,long sw,long sm,long to);
   SuperGlue<Options> * getThrdManager() ;
   int getLocalNumBlocks();
   TaskHandle  addTask(IContext * context,
 		      string task_name,
-		      unsigned long key, 
+		      ulong  key, 
 		      int task_host, 
 		      list<DataAccess *> *data_access);
   void dumpTasks();
-  void sendPropagateTask(byte *buffer, int size, int dest_host) ;
-  void addPropagateTask(PropagateInfo *P);
-  void receivePropagateTask(byte *buffer, int len);
   void sendTask(IDuctteipTask* task,int destination);
   void exportTask(IDuctteipTask* task,int destination);
   /*---------------------------------------------------------------------------------*/
@@ -150,7 +152,6 @@ public:
   int  getTaskCount();
   void show_affinity();
   void setConfig(Config *cfg_);
-  void prepareReceives();
   void doProcess();
   static void *doProcessLoop  (void *);
   static void *runMBSendThread(void *);
@@ -159,11 +160,20 @@ public:
   bool mb_canTerminate(int send_or_recv);
   void putWorkForDataReady(list<DataAccess *> *data_list);
   MemoryItem *newDataMemory();
+  void runFirstActiveTask();
+  long getAverageDur(long k);
+  void setThreadModel(int);
+  int  getThreadModel();
+  long getThreadId(int);
+  MemoryManager *getMemoryManager();
+  void doSelfTerminate();
+  void waitForWorkReady();
+  void doDLB(int st=-1);
+  void updateDurations(IDuctteipTask *task);
 private :
   void putWorkForCheckAllTasks();
   void putWorkForReceivedListener(IListener *listener);
   void putWorkForSendingTask(IDuctteipTask *task);
-  void putWorkForPropagateTask(IDuctteipTask *task);
   void putWorkForNewTask(IDuctteipTask *task);
   void putWorkForReceivedTask(IDuctteipTask *task);
   void putWorkForFinishedTask(IDuctteipTask * task);
@@ -178,9 +188,6 @@ private :
   bool isDuplicateListener(IListener * listener);
   bool addListener(IListener *listener );
   void checkTaskDependencies(IDuctteipTask *task);
-public:
-  void runFirstActiveTask();
-private:
   long getActiveTasksCount();
   void executeTaskWork(DuctTeipWork * work);
   void executeDataWork(DuctTeipWork * work);
@@ -203,8 +210,7 @@ private:
     inline bool IsOdd (int a);
     inline bool IsEven(int a);
   /*---------------------------------------------------------------------------------*/
-  void createThreads();
-  int getParentNodeInTree(int node);
+  int  getParentNodeInTree(int node);
   void getChildrenNodesInTree(int node,int *nodes,int *count);
   bool amILeafInTree();
   void sendTerminateOK();
@@ -212,90 +218,6 @@ private:
   void receivedTerminateCancel(int from);
   void sendTerminateCancel();
   /*======================================================================*/
-  struct DLB_Statistics{
-    unsigned long tot_try,
-      tot_failure,
-      tot_tick,
-      max_loc_fail,export_task,export_data,import_task,import_data,max_para,max_para2;
-    ClockTimeUnit tot_cost,
-      tot_silent;      
-  };
-  DLB_Statistics dlb_profile;
-  int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
-  unsigned long dlb_failure,dlb_glb_failure;
-  ClockTimeUnit dlb_silent_start;
-  enum DLB_STATE{
-    DLB_IDLE,
-    DLB_BUSY,
-    TASK_EXPORTED,
-    TASK_IMPORTED,
-    DLB_STATE_NONE
-  };
-  enum DLB_SUBSTATE{
-    ACCEPTED,
-    EARLY_ACCEPT
-  };
-  enum DLB_STAGE{
-    DLB_FINDING_IDLE,
-    DLB_FINDING_BUSY,
-    DLB_SILENT,
-    DLB_NONE
-  };
-  enum Limits{
-    SILENT_PERIOD=100,
-    FAILURE_MAX=5
-  };
-  struct TimeDLB
-  {
-    ClockTimeUnit t;
-    engine *e;
-    TimeDLB(engine *_e):e(_e){t = getClockTime(MICRO_SECONDS);}
-    ~TimeDLB(){
-      e->dlb_profile.tot_cost += getClockTime(MICRO_SECONDS) - t;
-    }
-  };
-  int failures[FAILURE_MAX];
-#define TIME_DLB TimeDLB(this)
-  /*---------------------------------------------------------------*/
-  bool passedSilentDuration();
-  void initDLB();
-  void updateDLBProfile();
-  void restartDLB(int s=-1);    
-  void goToSilent();
-  void dumpDLB();
-  int getDLBStatus();
-  void doDLB(int st=-1);
-  void findBusyNode();
-  void findIdleNode();
-  void received_FIND_IDLE(int p);
-  void receivedImportRequest(int p); 
-  void received_FIND_BUSY(int p ) ;
-  void receivedExportRequest(int p);
-  void received_DECLINE(int p);
-  void receivedDeclineMigration(int p);
-  IDuctteipTask *selectTaskForExport();
-  void exportTasks(int p);
-  void importData(MailBoxEvent *event);
-  void receiveTaskOutData(MailBoxEvent *event);
-  void receivedMigrateTask(MailBoxEvent *event);
-  void received_ACCEPTED(int p);
-  void declineImportTasks(int p);    
-  void declineExportTasks(int p);    
-  /*---------------------------------------------------------------*/
-  void acceptImportTasks(int p);    
-  /*---------------------------------------------------------------*/
-private:
-  vector<int> dlb_fail_list;
-public:
-  bool isInList(vector<int>&L,int v);
-  int getRandomNodeEx();
-  int getRandomNodeOld(int exclude =-1);
-  void setThreadModel(int);
-  int  getThreadModel();
-  long getThreadId(int);
-  MemoryManager *getMemoryManager();
-  void doSelfTerminate();
-  void waitForWorkReady();
 };
 
 #define  DuctTeip_Submit(k,args...) AddTask((IContext*)this,#k,k,args)

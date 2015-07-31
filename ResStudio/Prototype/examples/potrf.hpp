@@ -29,17 +29,16 @@ void   Ductteip_POTRF_Kernel(ElementType_Data &a){
 */
   }
 /*--------------------------------------------------------------------------------*/
-class Potrf2Task:public  SGTask4DTKernel{
+class Potrf2Task_dead:public  SGTask4DTKernel{
 private:
 public:
-  Potrf2Task(IDuctteipTask *task_,Handle<Options> &h1):SGTask4DTKernel(task_) {
+  Potrf2Task_dead(IDuctteipTask *task_,Handle<Options> &h1):SGTask4DTKernel(task_) {
       registerAccess(ReadWriteAdd::write, h1);
       ostringstream os;
       os << setfill('0') << setw(4) <<dt_task->getHandle() << " sg_potrf ";
       log_name = os.str();
   }
   void run(TaskExecutor<Options> &te) {
-    if ( simulation) return;
     int N;
     ElementType_Data a(this,0,N,N);
     Ductteip_POTRF_Kernel(a);
@@ -47,7 +46,15 @@ public:
   }
 };
 /*--------------------------------------------------------------------------------*/
-  struct PotrfTask : public Task<Options, 2> {
+template<typename Options, int N>
+struct BasicDTTask:public Task<Options, N> {
+    void run(TaskExecutor<Options> &te) {
+      if ( config.simulation) return;
+      run2(te);
+    }
+  virtual void run2(TaskExecutor<Options> &te) =0;
+};
+  struct PotrfTask : public BasicDTTask<Options, 2> {
     IDuctteipTask *dt_task ;
     string log_name;
     PotrfTask(IDuctteipTask *task_,Handle<Options> &h1):dt_task(task_) {
@@ -57,8 +64,7 @@ public:
       os << setfill('0') << setw(4) <<dt_task->getHandle() << " sg_potrf ";
       log_name = os.str();
     }
-    void run(TaskExecutor<Options> &te) {
-      if ( simulation) return;
+    void run2(TaskExecutor<Options> &te) {
       int N;
       N = getAccess(1).getHandle()->block->X_E();
       double *a = getAccess(1).getHandle()->block->getBaseMemory();
@@ -71,9 +77,10 @@ public:
       dumpData(a,N,N,'p');
       if ( config.column_major){
 	if ( config.using_blas){
-	  //LOG_INFO(LOG_MULTI_THREAD,"mem:%p, N:%d\n",a,N);
+	  LOG_INFO(LOG_MULTI_THREAD,"mem:%p, N:%d\n",a,N);
 	  int info;
 	  dpotrf('L',N,a,N,&info);
+	  LOG_INFO(LOG_MULTI_THREAD,"mem:%p, N:%d\n",a,N);
 	}
 	else{
 	  for ( int i = 0 ; i < N; i ++){

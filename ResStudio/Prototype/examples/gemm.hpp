@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-struct GemmTask : public Task<Options, 4> {
+struct GemmTask : public BasicDTTask<Options, 4> {
   IDuctteipTask *dt_task ;
   bool b_trans,c_decrease;
   string log_name;
@@ -25,8 +25,7 @@ struct GemmTask : public Task<Options, 4> {
     }
 
 /*----------------------------------------------------------------------------*/
-    void run(TaskExecutor<Options> &te) {
-      if(simulation) return;
+    void run2(TaskExecutor<Options> &te) {
       PRINT_IF(KERNEL_FLAG)("[%ld] : sg_gemm task starts running.A:%s,B:%s,C:%s\n",pthread_self(),
 			    getAccess(1).getHandle()->name,
 			    getAccess(2).getHandle()->name,

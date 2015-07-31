@@ -38,7 +38,7 @@ public :
   void setRequiredVersion(DataVersion rhs);
   void dump();
   void setSource(int s ) ;
-  int getSource();
+  int  getSource();
   void setDataSent(bool sent);
   bool isDataRemote();
   bool isDataSent();

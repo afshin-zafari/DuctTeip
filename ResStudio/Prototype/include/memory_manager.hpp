@@ -8,10 +8,10 @@ typedef unsigned long MemoryKey;
 /*----------------------------------------------------------------------------*/
 struct MemoryItem{
 private:
-  unsigned long  size;
-  MemoryKey      key;
-  byte          *address;
-  int            state;
+  MemoryKey     key;
+  ulong  	size;
+  byte         *address;
+  int           state;
 public:
   enum MemoryState{
     Initialized,

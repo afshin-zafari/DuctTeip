@@ -23,8 +23,8 @@ nt=16
 
 N=15120
 ps=2500 # poll-sleep in usec
-B=3
-b=7
+B=7
+b=6
 to=50
 outfile=devel_test_N02.out
 

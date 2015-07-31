@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-struct SyrkTask : public Task<Options,3> {
+struct SyrkTask : public BasicDTTask<Options,3> {
   IDuctteipTask *dt_task ;
   string log_name;
 /*----------------------------------------------------------------------------*/
@@ -12,8 +12,7 @@ struct SyrkTask : public Task<Options,3> {
     log_name = string("syrk_task");//os.str();
   }
 /*----------------------------------------------------------------------------*/
-  void run(TaskExecutor<Options> &te) {
-    if ( simulation) return;
+  void run2(TaskExecutor<Options> &te) {
     
     PRINT_IF(KERNEL_FLAG)("[%ld] : sg_syrk task starts running.A:%s, B:%s\n",pthread_self(),
 			  getAccess(1).getHandle()->name,

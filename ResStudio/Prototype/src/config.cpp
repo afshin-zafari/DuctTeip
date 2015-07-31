@@ -56,6 +56,7 @@ void Config::getCmdLine(int argc, char **argv){
       {"ipn"          ,required_argument, 0,'I'},
       {"timeout"      ,required_argument, 0,'T'}, // 12
       {"poll-sleep"   ,required_argument, 0,'S'}, // 
+      {"simulation"   ,no_argument      , 0,'U'}, // 14
       {0,0,0,0}
     };
   int index;
@@ -75,6 +76,9 @@ void Config::getCmdLine(int argc, char **argv){
 	case 2:
 	case 3:
 	  using_blas=true;
+	  break;
+	case 14: 
+	  simulation = true;
 	  break;
 	case 4: P = atoi(optarg);break;
 	case 5: p = atoi(optarg);break;

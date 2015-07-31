@@ -72,7 +72,6 @@ class GlobalContext
 private:
   int  sequence,TaskCount;
   int  counters[9];
-  bool with_propagation;
 
   list <PropagateInfo *> lstPropTasks;
   list <IContext *>      children;
@@ -124,8 +123,6 @@ public :
   IHostPolicy   *getTaskReadHostPolicy  ()		    {return hpTaskRead;}
   IHostPolicy   *getTaskAddHostPolicy   ()		    {return hpTaskAdd;}
   ContextHeader *getHeader              ()                  {return ctxHeader;}
-  IHostPolicy   *getTaskPropagatePolicy ()		    {return hpTaskPropagate;}
-  int            getPropagateCount      ()                  {return lstPropTasks.size();}
   ContextHostPolicy   *getContextHostPolicy   ()		    {return hpContext;}
   bool canAllEnter();
 
@@ -134,7 +131,7 @@ public :
   DataHandle          *createDataHandle ();
   IContext *getContextByHandle ( ContextHandle ch) ;
   IData    *getDataByHandle(DataHandle *d);
-  void      doPropagation(bool f) {with_propagation = f;}
+  //  void      doPropagation(bool f) {with_propagation = f;}
   void      addContext(IContext *c);
   void getLocalNumBlocks(int *mb, int *nb);
   int getNumThreads(){return cfg->getNumThreads();}
@@ -142,30 +139,19 @@ public :
 		    IHostPolicy *thp,
 		    ContextHostPolicy *chp,
 		    IHostPolicy *trp,
-		    IHostPolicy *tap,
-		    IHostPolicy *tpp){
+		    IHostPolicy *tap){
     hpContext       = chp;
     hpData          = dhp;
     hpTask          = thp;
     hpTaskRead      = trp;
     hpTaskAdd       = tap;
-    hpTaskPropagate = tpp;
   }
 
   void resetCounters() ;
   DataRange *getIndependentData(IContext *ctx,int data_type);
-  void initPropagateTasks();
-  int  dumpPropagations(list < PropagateInfo *> prop_info);
-  void createPropagateTasks(list<DataRange *>  dr);
-  void createPropagateTasksFromRange(DataRange *  data_range);
-  void createPropagateTasks();
   void resetVersiosOfDataRange(DataRange *  data_range);
   void resetVersiosOfDataRangeList(list<DataRange *>  dr);
   void resetVersiosOfHeaderData();
-  void testPropagatePacking();
-  void unpackPropagateTask(byte *buffer,int length);
-  void packPropagateTask(list < PropagateInfo *> prop_info,int dest_host);
-  void sendPropagateTasks();
   void downLevel();
   void upLevel();
   int  getLevelID(int level);
@@ -173,7 +159,6 @@ public :
   void dumpLevels(char c=' ');
   bool isAnyOwnedBy(ContextHeader* hdr,int me);
   bool isAnyOwnedBy(list<DataRange*> dr,int me);
-  void testHandles();
 };
 extern GlobalContext glbCtx;
 

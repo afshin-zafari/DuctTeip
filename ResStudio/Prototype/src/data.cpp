@@ -460,55 +460,6 @@ void IData::resetVersion(){
 }
 
 /*--------------------------------------------------------------------------*/
-DataRange  *IData::RowSlice(int r , int i, int j ) {
-  DataRange *dr = new DataRange;
-  //dr->d = this;
-  dr->row_from = r;
-  dr->row_to   = r;
-  dr->col_from = i;
-  dr->col_to   = j;
-  return dr;
-}
-/*--------------------------------------------------------------------------*/
-DataRange  *IData::ColSlice(int c , int i, int j ) {
-  DataRange *dr = new DataRange;
-  //dr->d = this;
-  dr->row_from = i;
-  dr->row_to   = j;
-  dr->col_from = c;
-  dr->col_to   = c;
-  return dr;
-}
-/*--------------------------------------------------------------------------*/
-DataRange  *IData::Region(int fr, int tr, int fc, int tc ) {
-  DataRange *dr = new DataRange;
-  //dr->d = this;
-  dr->row_from = fr;
-  dr->row_to   = tr;
-  dr->col_from = fc;
-  dr->col_to   = tc;
-  return dr;
-}
-/*--------------------------------------------------------------------------*/
-DataRange  *IData::Cell(int i, int j ) {
-  DataRange *dr = new DataRange;
-  //dr->d = this;
-  dr->row_from = i;
-  dr->row_to   = i;
-  dr->col_from = j;
-  dr->col_to   = j;
-  return dr;
-}
-/*--------------------------------------------------------------------------*/
-DataRange  *IData::All(){
-  DataRange *dr = new DataRange;
-  //dr->d = this;
-  dr->row_from = 0;
-  dr->row_to   = Mb-1;
-  dr->col_from = 0;
-  dr->col_to   = Nb-1;
-  return dr;
-}
 /*--------------------------------------------------------------------------*/
 void IData::dumpCheckSum(char c){
   return;
@@ -555,7 +506,6 @@ void IData::setPartition(int _mb, int _nb){
   char s[100];
   for ( int i=0;i<(Mb+i_ex);i++)
     for ( int j=0;j<(Nb+j_ex);j++){
-      addLogEventStart("DataPartitioned",DuctteipLog::DataPartitioned);
       sprintf(s,"%s_%2.2d_%2.2d",  name.c_str() , i ,j);
       if ( Nb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , i );
       if ( Mb == 1) sprintf(s,"%s_%2.2d",  name.c_str() , j );
@@ -604,7 +554,6 @@ void IData::setPartition(int _mb, int _nb){
 	newPart->setRunTimeVersion("-1",-1);
 	newPart->resetVersion();
       }
-      addLogEventEnd("DataPartitioned",DuctteipLog::DataPartitioned);
 
     }
 }
@@ -711,7 +660,7 @@ void IData:: allocateMemory(){
   if ( Nb == 0 && Mb == 0 ) {      
     
     content_size = (N/parent_data->Nb) * (M/parent_data->Mb) * sizeof(double);
-    if (simulation)
+    if (config.simulation)
       content_size=1;
     data_memory = dtEngine.newDataMemory();
 
@@ -794,16 +743,12 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
     }
   }
   if (tasks_list.size() >0) {
-    LOG_EVENTX(cft,DuctteipLog::CheckedForTask);
+    LOG_EVENT(DuctteipLog::CheckedForTask);
     for(task_it = tasks_list.begin() ; 
 	task_it != tasks_list.end()  ;
 	++task_it){
       IDuctteipTask *task = (*task_it);
-      LOG_EVENTX(cfr,DuctteipLog::CheckedForRun);
-      /*      if ( task->isExported() ) {
-	      task->setState(IDuctteipTask::CanBeCleared);
-	      continue;
-	      }*/
+      LOG_EVENT(DuctteipLog::CheckedForRun);
       if ( !task->isFinished())
 	if(0)printf("data %s -> task:%s,stat=%d.\n",getName().c_str(),task->getName().c_str(),task->getState());
       if (task->canRun(debug)) {

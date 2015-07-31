@@ -42,8 +42,7 @@ DuctteipLog dt_log;
 
   }
 /*----------------------------------------------------------------------------*/
-  DuctteipLog::~DuctteipLog(){
-  }
+  DuctteipLog::~DuctteipLog(){  }
 /*----------------------------------------------------------------------------*/
   DuctteipLog::DuctteipLog(){
     FLOPS_add = FLOPS_mul = FLOPS_nlin = 0;
@@ -55,8 +54,8 @@ DuctteipLog dt_log;
   }
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::updateStatisticsPair(int e ){
-    if ( !isSequentialPairEvent(e) ) 
-      return ;
+    if ( e != ProgramExecution ) 
+      return;
     TimeUnit t;
     if (stats[e].start ==-1 ){
       stats[e].start=getTime();
@@ -67,9 +66,7 @@ DuctteipLog dt_log;
       stats[e].start=-1;
       stats[e].count ++;
     }
-    if ( e == ProgramExecution ) {
-      LOG_INFO(LOG_PROFILE,"ProgExec , st:%ld end:%ld\n",stats[e].start,t ) ;
-    }
+    LOG_INFO(LOG_PROFILE,"ProgExec , st:%ld end:%ld\n",stats[e].start,t ) ;
 
   }
 /*----------------------------------------------------------------------------*/
@@ -121,7 +118,7 @@ DuctteipLog dt_log;
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::addEvent(IDuctteipTask * task,int event,int dest){
     stringstream ss; 
-    if ( N < BIG_SIZE){
+    if ( config.N < BIG_SIZE){
       ss <<  getEventName(event)  << ' ' << task->getName();
       EventInfo * event_item = new EventInfo (event,ss.str(),task->getHandle());
       events_list.push_back(event_item);
@@ -134,7 +131,7 @@ DuctteipLog dt_log;
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::addEvent(IData *data,int event,int dest){
     stringstream ss; 
-    if ( N < BIG_SIZE){
+    if ( config.N < BIG_SIZE){
       ss <<  getEventName(event)  << " " << data->getName();
       DataHandle *dh = data->getDataHandle();
       ulong h = 0 ;
@@ -151,7 +148,7 @@ DuctteipLog dt_log;
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::addEvent(engine *eng,int event){ 
     stringstream ss; 
-    if ( N < BIG_SIZE || event == ProgramExecution){
+    if ( config.N < BIG_SIZE || event == ProgramExecution){
       ss <<  getEventName(event)  << " ";
       EventInfo * event_item = new EventInfo (event,ss.str());
       events_list.push_back(event_item);
@@ -164,7 +161,7 @@ DuctteipLog dt_log;
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::addEvent(IListener *listener,int event,int dest ){
     stringstream ss; 
-    if ( N < BIG_SIZE){
+    if ( config.N < BIG_SIZE){
       ss <<  getEventName(event)  << " for_Data " << listener->getData()->getName();
       DataHandle *dh = listener->getData()->getDataHandle();
       ulong h = 0 ;
@@ -179,16 +176,12 @@ DuctteipLog dt_log;
     }
   } 
 /*----------------------------------------------------------------------------*/
-  void DuctteipLog::addEvent(string  text,int event){
-    stringstream ss; 
-    if ( N < BIG_SIZE){
-      ss <<  getEventName(event)  << " " << text;
-      EventInfo * event_item = new EventInfo (event,ss.str());
-      //event_item->text = text;
-      events_list.push_back(event_item);
-      updateStatisticsPair(event);
-    }
+  void DuctteipLog::addEvent(int event){
+    stringstream ss(""); 
+    EventInfo * event_item = new EventInfo (event,ss.str());
+    events_list.push_back(event_item);
   } 
+
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::addEventNumber (unsigned long num, int e ) {
     if (e >= NumberOfEvents) return;
@@ -223,17 +216,8 @@ DuctteipLog dt_log;
     }
   }
 /*----------------------------------------------------------------------------*/
-  void DuctteipLog::addEventStart(IDuctteipTask * task,int event){addEvent(task,event);} 
-  void DuctteipLog::addEventStart(IData *data,int event){addEvent(data,event);} 
   void DuctteipLog::addEventStart(engine *eng,int event){addEvent(eng,event);}  
-  void DuctteipLog::addEventStart(IListener *listener,int event){addEvent(listener,event);}  
-  void DuctteipLog::addEventStart(string  text,int event){addEvent(text,event);}  
-
-  void DuctteipLog::addEventEnd(IDuctteipTask * task,int event){addEvent(task,event);} 
-  void DuctteipLog::addEventEnd(IData *data,int event){addEvent(data,event);} 
   void DuctteipLog::addEventEnd(engine *eng,int event){addEvent(eng,event);}  
-  void DuctteipLog::addEventEnd(IListener *listener,int event){addEvent(listener,event);} 
-  void DuctteipLog::addEventEnd(string  text,int event){addEvent(text,event);} 
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::updateStatistics(int e,TimeUnit length){
     double len = ((double)length)/SCALE;
@@ -244,115 +228,6 @@ DuctteipLog dt_log;
     stats[e].total += len;
 }
 /*----------------------------------------------------------------------------*/
-  bool DuctteipLog::isSequentialPairEvent(int e){
-    if ( 
-	e == TaskDefined  ||
-	e == ReadTask  ||
-	e == CheckedForListener ||
-	e == CheckedForTask ||
-	e == CheckedForRun ||
-	e == SuperGlueTaskDefine ||
-	e == MPITestSent ||
-	e == MPIReceive ||
-	e == MPIProbed ||
-	e == MailboxGetEvent ||
-	e == LastReceiveCompleted ||
-	e == AnySendCompleted ||
-	e == MailboxProcessed ||
-	e == CheckedForTerminate ||
-	e == ProgramExecution ||
-	e == CommFinish ||
-	e == WorkProcessed
-	 )
-      return true;
-    return false;
-  }
-/*----------------------------------------------------------------------------*/
-  bool DuctteipLog::isPairEvent(int e){
-    if ( 
-	e == DataDefined  ||
-	e == DataPartitioned  ||
-	e == TaskDefined  ||
-	e == ReadTask  ||
-	e == Populated ||
-	e == CheckedForListener ||
-	e == CheckedForTask ||
-	e == CheckedForRun ||
-	e == SuperGlueTaskDefine ||
-	e == Executed ||
-	e == MPITestSent ||
-	e == MPIReceive ||
-	e == MPIProbed ||
-	e == MailboxGetEvent ||
-	e == LastReceiveCompleted ||
-	e == AnySendCompleted ||
-	e == MailboxProcessed ||
-	e == CheckedForTerminate ||
-	e == ProgramExecution ||
-	e == CommFinish ||
-	e == WorkProcessed 
-	 )
-      return true;
-    return false;
-  }
-/*----------------------------------------------------------------------------*/
-  void DuctteipLog::filterEvent(EventInfo *e){
-    static bool after_populate = false;
-    
-    if (e->event_id  == CheckedForTerminate || 
-	e->event_id  == CheckedForRun 
-	/*
-	  ||
-	  e->event_id  == SuperGlueTaskCount ||
-	  e->event_id  == WorkProcessed ||
-	  e->event_id  == MPITestSent ||
-	  e->event_id  == MPIReceive ||
-	  e->event_id  == MPIProbed ||
-	  e->event_id  == LastReceiveCompleted ||
-	  e->event_id  == AnySentCompleted ||
-	  e->event_id  == MailboxGetEvent ||
-	  e->event_id  == MailboxProcessed
-	*/
-	){
-      e->event_id = -1;
-    }
-    return ;
-    
-    if ( e->event_id  == Populated){
-      after_populate = true;
-      e->event_id = -1;
-    }
-  }
-/*----------------------------------------------------------------------------*/
-  void DuctteipLog::mergePairEvents(){
-    unsigned long merged_count =0;
-    list<EventInfo *>::iterator it,it2;
-    fprintf(stderr,"log merge,events.count :%ld\n",events_list.size());
-    
-    for ( it = events_list.begin();it !=  events_list.end(); it++) {
-      EventInfo *e1 = (*it);
-      if (e1->event_id <0) continue;
-      if ( isPairEvent(e1->event_id)){
-	it2 = it;
-	while  (it2 != events_list.end() ) {
-	  it2 ++;
-	  if ( it2 == events_list.end() ) break;
-	  EventInfo *e2=(*it2);
-	  if (e1->event_id == e2->event_id && e1->handle == e2->handle) {
-	    e2->event_id =-1;
-	    updateStatistics(e1->event_id,e2->start - e1->start);
-	    e1->length = e2->start - e1->start;
-	    merged_count ++;
-	    break;
-	  }
-	}
-      }
-      else
-	updateStatistics(e1->event_id,e1->length);
-      
-    }
-  }
-/*----------------------------------------------------------------------------*/
    void DuctteipLog::dump(long sg_task_count){
     char s[20];
     list<EventInfo *>::iterator it;
@@ -362,13 +237,6 @@ DuctteipLog dt_log;
 
     ofstream log_file(s);
     TimeUnit t = getTime();
-    if ( N < BIG_SIZE){
-      for (it = events_list.begin();it != events_list.end();it ++){
-	EventInfo *e =(*it);
-	filterEvent(e);
-	e->dump(log_file);
-      }
-    }
     
     t = getTime() - t;
     stats[EventsWork].count = events_list.size();
@@ -377,11 +245,13 @@ DuctteipLog dt_log;
     
     stats[SkipOverhead].count /= SCALE;    
     dumpSimulationResults(sg_task_count);
-    if ( !simulation)
+    if ( !config.simulation)
       dumpStatistics();
     if ( me == 0)
       fprintf(stderr,"[****] Time= %lf, N = %ld , NB= %ld , nb= %ld , p= %ld, q = %ld, gf= %lf\n",
-	     stats[ProgramExecution].total,N,NB,nb,p,q,double(N*N*N/3e9/stats[ProgramExecution].total));
+	      stats[ProgramExecution].total,
+	      config.N,config.Nb,config.nb,config.p,config.q,
+	      double(config.N*config.N*config.N/3e9/stats[ProgramExecution].total));
     log_file.close();
   }
 /*----------------------------------------------------------------------------*/
@@ -392,12 +262,7 @@ DuctteipLog dt_log;
      for ( int i=0; i < NumberOfEvents ; i ++){
        if (stats[i].minimum == MIN_INIT_VAL ) 
 	 stats[i].minimum =0;
-       if ( !isPairEvent(i) && i != EventsWork){
-	fprintf(stderr,"@stats %d %22.22s %6ld\t %10s \t %10s \t %10s \t %10s\n",
-	       me,getEventName(i).c_str(),stats[i].count,dash,dash,dash,dash);
-      }
-      else
-	fprintf(stderr,"@stats %d %22.22s %6ld\t %9.2lf \t %9.2lf \t %9.2lf \t %9.2lf\n",
+       fprintf(stderr,"@stats %d %22.22s %6ld\t %9.2lf \t %9.2lf \t %9.2lf \t %9.2lf\n",
 	       me,getEventName(i).c_str(),
 	       stats[i].count,
 	       stats[i].total,
@@ -452,10 +317,10 @@ DuctteipLog dt_log;
   void DuctteipLog::dumpSimulationResults(long sg_task_count){
     fprintf(stderr,"\n@Simulation: N=%ld,P=%d, p=%ld,q=%ld,B=%ld,b=%ld,k=%d," \
 	   "t=%ld,T=%ld,s=%ld,S=%ld,r=%ld,R=%ld,c=%ld,z=%ld,i=%lf\n",
-	   N,nodes,p,q,NB,nb,me,sg_task_count,stats[TaskDefined].count,
+	   config.N,config.P,config.p,config.q,config.Nb,config.nb,me,sg_task_count,stats[TaskDefined].count,
 	   stats[DataSent].count,stats[DataSent].count*DataPackSize, 
 	   stats[DataReceived].count,stats[DataReceived].count*DataPackSize, 
-	   cores,N/NB/nb,stats[ProgramExecution].total);
+	   config.nt,config.N/config.Nb/config.nb,stats[ProgramExecution].total);
   }
 /*----------------------------------------------------------------------------*/
 void  DuctteipLog::addEventSummary(int e, TimeUnit st, TimeUnit dur){
@@ -469,10 +334,6 @@ void  DuctteipLog::addEventSummary(int e, TimeUnit st, TimeUnit dur){
 }
 /*----------------------------------------------------------------------------*/
 
-void addLogEventStart(string s , int e ) {  dt_log.addEventStart(s,e);}
-void addLogEventEnd  (string s , int e ) {  dt_log.addEventEnd  (s,e);}
-
-/*----------------------------------------------------------------------------*/
 Timer::Timer(int e, const char *f, int l, const char *fx):event(e),line(l){
   st = getTime();
   strcpy(file,f );
@@ -488,3 +349,8 @@ Timer::~Timer(){
   dt_log.addEventSummary(event,st,dur);
 }
 
+void DuctteipLog::logLoad(long run, long imp, long exp){
+  logLoadChange(run);
+  logImportTask(imp);
+  logExportTask(exp);  
+}

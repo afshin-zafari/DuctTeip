@@ -125,57 +125,7 @@ void ContextHeader::addDataRange(IData::AccessType daxs,DataRange *dr){
     lstLevels.push_back(li);
     hpTaskAdd->reset();
   }
-  /*------------------------------*/
-  void GlobalContext::initPropagateTasks(){
-    list<IContext *>::iterator it;
-    DataRange *ind_data;
-    for(it = children.begin(); it != children.end(); it ++){
-      ind_data =getIndependentData( (*it),InputData);
-      if ( ind_data)
-	createPropagateTasksFromRange(ind_data);
 
-      ind_data =getIndependentData( (*it),OutputData);
-      if ( ind_data)
-	createPropagateTasksFromRange(ind_data);
-
-      ind_data =getIndependentData( (*it),InOutData);
-      if ( ind_data)
-	createPropagateTasksFromRange(ind_data);
-    }    
-  }
-  /*------------------------------*/
-  int  GlobalContext::dumpPropagations(list < PropagateInfo *> prop_info){
-    list < PropagateInfo *>::iterator it;
-    DataHandle  data_handle;
-    int msg_size = 0 ;
-    for (it = prop_info.begin(); it != prop_info.end();++it ) {
-      PropagateInfo &P=*(*it);
-      IData *d = getDataByHandle(&P.data_handle);
-      
-      printf ("  @%s(%d,%d) [%s%d]== [%s0]\n",d->getName().c_str(),P.i,P.j,P.fromCtx.c_str(),P.fromVersion,P.toCtx.c_str());
-      msg_size += sizeof (data_handle) +  P.fromCtx.size() + P.toCtx.size() + sizeof(P.fromVersion);
-    }
-    return msg_size;
-  }
-  /*------------------------------*/
-  void GlobalContext::createPropagateTasks(list<DataRange *>  dr){
-    list<DataRange *> :: iterator it = dr.begin();
-    for ( ; it != dr.end(); ++it ) {
-      createPropagateTasksFromRange((*it));
-    }
-  }
-  /*------------------------------*/
-  void GlobalContext::createPropagateTasksFromRange(DataRange *  data_range){
-  }
-  /*------------------------------*/
-  void GlobalContext::createPropagateTasks(){
-    if ( with_propagation ) {
-      if( !getTaskPropagatePolicy()->isAllowed( hpContext,me) )
-	return ;
-      createPropagateTasks( ctxHeader->getWriteRange() );
-      createPropagateTasks( ctxHeader->getReadRange()  );
-    } 
-  }  
   /*------------------------------*/
   void GlobalContext::resetVersiosOfDataRange(DataRange *  data_range){
   }
@@ -190,101 +140,6 @@ void ContextHeader::addDataRange(IData::AccessType daxs,DataRange *dr){
   void GlobalContext::resetVersiosOfHeaderData(){
     resetVersiosOfDataRangeList(ctxHeader->getWriteRange() );
     resetVersiosOfDataRangeList(ctxHeader->getReadRange()  );
-  }
-  /*------------------------------*/
-  void GlobalContext::testPropagatePacking(){
-    list < PropagateInfo *> prop_info;
-    DataHandle dh;// (10,25);
-
-    PropagateInfo **p= new PropagateInfo*[4];
-    for ( int i=0; i<4;i++)
-      p[i] = new PropagateInfo;
-    p[0]->fromCtx = string("1.2.1.3.5.");
-    p[0]->toCtx=string("1.2.2.");
-    p[0]->i = p[0]->j = 22;
-    p[0]->fromVersion = 7;
-    p[0]->data_handle = dh;
-    prop_info.push_back(p[0]);
-
-    p[1]->fromCtx = string("1.2.1.3.");
-    p[1]->toCtx=string("1.2.2.5.");
-    p[1]->i = p[1]->j = 32;
-    p[1]->fromVersion = 17;
-    p[1]->data_handle = dh;  
-    prop_info.push_back(p[1]);
-
-    p[2]->fromCtx = string("1.2.1.");
-    p[2]->toCtx=string("1.2.2.");
-    p[2]->i = p[2]->j = 2987;
-    p[2]->fromVersion = 21;
-    p[2]->data_handle = dh;
-    prop_info.push_back(p[2]);
-
-    p[3]->fromCtx = string("1.2.1.");
-    p[3]->toCtx=string("1.4.2.");
-    p[3]->i = p[3]->j = 232;
-    p[3]->fromVersion = 77;
-    p[3]->data_handle = dh;
-    prop_info.push_back(p[3]);
-
-    byte *buffer=NULL;
-    int length=0;
-    packPropagateTask(prop_info,10); // pack and send
-    //dtEngine.receivePropagateTask(&buffer,&length);
-    unpackPropagateTask(buffer,length);
-
-  }
-  /*------------------------------*/
-  void GlobalContext::unpackPropagateTask(byte *buffer,int length){
-    PropagateInfo P;
-    int offset = 0 ;
-    while (offset <length) {
-      P.deserialize(buffer,offset,length);
-      printf ("  @A(%d,%d)%ld-%ld [%s%d]== [%s0]\n",P.i,P.j,
-	      P.data_handle.context_handle,
-	      P.data_handle.data_handle,
-	      P.fromCtx.c_str(),
-	      P.fromVersion,P.toCtx.c_str());
-      dtEngine.addPropagateTask(&P);
-    }
-  }
-  /*------------------------------*/
-  void GlobalContext::packPropagateTask(list < PropagateInfo *> prop_info,int dest_host){
-    list < PropagateInfo *>::iterator it;
-    int msg_max_size = 1024; //prop_info.size() * sizeof(PropagateInfo) ;// todo
-    int msg_len = 0;
-    printf("gctx malloc sz:%d\n",msg_max_size);
-
-    byte  *msg_buffer= (byte *)malloc ( msg_max_size);
-    for (it = prop_info.begin(); it != prop_info.end();++it ) {
-      PropagateInfo &P=*(*it);
-      if ( dest_host != me ) {
-	P.serialize(msg_buffer,  msg_len,msg_max_size);      
-	dtEngine.sendPropagateTask(msg_buffer,msg_len,dest_host);
-	incrementCounter(TaskPropagate);
-	incrementCounter(PropagateSize,msg_len);
-      }
-      else{
-	dtEngine.addPropagateTask(&P);
-      }
-    }
-  }
-  /*------------------------------*/
-  void GlobalContext::sendPropagateTasks(){
-    list <PropagateInfo *>::iterator it;
-    for ( it = lstPropTasks.begin(); it != lstPropTasks.end();++it){
-      int p = getDataHostPolicy()->getHost(Coordinate ((*it)->i,(*it)->j));
-      (*it)->toCtx = getLevelString();
-      nodesPropTasks[p].push_back((*it));
-    }
-    for ( int p= 0; p < cfg->getProcessors(); p++){
-      if (nodesPropTasks[p].size()==0) continue;
-      printf ("  @send propagate to: %d \n",p) ;
-      dumpPropagations(nodesPropTasks[p]);
-      packPropagateTask(nodesPropTasks[p],p);
-      nodesPropTasks[p].clear();
-    }
-    lstPropTasks.clear();
   }
   /*------------------------------*/
   void GlobalContext::downLevel(){
@@ -348,6 +203,7 @@ IData *GlobalContext::getDataByHandle(DataHandle *d){
 /*--------------------------------------------------------------*/
 DataRange *GlobalContext::getIndependentData(IContext *ctx,int data_type){
   IData * data=NULL ;
+  /*
   if ( data_type == InputData)
     data = ctx->getInputData(); // todo loop for all input data
   else if (data_type == OutputData)  
@@ -360,6 +216,7 @@ DataRange *GlobalContext::getIndependentData(IContext *ctx,int data_type){
   ContextHandle cch = *ctx->getContextHandle();
   if ( dch == cch ) 
     return data->All();
+  */
   return NULL;
 }
 
@@ -387,12 +244,6 @@ void GlobalContext::setConfiguration(Config *_cfg){
     nodesPropTasks.push_back(lp);
 }
 /*--------------------------------------------------------------*/
-void GlobalContext::testHandles(){
-  list<IContext *>::iterator it;
-  for(it = children.begin();it != children.end(); ++it){
-    (*it)->testHandles();      
-  }
-}
 /*===================================================================================*/
 void PropagateInfo::dump(){
   IData *data  = glbCtx.getDataByHandle(&data_handle);

@@ -44,20 +44,21 @@ typedef unsigned long TaskHandle;
 class IDuctteipTask
 {
 private:
-  string              name;
-  list<DataAccess *> *data_list;
-  int                 state,sync,type,host;
-  TaskHandle          handle;
-  unsigned long       key,comm_handle;
-  IContext           *parent_context;
-  PropagateInfo      *prop_info;
-  MessageBuffer      *message_buffer;
-  pthread_mutex_t    task_finish_mx;
-  pthread_mutexattr_t  task_finish_ma;
-  Handle<Options>    *sg_handle;
-  bool                exported,imported;
-  TaskBase<Options>  *sg_task;
+  string                 name;
+  list<DataAccess *>    *data_list;
+  int                    state,sync,type,host;
+  TaskHandle             handle;
+  unsigned long          key,comm_handle;
+  IContext              *parent_context;
+  PropagateInfo         *prop_info;
+  MessageBuffer         *message_buffer;
+  pthread_mutex_t        task_finish_mx;
+  pthread_mutexattr_t    task_finish_ma;
+  Handle<Options>       *sg_handle;
+  bool                   exported,imported;
+  TaskBase<Options>     *sg_task;
   TaskExecutor<Options> *te;
+  TimeUnit               start,end,exp_fin;
 public:
   enum TaskType{
     NormalTask,
@@ -75,7 +76,6 @@ public:
    IDuctteipTask(PropagateInfo *P);
    IDuctteipTask(IContext *,string,ulong,int,list<DataAccess *> *);
   ~IDuctteipTask();
-  pthread_mutex_t * getTaskFinishMutex();
   void createSyncHandle();
   Handle<Options> *getSyncHandle();
   DuctTeip_Data *getArgument(int index);
@@ -110,11 +110,13 @@ public:
   void setImported(bool f) ;
   bool isImported();
   bool isRunning();
-  void runPropagateTask(); 
   IContext *getParentContext(); 
   TaskExecutor<Options> *getTaskExecutor();
   void setTaskExecutor(TaskExecutor<Options> *);
   TaskBase<Options>*getKernelTask();
+  TimeUnit getExpFinish();
+  ulong  getMigrateSize();
+  TimeUnit getDuration();
 };
 /*======================= IDuctteipTask ==============================================*/
 

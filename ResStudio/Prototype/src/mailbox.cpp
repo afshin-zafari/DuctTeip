@@ -137,9 +137,7 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
     return true;
   }
   if (!found){
-    addLogEventStart("AnySendCompleted",DuctteipLog::AnySendCompleted);
     found = comm->isAnySendCompleted(&tag,&handle);
-    addLogEventEnd("AnySendCompleted",DuctteipLog::AnySendCompleted);
     if ( (tag != TerminateOKTag) && (tag !=  TerminateCancelTag) ) 
       if ( found ) {
 	LOG_INFO(LOG_MULTI_THREAD,"AnySendCompleted=True, tag:%d. \n",tag);

@@ -19,7 +19,7 @@
 
 using namespace std;
 
-extern int me,version,simulation;
+extern int me,version;
 
 class IContext;
 class IData;
@@ -41,6 +41,7 @@ public:
   ~IContext();
   virtual void runKernels(IDuctteipTask *task) = 0 ; 
   virtual string getTaskName(unsigned long) =0;
+  virtual void taskFinished(IDuctteipTask *task,TimeUnit dur)=0;
 
   string getName()    {return name;}
   string getFullName(){return getName();}
@@ -55,14 +56,9 @@ public:
   IData *getDataByHandle(list<IData *> dlist,DataHandle *dh);
   IData *getDataByHandle(DataHandle *dh ) ;
   void setParent ( IContext *_p ) ;
-  void traverse();
   void addInputData(IData *_d);
   void addOutputData(IData *_d);
   void addInOutData(IData *_d);
-  void resetVersions();
-  void dumpDataVersions(ContextHeader *hdr=NULL);
-  void testHandles(list<IData*> dlist);
-  void testHandles();
   DataHandle * createDataHandle ( ) ;
 };
 /*===================================================================================*/

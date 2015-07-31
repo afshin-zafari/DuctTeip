@@ -37,12 +37,3 @@ void SetStartTime(){StartTime = getTime();}
 TimeUnit UserTime(){  return (getTime() - StartTime)/1000000;}
 
 
-void nanoSleep(int n=1){
-  //return;
-  timespec ts;
-  ts.tv_sec=0;
-  ts.tv_nsec=n*1000;
-
-  clock_nanosleep(CLOCK_PROCESS_CPUTIME_ID,0,&ts,NULL);
-}
-

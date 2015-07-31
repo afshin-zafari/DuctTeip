@@ -42,6 +42,7 @@ full_help=" --mca orte_base_help_aggregate 0 "
 free_handles=" --mca mpi_no_free_handles 1"
 mca_params="${show_params} ${handle_leaks} ${alloc_mem} ${full_help} ${free_handles}"
 mpi_params="${mca_params} --map-by ppr:$ipn:node --output-filename $outfile "
+mpi_params="${mca_params} -npernode $ipn --output-filename $outfile "
 
 export LD_LIBRARY_PATH=$ACML_DIR/lib:$LD_LIBRARY_PATH
 

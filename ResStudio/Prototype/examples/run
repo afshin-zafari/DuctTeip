@@ -9,10 +9,10 @@ p=2;q=1
 nt=2
 DLB=0
 ps=2000 # poll-sleep
-B=4
-b=3
+B=7
+b=6
 to=30
-N=4320
+N=2520
 
 #ipn=4;P=4;p=2;q=2;nt=2;DLB=0;ps=2000 ;B=2;b=2;to=3;N=24
 

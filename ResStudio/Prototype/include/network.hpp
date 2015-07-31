@@ -23,6 +23,7 @@ public:
   virtual void waitForAnyReceive(int*,int*,int*)=0;
   virtual bool anyDataReceived(void *)=0;
   virtual void postReceiveData(int,int,void *)=0;
+  virtual double getBandwidth()=0;
 };
 
 #endif //__NETWORK_HPP__

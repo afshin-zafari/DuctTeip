@@ -15,12 +15,12 @@ extern int me;
 /*============================================================================*/
 struct CommRequest{
 public:
-  MPI_Request *request;
-  int tag;
-  unsigned long handle,length;
-  byte *buf;
-  MemoryItem *mem;
   ClockTimeUnit start_time;
+  MPI_Request *request;
+  MemoryItem *mem;
+  ulong handle,length;
+  byte *buf;
+  int tag;
   CommRequest():request(NULL),tag(-1),handle(-1){}
   CommRequest(MPI_Request *mr,int t,unsigned long h,unsigned long len=0);
   ~CommRequest(){delete request;}
@@ -68,8 +68,9 @@ public:
   void  waitForAnyReceive(int *,int *,int *);
   void  waitForSend();
   void  removeRequest(MPI_Request req,ulong handle);
-  void postReceiveData(int,int, void *);
-  bool anyDataReceived(void  *event);
+  void  postReceiveData(int,int, void *);
+  bool  anyDataReceived(void  *event);
+  double getBandwidth();
 
 };
 #endif //__MPI_COMM_HPP__

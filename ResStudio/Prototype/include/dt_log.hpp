@@ -2,6 +2,7 @@
 #define __DT_LOG_HPP__
 #include <iomanip>
 #include "dt_task.hpp"
+#include "config.hpp"
 
 
 
@@ -26,7 +27,7 @@ typedef struct {
   TimeUnit start;
 }Statistics;
 typedef unsigned long ulong;
-extern int simulation;
+extern Config config;
 /*----------------------------------------------------------------------------*/
 
 /*============================================================================*/
@@ -60,7 +61,7 @@ private:
   int  nodes;
   static const  int BIG_SIZE=216010;
 public:
-  unsigned long N,NB,nb,p,q,cores;
+  //unsigned long N,NB,nb,p,q,cores;
   enum event_t {
     DataDefined,                  // paired, synch.
     DataPartitioned,              // paired, synch.
@@ -101,6 +102,7 @@ public:
     TaskImported,
     DataExported,
     DataImported,
+    TaskFinished,
     NumberOfEvents
   };
   Statistics stats[NumberOfEvents];
@@ -113,7 +115,7 @@ public:
   void addEvent(IData *data,int event,int dest=-1);
   void addEvent(engine *eng,int event);
   void addEvent(IListener *listener,int event,int dest =-1);
-  void addEvent(string  text,int event);
+  void addEvent(int event);
   void addEventSummary(int e, TimeUnit st, TimeUnit dur);
   void addEventNumber (unsigned long num, int e ) ;
   void setParams(int nodes_, long, long, long );
@@ -131,10 +133,6 @@ public:
   void addEventEnd(IListener *listener,int event);
   void addEventEnd(string  text,int event);
   void updateStatistics(int e,TimeUnit length);
-  bool isSequentialPairEvent(int e);
-  bool isPairEvent(int e);
-  void filterEvent(EventInfo *e);
-  void mergePairEvents();
   void dump(long sg_task_count);
   void dumpStatistics();
   void logExportTask(long count);
@@ -143,7 +141,7 @@ public:
   void dumpLoad(list<load*> lst,char *s);
   void dumpLoads();
   void dumpSimulationResults(long sg_task_count);
-
+  void logLoad(long run, long imp, long exp);
 };
 /*----------------------------------------------------------------------------*/
 class Timer{
@@ -162,11 +160,11 @@ public:
 #define TIMERX(a,e) Timer a((int)(e),__FILE__,__LINE__,__FUNCTION__);
 #endif
 
-#define LOG_EVENT(e) //TIMER(e)
-#define LOG_EVENTX(a,e) //TIMERX(a,e)
+#define LOG_EVENT(e) dt_log.addEvent(e)
+#define LOG_EVENTX(e,a) dt_log.addEvent(a,e)
 #define LOG_METRIC(m) dt_log.addEventNumber(1,m)
+#define LOG_LOAD dt_log.logLoad(dtEngine.running_tasks.size(),dtEngine.import_tasks.size(),dtEngine.export_tasks.size())
 
+#define LOG_LOADZ dt_log.logLoad(0,0,0)
 extern DuctteipLog dt_log;
-void addLogEventStart(string s , int e ) ;
-void addLogEventEnd  (string s , int e ) ;
 #endif //__DT_LOG_HPP__

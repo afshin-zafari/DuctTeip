@@ -86,7 +86,7 @@ public:
 /*----------------------------------------------------------------------------*/
 
   void populateMatrice(){
-    if ( simulation) return;
+    if ( config.simulation) return;
     cfg=&config;
     int I = cfg->getYBlocks();        // Mb
     int J = cfg->getXBlocks();        // Nb
@@ -94,7 +94,6 @@ public:
     int L = cfg->getXDimension() / J; // #cols per block== N/ Nb
     IData &A=*M;
 
-    dt_log.addEventStart(M,DuctteipLog::Populated);
     for ( int i=0; i < I; i ++ ) {
       for ( int j=0 ; j < J ; j ++){
 	if ( A(i,j)->getHost() == me ) {
@@ -115,12 +114,11 @@ public:
 	}
       }
     }   
-    dt_log.addEventEnd(M,DuctteipLog::Populated);
     dumpAllData();
   }
 /*----------------------------------------------------------------------------*/
   void checkCorrectness(){
-    if ( simulation) return;
+    if ( config.simulation) return;
     int I = cfg->getYBlocks();        // Mb
     int J = cfg->getXBlocks();        // Nb
     int K = cfg->getYDimension() / I; // #rows per block== M/ Mb
@@ -166,6 +164,26 @@ public:
 	DuctTeip_Submit(trsm,A(i,i), A(j,i) ) ;
       }
     }
+  }
+/*----------------------------------------------------------------------------*/
+  void taskFinished(IDuctteipTask *task, TimeUnit dur){
+    long key = task->getKey();
+    double  n = config.N / config.Nb,gflops;
+    switch(key){
+    case potrf:
+      gflops=((n*n*n/3.0)/dur);
+      break;
+    case trsm:
+      gflops=((n*n*n/6.0)/dur);
+      break;
+    case syrk:
+      gflops=((n*n*n/6.0)/dur);
+      break;
+    case gemm:
+      gflops=(2*(n*n*n/3.0)/dur);
+      break;
+    }
+    LOG_INFO(LOG_MULTI_THREAD,"key:%d, n:%lf, FLOPS %lf\n",key,n,gflops);
   }
 /*----------------------------------------------------------------------------*/
   void runKernels(IDuctteipTask *task ){
@@ -226,7 +244,6 @@ public:
 
 /*----------------------------------------------------------------------------*/
   void potrf_kernel(IDuctteipTask *task){
-    LOG_EVENT(DuctteipLog::SuperGlueTaskDefine);
 
     int n;
     DuctTeip_Data  *A = (DuctTeip_Data  *)task->getArgument(0);
@@ -250,7 +267,6 @@ public:
   }
 /*----------------------------------------------------------------------------*/
   void trsm_kernel(IDuctteipTask *task){
-    dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
     IData *a = task->getDataAccess(0);
     IData *b = task->getDataAccess(1);
     Handle<Options> **hA  =  a->createSuperGlueHandles();  
@@ -272,12 +288,10 @@ public:
 #if SUBTASK !=1
     SG_TASK(task,Sync);  
 #endif
-    dt_log.addEventEnd(task,DuctteipLog::SuperGlueTaskDefine);
     LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
   }
 /*----------------------------------------------------------------------------*/
   void syrk_kernel(IDuctteipTask *task){
-    dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
     IData *a = task->getDataAccess(0);
     IData *b = task->getDataAccess(1);
     Handle<Options> **hA  =  a->createSuperGlueHandles();  
@@ -298,12 +312,10 @@ public:
 #if SUBTASK !=1
     SG_TASK(task,Sync);  
 #endif
-    dt_log.addEventEnd(task,DuctteipLog::SuperGlueTaskDefine);
     LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
   }
 /*----------------------------------------------------------------------------*/
   void gemm_kernel(IDuctteipTask *task){
-    dt_log.addEventStart(task,DuctteipLog::SuperGlueTaskDefine);
     IData *a = task->getDataAccess(0);
     IData *b = task->getDataAccess(1);
     IData *c = task->getDataAccess(2);
@@ -323,7 +335,6 @@ public:
 #if SUBTASK !=1
     SG_TASK(task,Sync);  
 #endif
-    dt_log.addEventEnd(task,DuctteipLog::SuperGlueTaskDefine);
     LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
   }
 /*----------------------------------------------------------------------------*/

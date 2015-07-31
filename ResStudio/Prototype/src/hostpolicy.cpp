@@ -127,18 +127,3 @@ bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
   }
   return false;
 }
-/*===================================================================================*/
-bool TaskPropagatePolicy::isAllowed(ContextHostPolicy *hpContext,int me){
-  int lower,upper;
-  hpContext->getHostRange(&lower,&upper);
-  if (active_policy == GROUP_LEADER )
-    return ( me == lower);
-  if (active_policy == ALL_CYCLIC) {
-    int group_size = upper - lower + 1;
-    bool b = ((propagate_count % group_size ) + lower ) == me;
-    //printf("taskprop policy : pcnt:%d grp:%d lower:%d me:%d is_allowed:%d\n",propagate_count ,group_size  ,lower , me,b);
-    propagate_count++;
-    return b;
-  }
-  return false;
-}

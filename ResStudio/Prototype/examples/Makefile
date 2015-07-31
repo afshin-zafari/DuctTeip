@@ -17,7 +17,7 @@ ifeq ($(CXX),icpc)
 
 	BLAS_LINK_FLAGS=-L$(ACML_DIR)/lib  -lacml -nofor-main
 	LINK_FLAGS=-lm -lrt -no-ipo -lstdc++ $(BLAS_LINK_FLAGS) 
-	COMP_FLAGS=-fast -no-ipo -opt-prefetch -Os -simd $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS) #-mavx 
+	COMP_FLAGS=-fast -no-ipo -opt-prefetch -Os -simd -mavx $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS)
 else
 	ACML_DIR=/pica/h1/afshin/acml/gnu/acmllib/gfortran64
 	ACML_LIB=$(ACML_DIR)/lib/libacml.a

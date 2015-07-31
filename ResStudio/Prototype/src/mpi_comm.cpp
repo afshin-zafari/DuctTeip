@@ -8,7 +8,7 @@ CommRequest::CommRequest(MPI_Request *mr,int t,unsigned long h,unsigned long len
 
 /*--------------------------------------------------------------------------*/
 void MPIComm::initialize(){
-  int thread_level,request=MPI_THREAD_SERIALIZED;
+  int thread_level,request=MPI_THREAD_SINGLE;
   int err = MPI_Init_thread(NULL,NULL,request,&thread_level);
   thread_enabled = (request == thread_level) ;
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
@@ -268,7 +268,8 @@ void MPIComm::postReceiveData(int n ,int data_size,void *m){
     prcv_vect[from]->length = data_size;
     prcv_vect[from]->handle = 0;
 
-    MPI_Irecv(buf,data_size,MPI_BYTE,from,DATA_TAG,MPI_COMM_WORLD,&prcv_reqs[from]);
+    MPI_Recv_init(buf,data_size,MPI_BYTE,from,DATA_TAG,MPI_COMM_WORLD,&prcv_reqs[from]);
+    MPI_Start(&prcv_reqs[from]);
     prcv_vect[from]->request = &prcv_reqs[from];
   }
   prcv_count = n;
@@ -297,14 +298,21 @@ bool MPIComm::anyDataReceived(void * e){
   //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].buf:%p\n",index,prcv_vect[index]->buf);
   //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].len:%d\n",index,prcv_vect[index]->length);
   //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].tag:%d\n",index,prcv_vect[index]->tag);
-  MPI_Irecv( prcv_vect[index]->buf,
+  MPI_Recv_init( prcv_vect[index]->buf,
 	     prcv_vect[index]->length , MPI_BYTE,
 	     index, // from node
 	     prcv_vect[index]->tag    , 
 	     MPI_COMM_WORLD,
 	    &prcv_reqs[index]);
+
+  MPI_Start( &prcv_reqs[index] );
+
   prcv_vect[index]->request = &prcv_reqs[index];
 
   return true;
 
+}
+/*--------------------------------------------*/
+double MPIComm::getBandwidth(){
+  return tot_sent_len / tot_sent_time;
 }

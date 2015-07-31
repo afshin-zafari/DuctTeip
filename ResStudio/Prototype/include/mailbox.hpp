@@ -9,31 +9,28 @@
 struct MailBoxEvent{
 public :
   enum EventDirection {Received,Sent};
-  int direction;
-  // for received events
+  int direction,length,tag,host;
   byte *buffer;
-  int length;
-  // for sent events
-  unsigned long handle;  
-  // for both events
-  int tag,host;
+  ulong  handle;  
   MemoryItem *memory;
   /*-------------------------------------------------------------------------------*/
               MailBoxEvent(byte *b,int l,int t,int s);
   void        setMemoryItem(MemoryItem *m);
   MemoryItem *getMemoryItem();
+  MailBoxEvent &operator =(MailBoxEvent &rhs);
+
    MailBoxEvent();
   ~MailBoxEvent();
-  MailBoxEvent &operator =(MailBoxEvent &rhs);
   void dump();
 };
+typedef list <MailBoxEvent *> MailBoxEventList;
 /*===============================================================================*/
 class MailBox
 {
 private:
-  INetwork *comm;
-  MailBoxEvent last_receive_event,shared_event;
-  list <MailBoxEvent *> post_list;
+  INetwork        *comm;
+  MailBoxEvent     last_receive_event,shared_event;
+  MailBoxEventList post_list;
   bool self_terminate_received, self_terminate_sent;;
 public:
   /*-------------------------------------------------------------------------------*/
@@ -56,7 +53,7 @@ public:
     MigratedTaskOutDataTag
   } ;
   /*-------------------------------------------------------------------------------*/
-  unsigned long  send                  (byte *, int, int, int,bool wait=false);
+  ulong  	 send                  (byte *, int, int, int,bool wait=false);
   inline void 	 getLRNeighbors        (int ,int *,int *);
   bool 		 getEvent              (MemoryManager *,MailBoxEvent *,bool *,bool wait = false);
   void 		 waitForAnySendComplete(MailBoxEvent *);

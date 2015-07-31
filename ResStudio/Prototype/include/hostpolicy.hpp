@@ -138,24 +138,6 @@ public :
 };
 
 
-/*==================Task Propagate Policy ==========================*/
-class TaskPropagatePolicy : public IHostPolicy
-{
-public:
-  typedef enum  {
-    GROUP_LEADER=1,
-    ALL_CYCLIC
-  }tppType;
-private:
-  tppType active_policy;
-  int propagate_count;
-public :
-  TaskPropagatePolicy (ProcessGrid *pg) : IHostPolicy(pg),propagate_count(0){}
-  TaskPropagatePolicy (tppType tpp,ProcessGrid &pg) : IHostPolicy(&pg),active_policy(tpp),propagate_count(0){}
-  int getHost ( list <IData*> in_data,list <IData*> out_data){return -1;}
-  bool isAllowed(ContextHostPolicy *hpContext,int me);
-  bool isAllowed(IContext *hpContext,ContextHeader*){return false;}
-};
 
 
 #endif //__HOSTPOLICY_HPP__

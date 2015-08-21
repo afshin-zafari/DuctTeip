@@ -142,6 +142,7 @@ public:
   void dumpLoads();
   void dumpSimulationResults(long sg_task_count);
   void logLoad(long run, long imp, long exp);
+  double getStattime(int e);
 };
 /*----------------------------------------------------------------------------*/
 class Timer{

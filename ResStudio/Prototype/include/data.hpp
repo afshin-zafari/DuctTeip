@@ -67,6 +67,8 @@ public:
   void          setDataHandle    ( DataHandle *d)  { my_data_handle = d;}
   DataHandle   *getDataHandle    ()                { return my_data_handle ; }  
   unsigned long getDataHandleID  ()                {return my_data_handle->data_handle;}
+  void setBlockIdx(int y,int x);
+  void getBlockIdx(int &row, int & col){row = blk.by; col = blk.bx;}
   /*--------------------------------------------------------------------------*/
   void allocateMemory();
   void prepareMemory();

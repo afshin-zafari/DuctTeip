@@ -25,7 +25,7 @@ N=15120
 ps=2500 # poll-sleep in usec
 B=7
 b=6
-to=50
+to=120
 outfile=devel_test_N02.out
 
 params="-P $P -p $p -q $q -N $N $B $b -I $ipn -T $to -t $nt -S $ps"

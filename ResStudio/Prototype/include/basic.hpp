@@ -29,7 +29,7 @@
 
 #define PRINT_IF(a) if(a)printf
 #define DLB_DEBUG 0
-#define DLB_BUSY_TASKS 5
+#define DLB_BUSY_TASKS 2
 #define DLB_MODE 0
 #define POST_RECV_DATA 1
 
@@ -61,6 +61,8 @@ typedef unsigned char byte;
 #define LOG_PROFILE      32
 #define LOG_TASKS        64
 #define LOG_LISTENERS    128
+#define LOG_DLBX         256
+#define LOG_MLEVEL       512
 #define LOG_TESTS        1024
 
 
@@ -69,7 +71,7 @@ typedef unsigned char byte;
 
 #define BUILD DEBUG
 
-#define LOG_FLAG  (LOG_MULTI_THREAD +LOG_PROFILE)
+#define LOG_FLAG  (LOG_DLBX+LOG_PROFILE)
 #if BUILD == RELEASE
 #define LOG_INFO(a,b,c...) 
 #else

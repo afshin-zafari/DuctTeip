@@ -10,7 +10,7 @@ GTEST_DIR_LIB=$(GTEST_DIR)/lib/.libs
 GTEST_MAIN_SRC=$(GTEST_DIR)/gtest_main.cc
 GTEST_MAIN_OBJ=$(GTEST_DIR)/gtest_main.o
 SUPERGLUE_INC=/pica/h1/afshin/TBP/superglue/include
-CFLAGS= -c -I$(DUCTTEIP_INC) -I$(GTEST_DIR_INC) -I$(SUPERGLUE_INC) 
+CFLAGS= -std=c++11 -c -I$(DUCTTEIP_INC) -I$(GTEST_DIR_INC) -I$(SUPERGLUE_INC) 
 CFLAGS_LIB= -L$(GTEST_DIR_LIB) -L$(DUCTTEIP_LIB) -lgtest -lductteip -lm -lrt -lstdc++ 
 CXX=mpic++
 
@@ -26,12 +26,12 @@ apps:=$(addprefix $(appdir)/,$(appnames))
 all: $(apps)
 
 
-$(objects): $(outdir)/%.o: %.cpp
-	@$(CXX) $(CFLAGS) $< -o $@
+$(objects): $(outdir)/%.o: %.cpp 
+	$(CXX) $(CFLAGS) $< -o $@
 
 $(apps): $(appdir)/%.test: $(outdir)/%.o 
 	$(info )
-	@$(CXX) $<  $(CFLAGS_LIB) -o $@
+	@$(CXX) $< $(CFLAGS_LIB) -o $@
 	$(info --------------------------------------------------)
 	$(info --> $(@F))
 	$(info --------------------------------------------------)
@@ -39,4 +39,4 @@ $(apps): $(appdir)/%.test: $(outdir)/%.o
 
 clean:
 	@rm -r $(apps) $(objects) $(outdir)/* > /dev/null 2>&1
-.PHONY: all clean
+.PHONY: all clean 

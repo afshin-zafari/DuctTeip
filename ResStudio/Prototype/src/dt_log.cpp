@@ -244,16 +244,18 @@ DuctteipLog dt_log;
     stats[EventsWork].minimum = stats[EventsWork].maximum = 0;
     
     stats[SkipOverhead].count /= SCALE;    
-    dumpSimulationResults(sg_task_count);
     if ( !config.simulation)
       dumpStatistics();
-    if ( me == 0)
-      fprintf(stderr,"[****] Time= %lf, N = %ld , NB= %ld , nb= %ld , p= %ld, q = %ld, gf= %lf\n",
-	      stats[ProgramExecution].total,
-	      config.N,config.Nb,config.nb,config.p,config.q,
-	      double(config.N*config.N*config.N/3e9/stats[ProgramExecution].total));
+    else
+      dumpSimulationResults(sg_task_count);
     log_file.close();
   }
+/*----------------------------------------------------------------------------*/
+double DuctteipLog::getStattime(int e){
+  if ( e < NumberOfEvents)
+      return stats[e].total;
+  return 0.0;
+}
 /*----------------------------------------------------------------------------*/
    void DuctteipLog::dumpStatistics(){
      return ; 

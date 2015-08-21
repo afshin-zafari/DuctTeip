@@ -128,6 +128,8 @@ public:
   ~engine();
   SuperGlue<Options> * getThrdManager() ;
   int getLocalNumBlocks();
+  list<IDuctteipTask*>  &getRunningTasksList(){return running_tasks;}
+  MailBox *getMailBox(){return mailbox;}
   TaskHandle  addTask(IContext * context,
 		      string task_name,
 		      ulong  key, 
@@ -170,6 +172,8 @@ public:
   void waitForWorkReady();
   void doDLB(int st=-1);
   void updateDurations(IDuctteipTask *task);
+  IDuctteipTask *getTaskByHandle(TaskHandle  task_handle);
+  void putWorkForSingleDataReady(IData* data);
 private :
   void putWorkForCheckAllTasks();
   void putWorkForReceivedListener(IListener *listener);
@@ -177,7 +181,6 @@ private :
   void putWorkForNewTask(IDuctteipTask *task);
   void putWorkForReceivedTask(IDuctteipTask *task);
   void putWorkForFinishedTask(IDuctteipTask * task);
-  void putWorkForSingleDataReady(IData* data);
   void receivedTask(MailBoxEvent *event);
   void importedTask(MailBoxEvent *event);
   long int checkRunningTasks(int v=0);
@@ -201,7 +204,6 @@ private :
   void removeListenerByHandle(int handle ) ;
   void removeTaskByHandle(TaskHandle task_handle);
   void criticalSection(int direction);
-  IDuctteipTask *getTaskByHandle(TaskHandle  task_handle);
   IDuctteipTask *getTaskByCommHandle(unsigned long handle);
   IListener *getListenerByCommHandle ( unsigned long  comm_handle ) ;
   void resetTime();

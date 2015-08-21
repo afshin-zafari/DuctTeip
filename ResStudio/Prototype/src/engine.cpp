@@ -208,7 +208,9 @@ void engine::globalSync(){
     Log<Options>::dump(s);
   }
   long tc=thread_manager->getTaskCount();
+
   dt_log.dump(tc);
+
   LOG_INFO(LOG_MULTI_THREAD,"after  dt log \n");
 
   LOG_INFO(LOG_MULTI_THREAD,"before comm->finish\n");
@@ -270,7 +272,8 @@ bool engine::canTerminate(){
 	wasted_time += getTime() - t;
 	return false;
       }
-      LOG_INFO(LOG_MULTI_THREAD,"error: timeout\n");
+      TimeUnit t = elapsedTime(TIME_SCALE_TO_SECONDS);
+      LOG_ERROR("error: timeout %ld\n",t);
       wasted_time += getTime() - t;
       return true;
     }
@@ -708,6 +711,7 @@ long int engine::checkRunningTasks(int v){
     if(task->canBeCleared()){
       updateDurations(task);
       it = running_tasks.erase(it);	
+      LOG_INFO(LOG_MLEVEL,"task finished:%s \n",task->getName().c_str());
       LOG_LOAD;
       continue;
     }
@@ -782,6 +786,10 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
   list<DataAccess *>::iterator it;
   for (it = data_list->begin(); it != data_list->end() ; it ++) {
     DataAccess &data_access = *(*it);
+    LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",
+	     data_access.data->getParentData(),
+	     data_access.data->getDataHostPolicy());
+
     int host = data_access.data->getHost();
     data_access.data->addTask(task);
     if ( host != me ) {
@@ -843,7 +851,9 @@ void engine::executeTaskWork(DuctTeipWork * work){
 	running_tasks.push_back(work->task);
 	LOG_LOAD;
 	if (cfg->getDLB()){
-	  if (dlb.getActiveTasksCount() < DLB_BUSY_TASKS ){
+	  long actives=dlb.getActiveTasksCount();
+	  if ( actives< DLB_BUSY_TASKS ){
+	    LOG_INFO(LOG_DLBX,"Let task run, since there is not enough active tasks:%d\n",actives);
 	    work->task->run();
 	  }
 	}
@@ -999,43 +1009,43 @@ void engine::processEvent(MailBoxEvent &event){
     break;
   case MailBox::FindIdleTag:
     if ( event.direction == MailBoxEvent::Received ) {
-      PRINT_IF(DLB_DEBUG)("FIND_IDLE tag recvd from %d\n",event.host);
+      LOG_INFO(LOG_DLB,"FIND_IDLE tag recvd from %d\n",event.host);
       dlb.received_FIND_IDLE(event.host);
     }
     break;
   case MailBox::FindBusyTag:
     if ( event.direction == MailBoxEvent::Received ) {
-      PRINT_IF(DLB_DEBUG)("FIND_BUSY tag recvd from %d\n",event.host);
+      LOG_INFO(LOG_DLB,"FIND_BUSY tag recvd from %d\n",event.host);
       dlb.received_FIND_BUSY(event.host);
     }
     break;
   case MailBox::DeclineMigrateTag:
     if ( event.direction == MailBoxEvent::Received ) {
-      PRINT_IF(DLB_DEBUG)(" DECLINE  tag recvd from %d\n",event.host);
+      LOG_INFO(LOG_DLB," DECLINE  tag recvd from %d\n",event.host);
       dlb.receivedDeclineMigration(event.host);
     }
     break;
   case MailBox::AcceptMigrateTag:
     if ( event.direction == MailBoxEvent::Received ) {
-      PRINT_IF(DLB_DEBUG)("ACCEPT  tag recvd from %d\n",event.host);
+      LOG_INFO(LOG_DLB,"ACCEPT  tag recvd from %d\n",event.host);
       dlb.received_ACCEPTED(event.host);
     }
     break;
   case MailBox::MigrateTaskTag:
     if ( event.direction == MailBoxEvent::Received ) {
-      PRINT_IF(0)("TASKS imported from %d\n",event.host);
+      LOG_INFO(LOG_DLB,"TASKS imported from %d\n",event.host);
       dlb.receivedMigrateTask(&event);
     }
     break;
   case MailBox::MigrateDataTag:
     if ( event.direction == MailBoxEvent::Received ) {
-      PRINT_IF(0)("DATA imported from %d\n",event.host);
-      PRINT_IF(0)("time:%Ld\n",elapsedTime(1));
+      LOG_INFO(LOG_DLB,"DATA imported from %d\n",event.host);
       dlb.importData(&event);
     }
     break;
   case MailBox::MigratedTaskOutDataTag:
     if ( event.direction == MailBoxEvent::Received ) {
+      LOG_INFO(LOG_DLB,"result for exported task is imported from %d\n",event.host);
       dlb.receiveTaskOutData(&event);
     }
     break;
@@ -1322,6 +1332,12 @@ int  engine::getThreadModel(){
 MemoryManager *engine::getMemoryManager(){return data_memory;}
 /*---------------------------------------------------------------*/
 void engine::doDLB(int st){
+  static long last_count;
+  long c =  running_tasks.size();
+  if ( c && c!= last_count )
+    return;
+  LOG_INFO(LOG_DLB,"task count last:%ld, cur:%d\n",last_count ,c);
+  last_count = c;
   dlb.doDLB(st);
 }
 

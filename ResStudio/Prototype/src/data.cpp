@@ -288,6 +288,7 @@ DataVersion IData::getRunTimeVersion(byte type){
 }
 /*--------------------------------------------------------------------------*/
 void IData::setRunTimeVersion(string to_ctx, int to_version){
+  LOG_INFO(LOG_MLEVEL,"D(%d,%d),to:%d\n",blk.by,blk.bx,to_version);
   rt_read_version = to_version;
   rt_read_version.setContext(to_ctx);
   rt_write_version = to_version;
@@ -308,6 +309,10 @@ void IData::incrementRunTimeVersion(byte type,int v  ){
   }
 }
 /*--------------------------------------------------------------------------*/
+void IData::setBlockIdx(int y,int x){
+  blk.bx=x;
+  blk.by=y;
+}
 /*--------------------------------------------------------------------------*/
 IData *IData::operator () (const int i,const int j) {    
   return (*dataView)[i][j];  
@@ -584,7 +589,7 @@ bool IData::isOwnedBy(int p) {
   Coordinate c = blk;  
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
     if ( parent_data->Nb ==1) 
-      c.bx = c.by;
+      c.by = c.bx;
     return ( hpData->getHost ( c,1 ) == p );
   }
   else{
@@ -595,9 +600,16 @@ bool IData::isOwnedBy(int p) {
 /*--------------------------------------------------------------*/
 int IData::getHost(){
   Coordinate c = blk;  
+  //  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  if ( parent_data ==NULL){
+    LOG_INFO(LOG_MLEVEL,"parent data is null.\n");
+    return 0;
+  }
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
+    //    LOG_INFO(LOG_MLEVEL," coord(%d,%d)\n",c.by,c.bx);
+    //    LOG_INFO(LOG_MLEVEL,"blkidx(%d,%d)\n",blk.by,blk.bx);
     if ( parent_data->Nb ==1) {
-      c.bx = c.by;
+      c.by = c.bx;
     }
     return ( hpData->getHost ( c,1 )  );
   }
@@ -732,7 +744,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
   list<IListener *>::iterator lsnr_it;
   list<IDuctteipTask *>::iterator task_it;
 
-  if(0)printf("data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
+  LOG_INFO(LOG_DLBX,"data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
   if (listeners.size() >0) {
     LOG_EVENT(DuctteipLog::CheckedForListener);
     for(lsnr_it = listeners.begin() ; 
@@ -750,14 +762,16 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
       IDuctteipTask *task = (*task_it);
       LOG_EVENT(DuctteipLog::CheckedForRun);
       if ( !task->isFinished())
-	if(0)printf("data %s -> task:%s,stat=%d.\n",getName().c_str(),task->getName().c_str(),task->getState());
+	LOG_INFO(LOG_DLB,"data %s -> task:%s,stat=%d.\n",
+		 getName().c_str(),task->getName().c_str(),task->getState());
       if (task->canRun(debug)) {
 	running_tasks.push_back(task);
-	if(0)printf("RUNNING Tasks#:%ld\n",running_tasks.size());
-	if(0)printf("task:%s inserted in running q.\n",task->getName().c_str());
+	LOG_INFO(LOG_DLB,"RUNNING Tasks#:%ld\n",running_tasks.size());
+	LOG_INFO(LOG_DLB,"task:%s inserted in running q.\n",task->getName().c_str());
       }
     }
   }
+  LOG_INFO(LOG_DLBX,"result data from migrated task checked\n");
   dtEngine.runFirstActiveTask();
   
 }

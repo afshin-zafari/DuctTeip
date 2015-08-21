@@ -135,30 +135,27 @@ bool IDuctteipTask::canRun(char c){
     LOG_INFO(LOG_TASKS,"Task is still running.\n");
     return false;
   }
-  if (0 && dbg)printf("**task %s dep :  state:%d\n",	   getName().c_str(),	   state);
   string s1,s2;
   s1=getName();s2="            ";
   for ( it = data_list->begin(); it != data_list->end(); ++it ) {
-    if(DLB_MODE){
+    if(c=='r'){
       s1+=" - "+(*it)->data->getName()+" , "+(*it)->required_version.dumpString();
-      s2+="             " +(*it)->data->getRunTimeVersion((*it)->type).dumpString();
-      /*
-	printf("  **data:%s \n",  (*it)->data->getName().c_str());
-	printf("  cur-version:%s\n",(*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str());
-	printf("  req-version:%s\n",(*it)->required_version.dumpString().c_str());
-      */
+      s2+="             " +(*it)->data->getRunTimeVersion((*it)->type).dumpString();      
+      LOG_INFO(LOG_DLB,"  **data:%s \n",  (*it)->data->getName().c_str());
+      LOG_INFO(LOG_DLB,"  cur-version:%s\n",(*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str());
+      LOG_INFO(LOG_DLB,"  req-version:%s\n",(*it)->required_version.dumpString().c_str());      
     }
       
       
     if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
-      /*
-	LOG_INFO(LOG_MULTI_THREAD ,"(%c)Task %s data %s is not ready,rt:ver:%s  rq-ver:%s.\n",
+      
+	LOG_INFO(LOG_MLEVEL ,"(%c)Task %s data %s is not ready,rt:ver:%s  rq-ver:%s.\n",
 	c,
 	getName().c_str(),
 	(*it)->data->getName().c_str(),
 	(*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str(),
 	(*it)->required_version.dumpString().c_str());
-      */
+      
       result=false;      
     }
   }
@@ -271,14 +268,20 @@ void IDuctteipTask::setFinished(bool flag){
   parent_context->taskFinished(this,end-start);
 
   LOG_EVENTX(DuctteipLog::TaskFinished,this);
-  //  LOG_INFO(LOG_MULTI_THREAD,"%s\n",getName().c_str());
-  dtEngine.signalWorkReady(this);
+  LOG_INFO(LOG_MLEVEL,"%s\n",getName().c_str());
+  if ( !isImported()){
+    dtEngine.signalWorkReady(this);
+  }
+  else{
+    LOG_INFO(LOG_DLBX,"%s finished notified to engine.\n",getName().c_str());
+  }
 }
 /*--------------------------------------------------------------*/
 void IDuctteipTask::upgradeData(char c){
   list<DataAccess *>::iterator it;
   if ( type == PropagateTask ) 
     return;
+  
   for ( it = data_list->begin(); it != data_list->end(); ++it ) {
     
     LOG_INFO(LOG_TASKS,"data:%s,%Ld\n",

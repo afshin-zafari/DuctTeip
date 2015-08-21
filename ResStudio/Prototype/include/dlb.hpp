@@ -20,7 +20,7 @@ private:
   DLB_Statistics dlb_profile;
   int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
   unsigned long dlb_failure,dlb_glb_failure;
-  ClockTimeUnit dlb_silent_start;
+  TimeUnit dlb_silent_start;
   enum DLB_STATE{
     DLB_IDLE,
     DLB_BUSY,
@@ -42,7 +42,11 @@ private:
     SILENT_PERIOD=100,
     FAILURE_MAX=5
   };
-  int failures[FAILURE_MAX];
+  int find[2][2],decline[2][2],accept[2][2];
+  enum Indices{
+    IDX_IDLE=0,IDX_BUSY=1,
+    IDX_ME=0,IDX_OTHERS=1
+  };
 #define TIME_DLB 
   /*---------------------------------------------------------------*/
   bool passedSilentDuration();
@@ -78,11 +82,16 @@ private:
   void acceptImportTasks(int p);    
   /*---------------------------------------------------------------*/
 private:
-  vector<int> dlb_fail_list;
+  struct Failure{
+    int node,request;
+    ulong timestamp;
+    Failure(int p,ulong t,int r):node(p),timestamp(t),request(r){}
+  };
+  vector<Failure *> dlb_fail_list;
 public:
-  bool isInList(vector<int>&L,int v);
-  int getRandomNodeEx();
-  int getRandomNodeOld(int exclude =-1);
+  bool isInList(int p,int req);
+  int  getRandomNodeEx(int r);
+  int  getRandomNodeOld(int exclude =-1);
   void checkImportedTasks();
   void checkExportedTasks();
   long getActiveTasksCount();

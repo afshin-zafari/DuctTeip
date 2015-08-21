@@ -56,7 +56,5 @@ $(objects):  $(outdir)/%.o:  $(SOURCE_DIR)/%.cpp $(HEADER_DIR)/%.hpp
 
 
 
-test:
-	cd tests/gtests;pwd;bash ./run;cd ../..
 clean: 
 	rm $(outdir)/*.o $(libfile)

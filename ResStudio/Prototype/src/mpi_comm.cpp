@@ -3,7 +3,7 @@
 CommRequest::CommRequest(MPI_Request *mr,int t,unsigned long h,unsigned long len):
   request(mr),tag(t),handle(h),length(len)
 {
-  start_time = getClockTime(MICRO_SECONDS);
+  start_time = UserTime();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -94,10 +94,11 @@ bool MPIComm::isAnySendCompleted(int *tag,unsigned long *handle){
     if ( flag ){
       *tag = req->tag;
       *handle = req->handle;
-      if (req->tag ==2 ) {
-	ClockTimeUnit t = getClockTime(MICRO_SECONDS) - req->start_time;
+      if (req->tag ==2 ||req->tag == 11) {
+	ulong  t = UserTime() - req->start_time;
 	tot_sent_time +=t;
 	tot_sent_len +=req->length;
+	LOG_INFO(LOG_DLB_SMART,"tot-time:%ld, tot-len:%ld\n",tot_sent_time,tot_sent_len);
       }
       request_list.erase(it); 
       return flag;
@@ -314,5 +315,7 @@ bool MPIComm::anyDataReceived(void * e){
 }
 /*--------------------------------------------*/
 double MPIComm::getBandwidth(){
-  return tot_sent_len / tot_sent_time;
+  double bw= tot_sent_len / ((double)tot_sent_time);
+  LOG_INFO(LOG_DLB,"%lf\n",bw);
+  return bw;
 }

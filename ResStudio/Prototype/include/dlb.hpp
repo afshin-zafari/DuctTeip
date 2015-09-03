@@ -19,8 +19,8 @@ private:
   };
   DLB_Statistics dlb_profile;
   int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
-  unsigned long dlb_failure,dlb_glb_failure;
-  TimeUnit dlb_silent_start;
+  unsigned long dlb_failure,dlb_glb_failure,dlb_silent_cnt,dlb_tot_time;
+  TimeUnit dlb_silent_start,last_msg_time,dlb_silent_tot;
   enum DLB_STATE{
     DLB_IDLE,
     DLB_BUSY,
@@ -39,13 +39,14 @@ private:
     DLB_NONE
   };
   enum Limits{
-    SILENT_PERIOD=100,
     FAILURE_MAX=5
   };
-  int find[2][2],decline[2][2],accept[2][2];
+  int dlb_hist[6][2],    SILENT_PERIOD,    DLB_BUSY_TASKS ;
   enum Indices{
-    IDX_IDLE=0,IDX_BUSY=1,
-    IDX_ME=0,IDX_OTHERS=1
+    IDX_FINDI=0,IDX_FINDB=1,
+    IDX_DECLI=2,IDX_DECLB=3,
+    IDX_ACCPI=4,IDX_ACCPB=5,
+    IDX_SEND=0,IDX_RECV=1
   };
 #define TIME_DLB 
   /*---------------------------------------------------------------*/
@@ -66,7 +67,7 @@ private:
   void receivedExportRequest(int p);
   void received_DECLINE(int p);
   void receivedDeclineMigration(int p);
-  IDuctteipTask *selectTaskForExport();
+  IDuctteipTask *selectTaskForExport(double &);
   void exportTasks(int p);
   void importData(MailBoxEvent *event);
   void receiveTaskOutData(MailBoxEvent *event);
@@ -77,7 +78,7 @@ private:
   void exportTask(IDuctteipTask* task,int destination);
   IData * importedData(MailBoxEvent *event,MemoryItem *mi);
   void    importedTask(MailBoxEvent *event);
-  bool isFinishedEarlier(IDuctteipTask *t);
+  bool isFinishedEarlier(IDuctteipTask *t,double);
   /*---------------------------------------------------------------*/
   void acceptImportTasks(int p);    
   /*---------------------------------------------------------------*/
@@ -95,6 +96,7 @@ public:
   void checkImportedTasks();
   void checkExportedTasks();
   long getActiveTasksCount();
+  long getExportableTasksCount();
 /*---------------------------------------------------------------------------------*/
 
 };

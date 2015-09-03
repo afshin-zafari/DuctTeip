@@ -39,12 +39,15 @@ struct GenLevel{
   vector<GenLevel *> children;
   int type;
   IScheduler *scheduler;
+  bool mem_alloc;
   enum LevelType{SG_TYPE,DT_TYPE,BLAS_TYPE,CU_TYPE};
-  GenLevel(GenPartition *P){p=P;scheduler=NULL;}
+  GenLevel(GenPartition *P){p=P;scheduler=NULL; mem_alloc = false;  }
   void setParent(GenLevel *);
   void addChild (GenLevel *);
   void setType(LevelType t){type = t;}
   GenLevel* getChild(int i=0);
+  void setMemoryAllocation(bool f){mem_alloc=f;}
+  bool getMemoryAllocation(){return mem_alloc;}
 };
 typedef Handle<Options> sg_data_t;
 typedef IData dt_data_t;
@@ -63,7 +66,10 @@ private:
   dt_data_t  *dtData;
   sg_data_t  *sgData;
   GenHandle *handle;
-
+  MemoryManager *memMngr;
+  MemoryItem *mem;
+  byte *content;
+  int type_size;
 public:
   int axs;
   void setAccess(int a);
@@ -81,13 +87,20 @@ public:
   void getCoordination(int &y, int &x, int &z);
   void createChildren();
   void setLevel(GenLevel*l);
+  int getChildCount();
   GenLevel* getLevel(){return level;}
-  GData(){p=NULL;level=NULL;child_cnt=0;sgData=NULL;dtData = NULL;}
+  GData();
   GData(int i,int j=0, int k=0);
   void setPartition(GenPartition *P){p=P;};
   GData &operator()(int i, int j=0,int k=0);
   GenHandle  *getDataHandle();
   int getDataType(){return data_type;}
+  void allocateMemory();
+  byte *getMemory();
+  void setElementValue(int row,double val);
+  void setElementValue(int row,int col,double val);
+  double getElementValue(int r, int col=0);
+  int getHost();
 };
 typedef GData GenData;
 typedef GenData &DataArg;
@@ -161,7 +174,7 @@ public:
     }
   }
   void run(TaskExecutor<Options> &te){
-    //LOG_INFO(LOG_MLEVEL,"%s\n",gt->fname.c_str());
+    LOG_INFO(LOG_MLEVEL,"%s\n",gt->fname.c_str());
     mlMngr.runTask(gt);
   }  
   string get_name(){return gt->fname;}

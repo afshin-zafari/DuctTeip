@@ -2,6 +2,10 @@
 set -x
 GTEST_DIR=/pica/h1/afshin/gtest/gtest-1.7.0
 LD_LIBRARY_PATH=$GTEST_DIR/lib/.libs:$LD_LIBRARY_PATH
+ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
+ACML_LIB=${ACML_DIR}/lib/libacml.a
+LD_LIBRARY_PATH=${ACML_DIR}/lib:$LD_LIBRARY_PATH
+
 #ipn=2;P=2;p=2;q=1;nt=2;DLB=1;ps=2000;B=7;b=6;to=30;N=2520
 ipn=2;P=2;p=1;q=2;nt=2;DLB=0;ps=2000 ;B=2;b=2;to=3;N=24
 #P=1;q=1;p=1;ipn=1
@@ -28,7 +32,7 @@ run_test(){
 if [ "x$1" == "xclean" ] ; then 
     curd=$(pwd)
     cd ../../../examples	
-    ./run clean
+    ./run clean no-run
     cd $curd
     echo $(pwd)
 fi

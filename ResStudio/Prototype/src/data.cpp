@@ -744,7 +744,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
   list<IListener *>::iterator lsnr_it;
   list<IDuctteipTask *>::iterator task_it;
 
-  LOG_INFO(LOG_DLBX,"data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
+  LOG_INFO(LOG_DLB,"data:check after data upgrade lsnr:%ld tasks :%ld\n",listeners.size(),tasks_list.size());
   if (listeners.size() >0) {
     LOG_EVENT(DuctteipLog::CheckedForListener);
     for(lsnr_it = listeners.begin() ; 
@@ -771,7 +771,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
       }
     }
   }
-  LOG_INFO(LOG_DLBX,"result data from migrated task checked\n");
+  LOG_INFO(LOG_DLB,"result data from migrated task checked\n");
   dtEngine.runFirstActiveTask();
   
 }

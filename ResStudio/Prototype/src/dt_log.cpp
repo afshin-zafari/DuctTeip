@@ -335,8 +335,23 @@ void  DuctteipLog::addEventSummary(int e, TimeUnit st, TimeUnit dur){
   summary_list.push_back(ee);  
 }
 /*----------------------------------------------------------------------------*/
+void DuctteipLog::logLoad(long run, long imp, long exp){
+  logLoadChange(run);
+  logImportTask(imp);
+  logExportTask(exp);  
+}
+/*----------------------------------------------------------------------------*/
 
+Timer::Timer(ulong &sum,int e, const char *f, int l, const char *fx):event(e),line(l){
+  tot = &sum;
+  st = getTime();
+  strcpy(file,f );
+  strcpy(func,fx);
+  dt_log.addEventNumber(1,e);
+}
+/*----------------------------------------------------------------------------*/
 Timer::Timer(int e, const char *f, int l, const char *fx):event(e),line(l){
+  tot= NULL;
   st = getTime();
   strcpy(file,f );
   strcpy(func,fx);
@@ -345,14 +360,14 @@ Timer::Timer(int e, const char *f, int l, const char *fx):event(e),line(l){
 /*----------------------------------------------------------------------------*/
 Timer::~Timer(){
   end = getTime();
-  long dur = (end-st)/1000000;
-  fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",file,line,func,(ulong)pthread_self(),UserTime()); 
-  fprintf(stderr,"event:%22s, dur:%ld\n",dt_log.getEventName(event).c_str(),dur);
+  *tot += end - st;
+  long dur;
+  if ( tot ==NULL)
+    dur = (end-st)/1000;      
+  else
+    dur = *tot;
+  //  fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",file,line,func,(ulong)pthread_self(),UserTime()); 
+  //  fprintf(stderr,"event:%22s, dur:%ld\n",dt_log.getEventName(event).c_str(),dur);
   dt_log.addEventSummary(event,st,dur);
 }
 
-void DuctteipLog::logLoad(long run, long imp, long exp){
-  logLoadChange(run);
-  logImportTask(imp);
-  logExportTask(exp);  
-}

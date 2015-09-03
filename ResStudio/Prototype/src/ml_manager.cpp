@@ -5,13 +5,26 @@ SuperGlue<Options> SG;
 map<ulong,sg_data_t*> g2sg_map;
 map<ulong,dt_data_t*> g2dt_map;
 /*--------------------------------------------------------------------*/
+GData::GData(){
+  p=NULL;level=NULL;child_cnt=0;sgData=NULL;dtData = NULL;
+  mem = NULL;
+  content = NULL;
+  memMngr = NULL;
+  type_size=sizeof(double);  
+}
+/*--------------------------------------------------------------------*/
+
 GData::GData(int i,int j , int k){
   p=NULL;
   child_cnt=0;
-  xn=i;
+  xn=i; // todo xn=j , yn=i
   yn=j;
   zn=k;
+  type_size=sizeof(double);
   level=NULL;
+  mem = NULL;
+  content = NULL;
+  memMngr = NULL;
   handle=mlMngr.getNewHandle();
   if ( j==0){
     dim_cnt =1;
@@ -63,6 +76,85 @@ void GData::getCoordination(int &y,int &x,int &z){
   }
 }
 /*--------------------------------------------------------------------*/
+void GData::allocateMemory(){
+  if ( level ==NULL)
+    return;
+  if ( level->getMemoryAllocation()){
+    long blk_size=(xn/p->x)*((yn?yn:1)/p->y)*((zn?zn:1)/p->z)*(type_size);
+    LOG_INFO(LOG_MLEVEL,"L0:blk_size:%ld, child_cnt:%d\n",blk_size,getChildCount());
+    memMngr = new MemoryManager(getChildCount(),blk_size);
+  }
+  else{
+    if ( parent != NULL){
+      if ( parent->memMngr != NULL){
+	if ( mem ==NULL ) {
+	  LOG_INFO(LOG_MLEVEL,"%p\n",parent->memMngr);
+	  mem=parent->memMngr->getNewMemory();
+	  if ( level->getChild() == NULL ) {
+	    content = mem->getAddress();
+	    LOG_INFO(LOG_MLEVEL,"L1:content:%p\n",content);	    
+	  }
+	}
+      }
+      else {
+	if ( parent->mem != NULL){
+	  long blk_size = xn*(yn?yn:1)*(zn?zn:1) * type_size;
+	  content = parent->mem->getAddress()+child_idx*blk_size;
+	  LOG_INFO(LOG_MLEVEL,"L2:idx:%d,blk-sz:%d,  content:%p\n",child_idx,blk_size,content);	    
+	}
+	if (parent->content !=NULL){
+	  long blk_size = xn*(yn?yn:1)*(zn?zn:1) * type_size;
+	  content = parent->content+child_idx*blk_size;
+	  LOG_INFO(LOG_MLEVEL,"L3+:idx:%d,blk-sz:%d,  content:%p\n",child_idx,blk_size,content);	    
+	}
+      }
+    }
+  }
+  
+}
+/*--------------------------------------------------------------------*/
+byte *GData::getMemory(){
+  if ( content != NULL)
+    return content;
+  if ( mem != NULL)
+    return  mem->getAddress();
+  return NULL;
+}
+/*--------------------------------------------------------------------*/
+void GData::setElementValue(int row, int col,double val){
+  byte *m = getMemory();
+  if ( m==NULL) 
+    return; 
+  double *dm=(double*)(m+(col*yn+row)*type_size);
+  *dm = val;
+  
+}
+/*--------------------------------------------------------------------*/
+void GData::setElementValue(int row, double val){
+  setElementValue(row,0,val);
+}
+/*--------------------------------------------------------------------*/
+double GData::getElementValue(int row , int col){
+  byte *m = getMemory();
+  if ( m==NULL) 
+    return 0.0; 
+  double *dm=(double*)(m+(col*yn+row)*type_size);
+  return *dm;  
+}
+/*--------------------------------------------------------------------*/
+int GData::getChildCount(){
+  if ( level == NULL)
+    return 0;
+  GenLevel *child_level = level->getChild();
+  if ( child_level ==NULL)
+    return 0;
+  GenPartition *pp=child_level->p;
+  if ( pp==NULL)
+    return 0;
+  child_cnt = pp->x*pp->y*pp->z;
+  return child_cnt;
+}
+/*--------------------------------------------------------------------*/
 void GData::createChildren(){
   int col,row;
   if ( level == NULL)
@@ -74,6 +166,7 @@ void GData::createChildren(){
   if ( pp==NULL)
     return;
   child_cnt = pp->x*pp->y*pp->z;
+  LOG_INFO(LOG_MLEVEL,"chld-cnt:%d\n",child_cnt);
   children= new GData[child_cnt];//todo children --> GData **
   for(int i=0;i<child_cnt;i++){
     children[i].parent=this;
@@ -89,6 +182,7 @@ void GData::createChildren(){
     children[i].ys = row * children[i].yn; 
     children[i].handle=mlMngr.getNewHandle();
     children[i].setLevel(child_level);
+    children[i].allocateMemory();
     children[i].createChildren();
   }
 }
@@ -128,6 +222,7 @@ void MLManager::submitTask(const char *func , Args * args,Axs &axs){
       }
     }
   }
+  LOG_INFO(LOG_MLEVEL,"task arg0->mem:%p\n",t->args->args[0]->getMemory());
   tasks_list.push_back(t);
 }
 /*--------------------------------------------------------------------*/
@@ -187,7 +282,7 @@ map<TaskHandle,GenTask *> dt2gt_map;
 
 void MLManager::runTask(GenTask *t){
   void *fp = tasks_fps[t->fname];
-  //LOG_INFO(LOG_MLEVEL,"child-cnt:%d\n",t->args->args[0]->getChildrenCount());
+  LOG_INFO(LOG_MLEVEL,"child-cnt:%d\n",t->args->args[0]->getChildrenCount());
   if (t->args->args[0]->getChildrenCount() ==0 ) {
     Args *args= t->args;
     if (args->args.size()>0) {
@@ -196,6 +291,7 @@ void MLManager::runTask(GenTask *t){
 	if (L!=NULL){
 	  IScheduler *sch= L->scheduler;
 	  if (sch!=NULL){
+	    LOG_INFO(LOG_MLEVEL,"sch->runTask(t),t->arg[0].mem:%p\n",t->args->args[0]->getMemory());
 	    sch->runTask(t);
 	  }
 	}
@@ -210,6 +306,17 @@ void MLManager::runTask(GenTask *t){
   }
   submitNextLevelTasks(fp,t->args);
 }
+/*----------------------------------------------------------------------------*/
+int GData::getHost(){
+  int type=getLevel()->type;
+  if ( type != GenLevel::LevelType::DT_TYPE)
+    return;
+  GenHandle *gh=getDataHandle();
+  IData *dt,*d;
+  dt=g2dt_map[gh->handle];
+  d = (*dt)(0,0);  
+  return d->getHost();
+}
 
 /*----------------------------------------------------------------------------*/
 void initData(DataArg A){
@@ -222,6 +329,7 @@ void initData(DataArg A){
   d = (*dt)(0,0);  
   d->setRunTimeVersion("0.",0);
   dtEngine.putWorkForSingleDataReady(d);
+  LOG_INFO(LOG_MLEVEL,"\n");
 }
 
 void GenAddDTTask( GenTask *t){

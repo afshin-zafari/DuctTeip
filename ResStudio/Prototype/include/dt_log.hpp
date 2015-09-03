@@ -103,6 +103,7 @@ public:
     DataExported,
     DataImported,
     TaskFinished,
+    DLB,
     NumberOfEvents
   };
   Statistics stats[NumberOfEvents];
@@ -148,9 +149,11 @@ public:
 class Timer{
 public:
   int event,line;
+  ulong *tot;
   char file[100],func[100];
   TimeUnit st,end;
    Timer(int e,const char *f, int l, const char *fx);
+  Timer(ulong &,int e,const char *f, int l, const char *fx);
   ~Timer();
 };
 #if BUILD == RELEASE
@@ -159,6 +162,7 @@ public:
 #else
 #define TIMER(e)    Timer _((int)(e),__FILE__,__LINE__,__FUNCTION__);
 #define TIMERX(a,e) Timer a((int)(e),__FILE__,__LINE__,__FUNCTION__);
+#define TIMERACC(a,e) Timer _(a,(int)(e),__FILE__,__LINE__,__FUNCTION__);
 #endif
 
 #define LOG_EVENT(e) dt_log.addEvent(e)

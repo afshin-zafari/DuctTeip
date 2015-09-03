@@ -9,7 +9,9 @@ Config config;
 /*-----------------------------------------------------------------*/
 Config::Config(){
   P=p=q=N=M=Mb=nb=Nb=nb=nt=ipn=to=ps=-1;
-  dlb=false;
+  simulation=dlb=false;
+  dlb_thr=10;
+  sil_dur=1000;
   column_major=using_blas=true;
 }
 /*-----------------------------------------------------------------*/
@@ -57,6 +59,9 @@ void Config::getCmdLine(int argc, char **argv){
       {"timeout"      ,required_argument, 0,'T'}, // 12
       {"poll-sleep"   ,required_argument, 0,'S'}, // 
       {"simulation"   ,no_argument      , 0,'U'}, // 14
+      {"silent-dur"   ,required_argument, 0,'u'}, // 15
+      {"dlb-threshold",required_argument, 0,'r'}, // 16
+      {"dlb-smart"    ,no_argument      , 0,'m'}, // 17
       {0,0,0,0}
     };
   int index;
@@ -80,6 +85,9 @@ void Config::getCmdLine(int argc, char **argv){
 	case 14: 
 	  simulation = true;
 	  break;
+	case 17:
+	  dlb_smart = true;
+	  break;
 	case 4: P = atoi(optarg);break;
 	case 5: p = atoi(optarg);break;
 	case 6: q = atoi(optarg);break;
@@ -88,6 +96,8 @@ void Config::getCmdLine(int argc, char **argv){
 	case 11: ipn = atoi(optarg);break;
 	case 12: to  = atoi(optarg);break;
 	case 13: ps  = atoi(optarg);break;
+	case 15: sil_dur  = atoi(optarg);break;
+	case 16: dlb_thr  = atoi(optarg);break;
 	case 7:
 	  N=atoi(optarg);
 	  Nb=atoi(argv[optind]);
@@ -143,6 +153,18 @@ void Config::getCmdLine(int argc, char **argv){
       break;
     case 'S':
       ps=atoi(optarg);
+      break;
+    case 'U':
+      simulation = true;
+      break;
+    case 'u':
+      sil_dur=atoi(optarg);
+      break;
+    case 'r':
+      dlb_thr=atoi(optarg);
+      break;
+    case 'm':
+      dlb_smart=true;
       break;
     case '?':
     default:
@@ -240,6 +262,7 @@ void Config::getCmdLine(int argc, char **argv){
   LOG_INFO(LOG_CONFIG,"ipn:%d, P:%d,p:%d,q:%d\n",ipn,P,p,q);
   LOG_INFO(LOG_CONFIG,"N:%d, Nb:%d,nb:%d,nt:%d dlb:%d\n",N,Nb,nb,nt,dlb);
   LOG_INFO(LOG_CONFIG,"M:%d, Mb:%d,mb:%d,blas:%d ps:%d\n",M,Mb,mb,using_blas,ps);
+  LOG_INFO(LOG_CONFIG,"SilDur:%d, DLB-thr:%d\n",sil_dur,dlb_thr);
   if(err)
     exit(err);
       

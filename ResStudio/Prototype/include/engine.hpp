@@ -105,6 +105,7 @@ private:
   bool 			task_submission_finished;
   map<long,double>      avg_durations;
   map<long,long>        cnt_durations;
+  ulong                 dps;
   enum {Enter,Leave};
   enum {
     EVEN_INIT     ,
@@ -174,6 +175,7 @@ public:
   void updateDurations(IDuctteipTask *task);
   IDuctteipTask *getTaskByHandle(TaskHandle  task_handle);
   void putWorkForSingleDataReady(IData* data);
+  ulong getDataPackSize();
 private :
   void putWorkForCheckAllTasks();
   void putWorkForReceivedListener(IListener *listener);

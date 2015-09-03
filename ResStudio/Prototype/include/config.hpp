@@ -11,8 +11,8 @@ class Config
 {
 private:
 public:
-  short int N,M,Nb,Mb,P,p,q,mb,nb,nt,ipn,to,ps;
-  bool dlb,using_blas,row_major,column_major,simulation;
+  short int N,M,Nb,Mb,P,p,q,mb,nb,nt,ipn,to,ps,sil_dur,dlb_thr;
+  bool dlb,using_blas,row_major,column_major,simulation,dlb_smart;
   Config();
   void setParams( int n,int m , 
 		  int ynb , int xnb ,
@@ -34,6 +34,9 @@ public:
   PROPERTY(NumThreads,nt)
   PROPERTY(DLB,dlb)
   PROPERTY(IPN,ipn)
+  PROPERTY(SilenceDuration,sil_dur)
+  PROPERTY(DLBThreshold,dlb_thr)
+  PROPERTY(DLBSmart,dlb_smart)
 
 };
 

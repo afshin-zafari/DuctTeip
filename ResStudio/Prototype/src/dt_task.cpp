@@ -117,7 +117,7 @@ bool IDuctteipTask::isUpgrading()  { return state == UpgradingData;}
 /*--------------------------------------------------------------------------*/
 bool IDuctteipTask::canRun(char c){
   list<DataAccess *>::iterator it;
-  bool dbg=  (c !=' ')|| DLB_MODE;
+  bool dbg=  (c !=' ');
   bool result=true;
   char stats[8]="WRFUC";
   TimeUnit t= getTime();
@@ -159,7 +159,7 @@ bool IDuctteipTask::canRun(char c){
       result=false;      
     }
   }
-  if (DLB_MODE){
+  if (false && config.getDLB()){
     if(dbg)printf("%c(%c)%s %c%c\n%s %ld\n",c,result?'+':'-',s1.c_str(),stats[state-2],xi,s2.c_str(),getTime());
     else   printf("%c[%c]%s %c%c\n%s %ld\n",c,result?'+':'-',s1.c_str(),stats[state-2],xi,s2.c_str(),getTime());
   }
@@ -330,7 +330,9 @@ TaskBase<Options>*IDuctteipTask::getKernelTask(){return sg_task;}
 TimeUnit IDuctteipTask::getExpFinish(){  return exp_fin;}
 /*--------------------------------------------------------------*/
 ulong  IDuctteipTask::getMigrateSize(){  
-  return 0L;
+  ulong dps=(data_list->size()+1)*dtEngine.getDataPackSize();
+  LOG_INFO(LOG_DLB,"%ld\n",dps);
+  return dps;
 }
 /*--------------------------------------------------------------*/
 TimeUnit IDuctteipTask::getDuration(){return end-start;}

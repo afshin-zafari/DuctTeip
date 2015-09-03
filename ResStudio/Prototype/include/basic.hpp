@@ -28,9 +28,8 @@
 
 
 #define PRINT_IF(a) if(a)printf
-#define DLB_DEBUG 0
-#define DLB_BUSY_TASKS 2
-#define DLB_MODE 0
+//#define DLB_DEBUG 0
+//#define DLB_MODE 0
 #define POST_RECV_DATA 1
 
 #define DEBUG 0
@@ -63,7 +62,8 @@ typedef unsigned char byte;
 #define LOG_LISTENERS    128
 #define LOG_DLBX         256
 #define LOG_MLEVEL       512
-#define LOG_TESTS        1024
+#define LOG_DLB_SMART    1024
+#define LOG_TESTS        2048
 
 
 #define DEBUG   0
@@ -71,12 +71,12 @@ typedef unsigned char byte;
 
 #define BUILD DEBUG
 
-#define LOG_FLAG  (LOG_DLBX+LOG_PROFILE)
+#define LOG_FLAG  (LOG_MLEVEL+LOG_PROFILE+LOG_CONFIG)
 #if BUILD == RELEASE
 #define LOG_INFO(a,b,c...) 
 #else
 #define LOG_INFO(f,p,args...) if((LOG_FLAG &(f))||((f)==LOG_TESTS)){		\
-    fprintf(stderr,"%20s,%4d, %-32s, tid:%9ld, %6ld ::",__FILE__,__LINE__,__FUNCTION__,(ulong)pthread_self(),UserTime()); \
+    fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",__FILE__,__LINE__,__FUNCTION__,(ulong)pthread_self(),UserTime()); \
     fprintf(stderr,p , ##args);						\
   }
 #endif

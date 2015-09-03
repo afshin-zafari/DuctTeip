@@ -183,7 +183,7 @@ public:
       gflops=(2*(n*n*n/3.0)/dur);
       break;
     }
-    LOG_INFO(LOG_MULTI_THREAD,"key:%d, n:%lf, FLOPS %lf\n",key,n,gflops);
+    LOG_INFO(LOG_DLB,"key:%d, n:%lf, FLOPS %lf, dur:%ld\n",key,n,gflops,dur);
   }
 /*----------------------------------------------------------------------------*/
   void runKernels(IDuctteipTask *task ){

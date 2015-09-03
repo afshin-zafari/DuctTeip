@@ -1,16 +1,24 @@
-#! /bin/bash
+#!/bin/bash
+
+#SBATCH -A p2009014
+#SBATCH -p devel
+#SBATCH -N 2
+#SBATCH -n 32
+#SBATCH -t 00:01:30
+#SBATCH -J TestDLB
+#SBATCH -o Develop-DLBTest-N02-%j
+
+module unload intel openmpi
+module load intel openmpi
 
 set -x 
 
-# params:   p q N B b
 #ipn=2;P=2;p=2;q=1;nt=2;DLB=0;ps=2000;B=7;b=6;to=30;N=2520
 #ipn=2;P=2;p=2;q=1;nt=2;DLB=1;ps=2000;B=7 ;b=6;to=30;N=2520
 #ipn=5;P=5;p=5;q=1;nt=2;DLB=1;ps=2000;B=16;b=4;to=40;N=4608
- ipn=5;P=5;p=1;q=5;nt=2;DLB=1;ps=2000;B=10;b=2;to=50;N=7200
+ ipn=3;P=5;p=1;q=5;nt=16;DLB=1;ps=2000;B=10;b=2;to=50;N=7200
 
 
-
-#ipn=4;P=4;p=2;q=2;nt=2;DLB=0;ps=2000 ;B=2;b=2;to=3;N=24
 
 
 
@@ -20,7 +28,7 @@ if [ "x$DLB" == "x0" ] ; then
 else
     params_long="--num-proc $P --proc-grid-row $p --proc-grid-col $q --data-rows $N $B $b --ipn $ipn --timeout $to --num-threads $nt --poll-sleep $ps --dlb --silent-dur 700 --dlb-threshold 10 --dlb-smart "
 fi
-outfile=test_local
+outfile=test_devel_$DLB
 ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
 ACML_LIB=$ACML_DIR/lib/libacml.a
    alloc_mem="--mca mpi_show_mpi_alloc_mem_leaks 0 "
@@ -58,9 +66,7 @@ if [ $1 == "test" ] ; then
   create_example
 fi
 cd bin
-if [ "x$2" == "x" ] ; then 
-  mpirun -n $P ${mpi_params} cholesky ${params_long}
-fi
+mpirun -n $P ${mpi_params} cholesky ${params_long}
 echo "Finished."
 grep -i "error" ${outfile}.*
 rm *log*.txt

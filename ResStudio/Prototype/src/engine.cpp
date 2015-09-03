@@ -56,7 +56,8 @@ engine::~engine(){
 SuperGlue<Options> * engine::getThrdManager() {return thread_manager;}
 int engine::getLocalNumBlocks(){return local_nb;}
 /*---------------------------------------------------------------------------------*/
-
+ulong engine::getDataPackSize(){return dps;}
+/*---------------------------------------------------------------------------------*/
 TaskHandle  engine::addTask(IContext * context,
 			    string task_name,
 			    unsigned long key, 
@@ -80,7 +81,7 @@ TaskHandle  engine::addTask(IContext * context,
     int ny = cfg->getYDimension() / mb;
     int nx = cfg->getXDimension() / nb;
 
-    long dps = ny * nx * sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
+    dps = ny * nx * sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
     if ( simulation ) {
       dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
     }
@@ -364,7 +365,7 @@ void engine::setConfig(Config *cfg_){
   int ipn = cfg->getIPN();
   thread_manager = new ThreadManager<Options> ( num_threads ,0* (me % ipn )  * 16/ipn) ;
   show_affinity();
-
+  dlb.initDLB();
 }
 /*---------------------------------------------------------------------------------*/
 void *engine::runMBRecvThread(void  *p){
@@ -691,9 +692,11 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
 /*---------------------------------------------------------------------------------*/
 void engine::updateDurations(IDuctteipTask *task){
   long k = task->getKey();
-  TimeUnit dur = task->getDuration();
+  double dur = task->getDuration()/1000000.0;
   avg_durations[k]=  (avg_durations[k] * cnt_durations[k]+dur)/(cnt_durations[k]+1);
   cnt_durations[k]=cnt_durations[k]+1;
+  LOG_INFO(LOG_DLB,"t-key:%ld, t-dur:%.2lf, avg:%.2lf, cnt:%d\n",
+	   k,dur,avg_durations[k],cnt_durations[k]);
 }
 /*---------------------------------------------------------------------------------*/
 long engine::getAverageDur(long k){
@@ -813,18 +816,31 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
 void engine::runFirstActiveTask(){
   if (!cfg->getDLB())
     return;
-  if(dlb.getActiveTasksCount()>DLB_BUSY_TASKS){
+  if(dlb.getActiveTasksCount()>dlb.DLB_BUSY_TASKS){
+    doDLB();
     return;
   }
   list<IDuctteipTask *>::iterator it;
   for(it= running_tasks.begin(); it != running_tasks.end(); it ++){
     IDuctteipTask *task = *it;
-    if (task->isExported())continue;
+    //if (task->isExported())continue;DLB_SMART
     if(task->isRunning()) continue;
     if(task->isFinished()) continue;
     if(task->canBeCleared()) continue;
     if(task->isUpgrading()) continue;
     task->run();
+    if ( task->isExported()){
+      LOG_INFO(LOG_DLB_SMART,"run an exported task:%d\n",task->getHandle());
+      list<IDuctteipTask *>::iterator itex;
+      for ( itex = export_tasks.begin();itex != export_tasks.end();itex++){
+	IDuctteipTask *t=(*itex);
+	if ( t->getHandle() == task->getHandle()){
+	  LOG_INFO(LOG_DLB_SMART,"remove form export list:%d\n",t->getHandle());
+	  export_tasks.erase(itex);
+	  return;
+	}
+      }      
+    }
     return;
   }
 }
@@ -852,7 +868,8 @@ void engine::executeTaskWork(DuctTeipWork * work){
 	LOG_LOAD;
 	if (cfg->getDLB()){
 	  long actives=dlb.getActiveTasksCount();
-	  if ( actives< DLB_BUSY_TASKS ){
+	  LOG_INFO(LOG_DLBX,"\n");
+	  if ( actives< dlb.DLB_BUSY_TASKS ){
 	    LOG_INFO(LOG_DLBX,"Let task run, since there is not enough active tasks:%d\n",actives);
 	    work->task->run();
 	  }
@@ -1334,8 +1351,7 @@ MemoryManager *engine::getMemoryManager(){return data_memory;}
 void engine::doDLB(int st){
   static long last_count;
   long c =  running_tasks.size();
-  if ( c && c!= last_count )
-    return;
+  //  if ( c && c!= last_count )    return;
   LOG_INFO(LOG_DLB,"task count last:%ld, cur:%d\n",last_count ,c);
   last_count = c;
   dlb.doDLB(st);

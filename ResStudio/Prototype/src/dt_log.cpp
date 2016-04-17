@@ -237,7 +237,6 @@ DuctteipLog dt_log;
 
     ofstream log_file(s);
     TimeUnit t = getTime();
-
     t = getTime() - t;
     stats[EventsWork].count = events_list.size();
     stats[EventsWork].total = t / SCALE;
@@ -272,7 +271,6 @@ double DuctteipLog::getStattime(int e){
 	       stats[i].minimum,
 	       stats[i].maximum);
      }
-
      for ( int i=0; i< nodes; i++){
        if ( i == me ) continue;
        fprintf(stderr,"@stats %d     SentDataSize %7ld ToNode %d\n",me,commStats[0][i],i);

@@ -103,7 +103,6 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   ElementType * getElement(int y , int x ) {
-
     if ( element_alignment == ROW_MAJOR ) {
       return memory + y * X_E() + x ;
     }

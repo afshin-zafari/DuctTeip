@@ -594,31 +594,6 @@ void  DLB::checkExportedTasks(){
   }
   return;
 
-/*
-  list<IDuctteipTask *>::iterator task_it;
-  for(task_it = dtEngine.export_tasks.begin(); task_it != dtEngine.export_tasks.end(); ){
-    IDuctteipTask *task=(*task_it);
-    list<DataAccess *> *data_list=task->getDataAccessList() ;
-    list<DataAccess *> :: iterator it;
-    bool all_cleared=true;
-
-    for ( it = data_list->begin(); it != data_list->end()  ; it ++){
-      IData * data = (*it)->data;
-      if ( (*it)->type == IData::WRITE ){
-	LOG_INFO(LOG_DLB,"task:%d,%s - data:%s, rtv:%s, reqv:%s \n",
-	       task->getState(),
-	       task->getName().c_str(),
-	       data->getName().c_str(),
-	       data->getRunTimeVersion((*it)->type).dumpString().c_str(),
-	       (*it)->required_version.dumpString().c_str());
-	if ( data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
-	  all_cleared = false;
-	}
-      }
-    }
-    task_it++;
-  }
-  */
 }
 /*---------------------------------------------------------------------------------*/
 long DLB::getExportableTasksCount(){

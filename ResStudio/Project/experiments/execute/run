@@ -1,0 +1,10 @@
+#! /bin/bash -l
+source ./dt_vars.sh
+source ./dt_functions.sh
+source ./dt_cholesky.sh
+
+#pp=$(pwd)
+#cd ../../build
+#make all
+#cd $pp
+run_test_cases $Cholesky  

@@ -142,7 +142,6 @@ void engine::receivedListener(MailBoxEvent *event){
   LOG_EVENT(DuctteipLog::ListenerReceived);
 
   LOG_INFO(LOG_LISTENERS,"ev.buf:%p ev.len:%d\n",event->buffer,event->length);
-
   listener->deserialize(event->buffer,offset,event->length);
   listener->setHost ( me ) ;
   listener->setSource ( event->host ) ;
@@ -169,7 +168,6 @@ void engine::receivedListener(MailBoxEvent *event){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::waitForTaskFinish(){
-
   static TimeUnit st=0,idle = 0;
   int *c=glbCtx.getCounters();
   if ( c[GlobalContext::TaskInsert] ==0 )
@@ -474,7 +472,6 @@ long engine::getThreadId(int t){
     return mbsend_tid;
   if ( t == MBRECV_THREAD)
     return mbrecv_tid;
-
   return -1;
 }
 /*---------------------------------------------------------------------------------*/
@@ -674,7 +671,6 @@ void engine::receivedTask(MailBoxEvent *event){
   task->setHost ( me ) ;
 
   criticalSection(Enter);
-
   task->setHandle( last_task_handle ++);
   task_list.push_back(task);
   putWorkForReceivedTask(task);
@@ -706,7 +702,6 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
 	   data->getName().c_str(),data->getContentAddress(),event->buffer);
 
   dtEngine.putWorkForSingleDataReady(data);
-
   LOG_EVENT(DuctteipLog::DataReceived);
 }
 
@@ -717,7 +712,6 @@ void engine::updateDurations(IDuctteipTask *task){
   avg_durations[k]=  (avg_durations[k] * cnt_durations[k]+dur)/(cnt_durations[k]+1);
   cnt_durations[k]=cnt_durations[k]+1;
   LOG_INFO(LOG_DLB,"t-key:%ld, t-dur:%.2lf, avg:%.2lf, cnt:%d\n",
-	   k,dur,avg_durations[k],(uint)(cnt_durations[k]));
 }
 /*---------------------------------------------------------------------------------*/
 long engine::getAverageDur(long k){
@@ -821,7 +815,6 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
       IListener * lsnr = new IListener((*it),host);
       if ( addListener(lsnr) ){
 	MessageBuffer *m=lsnr->serialize();
-	unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);
 	IData *data=data_access.data;//lsnr->getData();
 	data->allocateMemory();
 	data->prepareMemory();
@@ -1113,7 +1106,6 @@ IListener *engine::getListenerForData(IData *data){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::dumpListeners(){
-
   list<IListener *>::iterator it;
   for (it = listener_list.begin(); it != listener_list.end(); it ++){
     (*it)->dump();
@@ -1162,7 +1154,7 @@ void engine::criticalSection(int direction){
   else
     pthread_mutex_unlock(&thread_lock);
 }
-/*---------------------------------------------------------------------------------*/
+2/*---------------------------------------------------------------------------------*/
 IDuctteipTask *engine::getTaskByHandle(TaskHandle  task_handle){
   list<IDuctteipTask *>::iterator it;
   criticalSection(Enter);
@@ -1233,7 +1225,6 @@ int engine::getParentNodeInTree(int node){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::getChildrenNodesInTree(int node,int *nodes,int *count){
-
   int N = net_comm->get_host_count();
   int left=2 *node + node%2;
   int right = 2 *(node+1) + node%2;
@@ -1295,7 +1286,6 @@ void engine::sendTerminateOK(){
       }
     }
   }
-
 }
 /*---------------------------------------------------------------------------------*/
 void engine::receivedTerminateOK(int from){

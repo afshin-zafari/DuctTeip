@@ -2,6 +2,7 @@
 #define __CONFIG_HPP_
 //#include "basic.hpp"
 #include <string>
+
 #define GETTER(a,b) int get##a(){return b;}
 #define SETTER(a,b) void set##a(int _p){b=_p;}
 #define PROPERTY(a,b) GETTER(a,b) \

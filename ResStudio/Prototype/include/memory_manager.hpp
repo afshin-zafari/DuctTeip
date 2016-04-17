@@ -49,7 +49,6 @@ public:
   MemoryItem *expandMemoryItems(int n =0);
   MemoryItem *findFreeMemory();
   void freeMemoryItem(MemoryItem *m ) ;
-
 };
 /*============================================================================*/
 #endif // __MEMORY_MANAGER_HPP__

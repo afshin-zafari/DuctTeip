@@ -776,7 +776,6 @@ DuctTeip_Data::DuctTeip_Data(int M, int N):Data("",M,N,NULL){
 /*--------------------------------------------------------------------------*/
 DuctTeip_Data::DuctTeip_Data(int M, int N,IContext  *alg):Data("",M,N,alg){
   configure();
-
 }
 /*--------------------------------------------------------------------------*/
 void  DuctTeip_Data::configure(){

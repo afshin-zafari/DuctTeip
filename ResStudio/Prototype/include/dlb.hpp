@@ -15,7 +15,7 @@ private:
       tot_tick,
       max_loc_fail,export_task,export_data,import_task,import_data,max_para,max_para2;
     ClockTimeUnit tot_cost,
-      tot_silent;
+      tot_silent;      
   };
   DLB_Statistics dlb_profile;
   int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
@@ -48,12 +48,12 @@ private:
     IDX_ACCPI=4,IDX_ACCPB=5,
     IDX_SEND=0,IDX_RECV=1
   };
-#define TIME_DLB
+#define TIME_DLB 
   /*---------------------------------------------------------------*/
   bool passedSilentDuration();
   void initDLB();
   void updateDLBProfile();
-  void restartDLB(int s=-1);
+  void restartDLB(int s=-1);    
   void doDLB(int st);
   void goToSilent();
   void dumpDLB();
@@ -62,7 +62,7 @@ private:
   void findBusyNode();
   void findIdleNode();
   void received_FIND_IDLE(int p);
-  void receivedImportRequest(int p);
+  void receivedImportRequest(int p); 
   void received_FIND_BUSY(int p ) ;
   void receivedExportRequest(int p);
   void received_DECLINE(int p);
@@ -80,13 +80,13 @@ private:
   void    importedTask(MailBoxEvent *event);
   bool isFinishedEarlier(IDuctteipTask *t,double);
   /*---------------------------------------------------------------*/
-  void acceptImportTasks(int p);
+  void acceptImportTasks(int p);    
   /*---------------------------------------------------------------*/
 private:
   struct Failure{
     int node,request;
     ulong timestamp;
-    Failure(int p,ulong t,int r):node(p),request(r),timestamp(t){}
+    Failure(int p,ulong t,int r):node(p),timestamp(t),request(r){}
   };
   vector<Failure *> dlb_fail_list;
 public:

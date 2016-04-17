@@ -2,6 +2,8 @@
 ## Eclipse
 #################
 
+version-0.0/*
+*.zip
 *.pydevproject
 .project
 .metadata

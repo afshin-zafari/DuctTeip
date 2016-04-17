@@ -495,9 +495,11 @@ void engine::doProcess(){
     if (thread_model >=1){
       int err=pthread_create(&mbsend_tid,&attr,engine::runMBSendThread,this);
       LOG_INFO(LOG_MULTI_THREAD,"MBSendThrdID:%X, Err:%d\n",(uint)mbsend_tid,err);
+      (void)err;
     }
     if (thread_model >=2){
       int err=pthread_create(&mbrecv_tid,&attr,engine::runMBRecvThread,this);
+      (void)err;
       LOG_INFO(LOG_MULTI_THREAD,"MBRecvThrdID:%X, Err:%d\n",(uint)mbrecv_tid,err);
     }
   }
@@ -513,7 +515,7 @@ void engine::doSelfTerminate(){
 /*---------------------------------------------------------------------------------*/
 void *engine::doProcessLoop(void *p){
   engine *_this = (engine *)p;
-  unsigned long loop=0;
+  unsigned long loop=0;(void)loop;
   TimeUnit tot=0,t,dt=0,pw=0,mb=0,tf=0,ct=0;
   LOG_INFO(LOG_MULTI_THREAD, "do process loop started\n");
   while(true){
@@ -711,7 +713,6 @@ void engine::updateDurations(IDuctteipTask *task){
   double dur = task->getDuration()/1000000.0;
   avg_durations[k]=  (avg_durations[k] * cnt_durations[k]+dur)/(cnt_durations[k]+1);
   cnt_durations[k]=cnt_durations[k]+1;
-  LOG_INFO(LOG_DLB,"t-key:%ld, t-dur:%.2lf, avg:%.2lf, cnt:%d\n",
 }
 /*---------------------------------------------------------------------------------*/
 long engine::getAverageDur(long k){
@@ -815,6 +816,7 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
       IListener * lsnr = new IListener((*it),host);
       if ( addListener(lsnr) ){
 	MessageBuffer *m=lsnr->serialize();
+	unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);
 	IData *data=data_access.data;//lsnr->getData();
 	data->allocateMemory();
 	data->prepareMemory();
@@ -1154,7 +1156,7 @@ void engine::criticalSection(int direction){
   else
     pthread_mutex_unlock(&thread_lock);
 }
-2/*---------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------*/
 IDuctteipTask *engine::getTaskByHandle(TaskHandle  task_handle){
   list<IDuctteipTask *>::iterator it;
   criticalSection(Enter);

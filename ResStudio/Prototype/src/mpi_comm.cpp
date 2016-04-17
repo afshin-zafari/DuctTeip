@@ -11,6 +11,7 @@ void MPIComm::initialize(){
   int thread_level=MPI_THREAD_SINGLE,request=MPI_THREAD_SINGLE;
   //int err = MPI_Init_thread(NULL,NULL,request,&thread_level);
   int err = MPI_Init(NULL,NULL);
+  (void)err;
   thread_enabled = (request == thread_level) ;
 
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);

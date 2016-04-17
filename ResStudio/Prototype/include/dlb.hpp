@@ -86,7 +86,7 @@ private:
   struct Failure{
     int node,request;
     ulong timestamp;
-    Failure(int p,ulong t,int r):node(p),timestamp(t),request(r){}
+    Failure(int p,ulong t,int r):node(p),request(r),timestamp(t){}
   };
   vector<Failure *> dlb_fail_list;
 public:

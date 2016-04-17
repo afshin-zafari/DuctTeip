@@ -1,7 +1,6 @@
 #ifndef __BASIC_HPP__
 #define __BASIC_HPP__
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,6 +71,7 @@ typedef unsigned char byte;
 #define BUILD RELEASE
 
 #define LOG_FLAG  (0xffffffffL) //LOG_MLEVEL+LOG_PROFILE+LOG_CONFIG)
+
 #if BUILD == RELEASE
 #define LOG_INFO(a,b,c...)
 #else
@@ -81,18 +81,12 @@ typedef unsigned char byte;
     fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",			\
 	    __fname.substr(__n).c_str(),				\
 	    __LINE__,__FUNCTION__,					\
-	    (uint)pthread_self(),UserTime());				\
-#define BUILD DEBUG
+	    (uint)pthread_self(),UserTime());				
 
-#define LOG_FLAG  (LOG_MLEVEL+LOG_PROFILE+LOG_CONFIG)
-#if BUILD == RELEASE
-#define LOG_INFO(a,b,c...) 
-#else
-#define LOG_INFO(f,p,args...) if((LOG_FLAG &(f))||((f)==LOG_TESTS)){		\
-    fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",__FILE__,__LINE__,__FUNCTION__,(ulong)pthread_self(),UserTime()); \
-    fprintf(stderr,p , ##args);						\
-  }
 #endif
+
+
+
 #define LOG_ERROR(p,args...) fprintf(stderr,p , ##args )
 
 
@@ -127,13 +121,8 @@ typedef unsigned long ClockTimeUnit;
 typedef unsigned long TimeUnit;
 static inline TimeUnit getTime(){
   double ti=MPI_Wtick()/1000;
-<<<<<<< HEAD
 
   return (TimeUnit)(MPI_Wtime()/ti);
-=======
-  
-  return (TimeUnit)(MPI_Wtime()/ti);  
->>>>>>> 06429b38c24c435579cedba3d02c9d56b6b5ee4a
 }
 #else
 typedef Time::TimeUnit  TimeUnit;
@@ -156,20 +145,12 @@ static inline ClockTimeUnit getClockTime(int unit) {
 
 void flushBuffer(byte *,int);
 
-<<<<<<< HEAD
 template<class T>
-=======
-template<class T> 
->>>>>>> 06429b38c24c435579cedba3d02c9d56b6b5ee4a
 void copy(byte * b,int &o,T a){
   memcpy(b+o,(char *)&a,sizeof(a));
   o +=  sizeof(a);
 }
-<<<<<<< HEAD
 template<class T>
-=======
-template<class T> 
->>>>>>> 06429b38c24c435579cedba3d02c9d56b6b5ee4a
 void paste(byte * b,int &o,T *a){
   memcpy((char *)a,b+o,sizeof(T));
   o +=  sizeof(T);

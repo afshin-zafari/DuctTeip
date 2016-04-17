@@ -1,0 +1,5 @@
+temp/*
+lib/libductteip.a
+examples/bin/*
+*.gcov
+tests/gtests/temp

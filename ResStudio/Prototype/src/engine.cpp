@@ -522,6 +522,7 @@ void *engine::doProcessLoop(void *p){
     t=getTime();
     if ( _this->getThreadModel() <1){
       dt = getTime();
+      //      LOG_INFO(LOG_MULTI_THREAD, "MailBox check\n");
       _this->doProcessMailBox();
       mb += getTime() - dt;
     }
@@ -818,6 +819,7 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
 	MessageBuffer *m=lsnr->serialize();
 	unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);
 	IData *data=data_access.data;//lsnr->getData();
+	LOG_INFO(LOG_MLEVEL,"\n");
 	data->allocateMemory();
 	data->prepareMemory();
 	LOG_EVENT(DuctteipLog::ListenerSent);
@@ -984,13 +986,13 @@ void engine::doProcessMailBox(){
     if ( !found ){
       TimeUnit tt=getTime();
       wasted_time += tt - t;
-      //    LOG_INFO(LOG_MULTI_THREAD,"No comm happened, wt:%ld,tot-wt:%ld\n",tt-t,wasted_time);
+      LOG_INFO(LOG_MULTI_THREAD,"No comm happened, wt:%ld,tot-wt:%ld\n",tt-t,wasted_time);
       return ;
     }
-    /*
+    
 	LOG_INFO(LOG_MULTI_THREAD,"comp:%d,found:%d,tag:%d,dir:%d\n",
 	completed, found,event.tag,event.direction);
-    */
+    
     processEvent(event);
   }while(found);
 }

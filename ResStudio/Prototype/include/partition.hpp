@@ -94,7 +94,40 @@ public:
     }
   }
   /*--------------------------------------------------------------------------*/
-  Partition *getBlock ( int y, int x ) ;
+  Partition *getBlock ( int y, int x ) {
+
+    Partition<ElementType> *p = new Partition<ElementType> (dim_count, element_alignment) ;
+    p->block_alignment = block_alignment ;
+    p->mem_size = mem_size;
+    p->X_E()  = X_EB();
+    p->Y_E()  = Y_EB();
+
+    p->X_B()  = 1;
+    p->Y_B()  = 1;
+
+    p->Y_BS() = 0;
+    p->X_BS() = 0;
+
+    p->X_EB() = p->X_E() / p->X_B();
+    p->Y_EB() = p->Y_E() / p->Y_B();
+
+    if ( element_alignment == ROW_MAJOR ) {
+      p->X_ES() = 1;
+      p->Y_ES() = X_EB();
+    }
+    else{
+      p->X_ES() = Y_EB();
+      p->Y_ES() = 1     ;
+    }
+    if ( block_alignment  == ROW_MAJOR ) {
+      p->memory = memory + (y * X_B() + x )* Y_EB() * X_EB() ;
+    }
+    else {
+      p->memory = memory + (x * Y_B() + y )* Y_EB() * X_EB() ;
+    }
+    if(0)printf("yeb %d e %d b %d\n",p->Y_EB(),p->Y_E(),p->Y_B());
+    return p;
+  }
   /*--------------------------------------------------------------------------*/
   ElementType  *getElementAt(int y , int x ) {
     if(0)printf("Element At %d,%d\n",x,y);
@@ -215,7 +248,7 @@ public:
 
 };
 /*===================== DataBlock =======================================================*/
-
+/*
 template <class ElementType>
 Partition<ElementType> *
 Partition<ElementType>::getBlock ( int y, int x ) {
@@ -252,7 +285,7 @@ Partition<ElementType>::getBlock ( int y, int x ) {
   if(0)printf("yeb %d e %d b %d\n",p->Y_EB(),p->Y_E(),p->Y_B());
   return p;
 }
-
+*/
 /*===================== SuperGlue Handle ================================================*/
 template<typename Options>
 struct MyHandle : public HandleBase<Options> {

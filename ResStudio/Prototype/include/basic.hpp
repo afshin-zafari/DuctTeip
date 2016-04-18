@@ -81,8 +81,9 @@ typedef unsigned char byte;
     fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6ld ::",			\
 	    __fname.substr(__n).c_str(),				\
 	    __LINE__,__FUNCTION__,					\
-	    (uint)pthread_self(),UserTime());				
-
+	    (uint)pthread_self(),UserTime());				\
+    fprintf(stderr,p , ##args);						\
+  }
 #endif
 
 

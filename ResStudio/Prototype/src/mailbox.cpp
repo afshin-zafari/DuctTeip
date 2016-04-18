@@ -66,7 +66,7 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
   unsigned long handle;
   bool found=false;
 #if POST_RECV_DATA == 1
-  //LOG_INFO(LOG_MULTI_THREAD,"call anyDataReceived\n");
+  LOG_INFO(LOG_MULTI_THREAD,"call anyDataReceived\n");
   assert(comm);
   if ( comm->anyDataReceived(event) ){
     *completed = true;
@@ -76,8 +76,10 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
   found = comm->probe(&tag,&source,&length,wait);
   if (found){
 #if POST_RECV_DATA == 1
-    if ( tag == DataTag )
+    if ( tag == DataTag ){
+      LOG_INFO(LOG_MULTI_THREAD,"data received\n");
       return false;
+    }
 #endif
     event->direction = MailBoxEvent::Received;
     event->length = length;

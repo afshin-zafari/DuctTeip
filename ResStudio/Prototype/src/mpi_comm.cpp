@@ -303,9 +303,9 @@ bool MPIComm::anyDataReceived(void * e){
 
   prcv_vect[index]->mem = dtEngine.newDataMemory();
   prcv_vect[index]->buf = prcv_vect[index]->mem->getAddress();
-  //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].buf:%p\n",index,prcv_vect[index]->buf);
-  //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].len:%d\n",index,prcv_vect[index]->length);
-  //  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].tag:%d\n",index,prcv_vect[index]->tag);
+  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].buf:%p\n",index,prcv_vect[index]->buf);
+  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].len:%ld\n",index,prcv_vect[index]->length);
+  LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d].tag:%d\n",index,prcv_vect[index]->tag);
   MPI_Recv_init( prcv_vect[index]->buf,
 	     prcv_vect[index]->length , MPI_BYTE,
 	     index, // from node

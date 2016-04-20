@@ -15,7 +15,7 @@ int ContextPrefix::serialize(byte *buffer,int &offset,int max_length){
   return 0;
 }
 /*--------------------------------------------------------------------------*/
-int ContextPrefix::deserialize(byte *buffer,int &offset,int max_length){
+int ContextPrefix::deserialize(byte *buffer,int &offset,int max_length){ 
   reset();
   int context_id,count;
   paste<int>(buffer,offset,&count);

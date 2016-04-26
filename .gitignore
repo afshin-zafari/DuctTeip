@@ -9,6 +9,8 @@ version-0.0/*
 .metadata
 bin/
 tmp/
+doc/html
+doc/latex
 *.tmp
 *.bak
 *.swp

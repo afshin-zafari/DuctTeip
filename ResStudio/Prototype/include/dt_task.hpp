@@ -86,6 +86,7 @@ public:
     void    setHost(int h )    ;
     int     getHost()          ;
     string  getName()          ;
+    string get_name();
     ulong   getKey();
     void    setHandle(TaskHandle h)     ;
     TaskHandle getHandle()                 ;

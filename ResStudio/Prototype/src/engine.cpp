@@ -264,9 +264,16 @@ long engine::getUnfinishedTasks(){
   it = task_list.begin();
   for(; it != task_list.end(); ){
     IDuctteipTask * task = (*it);
+    if (task_list.size() <=3 ){
+      LOG_INFO(LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
+    }
     if (task->canBeCleared()){
       checkRunningTasks();
+      LOG_INFO(LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
       it=task_list.erase(it);
+      if ( task_list.size() == 1 ){
+	LOG_INFO(LOG_MLEVEL,"task list remaining, last task:%s\n",(*it)->get_name().c_str());
+      }
     }
     else
       it ++;
@@ -327,6 +334,7 @@ bool engine::canTerminate(){
       }
     }
   }
+  //  LOG_INFO(LOG_MLEVEL,"task list size:%ld\n",task_list.size());
   wasted_time += getTime() - t;
   return false;
 }
@@ -430,15 +438,17 @@ void engine::waitForWorkReady(){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::signalWorkReady(IDuctteipTask * task){
+  return;
   pthread_mutex_lock(&work_ready_mx);
   pthread_cond_signal(&work_ready_cv);
   pthread_mutex_unlock(&work_ready_mx);
   if ( thread_model<1){
     criticalSection(Enter);
-    if ( task){
-      putWorkForFinishedTask(task);
-      task->setState(IDuctteipTask::UpgradingData);
-    }
+    if(task)
+      if ( task->isFinished()){
+	putWorkForFinishedTask(task);
+	task->setState(IDuctteipTask::UpgradingData);
+      }
     criticalSection(Leave);
   }
 
@@ -577,7 +587,7 @@ void engine::putWorkForCheckAllTasks(){
     IDuctteipTask *task = (*it);
     if (task->canBeCleared()){
       it=task_list.erase(it);
-      if(0)printf("TL:%ld\n",task_list.size());
+      if(1)printf("TL:%ld\n",task_list.size());
     }
     else
       it ++;
@@ -726,6 +736,7 @@ long int engine::checkRunningTasks(int v){
   int cnt =0 ;
   //long sc =0;
   TimeUnit t= getTime();
+  //  LOG_INFO(LOG_MLEVEL,"run-list size:%ld\n",running_tasks.size());
   for(it = running_tasks.begin(); it != running_tasks.end(); ){
     IDuctteipTask *task=(*it);
     if(task->canBeCleared()){
@@ -736,8 +747,9 @@ long int engine::checkRunningTasks(int v){
       continue;
     }
     if (task->isFinished() ) {
-      //putWorkForFinishedTask(task);
-      //task->setState(IDuctteipTask::UpgradingData);
+      task->setState(IDuctteipTask::UpgradingData);
+      putWorkForFinishedTask(task);
+      LOG_INFO(LOG_MLEVEL,"task finished:%s, run-list size:%ld\n",task->get_name().c_str(),running_tasks.size());
       cnt ++;
     }
     else
@@ -774,6 +786,7 @@ void engine::doProcessWorks(){
   executeWork(work);
   LOG_INFO(LOG_MULTI_THREAD,"work:%d, tag:%d, item:%d\n",work->event,work->tag,work->item);
   criticalSection(Leave);
+  LOG_INFO(LOG_MLEVEL,"\n");
 }
 /*---------------------------------------------------------------------------------*/
 bool engine::isDuplicateListener(IListener * listener){

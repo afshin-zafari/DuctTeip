@@ -65,8 +65,10 @@ typedef unsigned char byte;
 #define LOG_TESTS        2048
 
 
-#define RELEASE 0
-#define BUILD RELEASE
+#define RELEASE 1
+#ifndef BUILD
+#define BUILD DEBUG
+#endif
 
 #define LOG_FLAG  (0xffffffffL) //LOG_MLEVEL+LOG_PROFILE+LOG_CONFIG)
 

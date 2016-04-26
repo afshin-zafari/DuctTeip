@@ -56,6 +56,7 @@ public:
     IData(string _name,int m, int n,IContext *ctx);
     ~IData() ;
     /*--------------------------------------------------------------------------*/
+    string get_name(){return getName();}
     string        getName          ()
     {
         return name;

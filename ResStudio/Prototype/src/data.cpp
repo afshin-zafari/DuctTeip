@@ -296,6 +296,7 @@ void IData::setRunTimeVersion(string to_ctx, int to_version){
 }
 /*--------------------------------------------------------------------------*/
 void IData::incrementRunTimeVersion(byte type,int v  ){
+  dtEngine.criticalSection(engine::Enter);
   exported_nodes.clear();
   if ( type == IData::WRITE ) {
     rt_read_version += v;
@@ -307,6 +308,7 @@ void IData::incrementRunTimeVersion(byte type,int v  ){
     rt_read_version +=v;
     dump('R');
   }
+  dtEngine.criticalSection(engine::Leave);
 }
 /*--------------------------------------------------------------------------*/
 void IData::setBlockIdx(int y,int x){

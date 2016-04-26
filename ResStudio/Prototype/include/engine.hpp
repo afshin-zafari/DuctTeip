@@ -106,7 +106,6 @@ private:
   map<long,double>      avg_durations;
   map<long,long>        cnt_durations;
   ulong                 dps;
-  enum {Enter,Leave};
   enum {
     EVEN_INIT     ,
     WAIT_FOR_FIRST  ,
@@ -121,6 +120,7 @@ private:
     TERMINATE_OK
   };
 public:
+  enum Fence{Enter,Leave};
   enum { MAIN_THREAD, ADMIN_THREAD,MBSEND_THREAD,MBRECV_THREAD,TASK_EXEC_THREAD};
   /*---------------------------------------------------------------------------------*/
   engine();
@@ -177,6 +177,7 @@ public:
   void putWorkForSingleDataReady(IData* data);
   ulong getDataPackSize();
   IDuctteipTask *getTask(TaskHandle th);
+  void criticalSection(int direction);
 private :
   void putWorkForCheckAllTasks();
   void putWorkForReceivedListener(IListener *listener);
@@ -206,7 +207,6 @@ private :
   void dumpAll();
   void removeListenerByHandle(int handle ) ;
   void removeTaskByHandle(TaskHandle task_handle);
-  void criticalSection(int direction);
   IDuctteipTask *getTaskByCommHandle(unsigned long handle);
   IListener *getListenerByCommHandle ( unsigned long  comm_handle ) ;
   void resetTime();

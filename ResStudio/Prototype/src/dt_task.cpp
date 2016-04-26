@@ -132,7 +132,7 @@ bool IDuctteipTask::canRun(char c){
     return false;
   }
   if ( state >= Running ){
-    LOG_INFO(LOG_TASKS,"Task %s is still running.\n",getName().c_str());
+    //LOG_INFO(LOG_TASKS,"Task %s is not finished yet (state=%d).\n",getName().c_str(),state);
     return false;
   }
   string s1,s2;
@@ -336,3 +336,4 @@ ulong  IDuctteipTask::getMigrateSize(){
 }
 /*--------------------------------------------------------------*/
 TimeUnit IDuctteipTask::getDuration(){return end-start;}
+string IDuctteipTask::get_name(){return getName();}

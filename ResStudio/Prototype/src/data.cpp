@@ -535,10 +535,10 @@ void IData::setPartition(int _mb, int _nb){
 	newPart->dtPartition=new Partition<double>(2);
 	Partition<double> *p = newPart->dtPartition;
 	p->setBaseMemory(newPart->getContentAddress() ,  newPart->getContentSize());
-	LOG_INFO(LOG_MLEVEL,"AllocData for %s=%p sz:%d,N=%d,M=%d\n",s,newPart->getContentAddress(),newPart->getContentSize(),N,M);
-	LOG_INFO(LOG_MLEVEL,"parent of %s is %s\n",s,newPart->parent_data->getName().c_str());
+	LOG_INFO(0&LOG_MLEVEL,"AllocData for %s=%p sz:%d,N=%d,M=%d\n",s,newPart->getContentAddress(),newPart->getContentSize(),N,M);
+	LOG_INFO(0&LOG_MLEVEL,"parent of %s is %s\n",s,newPart->parent_data->getName().c_str());
 	p->partitionRectangle(newPart->local_m,newPart->local_n,local_mb,local_nb);
-	LOG_INFO(LOG_MLEVEL,"local m:%d,n:%d,mb:%d,nb:%d\n",newPart->local_m,newPart->local_n,local_mb,local_nb);
+	LOG_INFO(0&LOG_MLEVEL,"local m:%d,n:%d,mb:%d,nb:%d\n",newPart->local_m,newPart->local_n,local_mb,local_nb);
       }
       else{
 	LOG_INFO(LOG_DATA,"%s not hosted by me.\n",s);
@@ -591,7 +591,7 @@ bool IData::isOwnedBy(int p) {
 /*--------------------------------------------------------------*/
 int IData::getHost(){
   Coordinate c = blk;
-  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  LOG_INFO(0&LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
   if ( parent_data ==NULL){
     LOG_INFO(LOG_MLEVEL,"parent data is null.\n");
     return 0;
@@ -613,8 +613,11 @@ int IData::getHost(){
 /*--------------------------------------------------------------*/
 void   IData::incrementVersion ( AccessType a) {
   gt_read_version++;
+      printf("%s,%d\n",__FILE__,__LINE__);
   if ( a == WRITE ) {
+      printf("%s,%d\n",__FILE__,__LINE__);
     gt_write_version = gt_read_version;
+      printf("%s,%d\n",__FILE__,__LINE__);
   }
 }
 /*--------------------------------------------------------------*/
@@ -669,7 +672,7 @@ void IData:: allocateMemory(){
       content_size=1;
     data_memory = dtEngine.newDataMemory();
 
-    LOG_INFO(LOG_DATA,"@DataMemory %s block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
+    LOG_INFO(0&LOG_DATA,"@DataMemory %s block size calc: N:%d,pNb:%d,M:%d,pMb:%d,memory:%p\n",
 	     getName().c_str(),N,parent_data->Nb,M,parent_data->Mb,getContentAddress() );
   }
 }
@@ -795,6 +798,11 @@ void  DuctTeip_Data::configure(){
 DuctTeip_Data *DuctTeip_Data::clone(){
   return new DuctTeip_Data(*this);
 }
+/*--------------------------------------------------------------------------*/
 void IData::setName(string s){
   name=s;
 }
+/*--------------------------------------------------------------------------*/
+void  IData::set_guest(void *p){guest = p;}
+void *IData::get_guest(){return guest;}
+/*--------------------------------------------------------------------------*/

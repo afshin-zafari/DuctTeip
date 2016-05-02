@@ -60,6 +60,7 @@ private:
     TaskBase<Options>     *sg_task;
     TaskExecutor<Options> *te;
     TimeUnit               start,end,exp_fin;
+    void *guest;
 public:
     enum TaskType
     {
@@ -121,6 +122,8 @@ public:
     TimeUnit getExpFinish();
     ulong  getMigrateSize();
     TimeUnit getDuration();
+  void *get_guest();
+  void  set_guest(void *);
 };
 /*======================= IDuctteipTask ==============================================*/
 

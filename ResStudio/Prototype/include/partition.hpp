@@ -197,7 +197,7 @@ public:
     }
     X_EB() = X_E() / X_B();
     Y_EB() = Y_E() / Y_B();
-    LOG_INFO(LOG_DATA,"yeb:%d,ye/yb:%d,xeb:%d,xe/xb:%d\n",Y_EB(),Y_E()/Y_B(),X_EB(),X_E()/X_B());
+    LOG_INFO(0&LOG_DATA,"yeb:%d,ye/yb:%d,xeb:%d,xe/xb:%d\n",Y_EB(),Y_E()/Y_B(),X_EB(),X_E()/X_B());
   }
   /*--------------------------------------------------------------------------*/
   void setElementsInfoX (int count, int stride=0 ) {

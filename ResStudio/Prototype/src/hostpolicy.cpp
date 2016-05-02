@@ -3,7 +3,7 @@
 #include "glb_context.hpp"
 
 int IHostPolicy::getHost(Coordinate c ,int ndim) {
-  LOG_INFO(LOG_MLEVEL,"ndim:%d coord=(%d,%d) P:%d P(coord):%d\n",
+  LOG_INFO(0&LOG_MLEVEL,"ndim:%d coord=(%d,%d) P:%d P(coord):%d\n",
 	   ndim,c.by,c.bx,
 	   PG->getProcessorCount() ,
 	   PG->getProcessor(c.by,c.bx)

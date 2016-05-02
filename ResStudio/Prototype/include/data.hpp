@@ -48,6 +48,7 @@ protected:
     Handle<Options>            **hM;
     bool                       partial;
     list <int>                exported_nodes;
+    void *guest;
 public:
     /*--------------------------------------------------------------------------*/
     enum AccessType {    READ  = 1,    WRITE = 2  , SCALAR=64};
@@ -203,6 +204,8 @@ public:
     bool isExportedTo(int p ) ;
     void setExportedTo(int p);
     void setName(string s);
+    void *get_guest();
+    void set_guest(void *);
 };
 /*========================== IData Class =====================================*/
 

@@ -337,3 +337,7 @@ ulong  IDuctteipTask::getMigrateSize(){
 /*--------------------------------------------------------------*/
 TimeUnit IDuctteipTask::getDuration(){return end-start;}
 string IDuctteipTask::get_name(){return getName();}
+/*--------------------------------------------------------------*/
+void  IDuctteipTask::set_guest(void *p){guest = p;}
+void *IDuctteipTask::get_guest(){return guest;}
+/*--------------------------------------------------------------*/

@@ -67,17 +67,4 @@ public:
   string get_name(){ return log_name;}
   
 };
-
-  class SuperGlue_Data {
-  private:
-    Handle<Options> **hM;
-  public:
-    SuperGlue_Data(IData *d, int &m,int &n){
-      hM=d->createSuperGlueHandles();
-      m = d->getYLocalNumBlocks();
-      n = d->getXLocalNumBlocks();
-    }
-    Handle<Options> &operator()(int i,int j ){
-      return hM[i][j];
-    }
-  };
+/*----------------------------------------------------------------------------*/

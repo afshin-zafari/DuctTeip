@@ -535,10 +535,10 @@ void IData::setPartition(int _mb, int _nb){
 	newPart->dtPartition=new Partition<double>(2);
 	Partition<double> *p = newPart->dtPartition;
 	p->setBaseMemory(newPart->getContentAddress() ,  newPart->getContentSize());
-	LOG_INFO(0&LOG_MLEVEL,"AllocData for %s=%p sz:%d,N=%d,M=%d\n",s,newPart->getContentAddress(),newPart->getContentSize(),N,M);
-	LOG_INFO(0&LOG_MLEVEL,"parent of %s is %s\n",s,newPart->parent_data->getName().c_str());
+	LOG_INFO(LOG_MLEVEL,"AllocData for %s=%p sz:%d,N=%d,M=%d\n",s,newPart->getContentAddress(),newPart->getContentSize(),N,M);
+	LOG_INFO(LOG_MLEVEL,"parent of %s is %s\n",s,newPart->parent_data->getName().c_str());
 	p->partitionRectangle(newPart->local_m,newPart->local_n,local_mb,local_nb);
-	LOG_INFO(0&LOG_MLEVEL,"local m:%d,n:%d,mb:%d,nb:%d\n",newPart->local_m,newPart->local_n,local_mb,local_nb);
+	LOG_INFO(LOG_MLEVEL,"local m:%d,n:%d,mb:%d,nb:%d\n",newPart->local_m,newPart->local_n,local_mb,local_nb);
       }
       else{
 	LOG_INFO(LOG_DATA,"%s not hosted by me.\n",s);

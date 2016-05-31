@@ -1,6 +1,6 @@
 
-ductteip_lib=../lib/libductteip.a
-SUPERGLUE_DIR=../../../../superglue/include
+ductteip_lib=/pica/h1/afshin/Damavand/D3/ductteip/bin/Debug/libductteip.a
+SUPERGLUE_DIR=/pica/h1/afshin/sg/superglue/include
 SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 HEADER_DIR=../include
 DUCTTEIP_FLAGS=-I$(HEADER_DIR)
@@ -31,7 +31,7 @@ else
 	LINKER=mpic++
 
 	BLAS_LINK_FLAGS=-L$(ACML_DIR)/lib -lacml
-	LINK_FLAGS=-lm -lrt -march=bdver1 $(BLAS_LINK_FLAGS) -lstdc++ -lpthread -Wl,-rpath=$(ACML_DIR)/lib  #-fprofile-arcs 
+	LINK_FLAGS=-lm -lrt -march=bdver1 $(BLAS_LINK_FLAGS) -lstdc++ -lpthread -Wl,-rpath=$(ACML_DIR)/lib  -Wl,--allow-multiple-definition #-fprofile-arcs 
 	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS) $(SPECIAL_FLAGS)
 endif
 #########################################################
@@ -39,10 +39,10 @@ headers:=$(shell ls -Sr *.hpp)
 
 all: bin/cholesky
 
-bin/cholesky: bin/cholesky.o bin/dt_util.o
+bin/cholesky: bin/cholesky.o #bin/dt_util.o
 	$(info )
 	$(info Link with DTLib.)
-	$(LINKER) $? -L../lib -lductteip $(LINK_FLAGS) -o bin/cholesky 
+	$(LINKER) $? -L../lib $(ductteip_lib) $(LINK_FLAGS) -o bin/cholesky 
 	$(info )
 
 bin/cholesky.o : cholesky.cpp $(headers)
@@ -60,4 +60,4 @@ bin/dt_util.o : dt_util.cpp $(headers)
 
 
 clean: 
-	rm bin/*.o bin/cholesky bin/*file*
+	rm -f bin/*.o bin/cholesky bin/*file*

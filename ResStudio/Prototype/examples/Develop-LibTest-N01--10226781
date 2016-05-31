@@ -1,0 +1,34 @@
+intel/13.1(43):ERROR:150: Module 'intel/13.1' conflicts with the currently loaded module(s) 'gcc/4.9'
+intel/13.1(43):ERROR:102: Tcl command execution failed: conflict gcc
+
+mod: loaded OpenMPI 1.8.1, compiled with gcc4.9 (found in /opt/openmpi/1.8.1gcc4.9/)
+          Thread support: posix (MPI_THREAD_MULTIPLE: yes, OPAL support: yes, OMPI progress: no, ORTE progress: yes, Event lib: yes)
+   FT Checkpoint support: no (checkpoint thread: no)
++ DLB=0
++ P=1
++ p=1
++ q=1
++ ipn=1
++ nt=16
++ ps=500
++ B=12
++ b=5
++ to=30
++ N=10800
++ outfile=devel_test_n01.out
++ params='-P 1 -p 1 -q 1 -N 10800 12 5 -I 1 -T 30 -t 16 -S 500'
++ params_long='--num-proc 1 --proc-grid-row 1 --proc-grid-col 1 --data-rows 10800 12 5 --ipn 1 --timeout 30 --num-threads 16 --poll-sleep 500 '
++ ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
++ ACML_LIB=/home/afshin/acml/acmllib/ifort64_fma4/lib/libacml.a
++ alloc_mem='--mca mpi_show_mpi_alloc_mem_leaks 0 '
++ handle_leaks='--mca mpi_show_handle_leaks 1 '
++ show_params=' --mca mpi_show_mca_params 0 '
++ full_help=' --mca orte_base_help_aggregate 0 '
++ free_handles=' --mca mpi_no_free_handles 1'
++ mca_params=' --mca mpi_show_mca_params 0  --mca mpi_show_handle_leaks 1  --mca mpi_show_mpi_alloc_mem_leaks 0   --mca orte_base_help_aggregate 0   --mca mpi_no_free_handles 1'
++ mpi_params=' --mca mpi_show_mca_params 0  --mca mpi_show_handle_leaks 1  --mca mpi_show_mpi_alloc_mem_leaks 0   --mca orte_base_help_aggregate 0   --mca mpi_no_free_handles 1 --map-by ppr:1:node --output-filename devel_test_n01.out '
++ export LD_LIBRARY_PATH=/home/afshin/acml/acmllib/ifort64_fma4/lib:/opt/openmpi/1.8.1gcc4.9/lib:/sw/comp/gcc/4.9_tintin/lib64:/sw/comp/gcc/4.9_tintin/lib
++ LD_LIBRARY_PATH=/home/afshin/acml/acmllib/ifort64_fma4/lib:/opt/openmpi/1.8.1gcc4.9/lib:/sw/comp/gcc/4.9_tintin/lib64:/sw/comp/gcc/4.9_tintin/lib
++ cd bin
++ mpirun -n 1 --mca mpi_show_mca_params 0 --mca mpi_show_handle_leaks 1 --mca mpi_show_mpi_alloc_mem_leaks 0 --mca orte_base_help_aggregate 0 --mca mpi_no_free_handles 1 --map-by ppr:1:node --output-filename devel_test_n01.out cholesky --num-proc 1 --proc-grid-row 1 --proc-grid-col 1 --data-rows 10800 12 5 --ipn 1 --timeout 30 --num-threads 16 --poll-sleep 500
+slurmstepd: *** JOB 10226781 ON ti1 CANCELLED AT 2016-05-31T15:08:54 DUE TO TIME LIMIT ***

@@ -2,6 +2,7 @@
 #define __DATA_BASIC_HPP__
 #include "basic.hpp"
 #include <list>
+#include <string>
 using namespace std;
 class IData;
 /*===================ContextPrefix============================================*/

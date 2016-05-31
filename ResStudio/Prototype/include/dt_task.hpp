@@ -9,6 +9,7 @@
 #include <list>
 #include <string>
 #include "basic.hpp"
+#include "config.hpp"
 #include "data_basic.hpp"
 #include "partition.hpp"
 #include <sstream>
@@ -39,6 +40,18 @@ struct KernelTask : Task<Options>
     void run(TaskExecutor<Options> &te);
     string get_name();
 };
+//template<typename Options, int N>
+struct BasicDTTask:public Task<Options> {
+  IDuctteipTask* dt_task;
+  BasicDTTask(IDuctteipTask* d);
+  void run(TaskExecutor<Options> &te) {
+      if ( config.simulation) return;
+      runKernel(te);
+    }
+  virtual void runKernel(TaskExecutor<Options> &te) =0;
+  string get_name(){return string("basic_task_for_kernels");}
+};
+
 
 typedef unsigned long TaskHandle;
 /*======================= IDuctteipTask ==============================================*/
@@ -124,6 +137,7 @@ public:
     TimeUnit getDuration();
   void *get_guest();
   void  set_guest(void *);
+  void subtask(BasicDTTask *);
 };
 /*======================= IDuctteipTask ==============================================*/
 

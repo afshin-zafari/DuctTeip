@@ -18,13 +18,10 @@
 using namespace std;
 
 extern int me;
-//class IData;
 class IHostPolicy ;
 class IContext;
-//class IListener;
 class IDuctteipTask;
 class MailBox;
-//typedef IListener DataListener;
 
 /*========================== IData Class =====================================*/
 class IData
@@ -214,16 +211,46 @@ class Data: public IData
 public:
     Data(string  _name,int n, int m,IContext *ctx):  IData(_name,n,m,ctx) {}
 };
+/*========================= =====================================*/
+
+  class SuperGlue_Data {
+  private:
+    Handle<Options> **hM;
+    int rows,cols;
+  public:
+    SuperGlue_Data(IData *d, int &m,int &n){
+      hM=d->createSuperGlueHandles();
+      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
+      rows = m = d->getYLocalNumBlocks();
+      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
+      cols = n = d->getXLocalNumBlocks();
+      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
+    }
+    int get_rows_count(){return rows;}
+    int get_cols_count(){return cols;}
+    Handle<Options> &operator()(int i,int j ){
+      printf("%s,%s,%d\ni,j:%d,%d\n",__FILE__,__FUNCTION__,__LINE__,i,j);
+      return hM[i][j];
+    }
+  };
 
 class DuctTeip_Data : public Data
 {
 public:
     DuctTeip_Data(int M, int N);
-    void configure();
     DuctTeip_Data(int M, int N,IContext *alg);
+    void configure();
     DuctTeip_Data *clone();
+    SuperGlue_Data &getSuperGlueData(){
+      int m,n;
+      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
+      SuperGlue_Data *sgd= new SuperGlue_Data(this,m,n);
+      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
+      return *sgd;
+  }
 };
 
+/*========================= =====================================*/
 
 
 #endif //__DATA_HPP__

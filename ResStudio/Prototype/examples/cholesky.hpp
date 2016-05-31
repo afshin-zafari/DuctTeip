@@ -21,6 +21,7 @@
 #include "syrk.hpp"
 #include "trsm.hpp"
 #include "gemm.hpp"
+
 /*----------------------------------------------------------------------------*/
 class Cholesky: public  Algorithm
 {
@@ -274,45 +275,47 @@ public:
 #define B(a,b) hB[a][b]
 #define C(a,b) hC[a][b]
 
+#define SUBTASK 1
 #if SUBTASK==1
 #define SuperGlue_Submit(dtt,sgt,...) dtt->getTaskExecutor()->subtask(dtt->getKernelTask(), new sgt##Task(dtt, __VA_ARGS__ )  )
+#define DuctTeip_SubTask(dtt,sgt,...) dtt->subtask( new sgt##Task(dtt, __VA_ARGS__ )  )
 #define SG_TASK(dtt,sgt,...) dtt->getTaskExecutor()->subtask(dtt->getKernelTask(), new sgt##Task(dtt, __VA_ARGS__ )  )
 #else
 #define SG_TASK(t,a,args...) dtEngine.getThrdManager()->submit( new a##Task( t,  ##args )  )
 #define SuperGlue_Submit(t,a,args...) dtEngine.getThrdManager()->submit( new a##Task( t, ##args )  )
 #endif
 
-    /*----------------------------------------------------------------------------*/
-    void potrf_kernel(IDuctteipTask *task)
-    {
-
-        int n;
-        DuctTeip_Data  *A = (DuctTeip_Data  *)task->getArgument(0);
-        SuperGlue_Data MM(A,n,n);
-        for(int i = 0; i< n ; i++)
-        {
-            for(int l = 0; l<i; l++)
-            {
-                SuperGlue_Submit(task,Syrk,MM(i,l),MM(i,i));
-                for (int k = i+1; k<n ; k++)
-                {
-                    SuperGlue_Submit(task,Gemm,MM(k,l) , MM(i,l) , MM(k,i) ) ;
-                }
-            }
-            SuperGlue_Submit (task,Potrf,MM(i,i));
-            for( int j=i+1; j<n; j++)
-            {
-                SuperGlue_Submit(task,Trsm,MM(i,i), MM(j,i) ) ;
-            }
-        }
-#if SUBTASK !=1
-        SuperGlue_Submit(task,Sync);
-#endif
-        LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
-    }
+  /*----------------------------------------------------------------------------*/
+  void potrf_kernel(IDuctteipTask *dt_task)
+  {
+      
+    DuctTeip_Data  *A = (DuctTeip_Data *)dt_task->getArgument(0);
+    SuperGlue_Data a = A->getSuperGlueData();
+    int n = a.get_rows_count();
+         
+    for(int i = 0; i< n ; i++)
+      {
+	for(int j = 0; j<i; j++)
+	  {
+	    SyrkTask *syrk = new SyrkTask(dt_task, a(i,j), a(i,i));
+	    dt_task->subtask(syrk);
+	    for (int k = i+1; k<n ; k++){
+	      GemmTask *gemm = new GemmTask(dt_task, a(k,j), a(i,j), a(k,i) ) ;
+	      dt_task->subtask(gemm);
+	    }
+	  }
+	PotrfTask *potrf = new PotrfTask (dt_task, a(i,i));
+	dt_task->subtask(potrf);
+	for( int j=i+1; j<n; j++){
+	  TrsmTask *trsm = new TrsmTask(dt_task, a(i,i), a(j,i) ) ;
+	  dt_task->subtask(trsm);
+	}
+      }
+  }
     /*----------------------------------------------------------------------------*/
     void trsm_kernel(IDuctteipTask *task)
     {
+      
         IData *a = task->getDataAccess(0);
         IData *b = task->getDataAccess(1);
         Handle<Options> **hA  =  a->createSuperGlueHandles();
@@ -320,6 +323,7 @@ public:
         int nb = cfg->getXLocalBlocks();
         unsigned int count = 0 ;
         dtEngine.dumpTime('1');
+	printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
         for(int i = 0; i< nb ; i++)
         {
             for(int j = 0; j<nb; j++)
@@ -337,7 +341,6 @@ public:
 #if SUBTASK !=1
         SG_TASK(task,Sync);
 #endif
-        LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
     }
     /*----------------------------------------------------------------------------*/
     void syrk_kernel(IDuctteipTask *task)
@@ -348,6 +351,7 @@ public:
         Handle<Options> **hB  =  b->createSuperGlueHandles();
         int nb = cfg->getXLocalBlocks();
         unsigned int count = 0 ;
+	printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
         for(int i = 0; i< nb ; i++)
         {
             for(int j = 0; j<i+1; j++)
@@ -365,7 +369,6 @@ public:
 #if SUBTASK !=1
         SG_TASK(task,Sync);
 #endif
-        LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
     }
     /*----------------------------------------------------------------------------*/
     void gemm_kernel(IDuctteipTask *task)
@@ -377,22 +380,19 @@ public:
         Handle<Options> **hB  =  b->createSuperGlueHandles();
         Handle<Options> **hC  =  c->createSuperGlueHandles();
         int nb = cfg->getXLocalBlocks();
-        unsigned int count =0;
         for(int i = 0; i< nb ; i++)
         {
             for(int j = 0; j<nb; j++)
             {
                 for(int k = 0; k<nb; k++)
                 {
-                    SG_TASK(task,Gemm,A(i,k),B(k,j),C(i,j));
-                    count ++;
+		  SG_TASK(task,Gemm,A(i,k),B(k,j),C(i,j));
                 }
             }
         }
 #if SUBTASK !=1
         SG_TASK(task,Sync);
 #endif
-        LOG_INFO(LOG_MULTI_THREAD,"%s sg-tasks submitted.\n",task->getName().c_str());
     }
     /*----------------------------------------------------------------------------*/
 #undef C

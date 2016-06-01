@@ -9,7 +9,6 @@
 #include "gemm.hpp"
 #include <acml.h>
 
-/*----------------------------------------------------------------------------*/
 class Cholesky: public Algorithm{
 private:
   // The input/output data of Cholesky factorization
@@ -30,13 +29,12 @@ public:
   void  TRSM_kernel(DuctTeip_Task *dt_task);
   void  SYRK_kernel(DuctTeip_Task *dt_task);
   void  GEMM_kernel(DuctTeip_Task *dt_task);
-  /*----------------------------------------------------------------------------*/
+
   string getTaskName(unsigned long key);
   void  taskFinished(DuctTeip_Task *task, TimeUnit dur);
   void  checkCorrectness();
   void  populateMatrice();
   void  dumpAllData();
   ~Cholesky();
-  /*----------------------------------------------------------------------------*/
 };
 #endif //__CHOLESKY_HPP__

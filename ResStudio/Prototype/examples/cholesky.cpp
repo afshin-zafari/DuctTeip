@@ -1,71 +1,73 @@
 #include "cholesky.hpp"
-/*----------------------------------------------------------------------------*/
 void Cholesky::taskified(){/*@\label{line:taskified_start}@*/
   int Nb = A.getXNumBlocks();
   for(int i = 0; i<Nb; i++){
     for(int j = 0; j<i; j++){
       // submit task for $ \color{cmtmgray}A_{ii}=A_{ij}A_{ij}^T$
-      addTask(SYRK,A(i,j),A(i,i));
+      addTask(SYRK, A(i,j), A(i,i));
       for(int k = i+1; k<Nb; k++){
 	// submit task for $ \color{cmtmgray}A_{ki}=A_{kj}A_{ij}$
-	addTask(GEMM,A(k,j) , A(i,j) , A(k,i) );
+	addTask(GEMM, A(k,j), A(i,j), A(k,i));
       }
     }
     // submit task for $ \color{cmtmgray}A_{ii}\rightarrow LL^T$
-    addTask(POTRF,A(i,i));
+    addTask(POTRF, A(i,i));
     for(int j = i+1; j<Nb; j++){
       // submit task for $ \color{cmtmgray}A_{ji}=A_{ii}^{-1}A_{ji}$
-      addTask(TRSM,A(i,i), A(j,i) );
+      addTask(TRSM, A(i,i), A(j,i));
     }
   }
 }/*@\label{line:taskified_end}@*/
-/*----------------------------------------------------------------------------*/
-void Cholesky::runKernels(IDuctteipTask *task )
+//=======================================================
+void Cholesky::runKernels(DuctTeip_Task *task ) /*@\label{line:runkernelsdef_start}@*/
 {
   switch (task->getKey()){
     case POTRF:   POTRF_kernel(task);      break;/*@\label{line:switchpotrf}@*/
-    case TRSM:     TRSM_kernel(task);      break;
-    case GEMM:     GEMM_kernel(task);      break;
-    case SYRK:     SYRK_kernel(task);      break;
+    case  TRSM:    TRSM_kernel(task);      break;
+    case  GEMM:    GEMM_kernel(task);      break;
+    case  SYRK:    SYRK_kernel(task);      break;
     default:
-      fprintf(stderr,"invalid task key:%ld.\n",task->getKey());
+      fprintf(stderr,"invalid task key:%ld.\n",
+	      task->getKey());
       exit(1);
       break;
     }
-}
-/*----------------------------------------------------------------------------*/
-void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){
+}/*@\label{line:runkernelsdef_end}@*/
+//=======================================================
+void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@*/
   // Get the argument of the POTRF task
-  DuctTeip_Data  *A = (DuctTeip_Data *)dt_task->getArgument(0);
+  DuctTeip_Data  *A = dt_task->getArgument(0);/*@\label{line:pkdtdata}@*/
 
   // Retrieve the corresponding SuperGlue blocks 
-  //   from the DuctTeip data
-  SuperGlue_Data M = A->getSuperGlueData();                                /*@\label{line:pksgdata}@*/
+  //   from the DuctTeip data 
+  SuperGlue_Data M = A->getSuperGlueData();/*@\label{line:pksgdata}@*/
   int n = M.get_rows_count();
 
   // Blocks of A can be accessed using '(i,j)' indexing and 
   //   passd as the SuperGlue tasks' arguments
   for(int i = 0; i<n ; i++){
    for(int j = 0; j<i ; j++){
-      // create and submit task for $ \color{cmtmgray}M_{ii}=M_{ij}M_{ij}^T$
-      SyrkTask *syrk = new SyrkTask(dt_task, M(i,j), M(i,i));              /*@\label{line:pksyrk}@*/
-      dt_task->subtask(syrk);
+    // create and submit task for $ \color{cmtmgray}M_{ii}=M_{ij}M_{ij}^T$      
+    SyrkTask *syrk = new SyrkTask(dt_task, M(i,j), M(i,i)); /*@\label{line:pksyrk}@*/
+    dt_task->subtask(syrk);
     for (int k = i+1; k<n ; k++){
      // create and submit task for $ \color{cmtmgray}M_{ki}=M_{kj}M_{ij}$
-     GemmTask *gemm=new GemmTask(dt_task,M(k,j),M(i,j),M(k,i));            /*@\label{line:pkgemm}@*/
+     GemmTask *gemm=new GemmTask(dt_task,M(k,j),M(i,j),M(k,i));/*@\label{line:pkgemm}@*/
      dt_task->subtask(gemm);
     }
    }
    // submit task for $ \color{cmtmgray}M_{ii}\rightarrow LL^T$
-   PotrfTask *potrf = new PotrfTask (dt_task, M(i,i));                     /*@\label{line:pkpotrf}@*/
+   PotrfTask *potrf = new PotrfTask(dt_task, M(i,i));/*@\label{line:pkpotrf}@*/
    dt_task->subtask(potrf);
    for( int j = i+1; j<n ; j++){
      // submit task for $ \color{cmtmgray}M_{ji}=M_{ii}^{-1}M_{ji}$
-     TrsmTask *trsm = new TrsmTask(dt_task, M(i,i), M(j,i) ) ;             /*@\label{line:pktrsm}@*/
+     TrsmTask *trsm = new TrsmTask(dt_task, M(i,i), M(j,i));/*@\label{line:pktrsm}@*/
      dt_task->subtask(trsm);
    }
   }
-}
+}/*@\label{line:pkdef_end}@*/
+
+
 /*----------------------------------------------------------------------------*/
 void Cholesky::TRSM_kernel(DuctTeip_Task *dt_task)
 {

@@ -355,9 +355,9 @@ string IDuctteipTask::get_name(){return getName();}
 void  IDuctteipTask::set_guest(void *p){guest = p;}
 void *IDuctteipTask::get_guest(){return guest;}
 /*--------------------------------------------------------------*/
-void IDuctteipTask::subtask(BasicDTTask *t){
+void IDuctteipTask::subtask(SuperGlueTaskBase *t){
   te->subtask(getKernelTask(),t);
 }
-BasicDTTask::BasicDTTask(IDuctteipTask* d):dt_task(d){
+SuperGlueTaskBase::SuperGlueTaskBase(IDuctteipTask* d):dt_task(d){
     registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
 }

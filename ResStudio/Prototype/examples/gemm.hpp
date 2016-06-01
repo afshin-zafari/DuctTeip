@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-struct GemmTask : public BasicDTTask {
+struct GemmTask : public SuperGlueTaskBase {
   bool b_trans,c_decrease;
 /*----------------------------------------------------------------------------*/
   GemmTask(IDuctteipTask *task_ ,
@@ -8,7 +8,7 @@ struct GemmTask : public BasicDTTask {
 	   Handle<Options> &h3,
 	   bool trans_b=false,
 	   bool decrease_c = true):
-    BasicDTTask (task_),
+    SuperGlueTaskBase (task_),
     b_trans(trans_b),
     c_decrease(decrease_c){
         registerAccess(ReadWriteAdd::read , h1);

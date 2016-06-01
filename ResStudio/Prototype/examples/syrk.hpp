@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
-struct SyrkTask : public BasicDTTask {
+struct SyrkTask : public SuperGlueTaskBase {
 
-  SyrkTask(IDuctteipTask *task_,Handle<Options> &h1,Handle<Options> &h2):BasicDTTask(task_) {
+  SyrkTask(IDuctteipTask *task_,Handle<Options> &h1,Handle<Options> &h2):SuperGlueTaskBase(task_) {
     registerAccess(ReadWriteAdd::read , h1);
     registerAccess(ReadWriteAdd::write, h2);
   }

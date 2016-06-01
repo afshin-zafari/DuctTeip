@@ -40,10 +40,9 @@ struct KernelTask : Task<Options>
     void run(TaskExecutor<Options> &te);
     string get_name();
 };
-//template<typename Options, int N>
-struct BasicDTTask:public Task<Options> {
+struct SuperGlueTaskBase:public Task<Options> {
   IDuctteipTask* dt_task;
-  BasicDTTask(IDuctteipTask* d);
+  SuperGlueTaskBase(IDuctteipTask* d);
   void run(TaskExecutor<Options> &te) {
       if ( config.simulation) return;
       runKernel(te);
@@ -137,7 +136,7 @@ public:
     TimeUnit getDuration();
   void *get_guest();
   void  set_guest(void *);
-  void subtask(BasicDTTask *);
+  void subtask(SuperGlueTaskBase *);
 };
 /*======================= IDuctteipTask ==============================================*/
 

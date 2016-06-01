@@ -1,5 +1,5 @@
-struct TrsmTask : public BasicDTTask {
-  TrsmTask(  IDuctteipTask *task_ ,Handle<Options> &h1,Handle<Options> &h2):  BasicDTTask(task_)  {
+struct TrsmTask : public SuperGlueTaskBase {
+  TrsmTask(  IDuctteipTask *task_ ,Handle<Options> &h1,Handle<Options> &h2):  SuperGlueTaskBase(task_)  {
     registerAccess(ReadWriteAdd::read , h1);
     registerAccess(ReadWriteAdd::write, h2);
   }

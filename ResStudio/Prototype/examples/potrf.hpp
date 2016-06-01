@@ -1,7 +1,7 @@
 #include <acml.h>
 /*--------------------------------------------------------------------------------*/
-  struct PotrfTask : public BasicDTTask {
-    PotrfTask(IDuctteipTask *task_,Handle<Options> &h1):BasicDTTask(task_) {
+  struct PotrfTask : public SuperGlueTaskBase {
+    PotrfTask(IDuctteipTask *task_,Handle<Options> &h1):SuperGlueTaskBase(task_) {
       registerAccess(ReadWriteAdd::write, h1);
     }
     void runKernel(TaskExecutor<Options> &te) {

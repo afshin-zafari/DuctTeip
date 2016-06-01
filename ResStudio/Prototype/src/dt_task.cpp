@@ -358,6 +358,12 @@ void *IDuctteipTask::get_guest(){return guest;}
 void IDuctteipTask::subtask(SuperGlueTaskBase *t){
   te->subtask(getKernelTask(),t);
 }
+/*===============================================================*/
 SuperGlueTaskBase::SuperGlueTaskBase(IDuctteipTask* d):dt_task(d){
     registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
+}
+/*--------------------------------------------------------------*/
+LastLevel_Data &SuperGlueTaskBase::get_argument(int arg){
+  LastLevel_Data &lld = * new LastLevel_Data(this,arg);
+  return lld;
 }

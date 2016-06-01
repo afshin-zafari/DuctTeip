@@ -17,7 +17,7 @@ struct GemmTask : public SuperGlueTaskBase {
     }
 
 /*----------------------------------------------------------------------------*/
-    void runKernel(TaskExecutor<Options> &te) {
+    void runKernel() {
       int N = getAccess(1).getHandle()->block->X_E();
       double *a = getAccess(1).getHandle()->block->getBaseMemory();
       double *b = getAccess(2).getHandle()->block->getBaseMemory();

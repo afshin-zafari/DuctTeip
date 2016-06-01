@@ -61,6 +61,7 @@ public:
   void addOutputData(IData *_d);
   void addInOutData(IData *_d);
   DataHandle * createDataHandle ( ) ;
+  void addTask(ulong,IData *d1,IData *d2=NULL,IData *d3=NULL);
 };
 /*===================================================================================*/
 class Context: public IContext

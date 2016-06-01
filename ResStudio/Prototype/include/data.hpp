@@ -209,10 +209,38 @@ public:
 class Data: public IData
 {
 public:
-    Data(string  _name,int n, int m,IContext *ctx):  IData(_name,n,m,ctx) {}
+  Data(string  _name,int n, int m,IContext *ctx):  IData(_name,n,m,ctx) {}
+  Data():IData(){}
 };
 /*========================= =====================================*/
+class LastLevel_Data {
+private :
+  int N,M;
+  double *memory;
+public:
 
+  LastLevel_Data(Task<Options,-1> *t,int arg){
+    arg++;
+    N = t->getAccess(arg).getHandle()->block->X_E();
+    M = t->getAccess(arg).getHandle()->block->Y_E();
+    memory = t->getAccess(arg).getHandle()->block->getBaseMemory();
+  }
+  int get_rows_count(){return M;}
+  int get_cols_count(){return N;}
+  double *get_memory(){return memory;}
+  double operator()(int i,int j){
+    return memory[j*M+i];
+  }
+  double &operator[](int i){
+    return memory[i];
+  }
+  const double &operator[](int i)const {
+    return memory[i];
+  }
+  
+};
+
+/*========================= =====================================*/
   class SuperGlue_Data {
   private:
     Handle<Options> **hM;
@@ -237,6 +265,7 @@ public:
 class DuctTeip_Data : public Data
 {
 public:
+  DuctTeip_Data(){}
     DuctTeip_Data(int M, int N);
     DuctTeip_Data(int M, int N,IContext *alg);
     void configure();

@@ -39,7 +39,7 @@ headers:=$(shell ls -Sr *.hpp)
 
 all: bin/cholesky
 
-bin/cholesky: bin/cholesky.o #bin/dt_util.o
+bin/cholesky: bin/cholesky.o bin/main.o
 	$(info )
 	$(info Link with DTLib.)
 	$(LINKER) $? -L../lib $(ductteip_lib) $(LINK_FLAGS) -o bin/cholesky 
@@ -51,10 +51,10 @@ bin/cholesky.o : cholesky.cpp $(headers)
 	$(CPP) -c cholesky.cpp -o bin/cholesky.o $(COMP_FLAGS)
 	$(info )
 
-bin/dt_util.o : dt_util.cpp $(headers)
+bin/main.o : main.cpp $(headers)
 	$(info )
 	$(info Compile the source file.)
-	$(CPP) -c dt_util.cpp -o bin/dt_util.o $(COMP_FLAGS)
+	$(CPP) -c main.cpp -o bin/main.o $(COMP_FLAGS)
 	$(info )
 
 

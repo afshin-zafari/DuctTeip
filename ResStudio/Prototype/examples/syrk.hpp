@@ -5,7 +5,7 @@ struct SyrkTask : public SuperGlueTaskBase {
     registerAccess(ReadWriteAdd::read , h1);
     registerAccess(ReadWriteAdd::write, h2);
   }
-  void runKernel(TaskExecutor<Options> &te) {
+  void runKernel() {
     
     int N = getAccess(1).getHandle()->block->X_E();
     double *a = getAccess(1).getHandle()->block->getBaseMemory();

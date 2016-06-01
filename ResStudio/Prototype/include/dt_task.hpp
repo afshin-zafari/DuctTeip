@@ -31,7 +31,9 @@ class DataHandle;
 //template <typename T > class Handle;
 class IContext;
 class IDuctteipTask;
+class LastLevel_Data;
 
+/*======================= IDuctteipTask ==============================================*/
 struct KernelTask : Task<Options>
 {
     IDuctteipTask* dt_task;
@@ -40,15 +42,23 @@ struct KernelTask : Task<Options>
     void run(TaskExecutor<Options> &te);
     string get_name();
 };
-struct SuperGlueTaskBase:public Task<Options> {
+/*======================= IDuctteipTask ==============================================*/
+class SuperGlueTaskBase:public Task<Options> {
+private:
   IDuctteipTask* dt_task;
+  TaskExecutor<Options> *task_executor;
+public:
   SuperGlueTaskBase(IDuctteipTask* d);
   void run(TaskExecutor<Options> &te) {
-      if ( config.simulation) return;
-      runKernel(te);
+    task_executor=&te;
+    if (config.simulation) return;
+    
+    runKernel();
     }
-  virtual void runKernel(TaskExecutor<Options> &te) =0;
+  /*--------------------------------------------------------------------------*/
+  virtual void runKernel() =0;
   string get_name(){return string("basic_task_for_kernels");}
+  LastLevel_Data  &get_argument(int);
 };
 
 
@@ -139,5 +149,5 @@ public:
   void subtask(SuperGlueTaskBase *);
 };
 /*======================= IDuctteipTask ==============================================*/
-
+typedef IDuctteipTask DuctTeip_Task;
 #endif //__DUCTTEIP_TASK_HPP__

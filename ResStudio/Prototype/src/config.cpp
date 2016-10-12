@@ -301,7 +301,6 @@ void Config::getCmdLine(int argc, char **argv){
   }
   if ( ps<=0)
     ps =10000;
-  if(err)
-    exit(err);
+  //  if(err)    exit(err);
 
 }

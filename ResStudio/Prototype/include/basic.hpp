@@ -28,7 +28,7 @@
 #define PRINT_IF(a) if(a)printf
 //#define DLB_DEBUG 0
 //#define DLB_MODE 0
-#define POST_RECV_DATA 1
+#define POST_RECV_DATA 0
 
 #define DEBUG 0
 

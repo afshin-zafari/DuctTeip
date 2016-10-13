@@ -103,7 +103,7 @@ bool MPIComm::isAnySendCompleted(int *tag,unsigned long *handle){
 	ulong  t = UserTime() - req->start_time;
 	tot_sent_time +=t;
 	tot_sent_len +=req->length;
-	LOG_INFO(LOG_DLB_SMART,"tot-time:%ld, tot-len:%ld\n",tot_sent_time,tot_sent_len);
+	LOG_INFO(LOG_DLB_SMART,"tot-time:%ld, tot-len:%ld\n",(long)tot_sent_time,(long)tot_sent_len);
       }
       request_list.erase(it);
       return flag;
@@ -162,7 +162,7 @@ int MPIComm::finish(){
     MPI_Cancel((*it)->request);
   }
   LOG_INFO(LOG_COMM,"mpi finalized.\n");
-  LOG_INFO(LOG_MULTI_THREAD,"recv_time:%ld\n", recv_time);
+  LOG_INFO(LOG_MULTI_THREAD,"recv_time:%ld\n", (long)recv_time);
   int flag;
   MPI_Finalized(&flag);
   if ( flag)
@@ -262,15 +262,24 @@ void MPIComm::waitForAnyReceive(int *tag,int *src,int *len){
 void MPIComm::postReceiveData(int n ,int data_size,void *m){
   const int DATA_TAG = 2;
   MemoryManager *mem_mgr = (MemoryManager *)m;
+  assert(mem_mgr);
   LOG_INFO(LOG_MULTI_THREAD,"n:%d, size:%d mem:%p, mngr:%p\n",n,data_size,m,mem_mgr);
   prcv_reqs = new MPI_Request[n];
   prcv_vect.resize(n);
   for(int from =0; from < n; from ++){
     prcv_vect[from]         = new CommRequest();
     LOG_INFO(LOG_MULTI_THREAD,"prcv_vect[%d]:%p\n",from,prcv_vect[from]);
+    assert(mem_mgr);
     prcv_vect[from]->mem    = mem_mgr->getNewMemory();
+    printf("1\n");
+    assert(prcv_vect[from]->mem);
+    printf("2\n");
     byte *buf               = prcv_vect[from]->mem->getAddress();
+    printf("3\n");
+    assert(buf);
+    printf("4\n");
     prcv_vect[from]->buf    = buf;
+    printf("5\n");
     LOG_INFO(LOG_MULTI_THREAD,"buf :%p, prcv_vect[%d].buf:%p\n",buf,from,prcv_vect[from]->buf);
     prcv_vect[from]->tag    = DATA_TAG;
     prcv_vect[from]->length = data_size;

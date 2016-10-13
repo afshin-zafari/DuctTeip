@@ -88,7 +88,8 @@ TaskHandle  engine::addTask(IContext * context,
   if(last_task_handle ==1){
     LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
 
-#if POST_RECV_DATA == 1
+    /*
+#if POST_RECV_DATA == 12
     DataHandle dh;
     DataVersion dv;
     IDuctteipTask t;
@@ -106,6 +107,7 @@ TaskHandle  engine::addTask(IContext * context,
     int P = net_comm->get_host_count();
     net_comm->postReceiveData(P,dps,data_memory);
 #endif
+    */
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
   }
   task->setHandle(task_handle);
@@ -984,12 +986,33 @@ void engine::doProcessMailBox(){
   MailBoxEvent event ;
   TimeUnit t = getTime();
   bool wait= false,completed,found;
-
+  static bool once=false;
   if (net_comm->get_host_count() == 1)
     return ;
   int *counters = glbCtx.getCounters();
   if ( counters[GlobalContext::TaskInsert] == 0)
     return;
+  if(!once){
+    once = true;
+#if POST_RECV_DATA == 1
+    DataHandle dh;
+    DataVersion dv;
+    IDuctteipTask z;
+    IListener l;
+    int mb =  cfg->getYBlocks();
+    int nb =  cfg->getXBlocks();
+    int ny = cfg->getYDimension() / mb;
+    int nx = cfg->getXDimension() / nb;
+
+    dps = ny * nx * sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
+    if ( simulation ) {
+      dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
+    }
+    LOG_INFO(LOG_MULTI_THREAD,"DataPackSize:%ld\n",dps);
+    int P = net_comm->get_host_count();
+    //    net_comm->postReceiveData(P,dps,data_memory);
+#endif
+  }
   do {
     event.host =-1;
     event.tag = -1;
@@ -999,7 +1022,7 @@ void engine::doProcessMailBox(){
     if ( !found ){
       TimeUnit tt=getTime();
       wasted_time += tt - t;
-      LOG_INFO(LOG_MULTI_THREAD,"No comm happened, wt:%ld,tot-wt:%ld\n",tt-t,wasted_time);
+      ///LOG_INFO(LOG_MULTI_THREAD,"No comm happened, wt:%ld,tot-wt:%ld\n",tt-t,wasted_time);
       return ;
     }
     

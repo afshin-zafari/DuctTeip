@@ -93,6 +93,7 @@ MemoryItem *MemoryManager::expandMemoryItems(int n )
     for ( int i = 0 ; i < expand; i ++)
     {
         m = new MemoryItem(element_size,last_key ++);
+	assert(m);
         if ( i == 0 )
             first_mem = m ;
         memory_list.push_back(m);
@@ -107,6 +108,7 @@ MemoryItem *MemoryManager::findFreeMemory()
     for(uint i=0; i<memory_list.size(); i++)
     {
         m=memory_list[i];
+	assert(m);
         if ( m->getState() != MemoryItem::InUse )
         {
             return m;
@@ -117,5 +119,6 @@ MemoryItem *MemoryManager::findFreeMemory()
 /*----------------------------------------------------------------------------*/
 void MemoryManager::freeMemoryItem(MemoryItem *m )
 {
-    m->setState(MemoryItem::Ready);
+  assert(m);
+  m->setState(MemoryItem::Ready);
 }

@@ -591,13 +591,16 @@ bool IData::isOwnedBy(int p) {
 /*--------------------------------------------------------------*/
 int IData::getHost(){
   Coordinate c = blk;
-  LOG_INFO(0&LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  assert(hpData);
   if ( parent_data ==NULL){
     LOG_INFO(LOG_MLEVEL,"parent data is null.\n");
     return 0;
   }
-  if (parent_data->Nb == 1 &&   parent_data->Mb == 1 ) 
-    return hpData->getHost(blk);
+  if (parent_data->Nb == 1 &&   parent_data->Mb == 1 )
+    {
+      return hpData->getHost(blk);
+    }
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
     LOG_INFO(LOG_MLEVEL," coord(%d,%d)\n",c.by,c.bx);
     LOG_INFO(LOG_MLEVEL,"blkidx(%d,%d)\n",blk.by,blk.bx);

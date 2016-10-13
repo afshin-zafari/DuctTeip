@@ -68,11 +68,11 @@ void Config::getCmdLine(int argc, char **argv){
       {"sched-lib1"   ,required_argument, 0,'X' }, // 21
       {"sched-lib2"   ,required_argument, 0,'Y' }, // 22
       {"sched-lib3"   ,required_argument, 0,'Z' }, // 23
-      {"mq-send"      ,required_argument, 0,''  }, // 24
-      {"mq-recv"      ,required_argument, 0,''  }, // 25
-      {"mq-ip"        ,required_argument, 0,''  }, // 26
-      {"mq-name"      ,required_argument, 0,''  }, // 27
-      {"mq-pass"      ,required_argument, 0,''  }, // 28
+      {"mq-send"      ,required_argument, 0,24  }, // 24
+      {"mq-recv"      ,required_argument, 0,25  }, // 25
+      {"mq-ip"        ,required_argument, 0,26  }, // 26
+      {"mq-name"      ,required_argument, 0,27  }, // 27
+      {"mq-pass"      ,required_argument, 0,28  }, // 28
       {0,0,0,0}
     };
   int index;
@@ -227,6 +227,21 @@ void Config::getCmdLine(int argc, char **argv){
       break;
     case 'Z':
       lib3.assign(optarg);
+      break;
+    case 24:
+      mq_send.assign(optarg);
+      break;
+    case 25:
+      mq_recv.assign(optarg);
+      break;
+    case 26:
+      mq_ip.assign(optarg);
+      break;
+    case 27:
+      mq_name.assign(optarg);
+      break;
+    case 28:
+      mq_pass.assign(optarg);
       break;
     case '?':
     default:

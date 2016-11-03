@@ -1,11 +1,12 @@
 #ifndef __MEMORY_MANAGER_HPP__
-#define  __MEMORY_MANAGER_HPP__
+#define __MEMORY_MANAGER_HPP__
 #include "basic.hpp"
 //#include <list>
 #include <vector>
 
 typedef unsigned long MemoryKey;
 /*----------------------------------------------------------------------------*/
+
 struct MemoryItem{
 private:
   MemoryKey     key;

@@ -116,6 +116,7 @@ public:
     void       setCommHandle(unsigned long h) ;
     ulong getCommHandle()                ;
     list<DataAccess *> *getDataAccessList() ;
+    void setDataAccessList(list<DataAccess *>*) ;
     void dumpDataAccess(list<DataAccess *> *dlist);
     void dump(char c=' ');
     bool isFinished();
@@ -128,7 +129,7 @@ public:
     void upgradeData(char);
     bool canRun(char c=' ');
     void setFinished(bool f);
-    void run();
+    virtual void run();
     int  serialize(byte *buffer,int &offset,int max_length);
     MessageBuffer *serialize();
     void deserialize(byte *buffer,int &offset,int max_length);

@@ -75,6 +75,32 @@ IDuctteipTask *engine::getTask(TaskHandle th)
   return NULL;
 }
 /*---------------------------------------------------------------------------------*/
+void engine::register_task(IDuctteipTask *task)
+{
+  criticalSection(Enter) ;
+  TaskHandle task_handle = last_task_handle ++;
+  if(last_task_handle ==1){
+    LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
+    dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
+  }
+  task->setHandle(task_handle);
+  LOG_METRIC(DuctteipLog::TaskDefined);
+  task_list.push_back(task);
+  if (task->getHost() != me ) {
+    putWorkForSendingTask(task);
+  }
+  else {
+    putWorkForNewTask(task);
+  }
+  criticalSection(Leave) ;
+  signalWorkReady();
+  if ( !runMultiThread ) {
+    doProcessMailBox();
+    doProcessWorks();
+  }
+}
+
+/*---------------------------------------------------------------------------------*/
 TaskHandle  engine::addTask(IContext * context,
 			    string task_name,
 			    unsigned long key,
@@ -1405,6 +1431,7 @@ MemoryManager *engine::getMemoryManager(){return data_memory;}
 /*---------------------------------------------------------------*/
 void engine::doDLB(int st){
   static long last_count;
+  return;
   long c =  running_tasks.size();
   if ( c && c!= last_count )    return;
   LOG_INFO(0&LOG_DLB,"task count last:%ld, cur:%ld\n",last_count ,c);

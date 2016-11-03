@@ -4,7 +4,7 @@
 #include "context.hpp"
 
 
-#define SUBTASK 1
+#define SUBTASK 0
 /*--------------------------------------------------------------------------*/
 IDuctteipTask::IDuctteipTask (IContext *context,
 			      string _name,
@@ -82,6 +82,7 @@ unsigned long IDuctteipTask::getCommHandle()                { return comm_handle
 
 /*--------------------------------------------------------------------------*/
 list<DataAccess *> *IDuctteipTask::getDataAccessList() { return data_list;  }
+void IDuctteipTask::setDataAccessList(list<DataAccess *> *d) {  data_list=d;}
 
 /*--------------------------------------------------------------------------*/
 void IDuctteipTask::dumpDataAccess(list<DataAccess *> *dlist){

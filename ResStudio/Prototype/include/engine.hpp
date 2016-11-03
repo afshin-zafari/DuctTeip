@@ -131,6 +131,7 @@ public:
   int getLocalNumBlocks();
   list<IDuctteipTask*>  &getRunningTasksList(){return running_tasks;}
   MailBox *getMailBox(){return mailbox;}
+  void register_task(IDuctteipTask*);
   TaskHandle  addTask(IContext * context,
 		      string task_name,
 		      ulong  key, 

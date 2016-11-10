@@ -75,7 +75,9 @@ void Config::getCmdLine(int argc, char **argv){
       {"mq-pass"      ,required_argument, 0,28  }, // 28
       {0,0,0,0}
     };
+
   int index;
+  optind = 1;
   while (true){
     int ret=getopt_long(argc,argv,"DLP:p:q:N:M:B:b:t:I:T:S:u:r:m:x:y:z:X:Y:Z:",opts,&index);
     if ( ret ==-1)

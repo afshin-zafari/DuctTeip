@@ -691,7 +691,7 @@ void engine::putWorkForFinishedTask(IDuctteipTask * task){
   work->host  = task->getHost();
   criticalSection(Enter);
   work_queue.push_back(work);
-  LOG_INFO(LOG_MULTI_THREAD,"%s\n",task->getName().c_str());
+  LOG_INFO(LOG_MULTI_THREAD+1,"%s\n",task->getName().c_str());
   criticalSection(Leave);
 }
 /*---------------------------------------------------------------------------------*/
@@ -779,6 +779,7 @@ long int engine::checkRunningTasks(int v){
       putWorkForFinishedTask(task);
       LOG_INFO(LOG_MLEVEL,"task finished:%s, run-list size:%ld\n",task->get_name().c_str(),running_tasks.size());
       cnt ++;
+      it = running_tasks.erase(it);
     }
     else
       it++;

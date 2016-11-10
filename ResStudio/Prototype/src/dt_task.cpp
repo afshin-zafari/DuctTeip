@@ -116,6 +116,7 @@ int IDuctteipTask::getPackSize(){
 }
 /*--------------------------------------------------------------------------*/
 bool IDuctteipTask::canBeCleared() { return state == CanBeCleared;}
+bool IDuctteipTask::isCleared() { return state == Cleared;}
 bool IDuctteipTask::isUpgrading()  { return state == UpgradingData;}
 /*--------------------------------------------------------------------------*/
 bool IDuctteipTask::canRun(char c){

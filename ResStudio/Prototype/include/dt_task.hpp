@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 #include <string>
+//#include <atomic>
 #include "basic.hpp"
 #include "config.hpp"
 #include "data_basic.hpp"
@@ -69,7 +70,8 @@ class IDuctteipTask
 private:
     string                 name;
     list<DataAccess *>    *data_list;
-    int                    state,sync,type,host;
+    int                    sync,type,host;
+    int                    state;
     TaskHandle             handle;
     unsigned long          key,comm_handle;
     IContext              *parent_context;
@@ -95,7 +97,8 @@ public:
         Running,
         Finished,
         UpgradingData,
-        CanBeCleared
+        CanBeCleared,
+	Cleared
     };
     /*--------------------------------------------------------------------------*/
     IDuctteipTask();
@@ -125,6 +128,7 @@ public:
     void setName(string n ) ;
     int  getPackSize();
     bool canBeCleared() ;
+    bool isCleared() ;
     bool isUpgrading()  ;
     void upgradeData(char);
     bool canRun(char c=' ');

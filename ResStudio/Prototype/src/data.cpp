@@ -616,11 +616,8 @@ int IData::getHost(){
 /*--------------------------------------------------------------*/
 void   IData::incrementVersion ( AccessType a) {
   gt_read_version++;
-      printf("%s,%d\n",__FILE__,__LINE__);
   if ( a == WRITE ) {
-      printf("%s,%d\n",__FILE__,__LINE__);
     gt_write_version = gt_read_version;
-      printf("%s,%d\n",__FILE__,__LINE__);
   }
 }
 /*--------------------------------------------------------------*/

@@ -270,13 +270,9 @@ void IDuctteipTask::setFinished(bool flag){
     return ;
   state = IDuctteipTask::Finished;
   end = getTime();
-  printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
-  //  parent_context->taskFinished(this,end-start);
 
   LOG_EVENTX(DuctteipLog::TaskFinished,this);
-  printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
   LOG_INFO(LOG_MLEVEL,"%s\n",getName().c_str());
-  printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
   if ( !isImported()){
     dtEngine.signalWorkReady(this);
   }

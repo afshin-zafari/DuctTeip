@@ -116,8 +116,7 @@ DataHandle * IContext::createDataHandle ( )
 /*----------------------------------------------------------------------------*/
 void IContext::addTask(ulong key,IData* d1,IData *d2,IData *d3){
   string s= getTaskName(key);
-  printf("===============\n addTask:s:%s, Key:%ld, d1:%p, d2:%p , d3:%p.\n",
-	 s.c_str(),key,d1,d2,d3);
+  //printf("===============\n addTask:s:%s, Key:%ld, d1:%p, d2:%p , d3:%p.\n",	 s.c_str(),key,d1,d2,d3);
   if (d2==NULL && d3 == NULL){
     AddTask(this,s,key,NULL,NULL,d1);
     return;

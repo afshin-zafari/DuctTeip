@@ -248,16 +248,12 @@ public:
   public:
     SuperGlue_Data(IData *d, int &m,int &n){
       hM=d->createSuperGlueHandles();
-      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
       rows = m = d->getYLocalNumBlocks();
-      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
       cols = n = d->getXLocalNumBlocks();
-      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
     }
     int get_rows_count(){return rows;}
     int get_cols_count(){return cols;}
     Handle<Options> &operator()(int i,int j ){
-      printf("%s,%s,%d\ni,j:%d,%d\n",__FILE__,__FUNCTION__,__LINE__,i,j);
       return hM[i][j];
     }
   };
@@ -272,9 +268,7 @@ public:
     DuctTeip_Data *clone();
     SuperGlue_Data &getSuperGlueData(){
       int m,n;
-      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
       SuperGlue_Data *sgd= new SuperGlue_Data(this,m,n);
-      printf("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
       return *sgd;
   }
 };

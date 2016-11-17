@@ -4,7 +4,7 @@
 #include "context.hpp"
 
 
-#define SUBTASK 0
+#define SUBTASK 1
 /*--------------------------------------------------------------------------*/
 IDuctteipTask::IDuctteipTask (IContext *context,
 			      string _name,
@@ -28,9 +28,7 @@ IDuctteipTask::IDuctteipTask (IContext *context,
   pthread_mutex_init(&task_finish_mx,&task_finish_ma);
   exported = imported = false;
 #if SUBTASK ==1
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   sg_task = new KernelTask(this);
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
 #endif
 
 }
@@ -258,7 +256,6 @@ void IDuctteipTask::run(){
   start = getTime();
   exp_fin = dtEngine.getAverageDur(getKey())+start;
 #if SUBTASK ==1
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   dtEngine.getThrdManager()->submit(sg_task);
 #else
   parent_context->runKernels(this);
@@ -272,7 +269,7 @@ void IDuctteipTask::setFinished(bool flag){
   end = getTime();
 
   LOG_EVENTX(DuctteipLog::TaskFinished,this);
-  LOG_INFO(LOG_MLEVEL,"%s\n",getName().c_str());
+  //  LOG_INFO(LOG_MLEVEL,"%s\n",getName().c_str());
   if ( !isImported()){
     dtEngine.signalWorkReady(this);
   }
@@ -307,27 +304,19 @@ void IDuctteipTask::upgradeData(char c){
 }
 /*--------------------------------------------------------------*/
 KernelTask::KernelTask(IDuctteipTask *t):dt_task(t){
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   register_access(ReadWriteAdd::read, *dt_task->getSyncHandle());
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
 }
 /*--------------------------------------------------------------*/
 KernelTask::~KernelTask(){
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   dt_task->setFinished(true);
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
 }
 /*--------------------------------------------------------------*/
 void KernelTask::run(TaskExecutor<Options> &te){
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   dt_task->setTaskExecutor(&te);
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   dt_task->getParentContext()->runKernels(dt_task);
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
 }
 /*--------------------------------------------------------------*/
 string KernelTask::get_name(){
-  printf("%s,%s %d\n",__FILE__,__FUNCTION__,__LINE__);
   return dt_task->getName() + "Kernel";
 }
 /*--------------------------------------------------------------*/

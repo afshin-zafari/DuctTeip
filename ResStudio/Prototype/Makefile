@@ -1,11 +1,11 @@
 
 outdir= ./temp
 libfile=./lib/libductteip.a
-SUPERGLUE_DIR=../../../superglue/include
+SUPERGLUE_DIR=/pica/h1/afshin/sg/superglue/include
 SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 SOURCE_DIR=./src
 HEADER_DIR=./include
-DUCTTEIP_FLAGS=-I$(HEADER_DIR)
+DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR)
 CPP=mpic++
 LINK=mpif90
 
@@ -23,8 +23,8 @@ else
 	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS) 
 endif
 #########################################################
-headers:=$(notdir $(shell ls -Sr $(HEADER_DIR)/*.hpp))
-objnames:=$(headers:%.hpp=%.o)
+headers:=$(notdir $(shell ls -Sr $(SOURCE_DIR)/*.cpp))
+objnames:=$(headers:%.cpp=%.o)
 objects:=$(addprefix $(outdir)/,$(objnames))	
 all: $(libfile)
 
@@ -44,7 +44,7 @@ $(libfile)($(outdir)/*.o) : $(objects)
 	$(info  )
 	@ar rcsv $(libfile) $?
 
-$(objects):  $(outdir)/%.o:  $(SOURCE_DIR)/%.cpp $(HEADER_DIR)/%.hpp
+$(objects):  $(outdir)/%.o:  $(SOURCE_DIR)/%.cpp 
 	$(info compile $(notdir $<) )
 	@$(CPP) -c -o $@ $< $(COMP_FLAGS)
 

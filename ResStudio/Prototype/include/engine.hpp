@@ -28,6 +28,7 @@ typedef unsigned char byte;
 #include "memory_manager.hpp"
 #include "dt_log.hpp"
 #include "dlb.hpp"
+#include "eng_work.hpp"
 
 extern int me;
 
@@ -35,88 +36,53 @@ struct PropagateInfo;
 extern DuctteipLog dt_log;
 extern Config config;
 
-struct DuctTeipWork{
-public:
-  enum WorkTag{
-    TaskWork,
-    ListenerWork,
-    DataWork
-  };
-  enum WorkEvent{
-    Ready,
-    Sent,
-    Finished,
-    DataSent,
-    DataReceived,
-    DataUpgraded,
-    DataReady,
-    Received,
-    Added
-  };
-  enum TaskState{
-    Initialized,
-    WaitForData,
-    Running
-  };
-  enum WorkItem{
-    CheckTaskForData,
-    CheckTaskForRun,
-    SendTask,
-    CheckListenerForData,
-    UpgradeData,
-    CheckAfterDataUpgraded,
-    SendListenerData
-  };
-  IDuctteipTask *task;
-  IData *data;
-  IListener *listener;
-  int state,tag,event,host,item;
-  //  DuctTeipWork(){ }
-  DuctTeipWork &operator =(DuctTeipWork *_work);
-  void dump();
-};
 /*===================================================================*/
 class engine{
 private:
   friend class DLB;
-  list<IDuctteipTask*>  task_list,running_tasks,export_tasks,import_tasks;
+  /*--------------------THREAD-------------------------------------------------------*/
   bool                  runMultiThread;
-  byte                  *prop_buffer;
-  int             	term_ok;
-  int             	prop_buffer_length,num_threads,local_nb;
-  MailBox        	*mailbox;
-  INetwork         	*net_comm;
-  list<DuctTeipWork *> 	work_queue;
   pthread_t 		thread_id,mbsend_tid,mbrecv_tid;
   pthread_mutex_t 	thread_lock,work_ready_mx;
   pthread_mutexattr_t 	mutex_attr;
   pthread_cond_t 	work_ready_cv;
   pthread_attr_t 	attr;
+  int 			thread_model;
+  /*--------------------TASK,DATA, LISTENER -----------------------------------------*/
+  list<IDuctteipTask*>  task_list,running_tasks,export_tasks,import_tasks;
   long                  last_task_handle,last_listener_handle;
-  list<IListener *> 	listener_list;
+  bool 			task_submission_finished;
+  ulong                 dps;
+  /*--------------------PROFILING----------------------------------------------------*/
+  map<long,double>      avg_durations;
+  map<long,long>        cnt_durations;
   TimeUnit 		start_time,wasted_time;
   ClockTimeUnit 	start_clktime;
+  long time_out;
+  /*--------------------PROPAGATION -------------------------------------------------*/
+  byte                  *prop_buffer;
+  int             	prop_buffer_length,num_threads,local_nb;
+  /*--------------------OBJECTS     -------------------------------------------------*/
+
+  MailBox        	*mailbox;
+  INetwork         	*net_comm;
+  list<DuctTeipWork *> 	work_queue;
+  list<IListener *> 	listener_list;
   SuperGlue<Options>    *thread_manager;
   Config 		*cfg;
   MemoryManager 	*data_memory;
-  //  long 			skip_term,skip_work,skip_mbox,
-  long time_out;
-  int 			thread_model;
-  bool 			task_submission_finished;
-  map<long,double>      avg_durations;
-  map<long,long>        cnt_durations;
-  ulong                 dps;
+  int             	term_ok;
   enum {
-    EVEN_INIT     ,
-    WAIT_FOR_FIRST  ,
-    FIRST_RECV    ,
-    WAIT_FOR_SECOND ,
-    SECOND_RECV   ,
-    TERMINATE_INIT=100,
-    LEAF_TERM_OK  =101,
-    ONE_CHILD_OK  =102,
-    ALL_CHILDREN_OK=103,
-    SENT_TO_PARENT=104,
+    EVEN_INIT            ,
+    WAIT_FOR_FIRST       ,
+    FIRST_RECV           ,
+    WAIT_FOR_SECOND      ,
+    SECOND_RECV          ,
+    TERMINATE_INIT  = 100,
+    LEAF_TERM_OK    = 101,
+    ONE_CHILD_OK    = 102,
+    ALL_CHILDREN_OK = 103,
+    SENT_TO_PARENT  = 104,
     TERMINATE_OK
   };
 public:
@@ -127,12 +93,19 @@ public:
   void start ( int argc , char **argv,bool sg = false);
   void initComm();
   ~engine();
+  /*---------------------------- THREAD STUFF---------------------------------------*/
   SuperGlue<Options> * getThrdManager() ;
-  template <typename T>
-  void set_superglue(SuperGlue<T> * );
-  int getLocalNumBlocks();
+  static void *runMBSendThread(void *);
+  static void *runMBRecvThread(void *);
+  void signalWorkReady(IDuctteipTask *p=NULL);
+  void setThreadModel(int);
+  int  getThreadModel();
+  long getThreadId(int);
+  void doSelfTerminate();
+  void criticalSection(int direction);
+  bool mb_canTerminate(int send_or_recv);
+  /*---------------------------- TASK  STUFF---------------------------------------*/
   list<IDuctteipTask*>  &getRunningTasksList(){return running_tasks;}
-  MailBox *getMailBox(){return mailbox;}
   void register_task(IDuctteipTask*);
   TaskHandle  addTask(IContext * context,
 		      string task_name,
@@ -142,83 +115,85 @@ public:
   void dumpTasks();
   void sendTask(IDuctteipTask* task,int destination);
   void exportTask(IDuctteipTask* task,int destination);
-  /*---------------------------------------------------------------------------------*/
-  void receivedListener(MailBoxEvent *event);
-  void receivedData(MailBoxEvent *event,MemoryItem*);
-  IData *importedData(MailBoxEvent *event,MemoryItem*);
-  /*---------------------------------------------------------------------------------*/
-  void waitForTaskFinish();
-  void finalize();
-  void globalSync();
-  TimeUnit elapsedTime(int scale);
-  void dumpTime(char c=' ');
-  bool isAnyUnfinishedListener();
-  long getUnfinishedTasks();
-  bool canTerminate();
   int  getTaskCount();
-  void show_affinity();
-  void setConfig(Config *cfg_,bool = false);
-  void doProcess();
-  static void *doProcessLoop  (void *);
-  static void *runMBSendThread(void *);
-  static void *runMBRecvThread(void *);
-  void signalWorkReady(IDuctteipTask *p=NULL);
-  bool mb_canTerminate(int send_or_recv);
-  void putWorkForDataReady(list<DataAccess *> *data_list);
-  MemoryItem *newDataMemory();
-  void insertDataMemory(IData *,byte *);  
-  void runFirstActiveTask();
-  long getAverageDur(long k);
-  void setThreadModel(int);
-  int  getThreadModel();
-  long getThreadId(int);
-  MemoryManager *getMemoryManager();
-  void doSelfTerminate();
-  void waitForWorkReady();
-  void doDLB(int st=-1);
-  void updateDurations(IDuctteipTask *task);
   IDuctteipTask *getTaskByHandle(TaskHandle  task_handle);
-  void putWorkForSingleDataReady(IData* data);
-  ulong getDataPackSize();
   IDuctteipTask *getTask(TaskHandle th);
-  void criticalSection(int direction);
-private :
-  void putWorkForCheckAllTasks();
-  void putWorkForReceivedListener(IListener *listener);
-  void putWorkForSendingTask(IDuctteipTask *task);
-  void putWorkForNewTask(IDuctteipTask *task);
-  void putWorkForReceivedTask(IDuctteipTask *task);
-  void putWorkForFinishedTask(IDuctteipTask * task);
   void receivedTask(MailBoxEvent *event);
   void importedTask(MailBoxEvent *event);
   long int checkRunningTasks(int v=0);
   void  checkMigratedTasks();
   void  checkImportedTasks();
   void  checkExportedTasks();
-  void doProcessWorks();
-  bool isDuplicateListener(IListener * listener);
-  bool addListener(IListener *listener );
   void checkTaskDependencies(IDuctteipTask *task);
   long getActiveTasksCount();
+  void removeTaskByHandle(TaskHandle task_handle);
+  IDuctteipTask *getTaskByCommHandle(unsigned long handle);
+  void waitForTaskFinish();
+  long getUnfinishedTasks();
+  void runFirstActiveTask();
+  
+  /*-----------------------------DATA & LISTENER --------------------------------------*/
+  void receivedData(MailBoxEvent *event,MemoryItem*);
+  IData *importedData(MailBoxEvent *event,MemoryItem*);
+  ulong getDataPackSize();
+  void receivedListener(MailBoxEvent *event);
+  bool isDuplicateListener(IListener * listener);
+  bool addListener(IListener *listener );
+  IListener *getListenerForData(IData *data);
+  void dumpListeners();
+  void removeListenerByHandle(int handle ) ;
+  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) ;
+  bool isAnyUnfinishedListener();
+ 
+  /*----------------------------ADMINISTRATION-----------------------------------------*/
+  template <typename T>
+  void set_superglue(SuperGlue<T> * );
+  int getLocalNumBlocks();
+  void show_affinity();
+  void setConfig(Config *cfg_,bool = false);
+  MailBox *getMailBox(){return mailbox;}
+
+
+  void finalize();
+  void globalSync();
+
+  TimeUnit elapsedTime(int scale);
+  void dumpTime(char c=' ');
+  void dumpAll();
+  void resetTime();  
+  long getAverageDur(long k);
+  void updateDurations(IDuctteipTask *task);
+
+  bool canTerminate();
+  void doProcess();
+  void processEvent(MailBoxEvent &event);
+  void doProcessMailBox();
+  void doDLB(int st=-1);
+  static void *doProcessLoop  (void *);
+  /*------------------MEMORY---------------------------------------------------------*/
+  MemoryManager *getMemoryManager();
+  MemoryItem *newDataMemory();
+  void insertDataMemory(IData *,byte *);  
+  /*------------------WORK  ---------------------------------------------------------*/
+  void doProcessWorks();
+  void waitForWorkReady();
+  void putWorkForDataReady(list<DataAccess *> *data_list);
+  void putWorkForSingleDataReady(IData* data);
+  void putWorkForCheckAllTasks();
+  void putWorkForReceivedListener(IListener *listener);
+  void putWorkForSendingTask(IDuctteipTask *task);
+  void putWorkForNewTask(IDuctteipTask *task);
+  void putWorkForReceivedTask(IDuctteipTask *task);
+  void putWorkForFinishedTask(IDuctteipTask * task);
   void executeTaskWork(DuctTeipWork * work);
   void executeDataWork(DuctTeipWork * work);
   void executeListenerWork(DuctTeipWork * work);
   void executeWork(DuctTeipWork *work);
-  void doProcessMailBox();
-  void processEvent(MailBoxEvent &event);
-  IListener *getListenerForData(IData *data);
-  void dumpListeners();
-  void dumpAll();
-  void removeListenerByHandle(int handle ) ;
-  void removeTaskByHandle(TaskHandle task_handle);
-  IDuctteipTask *getTaskByCommHandle(unsigned long handle);
-  IListener *getListenerByCommHandle ( unsigned long  comm_handle ) ;
-  void resetTime();
+  /*---------------TERMINATE      --------------------------------------------------*/
+  inline bool IsOdd (int a);
+  inline bool IsEven(int a);
   void sendTerminateOK_old();
   void receivedTerminateOK_old();
-    inline bool IsOdd (int a);
-    inline bool IsEven(int a);
-  /*---------------------------------------------------------------------------------*/
   int  getParentNodeInTree(int node);
   void getChildrenNodesInTree(int node,int *nodes,int *count);
   bool amILeafInTree();

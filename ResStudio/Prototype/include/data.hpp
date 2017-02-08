@@ -55,6 +55,7 @@ public:
     ~IData() ;
     /*--------------------------------------------------------------------------*/
     string get_name(){return getName();}
+    int get_rows(){return M;}
     string        getName          ()
     {
         return name;
@@ -256,6 +257,9 @@ public:
     Handle<Options> &operator()(int i,int j ){
       return hM[i][j];
     }
+    ~SuperGlue_Data(){
+      cout << "xxxxxx" << endl;
+    }
   };
 
 class DuctTeip_Data : public Data
@@ -266,10 +270,10 @@ public:
     DuctTeip_Data(int M, int N,IContext *alg);
     void configure();
     DuctTeip_Data *clone();
-    SuperGlue_Data &getSuperGlueData(){
+    SuperGlue_Data *getSuperGlueData(){
       int m,n;
       SuperGlue_Data *sgd= new SuperGlue_Data(this,m,n);
-      return *sgd;
+      return sgd;
   }
 };
 

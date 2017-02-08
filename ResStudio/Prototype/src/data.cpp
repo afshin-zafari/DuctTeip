@@ -1,6 +1,7 @@
 #include "data.hpp"
 #include "context.hpp"
 #include "glb_context.hpp"
+#include <cstdlib>
 
 
 /*--------------------------------------------------------------------------*/
@@ -225,6 +226,7 @@ IData::~IData() {
       delete hM[i];
     delete[] hM;
     hM = NULL;
+    cout << "yyyyy" << endl;
   }
 
 }
@@ -235,7 +237,9 @@ byte  *IData::getHeaderAddress(){
 }
 /*--------------------------------------------------------------------------*/
 double *IData::getContentAddress(){
-  return (double *)(data_memory->getAddress() + getHeaderSize());
+  if ( data_memory ) 
+    return (double *)(data_memory->getAddress() + getHeaderSize());
+  return NULL;
 }
 /*--------------------------------------------------------------------------*/
 void IData::setDataMemory(MemoryItem *mi ) {
@@ -383,6 +387,9 @@ void IData::deserialize(byte *buffer, int &offset,int max_length,MemoryItem *mi,
     }
     if ( mi != NULL)
       setDataMemory( mi ) ;
+    else{
+      memcpy(getContentAddress(), buffer+getHeaderSize(),getContentSize());      
+    }
     dtPartition->setBaseMemory( getContentAddress(), getContentSize()) ;
     LOG_INFO(LOG_DATA,"adr:%p, len:%d\n",getContentAddress(), getContentSize());
   }
@@ -530,7 +537,7 @@ void IData::setPartition(int _mb, int _nb){
       newPart->local_mb  = local_mb ;
       newPart->local_n = N / Nb   ;
       newPart->local_m = M / Mb   ;
-      if ( true ||  newPart->getHost() == me ) {
+      if ( newPart->getHost() == me ) {
 	newPart->allocateMemory();
 	newPart->dtPartition=new Partition<double>(2);
 	Partition<double> *p = newPart->dtPartition;
@@ -665,6 +672,8 @@ void   IData::testHandles      (){
 
 /*----------------------------------------------------------------------------------------*/
 void IData:: allocateMemory(){
+  if ( data_memory != NULL )
+    return;
   if ( Nb == 0 && Mb == 0 ) {
     assert(parent_data);
     content_size = (N/parent_data->Nb) * (M/parent_data->Mb) * sizeof(double);

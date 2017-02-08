@@ -46,6 +46,11 @@ byte *MemoryItem::getAddress()
     return address;
 }
 /*----------------------------------------------------------------------------*/
+void MemoryItem::setAddress(byte  *mem)
+{
+    address = mem;
+}
+/*----------------------------------------------------------------------------*/
 void MemoryItem::dump()
 {
 }
@@ -69,6 +74,14 @@ MemoryManager::~MemoryManager()
     memory_list.clear();
 }
 
+/*----------------------------------------------------------------------------*/
+MemoryItem * MemoryManager::insertMemory(byte  *mem){
+  MemoryItem *mi = getNewMemory();
+  byte *old = mi->getAddress();
+  delete old;
+  mi->setAddress(mem);
+  return mi;
+}
 /*----------------------------------------------------------------------------*/
 MemoryItem *MemoryManager::getNewMemory()
 {

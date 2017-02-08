@@ -1,5 +1,6 @@
 
 #include "mailbox.hpp"
+#include "data.hpp"
 /*-------------------------------------------------------------------------------*/
 MailBoxEvent::MailBoxEvent(byte *b,int l,int t,int s):
   length(l),tag(t),host(s),buffer(b)

@@ -86,6 +86,7 @@ private:
     TimeUnit               start,end,exp_fin;
     void *guest;
 public:
+  int child_count;
     enum TaskType
     {
         NormalTask,

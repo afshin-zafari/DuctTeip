@@ -41,6 +41,11 @@ engine::engine(){
   LOG_INFO(LOG_MULTI_THREAD,"mpi tick :%f\n",MPI_Wtick());
 }
 /*---------------------------------------------------------------------------------*/
+template < typename T> 
+void engine::set_superglue(ThreadManager<T> *sg){
+  thread_manager = sg;
+}
+/*---------------------------------------------------------------------------------*/
 void engine::initComm(){
   net_comm->initialize();
   resetTime();
@@ -109,7 +114,7 @@ TaskHandle  engine::addTask(IContext * context,
 {
   IDuctteipTask *task = new IDuctteipTask (context,task_name,key,task_host,data_access);
   criticalSection(Enter) ;
-
+  task->child_count = 0;
   TaskHandle task_handle = last_task_handle ++;
   if(last_task_handle ==1){
     LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
@@ -393,7 +398,7 @@ void engine::show_affinity() {
   closedir(dp);
 }
 /*---------------------------------------------------------------------------------*/
-void engine::setConfig(Config *cfg_){
+void engine::setConfig(Config *cfg_,bool sg){
   cfg = cfg_;
   num_threads = cfg->getNumThreads();
   local_nb = cfg->getXLocalBlocks();
@@ -415,7 +420,9 @@ void engine::setConfig(Config *cfg_){
   data_memory = new MemoryManager (  nb * mb ,dps );
   LOG_INFO(LOG_MULTI_THREAD,"data meory:%p\n",data_memory);
   //int ipn = cfg->getIPN();
-  thread_manager = new ThreadManager<Options> ( num_threads );//,0* (me % ipn )  * 16/ipn) ;
+  if ( !sg)
+    thread_manager = new ThreadManager<Options> ( num_threads );//,0* (me % ipn )  * 16/ipn) ;
+  
   show_affinity();
   dlb.initDLB();
 }
@@ -608,6 +615,13 @@ MemoryItem *engine::newDataMemory(){
   return m;
 }
 /*---------------------------------------------------------------------------------*/
+void engine::insertDataMemory(IData *d,byte *mem){
+  assert(data_memory);
+  MemoryItem *mi = data_memory->insertMemory(mem);
+  d->setDataMemory(mi);
+  
+}
+/*---------------------------------------------------------------------------------*/
 void engine::putWorkForCheckAllTasks(){
   list<IDuctteipTask *>::iterator it;
   it = task_list.begin();
@@ -738,7 +752,8 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
   LOG_INFO(LOG_MULTI_THREAD,"Data handle %ld.\n",dh.data_handle);
   IData *data = glbCtx.getDataByHandle(&dh);
   offset =0 ;
-  data->deserialize(event->buffer,offset,event->length,mi,all_content);
+  data->deserialize(event->buffer,offset,event->length,NULL,all_content);
+  //  if ( mi != NULL )    mi->setState(MemoryItem::Ready);
   LOG_INFO(LOG_MULTI_THREAD+LOG_DATA,"data:%s, cntnt:%p, ev.buf:%p\n",
 	   data->getName().c_str(),data->getContentAddress(),event->buffer);
 
@@ -922,8 +937,7 @@ void engine::executeTaskWork(DuctTeipWork * work){
     break;
   case DuctTeipWork::CheckTaskForRun:
     {
-      //TaskHandle task_handle =
-      work->task->getHandle();
+      //TaskHandle task_handle =      work->task->getHandle();
       LOG_EVENT(DuctteipLog::CheckedForRun);
       if ( work->task->canRun('W') ) {
 	running_tasks.push_back(work->task);
@@ -937,7 +951,7 @@ void engine::executeTaskWork(DuctTeipWork * work){
 	  }
 	}
 	else{
-	  LOG_INFO(LOG_MULTI_THREAD,"Data Upgraded, run task.\n");
+	  LOG_INFO(LOG_MULTI_THREAD,"Task can run.\n");
 	  work->task->run();
 	}
 	return;
@@ -1395,7 +1409,7 @@ void engine::receivedTerminateCancel(int from){}
 /*---------------------------------------------------------------*/
 void engine::sendTerminateCancel(){}
 /*--------------------------------------------------------------------------*/
-void engine::start ( int argc , char **argv){
+void engine::start ( int argc , char **argv,bool sg){
   int P,p,q;
 
   config.getCmdLine(argc,argv);
@@ -1416,7 +1430,7 @@ void engine::start ( int argc , char **argv){
 
   glbCtx.setPolicies(hpData,hpTask,hpContext,hpTaskRead,hpTaskAdd);
   glbCtx.setConfiguration(&config);
-  setConfig(&config);
+  setConfig(&config,sg);
   doProcess();
 }
 /*---------------------------------------------------------------*/

@@ -124,10 +124,12 @@ public:
   enum { MAIN_THREAD, ADMIN_THREAD,MBSEND_THREAD,MBRECV_THREAD,TASK_EXEC_THREAD};
   /*---------------------------------------------------------------------------------*/
   engine();
-  void start ( int argc , char **argv);
+  void start ( int argc , char **argv,bool sg = false);
   void initComm();
   ~engine();
   SuperGlue<Options> * getThrdManager() ;
+  template <typename T>
+  void set_superglue(SuperGlue<T> * );
   int getLocalNumBlocks();
   list<IDuctteipTask*>  &getRunningTasksList(){return running_tasks;}
   MailBox *getMailBox(){return mailbox;}
@@ -155,7 +157,7 @@ public:
   bool canTerminate();
   int  getTaskCount();
   void show_affinity();
-  void setConfig(Config *cfg_);
+  void setConfig(Config *cfg_,bool = false);
   void doProcess();
   static void *doProcessLoop  (void *);
   static void *runMBSendThread(void *);
@@ -164,6 +166,7 @@ public:
   bool mb_canTerminate(int send_or_recv);
   void putWorkForDataReady(list<DataAccess *> *data_list);
   MemoryItem *newDataMemory();
+  void insertDataMemory(IData *,byte *);  
   void runFirstActiveTask();
   long getAverageDur(long k);
   void setThreadModel(int);

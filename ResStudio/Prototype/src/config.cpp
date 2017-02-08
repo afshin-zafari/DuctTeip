@@ -174,13 +174,13 @@ void Config::getCmdLine(int argc, char **argv){
       q=atoi(optarg);
       break;
     case 'N':
-      N=atoi(optarg);
+      N=atol(optarg);
       Nb=atoi(argv[optind]);
       nb=atoi(argv[optind+1]);
       opterr=0;
       break;
     case 'M':
-      M=atoi(optarg);
+      M=atol(optarg);
       Mb=atoi(argv[optind]);
       mb=atoi(argv[optind+1]);
       opterr=0;
@@ -263,7 +263,7 @@ void Config::getCmdLine(int argc, char **argv){
       M=N;
     else {
       err =1;
-      fprintf(stderr,"Either N or M must be positive non-zero\n");
+      fprintf(stderr,"Either N=%d or M=%d must be positive non-zero\n",N,M);
     }
   }
   if ( N<=0){
@@ -271,7 +271,7 @@ void Config::getCmdLine(int argc, char **argv){
       N=M;
     else {
       err =1;
-      fprintf(stderr,"Either N or M must be positive non-zero\n");
+      fprintf(stderr,"Either N=%d or M=%d must be positive non-zero\n",N,M);
     }
   }
   if ( Nb<=0){

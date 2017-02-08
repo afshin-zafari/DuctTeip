@@ -5,7 +5,7 @@
 #include "basic.hpp"
 #include "engine.hpp"
 //#include "ml_manager.hpp"
-#define DuctTeip_Start(a,b) dtEngine.start(a,b)
+#define DuctTeip_Start(a,b,c) dtEngine.start(a,b,c)
 #define DuctTeip_Finish() dtEngine.finalize()
 
 extern Config config;

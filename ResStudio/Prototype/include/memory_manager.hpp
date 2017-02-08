@@ -31,6 +31,7 @@ public:
   unsigned long getSize() ;
   int getState() ;
   byte *getAddress() ;
+  void setAddress(byte *);
   void dump();
 };
 /*============================================================================*/
@@ -50,6 +51,7 @@ public:
   MemoryItem *expandMemoryItems(int n =0);
   MemoryItem *findFreeMemory();
   void freeMemoryItem(MemoryItem *m ) ;
+  MemoryItem * insertMemory(byte *);
 };
 /*============================================================================*/
 #endif // __MEMORY_MANAGER_HPP__

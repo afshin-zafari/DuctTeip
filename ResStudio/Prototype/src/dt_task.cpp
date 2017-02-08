@@ -1,10 +1,10 @@
-#include "dt_task.hpp"
+#include "dt_task.hpp" 
 #include "data.hpp"
 #include "glb_context.hpp"
 #include "context.hpp"
 
 
-#define SUBTASK 1
+#define SUBTASK 0
 /*--------------------------------------------------------------------------*/
 IDuctteipTask::IDuctteipTask (IContext *context,
 			      string _name,
@@ -21,6 +21,8 @@ IDuctteipTask::IDuctteipTask (IContext *context,
   comm_handle = 0 ;
   state = WaitForData;
   type = NormalTask;
+  createSyncHandle();
+  child_count = 0;
   message_buffer = new MessageBuffer ( getPackSize(),0);
   sg_handle = new Handle<Options>;
   pthread_mutexattr_init(&task_finish_ma);
@@ -48,6 +50,7 @@ IDuctteipTask::IDuctteipTask():name(""),host(-1){
   message_buffer = NULL;
   sg_handle = NULL;
   exported = imported = false;
+  child_count = 0;
   //    sg_task = new KernelTask(this);
 }
 /*--------------------------------------------------------------------------*/

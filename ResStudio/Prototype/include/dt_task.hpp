@@ -67,7 +67,7 @@ typedef unsigned long TaskHandle;
 /*======================= IDuctteipTask ==============================================*/
 class IDuctteipTask
 {
-private:
+protected:
     string                 name;
     list<DataAccess *>    *data_list;
     int                    sync,type,host;
@@ -134,7 +134,8 @@ public:
     void upgradeData(char);
     bool canRun(char c=' ');
     void setFinished(bool f);
-    virtual void run();
+    void run();
+  virtual void runKernel(){}
     int  serialize(byte *buffer,int &offset,int max_length);
     MessageBuffer *serialize();
     void deserialize(byte *buffer,int &offset,int max_length);

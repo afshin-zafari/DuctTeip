@@ -28,7 +28,7 @@ class IData
 {
 protected:
     string                      name;
-    int                         N,M,Nb,Mb;
+  int                         N,M,Nb,Mb,host;
     Coordinate                  blk;
     vector< vector<IData*> >   *dataView;
     DataVersion                 gt_read_version,gt_write_version;
@@ -160,6 +160,7 @@ public:
     void setRunTimeVersion(string to_ctx, int to_version);
     void incrementRunTimeVersion(byte type,int v = 1 );
     virtual int   getHost();
+    void setHost(int h){host = h;}
     IData *operator () (const int i,const int j=0) ;
     IData *operator [] (const int i) ;
     IData *operator & (void) ;

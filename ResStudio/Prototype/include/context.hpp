@@ -40,7 +40,7 @@ public:
   IContext(string _name);
   //  ~IContext();
   virtual ~IContext();
-  virtual void runKernels(IDuctteipTask *task) = 0 ;
+  virtual void runKernels(IDuctteipTask *task)  ;
   virtual string getTaskName(unsigned long) =0;
   virtual void taskFinished(IDuctteipTask *task,TimeUnit dur)=0;
 
@@ -75,6 +75,9 @@ public :
     name="";
   }
   ~Context(){}
+  virtual void runKernels(IDuctteipTask *task)=0;
+  virtual string getTaskName(unsigned long) =0;
+  virtual void taskFinished(IDuctteipTask *task,TimeUnit dur)=0;
 };
 typedef Context Algorithm;
 /*===================================================================================*/

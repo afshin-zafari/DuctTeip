@@ -209,7 +209,7 @@ void engine::executeDataWork(DuctTeipWork * work){
 	if (cfg->getDLB()){
 	}
 	else{
-	  //LOG_INFO(LOG_MULTI_THREAD,"Data Upgrade Work, Task run.\n");
+	  LOG_INFO(1,"Data Upgrade Work, Task run.\n");
 	  task->run();
 	}
       }

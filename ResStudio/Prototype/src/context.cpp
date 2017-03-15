@@ -24,6 +24,8 @@ IContext::~IContext()
     children.clear();
 }
 /*--------------------------------------------------------------------------------------*/
+void IContext::runKernels(IDuctteipTask *){int s=0;}
+/*--------------------------------------------------------------------------------------*/
 IData *IContext::getDataFromList(list<IData* > dlist,uint index)
 {
     list<IData *>:: iterator it;

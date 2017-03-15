@@ -26,10 +26,15 @@ void DuctTeipWork::dump(){
 
 /*===================================================================*/
 engine::engine(){
+  printf("Engine CTor1\n");
   net_comm = new MPIComm;
+  printf("Engine CTor2\n");
   mailbox = new MailBox(net_comm);
+  printf("Engine CTor3\n");
   SetStartTime();
+  printf("MPI init called\n");
   initComm();
+  printf("MPI init returned\n");
   last_task_handle = 0;
   term_ok = TERMINATE_INIT;
   runMultiThread=true;
@@ -197,6 +202,7 @@ void engine::resetTime(){
 void engine::start ( int argc , char **argv,bool sg){
   int P,p,q;
 
+  printf("Engine start\n");
   config.getCmdLine(argc,argv);
   P =config.P;
   p =config.p;

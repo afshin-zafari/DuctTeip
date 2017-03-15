@@ -18,7 +18,7 @@
 #define getTaskCount get_task_count
 
 
-#if WITH_MPI == 1
+#if WITH_MPI == 10
 #include "mpi.h"
 #else
 #include "sg/platform/gettime.hpp"
@@ -117,7 +117,7 @@ struct MessageBuffer{
 
 
 typedef unsigned long ClockTimeUnit;
-#ifdef MPI_WALL_TIME
+#if WITH_MPI == 10 //def MPI_WALL_TIME
 typedef unsigned long TimeUnit;
 static inline TimeUnit getTime(){
   double ti=MPI_Wtick()/1000;

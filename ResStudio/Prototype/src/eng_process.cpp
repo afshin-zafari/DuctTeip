@@ -140,8 +140,7 @@ void engine::doProcessMailBox(){
   if (net_comm->get_host_count() == 1)
     return ;
   int *counters = glbCtx.getCounters();
-  if ( counters[GlobalContext::TaskInsert] == 0)
-    return;
+  //  if ( counters[GlobalContext::TaskInsert] == 0)    return;
   if(!once){
     once = true;
 #if POST_RECV_DATA == 1

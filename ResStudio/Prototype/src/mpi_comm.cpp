@@ -127,7 +127,7 @@ int MPIComm::probe(int *tag,int *source,int *length,bool wait){
     *source = status.MPI_SOURCE;
     *tag = status.MPI_TAG;
     MPI_Get_count(&status,MPI_BYTE,length);
-    LOG_INFO(LOG_COMM,"after probe exists:%d, src:%d, tag:%d, len:%d\n",exists,*source,*tag,*length);
+    LOG_INFO(1+LOG_COMM,"after probe exists:%d, src:%d, tag:%d, len:%d\n",exists,*source,*tag,*length);
     return true;
   }
   return false;

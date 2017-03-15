@@ -6,21 +6,22 @@ SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-form
 SOURCE_DIR=./src
 HEADER_DIR=./include
 DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR)
-CPP=mpic++
 LINK=mpif90
 
 
 ifeq ($(CXX),icpc)
 #-----------------------Intel Compiler set---------------------
+	CPP=mpiicpc
 	LINK_FLAGS=-lm -lrt 
-	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 -mavx  -opt-prefetch -Os -simd 
+	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 -qopt-prefetch -O3  -xCORE-AVX2 -g
 else
 #-----------------------GCC Compiler set---------------------
+	CPP=mpicxx
 	GCOV_FLAGS=-fprofile-arcs -ftest-coverage
 	OPTIM_FLAGS=-mavx -march=bdver1 -mfma4 -Ofast  -Wwrite-strings
 	SPECIAL_FLAGS=$(OPTIM_FLAGS)     
 	LINK_FLAGS=-lm -lrt -lpthread
-	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS) 
+	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS) -g
 endif
 #########################################################
 headers:=$(notdir $(shell ls -Sr $(SOURCE_DIR)/*.cpp))

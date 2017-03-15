@@ -14,10 +14,12 @@ IDuctteipTask::IDuctteipTask (IContext *context,
   data_list(dlist),host(_host){
 
   parent_context = context;
+  printf("Task ctor par ctx:%p, %s\n",parent_context,parent_context->getName().c_str());
   key = _key;
   if (_name.size() ==0  )
     _name.assign("task");
   setName(_name);
+  
   comm_handle = 0 ;
   state = WaitForData;
   type = NormalTask;
@@ -261,7 +263,7 @@ void IDuctteipTask::run(){
 #if SUBTASK ==1
   dtEngine.getThrdManager()->submit(sg_task);
 #else
-  parent_context->runKernels(this);
+  runKernel();
 #endif
 }
 /*--------------------------------------------------------------*/

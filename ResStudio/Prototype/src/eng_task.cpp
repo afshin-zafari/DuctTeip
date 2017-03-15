@@ -301,8 +301,7 @@ long engine::getUnfinishedTasks(){
 void engine::waitForTaskFinish(){
   static TimeUnit st=0,idle = 0;
   int *c=glbCtx.getCounters();
-  if ( c[GlobalContext::TaskInsert] ==0 )
-    return;
+  //  if ( c[GlobalContext::TaskInsert] ==0 )    return;
 
   if ( running_tasks.size() <1 ){
     if ( st ==0)

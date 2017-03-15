@@ -599,10 +599,11 @@ bool IData::isOwnedBy(int p) {
 int IData::getHost(){
   Coordinate c = blk;
   LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
-  assert(hpData);
+  if(!hpData)
+    return host;
   if ( parent_data ==NULL){
     LOG_INFO(LOG_MLEVEL,"parent data is null.\n");
-    return 0;
+    return host;
   }
   if (parent_data->Nb == 1 &&   parent_data->Mb == 1 )
     {
@@ -675,7 +676,8 @@ void IData:: allocateMemory(){
   if ( data_memory != NULL )
     return;
   if ( Nb == 0 && Mb == 0 ) {
-    assert(parent_data);
+    if(!parent_data)
+      return;
     content_size = (N/parent_data->Nb) * (M/parent_data->Mb) * sizeof(double);
     if (config.simulation)
       content_size=1;

@@ -253,6 +253,7 @@ void IDuctteipTask::deserialize(byte *buffer,int &offset,int max_length){
 }
 /*--------------------------------------------------------------*/
 void IDuctteipTask::run(){
+  printf("task %s run in ductteip\n",getName().c_str());
   if ( state == Finished )
     return;
   if ( state == Running )

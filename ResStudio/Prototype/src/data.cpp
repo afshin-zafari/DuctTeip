@@ -512,10 +512,41 @@ void IData::prepareMemory(){
 
 }
 /*--------------------------------------------------------------------------*/
+void IData:: allocate_memory_for_utp(){
+  if ( data_memory != NULL )
+    return;
+  content_size = (N/parent_data->Nb) * (M/parent_data->Mb) * sizeof(double);
+  if (config.simulation)
+    content_size=1;
+  data_memory = dtEngine.newDataMemory();
+}
+/*--------------------------------------------------------------------------*/
+void IData::setPartition_for_utp(IData *p_data,int row, int col ){
+  parent_data = p_data;  
+  blk.bx = col;
+  blk.by = row;
+  hpData = hpData ;
+  Nb = 0 ;
+  Mb = 0 ;
+  N  = p_data->N ;
+  M  = p_data->M ;      
+  local_nb  = p_data->local_nb ;
+  local_mb  = p_data->local_mb ;
+  local_n = N / p_data->Nb   ;
+  local_m = M / p_data->Mb   ;
+  if ( getHost() == me ) {
+    allocate_memory_for_utp();
+  }
+  else{
+    setRunTimeVersion("-1",-1);
+    resetVersion();
+  }       
+
+}
+/*--------------------------------------------------------------------------*/
 void IData::setPartition(int _mb, int _nb){
   Nb = _nb;
   Mb = _mb;
-  LOG_INFO(LOG_DATA,"%s,Nb:%d,Mb:%d M:%d,N:%d\n",getName().c_str(),Nb,Mb,M,N);
   dataView=new vector<vector<IData*> >  (Mb, vector<IData*>(Nb)  );
   char s[100];
   for ( int i=0;i<Mb;i++)
@@ -567,12 +598,12 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   LOG_EVENT(DuctteipLog::DataDefined);
 
   name=_name;
-  gt_read_version.reset();
+   gt_read_version.reset();
   gt_write_version.reset();
-  rt_read_version.reset();
+   rt_read_version.reset();
   rt_write_version.reset();
   string s = glbCtx.getLevelString();
-  rt_read_version.setContext(s);
+   rt_read_version.setContext(s);
   rt_write_version.setContext(s);
   Mb = -1;Nb=-1;
   if ( ctx!=NULL)
@@ -580,7 +611,7 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   if(0) printf("@data se %s,dh:%ld\n",getName().c_str(),getDataHandleID());
   hM = NULL;
   dtPartition = NULL;
-  data_memory=NULL;
+  data_memory = NULL;
 }
 /*--------------------------------------------------------------*/
 bool IData::isOwnedBy(int p) {
@@ -598,7 +629,7 @@ bool IData::isOwnedBy(int p) {
 /*--------------------------------------------------------------*/
 int IData::getHost(){
   Coordinate c = blk;
-  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  LOG_INFO(0*LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
   if(!hpData)
     return host;
   if ( parent_data ==NULL){

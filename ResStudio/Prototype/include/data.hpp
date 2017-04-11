@@ -205,6 +205,8 @@ public:
     void setName(string s);
     void *get_guest();
     void set_guest(void *);
+    void allocate_memory_for_utp(void);
+    void setPartition_for_utp(IData *,int ,int);
 };
 /*========================== IData Class =====================================*/
 

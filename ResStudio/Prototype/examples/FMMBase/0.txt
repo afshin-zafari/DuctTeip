@@ -2,34 +2,34 @@
 [0] Engine CTor2
 [0] Engine CTor3
 [0] MPI init called
-[0]        /mpi_comm.cpp,  19, initialize                      , tid: 52F2D0C0,    379 ::[0] result:0, host=0, thread-support:0,requested:0,  thrd-enabled:1
-[1]          /engine.cpp,  46, engine                          , tid: 49D5C0C0,    379 ::[0] MPI init returned
-[0]          /engine.cpp,  46, engine                          , tid: 52F2D0C0,    380 ::[0] mpi tick :0.000001
-[0] Engine start
+[0]        /mpi_comm.cpp,  19, initialize                      , tid: 702B10C0,    354 ::result:0, host=0, thread-support:0,requested:0,  thrd-enabled:1
+[0] MPI init returned
+[0]          /engine.cpp,  46, engine                          , tid: 702B10C0,    354 ::[0] Engine start
+[0] mpi tick :0.000001
 [0] @stats Msg Sizes D,T,L: 392,150,64
-[0]          /engine.cpp, 169, setConfig                       , tid: 52F2D0C0,    380 ::DataPackSize:392=5*5*8+16+176
-[0]          /engine.cpp, 171, setConfig                       , tid: 52F2D0C0,    380 ::data meory:0x1b55610
-[0] (0) Data address: [0] 0x1be22b0[0] 
-[0] (1) Data address: 0x1be22b0[0] 
-[0] Content Address 0x1be22b0
-[0] ContentAddress :[0] 0x1be22b0
+[0]          /engine.cpp, 169, setConfig                       , tid: 702B10C0,    354 ::[0] DataPackSize:392=5*5*8+16+176
+[0]          /engine.cpp, 171, setConfig                       , tid: 702B10C0,    354 ::data meory:0xf37660
+[0] (0) Data address: 0xfc42e0[0] 
+[0] (1) Data address: 0xfc42e0
+[0] Content Address 0xfc42e0
+[0] ContentAddress :0xfc42e0
 [0] 1
-[0]          /engine.cpp,  79, finalize                        , tid: 52F2D0C0,    415 ::[0] before join
-[0]     /eng_process.cpp,  96, doProcessLoop                   , tid: 60200700,    416 ::do process loop started
-[0]          /dt_log.cpp,  69, updateStatisticsPair            , tid: 60200700,    416 ::ProgExec , st:5284664743980440 end:5284664743980440
-[0]     /eng_process.cpp,  48, canTerminate                    , tid: 60200700,    416 ::[0] unf task:0 unf-lsnr:0 task_submission_finished:1
-[0]        /mpi_comm.cpp, 130, probe                           , tid: 60200700,    417 ::after probe exists:1, src:1, tag:5, len:4
-[0]        /mpi_comm.cpp,  77, receive                         , tid: 60200700,    417 ::res:0, src:1, tag:5, st.len:4
-[0]         /mailbox.cpp, 102, getEvent                        , tid: 60200700,    417 ::buf:0x2adb64000df0,result:0, completed:1, tag:5
-[0]     /eng_process.cpp, 179, doProcessMailBox                , tid: 60200700,    417 ::comp:1,found:1,tag:5,dir:0
-[0]         /mailbox.cpp,  43, send                            , tid: 60200700,    417 ::buf:0x6835a8, len:4, tag:5
-[0]        /mpi_comm.cpp,  55, send                            , tid: 60200700,    417 ::msg 4 B with tag 5 sent to 1
-[0]     /eng_process.cpp, 130, doProcessLoop                   , tid: 60200700,    418 ::[0] do process loop finished, tot-time=1.615080, loop-cnt:0, sleep-time=0.000000
-[0]     /eng_process.cpp, 131, doProcessLoop                   , tid: 60200700,    418 ::[0] prc-wrk:5988, mail-box:1411952, task-finish:12820, terminate:177292, total=1.608052
-[0]          /engine.cpp,  89, finalize                        , tid: 52F2D0C0,    418 ::Admin thread joined
-[0]          /engine.cpp, 101, globalSync                      , tid: 52F2D0C0,    418 ::[0] Non-Busy time:1.590248
-[0]          /engine.cpp, 111, globalSync                      , tid: 52F2D0C0,   1192 ::after  dt log 
-[0]          /engine.cpp, 113, globalSync                      , tid: 52F2D0C0,   1192 ::before comm->finish
-[0]        /mpi_comm.cpp, 164, finish                          , tid: 52F2D0C0,   1192 ::mpi finalized.
-[0]        /mpi_comm.cpp, 165, finish                          , tid: 52F2D0C0,   1192 ::recv_time:62576
-[0]          /engine.cpp, 115, globalSync                      , tid: 52F2D0C0,   1284 ::[0] after  comm->finish
+[0]          /engine.cpp,  79, finalize                        , tid: 702B10C0,    387 ::before join
+[0]     /eng_process.cpp,  96, doProcessLoop                   , tid: 754EB700,    406 ::do process loop started
+[0]          /dt_log.cpp,  69, updateStatisticsPair            , tid: 754EB700,    407 ::ProgExec , st:5288296431194180 end:5288296431194180
+[0]     /eng_process.cpp,  48, canTerminate                    , tid: 754EB700,    407 ::[0] unf task:0 unf-lsnr:0 task_submission_finished:1
+[0]        /mpi_comm.cpp, 130, probe                           , tid: 754EB700,    416 ::after probe exists:1, src:1, tag:5, len:4
+[0]        /mpi_comm.cpp,  77, receive                         , tid: 754EB700,    416 ::res:0, src:1, tag:5, st.len:4
+[0]         /mailbox.cpp, 102, getEvent                        , tid: 754EB700,    416 ::buf:0x2b3480026ec0,result:0, completed:1, tag:5
+[0]     /eng_process.cpp, 179, doProcessMailBox                , tid: 754EB700,    417 ::comp:1,found:1,tag:5,dir:0
+[0]         /mailbox.cpp,  43, send                            , tid: 754EB700,    417 ::buf:0x6835a8, len:4, tag:5
+[0]        /mpi_comm.cpp,  55, send                            , tid: 754EB700,    417 ::msg 4 B with tag 5 sent to 1
+[0]     /eng_process.cpp, 130, doProcessLoop                   , tid: 754EB700,    417 ::[0] do process loop finished, tot-time=10.329260, loop-cnt:0, sleep-time=0.000000
+[0]     /eng_process.cpp, 131, doProcessLoop                   , tid: 754EB700,    417 ::[0] prc-wrk:34044, mail-box:9264720, task-finish:40244, terminate:935952, total=10.274960
+[0]          /engine.cpp,  89, finalize                        , tid: 702B10C0,    417 ::Admin thread joined
+[0]          /engine.cpp, 101, globalSync                      , tid: 702B10C0,    417 ::[0] Non-Busy time:10.183328
+[0]          /engine.cpp, 111, globalSync                      , tid: 702B10C0,    819 ::after  dt log 
+[0]          /engine.cpp, 113, globalSync                      , tid: 702B10C0,    819 ::before comm->finish
+[0]        /mpi_comm.cpp, 164, finish                          , tid: 702B10C0,    819 ::mpi finalized.
+[0]        /mpi_comm.cpp, 165, finish                          , tid: 702B10C0,    819 ::recv_time:34236
+[0]          /engine.cpp, 115, globalSync                      , tid: 702B10C0,   1029 ::after  comm->finish

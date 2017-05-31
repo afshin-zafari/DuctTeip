@@ -214,7 +214,8 @@ public:
     void addToHosts(int p);
   void removeFromHosts(int );
   void clearHosts();
-  
+    void allocate_memory_for_utp(void);
+    void setPartition_for_utp(IData *,int ,int);
 };
 /*========================== IData Class =====================================*/
 

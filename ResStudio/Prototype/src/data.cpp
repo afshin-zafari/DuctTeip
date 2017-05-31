@@ -513,10 +513,41 @@ void IData::prepareMemory(){
 
 }
 /*--------------------------------------------------------------------------*/
+void IData:: allocate_memory_for_utp(){
+  if ( data_memory != NULL )
+    return;
+  content_size = (N/parent_data->Nb) * (M/parent_data->Mb) * sizeof(double);
+  if (config.simulation)
+    content_size=1;
+  data_memory = dtEngine.newDataMemory();
+}
+/*--------------------------------------------------------------------------*/
+void IData::setPartition_for_utp(IData *p_data,int row, int col ){
+  parent_data = p_data;  
+  blk.bx = col;
+  blk.by = row;
+  hpData = hpData ;
+  Nb = 0 ;
+  Mb = 0 ;
+  N  = p_data->N ;
+  M  = p_data->M ;      
+  local_nb  = p_data->local_nb ;
+  local_mb  = p_data->local_mb ;
+  local_n = N / p_data->Nb   ;
+  local_m = M / p_data->Mb   ;
+  if ( getHost() == me ) {
+    allocate_memory_for_utp();
+  }
+  else{
+    setRunTimeVersion("-1",-1);
+    resetVersion();
+  }       
+
+}
+/*--------------------------------------------------------------------------*/
 void IData::setPartition(int _mb, int _nb){
   Nb = _nb;
   Mb = _mb;
-  LOG_INFO(LOG_DATA,"%s,Nb:%d,Mb:%d M:%d,N:%d\n",getName().c_str(),Nb,Mb,M,N);
   dataView=new vector<vector<IData*> >  (Mb, vector<IData*>(Nb)  );
   char s[100];
   for ( int i=0;i<Mb;i++)
@@ -635,7 +666,7 @@ bool IData::isOwnedBy(int p) {
 /*--------------------------------------------------------------*/
 int IData::getHost(){
   Coordinate c = blk;
-  
+ 
   if( host_type == ALL_HOST ){
     return me;
   }

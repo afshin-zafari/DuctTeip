@@ -20,6 +20,7 @@ void engine::register_task(IDuctteipTask *task)
   if(last_task_handle ==1){
     LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
+    net_comm->barrier();
   }
   task->setHandle(task_handle);
   LOG_METRIC(DuctteipLog::TaskDefined);
@@ -164,15 +165,15 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
   list<DataAccess *>::iterator it;
   for (it = data_list->begin(); it != data_list->end() ; it ++) {
     DataAccess &data_access = *(*it);
-    LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",
+    LOG_INFO(0*LOG_MLEVEL,"parent data:%p hpData:%p.\n",
 	     data_access.data->getParentData(),
 	     data_access.data->getDataHostPolicy());
 
     int host;
     host = data_access.data->getHost();
     data_access.data->addTask(task);
-    LOG_INFO(LOG_MLEVEL,"host:%d\n",host);
-    if (host != me ) {
+    LOG_INFO(0*LOG_MLEVEL,"host:%d\n",host);
+    if ( host != me ) {
       IListener * lsnr = new IListener((*it),host);
       if ( addListener(lsnr) ){
 	MessageBuffer *m=lsnr->serialize();

@@ -38,7 +38,9 @@ namespace FMM_3D {
     /*---------------------------------------------------*/
   public:
     BoxList boxes;
-    TopLayerData(int row, int col):y(row),x(col){}
+    TopLayerData(int row, int col):y(row),x(col){
+      setRunTimeVersion("0.0",0);
+    }
     TopLayerData(int row, int col, int part, bool):y(row),x(col),part_no(part){}
     int get_row(){return y;}
     int get_col(){return x;}

@@ -16,7 +16,7 @@ namespace FMM_3D{
     DTBase *args[4];
     DTTask *parent;
     std::atomic<size_t> child_count;
-    virtual void run() = 0 ;
+    virtual void runKernel() = 0 ;
     virtual void finished(){}
     virtual void export_it(std::fstream&)=0;
   };
@@ -29,6 +29,7 @@ namespace FMM_3D{
     virtual void run()=0;
   };
   /*========================================================================*/
+  typedef list<DataAccess*> DataAccessList;
   class FFLTask: public DTTask{
   public:
     GData *d1,*d2;
@@ -37,21 +38,31 @@ namespace FMM_3D{
       d1 = (GData *)&d1_;d2 =static_cast<GData *>(&d2_);
       key= DT_FFL;
       parent = p;
-      parent->child_count ++;
+      if(parent)
+	parent->child_count ++;
+      data_access_set();
     }
     FFLTask(GData &d1_,DTTask *p){
       d2 = static_cast<GData *>(&d1_);d1 = nullptr;
       key= DT_FFL;
       parent = p;
-      parent ->child_count ++;
+      if(parent)
+	parent ->child_count ++;
+      data_access_set();
     }
+    
 
     void finished(){
+      if(!parent)
+	return;
       if (--parent->child_count ==0)
 	parent->finished();
     }
-    void run();
+    void runKernel();
     void export_it(fstream &f){}
+  private:
+    void data_access(DataAccessList *dlist,GData *d, IData::AccessType rw);
+    void data_access_set();
   };
   
 }//namespace FMM_3D

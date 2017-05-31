@@ -12,7 +12,8 @@ private:
   MemoryKey     key;
   ulong  	size;
   byte         *address;
-  int           state;
+  int           state,leading_dim;
+  
 public:
   enum MemoryState{
     Initialized,
@@ -25,6 +26,7 @@ public:
 /*----------------------------------------------------------------------------*/
   MemoryItem () ;
   MemoryItem(int size_,MemoryKey key_=0);
+  MemoryItem(byte *,int size_,int );
   ~MemoryItem();
   void setState(int s ) ;
   MemoryKey getKey() ;

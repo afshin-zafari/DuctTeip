@@ -28,7 +28,8 @@ class IData
 {
 protected:
     string                      name;
-  int                         N,M,Nb,Mb,host;
+    int                         N,M,Nb,Mb,host;
+  int                         memory_type,host_type,leading_dim;
     Coordinate                  blk;
     vector< vector<IData*> >   *dataView;
     DataVersion                 gt_read_version,gt_write_version;
@@ -45,10 +46,14 @@ protected:
     Handle<Options>            **hM;
     bool                       partial;
     list <int>                exported_nodes;
-    void *guest;
+    void                      *guest;
+    vector<int>               host_list;
+private:
 public:
     /*--------------------------------------------------------------------------*/
     enum AccessType {    READ  = 1,    WRITE = 2  , SCALAR=64};
+    enum MemoryType { SYSTEM_ALLOCATED, USER_ALLOCATED};
+    enum HostType   { SINGLE_HOST, MULTI_HOST, ALL_HOST};
     /*--------------------------------------------------------------------------*/
     IData();
     IData(string _name,int m, int n,IContext *ctx);
@@ -110,6 +115,7 @@ public:
     /*--------------------------------------------------------------------------*/
     void allocateMemory();
     void prepareMemory();
+  virtual void getExistingMemoryInfo(byte **, int *, int *){}
     void addTask(IDuctteipTask *);
     void checkAfterUpgrade(list<IDuctteipTask *> &,MailBox *,char debug =' ');
     /*--------------------------------------------------------------------------*/
@@ -159,7 +165,6 @@ public:
     DataVersion getRunTimeVersion(byte type);
     void setRunTimeVersion(string to_ctx, int to_version);
     void incrementRunTimeVersion(byte type,int v = 1 );
-    virtual int   getHost();
     void setHost(int h){host = h;}
     IData *operator () (const int i,const int j=0) ;
     IData *operator [] (const int i) ;
@@ -205,6 +210,11 @@ public:
     void setName(string s);
     void *get_guest();
     void set_guest(void *);
+    int  getHost();
+    void addToHosts(int p);
+  void removeFromHosts(int );
+  void clearHosts();
+  
 };
 /*========================== IData Class =====================================*/
 

@@ -112,6 +112,7 @@ bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
     //printf("No\n");
     if (active_policy == WRITE_DATA_OWNER)
       return false;
+#ifdef DATA_GET_HOST_NEW
     it = dr.begin();
     r=(*it)->row_from;
     c=(*it)->col_from;
@@ -129,6 +130,7 @@ bool TaskAddPolicy::isAllowed(IContext *c,ContextHeader *hdr){
     //	  lower,upper,group_size,me,not_owner_count, b);
     not_owner_count++;
     return b;
+#endif
   }
   return false;
 }

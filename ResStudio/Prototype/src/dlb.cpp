@@ -566,11 +566,12 @@ void  DLB::checkImportedTasks(){
 	  data->serialize();
 	  data->dumpCheckSum('R');
 	  data->dump(' ');
-
+	  int host;
+	  host = data->getHost();
 	  dtEngine.mailbox->send(data->getHeaderAddress(),
 			data->getPackSize(),
 			MailBox::MigratedTaskOutDataTag,
-			data->getHost());
+			host);
 	}
       }
       task_it = dtEngine.import_tasks.erase(task_it);

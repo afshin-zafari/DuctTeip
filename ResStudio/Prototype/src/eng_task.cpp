@@ -168,10 +168,11 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
 	     data_access.data->getParentData(),
 	     data_access.data->getDataHostPolicy());
 
-    int host = data_access.data->getHost();
+    int host;
+    host = data_access.data->getHost();
     data_access.data->addTask(task);
     LOG_INFO(LOG_MLEVEL,"host:%d\n",host);
-    if ( host != me ) {
+    if (host != me ) {
       IListener * lsnr = new IListener((*it),host);
       if ( addListener(lsnr) ){
 	MessageBuffer *m=lsnr->serialize();

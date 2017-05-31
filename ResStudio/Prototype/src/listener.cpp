@@ -56,7 +56,7 @@ void IListener::dump(){
 void IListener::setSource(int s ) { source =s ; }
 int IListener::getSource(){return source;}
 void IListener::setDataSent(bool sent){ data_sent = sent ;}
-bool IListener::isDataRemote(){return (data_request->data->getHost() != me );}
+bool IListener::isDataRemote(){return (!data_request->data->isOwnedBy(me)  );}
 bool IListener::isDataSent(){ return data_sent;  }
 void IListener::setReceived(bool r) { received = r;}
 bool IListener::isReceived() { return received;}

@@ -15,9 +15,19 @@ MemoryItem::MemoryItem(int size_,MemoryKey key_)
     key = key_;
     dump();
 }
+MemoryItem::MemoryItem(byte *adr,int size_,int lead_)
+{
+  address = adr;
+    state = Ready;
+    size = size_;
+    key = -1;
+    leading_dim = lead_;
+    dump();
+}
 /*----------------------------------------------------------------------------*/
 MemoryItem::~MemoryItem()
 {
+  if(key !=-1)
     delete[] address;
 }
 /*----------------------------------------------------------------------------*/

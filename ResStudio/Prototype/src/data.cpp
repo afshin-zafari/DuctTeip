@@ -2,6 +2,7 @@
 #include "context.hpp"
 #include "glb_context.hpp"
 #include <cstdlib>
+#include <random>
 
 
 /*--------------------------------------------------------------------------*/
@@ -567,24 +568,60 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   LOG_EVENT(DuctteipLog::DataDefined);
 
   name=_name;
-  gt_read_version.reset();
+  host_type = SINGLE_HOST;
+  memory_type  = SYSTEM_ALLOCATED;
+   gt_read_version.reset();
   gt_write_version.reset();
-  rt_read_version.reset();
+   rt_read_version.reset();
   rt_write_version.reset();
   string s = glbCtx.getLevelString();
-  rt_read_version.setContext(s);
+   rt_read_version.setContext(s);
   rt_write_version.setContext(s);
   Mb = -1;Nb=-1;
   if ( ctx!=NULL)
     setDataHandle( ctx->createDataHandle());
-  if(0) printf("@data se %s,dh:%ld\n",getName().c_str(),getDataHandleID());
+
   hM = NULL;
   dtPartition = NULL;
   data_memory=NULL;
+  
+}
+/*--------------------------------------------------------------*/
+void IData::addToHosts(int p){
+  host_list.push_back(p);
+}
+/*--------------------------------------------------------------*/
+void IData::removeFromHosts(int p){
+    int n = host_list.size();
+    vector<int>::iterator it = host_list.begin();
+    for(;it!=host_list.end() ; it++){
+      int h = *it;
+      if( h  == p ){
+	host_list.erase(it);
+	return;
+      }
+    }
+}
+/*--------------------------------------------------------------*/
+void IData::clearHosts(){
+  host_list.clear();
 }
 /*--------------------------------------------------------------*/
 bool IData::isOwnedBy(int p) {
   Coordinate c = blk;
+  if( host_type == ALL_HOST ){
+    return true;
+  }
+  if( host_type == MULTI_HOST ){
+    int n = host_list.size();
+    for(int i=0;i<n; i++){
+      if( host_list[i] == p ){
+	return true;
+      }
+    }
+    return false;
+  }
+
   if (parent_data->Nb == 1 ||   parent_data->Mb == 1 ) {
     if ( parent_data->Nb ==1)
       c.by = c.bx;
@@ -598,6 +635,20 @@ bool IData::isOwnedBy(int p) {
 /*--------------------------------------------------------------*/
 int IData::getHost(){
   Coordinate c = blk;
+  
+  if( host_type == ALL_HOST ){
+    return me;
+  }
+  if( host_type == MULTI_HOST ){
+    int n = host_list.size();
+    for(int i=0;i<n; i++){
+      if( host_list[i] == me ){
+	return me;
+      }
+    }
+    int i=(rand() / RAND_MAX ) * (n-1) ;
+    return host_list[i%n];
+  }
   LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
   if(!hpData)
     return host;
@@ -673,6 +724,15 @@ void   IData::testHandles      (){
 
 /*----------------------------------------------------------------------------------------*/
 void IData:: allocateMemory(){
+  if ( memory_type == USER_ALLOCATED){
+    byte *adr;
+
+    getExistingMemoryInfo(&adr,&content_size, &leading_dim);
+    data_memory = new MemoryItem(adr,content_size,leading_dim);
+    if (config.simulation)
+      content_size=1;
+    return;
+  }
   if ( data_memory != NULL )
     return;
   if ( Nb == 0 && Mb == 0 ) {

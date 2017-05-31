@@ -1,0 +1,36 @@
+[1] Engine CTor1
+[1] Engine CTor2
+[1] Engine CTor3
+[1] MPI init called
+[1]        /mpi_comm.cpp,  19, initialize                      , tid: 49D5C0C0,    379 ::result:0, host=1, thread-support:0,requested:0,  thrd-enabled:1
+[1] MPI init returned
+[1]          /engine.cpp,  46, engine                          , tid: 49D5C0C0,    379 ::[0] MPI init returned
+[1] mpi tick :0.000001
+[1] Engine start
+[1] @stats Msg Sizes D,T,L: 392,150,64
+[1]          /engine.cpp, 169, setConfig                       , tid: 49D5C0C0,    380 ::DataPackSize:392=5*5*8+16+176
+[1]          /engine.cpp, 171, setConfig                       , tid: 49D5C0C0,    380 ::data meory:0x1389660
+[1] (0) Data address: [1] 0x1416240[1] 
+[1] (1) Data address: 0x1416240
+[1] Content Address 0x1416240
+[1] ContentAddress :0x1416240[1] 
+[1] 1
+[1]          /engine.cpp,  79, finalize                        , tid: 49D5C0C0,    416 ::[1] before join
+[1]     /eng_process.cpp,  96, doProcessLoop                   , tid: 4EF96700,    416 ::do process loop started
+[1]          /dt_log.cpp,  69, updateStatisticsPair            , tid: 4EF96700,    416 ::ProgExec , st:5284664744090560 end:5284664744090560
+[1]         /mailbox.cpp,  43, send                            , tid: 4EF96700,    417 ::buf:0x6835a8, len:4, tag:5
+[1]        /mpi_comm.cpp,  55, send                            , tid: 4EF96700,    417 ::msg 4 B with tag 5 sent to 0
+[1]     /eng_process.cpp,  48, canTerminate                    , tid: 4EF96700,    417 ::unf task:0 unf-lsnr:0 task_submission_finished:1
+[1]        /mpi_comm.cpp, 130, probe                           , tid: 4EF96700,    417 ::after probe exists:1, src:0, tag:5, len:4
+[1]        /mpi_comm.cpp,  77, receive                         , tid: 4EF96700,    417 ::res:0, src:0, tag:5, st.len:4
+[1]         /mailbox.cpp, 102, getEvent                        , tid: 4EF96700,    417 ::buf:0x2acd58000fd0,result:0, completed:1, tag:5
+[1]     /eng_process.cpp, 179, doProcessMailBox                , tid: 4EF96700,    417 ::comp:1,found:1,tag:5,dir:0
+[1]     /eng_process.cpp, 130, doProcessLoop                   , tid: 4EF96700,    418 ::[1] do process loop finished, tot-time=2.125540, loop-cnt:0, sleep-time=0.000000
+[1]     /eng_process.cpp, 131, doProcessLoop                   , tid: 4EF96700,    418 ::[1] prc-wrk:3180, mail-box:1943916, task-finish:6596, terminate:166264, total=2.119956
+[1]          /engine.cpp,  89, finalize                        , tid: 49D5C0C0,    419 ::Admin thread joined
+[1]          /engine.cpp, 101, globalSync                      , tid: 49D5C0C0,    419 ::Non-Busy time:2.109656
+[1]          /engine.cpp, 111, globalSync                      , tid: 49D5C0C0,   1248 ::after  dt log 
+[1]          /engine.cpp, 113, globalSync                      , tid: 49D5C0C0,   1248 ::before comm->finish
+[1]        /mpi_comm.cpp, 164, finish                          , tid: 49D5C0C0,   1248 ::mpi finalized.
+[1]        /mpi_comm.cpp, 165, finish                          , tid: 49D5C0C0,   1248 ::recv_time:57048
+[1]          /engine.cpp, 115, globalSync                      , tid: 49D5C0C0,   1277 ::[1] after  comm->finish

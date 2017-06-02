@@ -12,7 +12,15 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
   LOG_INFO(LOG_MULTI_THREAD,"Data handle %ld.\n",dh.data_handle);
   IData *data = glbCtx.getDataByHandle(&dh);
   offset =0 ;
-  data->deserialize(event->buffer,offset,event->length,NULL,all_content);
+  #if UAMD_COMM
+  if (event->tag == MailBox::UAMDataTag){
+    data->setContentSize (event->length- data->getHeaderSize());
+    data->setNewMemoryInfo(mi);
+    data->deserialize(event->buffer,offset,event->length,mi,all_content);
+  }
+  else
+  #endif
+    data->deserialize(event->buffer,offset,event->length,NULL,all_content);
   //  if ( mi != NULL )    mi->setState(MemoryItem::Ready);
   LOG_INFO(LOG_MULTI_THREAD+LOG_DATA,"data:%s, cntnt:%p, ev.buf:%p\n",
 	   data->getName().c_str(),data->getContentAddress(),event->buffer);

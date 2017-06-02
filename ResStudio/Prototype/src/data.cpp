@@ -140,8 +140,7 @@ string DataVersion::dumpString(){
 }
 /*--------------------------------------------------------------------------*/
 void DataVersion::dump(char c){
-  if (!DUMP_FLAG)
-    return;
+  //if (!DUMP_FLAG)    return;
   printf(",version:%s,\n",dumpString().c_str());
 }
 /*--------------------------------------------------------------------------*/
@@ -293,7 +292,7 @@ DataVersion IData::getRunTimeVersion(byte type){
 }
 /*--------------------------------------------------------------------------*/
 void IData::setRunTimeVersion(string to_ctx, int to_version){
-  LOG_INFO(LOG_MLEVEL,"%s,D(%d,%d),to:%d\n",getName().c_str(),blk.by,blk.bx,to_version);
+  LOG_INFO(0*LOG_MLEVEL,"%s,D(%d,%d),to:%d\n",getName().c_str(),blk.by,blk.bx,to_version);
   rt_read_version = to_version;
   rt_read_version.setContext(to_ctx);
   rt_write_version = to_version;
@@ -343,17 +342,26 @@ void IData::dumpElements(){
   if ( data_memory == NULL)
     return;
   return;
-  if (local_m> 12) return;
-  if (local_n> 12) return;
+  int lm,ln;
+  if (memory_type == USER_ALLOCATED){
+    lm = M;
+    ln = N;
+  }
+  else{
+    lm = local_m;
+    ln = local_n;
+  }
+  if (lm> 12) return;
+  if (ln> 12) return;
   LOG_INFO(LOG_MLEVEL,"Data:%s(%d,%d),adr:%p, hdr-adr:%p local m:%d, n:%d\n",
 	 getName().c_str(),blk.by,blk.bx,
 	 getContentAddress(),
-	   getHeaderAddress(),local_m,local_n);
+	   getHeaderAddress(),lm,ln);
   double *d=(double *)getContentAddress();
-  for ( int i = 0 ; i < local_m; i ++){
-    for(int j = 0 ; j < local_n; j ++ ) {
+  for ( int i = 0 ; i < lm; i ++){
+    for(int j = 0 ; j < ln; j ++ ) {
       //printf(" (%d,%d):%3.0lf",i,j,getElement(i,j));
-      printf("%3.0lf ",d[j*local_m+i]);
+      printf("%3.0lf ",d[j*lm+i]);
     }
     printf("\n");
   }
@@ -717,6 +725,9 @@ IData *IData::getDataByHandle  (DataHandle *in_dh ) {
   if ( *ch != in_dh->context_handle ){
     return not_found;
   }
+  if ( getDataHandleID() == in_dh->data_handle ) 
+    return this;
+
   for ( int i = 0; i < Mb; i++) {
     for ( int j = 0; j< Nb; j++){
       DataHandle *my_dh = (*dataView)[i][j]->getDataHandle();
@@ -759,7 +770,7 @@ void IData:: allocateMemory(){
     byte *adr;
 
     getExistingMemoryInfo(&adr,&content_size, &leading_dim);
-    data_memory = new MemoryItem(adr,content_size,leading_dim);
+    data_memory = new MemoryItem(adr,content_size+getHeaderSize(),leading_dim);
     if (config.simulation)
       content_size=1;
     return;
@@ -795,15 +806,17 @@ bool IData::isDataSent(int _host , DataVersion version){
 void IData::dataIsSent(int _host) {
   list<IListener *>::iterator it;
 
-  LOG_INFO(LOG_DATA,"Data:%s,DLsnr sent to host:%d,cur ver:\n",name.c_str(),_host);
+  LOG_INFO(LOG_DATA,"Data:%s,DLsnr sent to host:%d,cur ver:",name.c_str(),_host);
   rt_write_version.dump();
   for (it = listeners.begin();it != listeners.end();it ++){
     IListener *lsnr = (*it);
-    if (lsnr->getHost() == _host && lsnr->getRequiredVersion() == rt_write_version){
-      LOG_INFO(LOG_DATA,"DLsnr rt_read_version before upgrade:\n");
+    LOG_INFO(LOG_DATA,"Lsnr Host:%d, Lsnr Req-ver:" , lsnr->getHost() );
+    lsnr->getRequiredVersion().dump();
+    if (lsnr->getSource() == _host && lsnr->getRequiredVersion() == rt_write_version){
+      LOG_INFO(LOG_DATA,"DLsnr rt_read_version before upgrade:");
       rt_read_version.dump();
       incrementRunTimeVersion(READ,lsnr->getCount());
-      LOG_INFO(LOG_DATA,"DLsnr rt_read_version after upgrade:\n");
+      LOG_INFO(LOG_DATA,"DLsnr rt_read_version after upgrade:");
       rt_read_version.dump();
       lsnr->setDataSent(true);
       //it=listeners.erase(it);

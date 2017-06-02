@@ -62,9 +62,11 @@ void IListener::setReceived(bool r) { received = r;}
 bool IListener::isReceived() { return received;}
 /*--------------------------------------------------------------------------*/
 bool IListener::isDataReady(){
-  LOG_INFO(LOG_LISTENERS,"rt-ver:%s, rq-ver:%s\n",
+  LOG_INFO(LOG_LISTENERS,"dh:%d rt-ver:%s, rq-ver:%s",
+	   data_request->data->getDataHandleID(),
 	   data_request->data->getRunTimeVersion(IData::READ).dumpString().c_str(),
 	   data_request->required_version.dumpString().c_str());
+  
   bool isReady = (data_request->data->getRunTimeVersion(IData::READ) == data_request->required_version);
   data_request->data->dump();
   data_request->data->getRunTimeVersion(IData::READ).dump();
@@ -75,6 +77,7 @@ bool IListener::isDataReady(){
 long IListener::getPackSize(){
   DataHandle dh;
   DataVersion dv;
+    
   return sizeof(host) + dh.getPackSize() + dv.getPackSize();
 }
 /*--------------------------------------------------------------------------*/
@@ -88,7 +91,7 @@ void IListener::serialize(byte *buffer, int &offset, int max_length){
   copy<int>(buffer,offset,host);
   data_request->data->getDataHandle()->serialize(buffer,offset,max_length);
   data_request->required_version.serialize(buffer,offset,max_length);
-}
+} 
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 
@@ -118,7 +121,11 @@ void IListener::checkAndSendData(MailBox * mailbox)
   unsigned long c_handle=
     mailbox->send(data->getHeaderAddress(),
 		  data->getPackSize(),
+		  #ifdef UAMD_COMM
+		  data->getMemoryType() == IData::USER_ALLOCATED?MailBox::UAMDataTag: MailBox::DataTag,
+		  #else
 		  MailBox::DataTag,
+		  #endif
 		  getSource());
 
   data->dumpElements();

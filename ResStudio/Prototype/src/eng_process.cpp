@@ -210,6 +210,9 @@ void engine::processEvent(MailBoxEvent &event){
     }
     break;
   case MailBox::DataTag:
+#ifdef UAMD_COMM
+  case MailBox::UAMDataTag:
+#endif
     if (event.direction == MailBoxEvent::Received) {
       LOG_INFO(LOG_MULTI_THREAD,"Data received.\n");
       receivedData(&event,event.getMemoryItem());

@@ -35,6 +35,7 @@ public:
   byte *getAddress() ;
   void setAddress(byte *);
   void dump();
+  int getLead(){return leading_dim;}
 };
 /*============================================================================*/
 

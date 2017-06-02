@@ -12,7 +12,7 @@ namespace FMM_3D {
   class DTBase: public IData {
   public:
     static long last_handle,data_count;
-    int M,N,lead_dim,host,type,g_index;
+    int lead_dim,type,g_index;
     union{
       ElementType *mem,*data;
     };
@@ -25,13 +25,14 @@ namespace FMM_3D {
     void export_it(fstream &f){}
     void allocate(int m , int n);
     void getExistingMemoryInfo(byte **b, int *s, int *l);
+    void setNewMemoryInfo(MemoryItem*);
   };
   /*======================================================================*/
   struct Box{int index,level;};
   typedef  vector<Box*> BoxList;
   class TopLayerData: public DTBase{
   private:
-    int M,N,y,x;
+    int y,x;
     uint32_t part_no,ng,np;
     vector<TopLayerData*> groups,parts;
     typedef TopLayerData GData;
@@ -40,8 +41,13 @@ namespace FMM_3D {
     BoxList boxes;
     TopLayerData(int row, int col):y(row),x(col){
       setRunTimeVersion("0.0",0);
+      setName("_ij_");
     }
-    TopLayerData(int row, int col, int part, bool):y(row),x(col),part_no(part){}
+    TopLayerData(int row, int col, int part, bool):y(row),x(col),part_no(part){
+      setRunTimeVersion("0.0",0);
+      setName("_ijk_");
+      cout <<"22\n"; 
+    }
     int get_row(){return y;}
     int get_col(){return x;}
     int part_count(){return parts.size();}
@@ -49,12 +55,19 @@ namespace FMM_3D {
     void make_partitions();
     /*---------------------------------------------------*/
 
-    TopLayerData(int M_, int N_,int np_):M(M_),N(N_),ng(N_),np(np_){
+    TopLayerData(int M_, int N_,int np_):ng(N_),np(np_){
+      IData::M=M_;
+      IData::N=N_;
       for(int j=0;j<N;j++){
-	for(int i=0;i<M;i++){
-	  groups.push_back(new TopLayerData(i,j));
-	}
-      }
+	      for(int i=0;i<M;i++){
+             TopLayerData *g = new TopLayerData(i,j);
+	        groups.push_back(g);
+                 for( int k=0;k<np;k++){
+                  g->parts.push_back(new GData (i,j,k,true));
+                 }
+        }
+      }      
+
       //make_groups();
       //make_partitions();
     }
@@ -99,6 +112,11 @@ namespace FMM_3D {
       cout << "B("<< b->level << "," << b->index << ")" << endl;
     }
     /*---------------------------------------------------*/
+    void dump();
+    void fill(double v);
+    bool check(double v);
+    void fill_sequence(double start, double inc);
+    bool check_sequence(double start, double inc);
 
   };
   typedef TopLayerData GData;

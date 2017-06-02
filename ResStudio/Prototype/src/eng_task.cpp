@@ -281,14 +281,14 @@ long engine::getUnfinishedTasks(){
   for(; it != task_list.end(); ){
     IDuctteipTask * task = (*it);
     if (task_list.size() <=3 ){
-      LOG_INFO(LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
+      LOG_INFO(0*LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
     }
     if (task->canBeCleared()){
       checkRunningTasks();
-      LOG_INFO(LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
+      LOG_INFO(0*LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
       it=task_list.erase(it);
       if ( task_list.size() == 1 ){
-	LOG_INFO(LOG_MLEVEL,"task list remaining, last task:%s\n",(*it)->get_name().c_str());
+	LOG_INFO(0*LOG_MLEVEL,"task list remaining, last task:%s\n",(*it)->get_name().c_str());
       }
     }
     else

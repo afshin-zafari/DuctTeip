@@ -53,6 +53,10 @@ public:
         DeclineMigrateTag,
         AcceptMigrateTag,
         MigratedTaskOutDataTag
+#ifdef UAMD_COMM // User Allocated Memory Data communication
+	,UAMDataTag
+#endif
+	
     } ;
     /*-------------------------------------------------------------------------------*/
     ulong  	 send                  (byte *, int, int, int,bool wait=false);

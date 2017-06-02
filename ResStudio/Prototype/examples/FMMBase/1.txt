@@ -1,379 +1,236 @@
-[1] Engine CTor1
-[1] Engine CTor2
-[1] Engine CTor3
-[1] MPI init called
-[1]        /mpi_comm.cpp,  19, initialize                      , tid: A0852100,    331 ::result:0, host=1, thread-support:0,requested:0,  thrd-enabled:1
-[1] MPI init returned
-[0]          /engine.cpp,  46, engine                          , tid: 3CAA1100,    332 ::[1]          /engine.cpp,  46, engine                          , tid: A0852100,    331 ::[0] mpi tick :0.000001
-[1] mpi tick :0.000001
-[1] Engine start
-[0]          /engine.cpp, 169, setConfig                       , tid: 3CAA1100,    332 ::[1] @stats Msg Sizes D,T,L: 392,150,64
-[1]          /engine.cpp, 169, setConfig                       , tid: A0852100,    331 ::DataPackSize:392=5*5*8+16+176
-[1]          /engine.cpp, 171, setConfig                       , tid: A0852100,    331 ::data meory:0xec0670
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    368 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    369 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1] (0) Data address: [1] 0xf4ebe0[1] 
-[1] (1) Data address: 0xf4ebe0
-[1] Content Address 0xf4ebe0
-[1] ContentAddress :0xf4ebe0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    370 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::[1] ,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1] 1
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    371 ::,D(0,0),to:0
-[1] fmm_ctx->addTask()
-[1]        /eng_task.cpp,  21, register_task                   , tid: A0852100,    371 ::First task is submitted.
-[1]          /dt_log.cpp,  69, updateStatisticsPair            , tid: A0852100,    371 ::ProgExec , st:5325258981381976 end:5325258981381976
-[1] fmm_ctx->addTask()
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1]            /data.cpp, 296, setRunTimeVersion               , tid: A0852100,    385 ::,D(0,0),to:0
-[1] fmm_ctx->addTask()
-[1] fmm_ctx->addTask()
-[1]          /engine.cpp,  79, finalize                        , tid: A0852100,    385 ::before join
-[1]     /eng_process.cpp,  96, doProcessLoop                   , tid: A5A8C700,    385 ::do process loop started
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    386 ::work:8, tag:0, item:0
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    386 ::
-[1]        /eng_work.cpp, 172, executeTaskWork                 , tid: A5A8C700,    386 ::Task can run.
-[1] task FFLTask-0 run in ductteip
-[1] FFLTask::run() called for [1] A1
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    386 ::work:8, tag:0, item:1
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    386 ::[1] 
-[1]        /eng_task.cpp, 315, waitForTaskFinish               , tid: A5A8C700,    386 ::idle time:0.443972
-[1]        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: A5A8C700,    386 ::FFLTask-0
-[1]        /eng_task.cpp, 261, checkRunningTasks               , tid: A5A8C700,    386 ::task finished:FFLTask-0, run-list size:1
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    386 ::work:8, tag:0, item:0
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    386 ::
-[1]         /dt_task.cpp, 164, canRun                          , tid: A5A8C700,    386 ::[1] (W)Task FFLTask-1 data A1 is not ready,rt:ver:0.0  rq-ver:0.1.
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    386 ::work:8, tag:0, item:1
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    386 ::
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    386 ::work:8, tag:0, item:0
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    386 ::
-[1]        /eng_work.cpp, 172, executeTaskWork                 , tid: A5A8C700,    387 ::Task can run.
-[1] task FFLTask-2 run in ductteip
-[1] FFLTask::run() called for A1
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    387 ::work:8, tag:0, item:1
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    387 ::[1] 
-[1]        /eng_task.cpp, 315, waitForTaskFinish               , tid: A5A8C700,    387 ::idle time:0.931784
-[1]        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: A5A8C700,    387 ::FFLTask-2
-[1]        /eng_task.cpp, 261, checkRunningTasks               , tid: A5A8C700,    387 ::[1] task finished:FFLTask-2, run-list size:1
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    387 ::[1] work:8, tag:0, item:0
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    387 ::
-[1]         /dt_task.cpp, 164, canRun                          , tid: A5A8C700,    387 ::[1] (W)Task FFLTask-3 data A1 is not ready,rt:ver:0.0  rq-ver:0.1.
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    387 ::[1] work:8, tag:0, item:1
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    387 ::
-[1]        /eng_work.cpp, 146, executeTaskWork                 , tid: A5A8C700,    387 ::Task FFLTask-0, upgrade data. 
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    387 ::data:A0,56
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    387 ::data:A1,56
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    387 ::work:2, tag:0, item:4
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    387 ::
-[1]        /eng_task.cpp, 288, getUnfinishedTasks              , tid: A5A8C700,    387 ::[1] task list remaining, n:4,FFLTask-0
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    387 ::[1] task list remaining, n:3,FFLTask-1
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    387 ::task list remaining, n:3,FFLTask-2
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    387 ::task list remaining, n:3,FFLTask-3
-[1]        /eng_work.cpp, 146, executeTaskWork                 , tid: A5A8C700,    387 ::Task FFLTask-2, upgrade data. 
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    387 ::[1] data:A0,56
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    387 ::[1] data:A1,56
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    387 ::work:2, tag:0, item:4
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    387 ::[1] 
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    387 ::[1] task list remaining, n:3,FFLTask-1
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    387 ::task list remaining, n:3,FFLTask-2
-[1]        /eng_task.cpp, 288, getUnfinishedTasks              , tid: A5A8C700,    387 ::task list remaining, n:3,FFLTask-2
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    387 ::[1] task list remaining, n:2,FFLTask-3
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    388 ::work:5, tag:2, item:5
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    388 ::[1] 
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::[1] task list remaining, n:2,FFLTask-1
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-3
-[1]        /eng_work.cpp, 212, executeDataWork                 , tid: A5A8C700,    388 ::Data Upgrade Work, Task run.
-[1] task FFLTask-1 run in ductteip
-[1] FFLTask::run() called for A2
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    388 ::work:5, tag:2, item:5
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    388 ::
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-1
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-3
-[1]        /eng_task.cpp, 315, waitForTaskFinish               , tid: A5A8C700,    388 ::idle time:1.984808
-[1]        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: A5A8C700,    388 ::FFLTask-1
-[1]        /eng_task.cpp, 261, checkRunningTasks               , tid: A5A8C700,    388 ::[1] task finished:FFLTask-1, run-list size:1
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    388 ::work:5, tag:2, item:5
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    388 ::
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-1
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-3
-[1] task FFLTask-3 run in ductteip
-[1] FFLTask::run() called for [1]        /eng_work.cpp, 212, executeDataWork                 , tid: A5A8C700,    388 ::Data Upgrade Work, Task run.
-[1] A2
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    388 ::work:5, tag:2, item:5
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    388 ::
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-1
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-3
-[1]        /eng_task.cpp, 315, waitForTaskFinish               , tid: A5A8C700,    388 ::idle time:2.196032
-[1]        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: A5A8C700,    388 ::FFLTask-3
-[1]        /eng_task.cpp, 261, checkRunningTasks               , tid: A5A8C700,    388 ::[1] task finished:FFLTask-3, run-list size:1
-[1]        /eng_work.cpp, 146, executeTaskWork                 , tid: A5A8C700,    388 ::[1] Task FFLTask-1, upgrade data. 
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    388 ::data:A1,57
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    388 ::data:A2,57
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    388 ::work:2, tag:0, item:4
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    388 ::
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:2,FFLTask-1
-[1]        /eng_task.cpp, 288, getUnfinishedTasks              , tid: A5A8C700,    388 ::[1] task list remaining, n:2,FFLTask-1
-[1]        /eng_task.cpp, 291, getUnfinishedTasks              , tid: A5A8C700,    388 ::[1] task list remaining, last task:FFLTask-3
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    388 ::task list remaining, n:1,FFLTask-3
-[1]        /eng_work.cpp, 146, executeTaskWork                 , tid: A5A8C700,    389 ::Task FFLTask-3, upgrade data. 
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    389 ::[1] data:A1,57
-[1]         /dt_task.cpp, 296, upgradeData                     , tid: A5A8C700,    389 ::[1] data:A2,57
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    389 ::work:2, tag:0, item:4
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    389 ::[1] 
-[1]        /eng_task.cpp, 284, getUnfinishedTasks              , tid: A5A8C700,    389 ::[1] task list remaining, n:1,FFLTask-3
-[1]        /eng_task.cpp, 288, getUnfinishedTasks              , tid: A5A8C700,    389 ::task list remaining, n:1,FFLTask-3
-[1]          /dt_log.cpp,  69, updateStatisticsPair            , tid: A5A8C700,    389 ::ProgExec , st:-1 end:5325258998593120
-[1]         /mailbox.cpp,  43, send                            , tid: A5A8C700,    389 ::buf:0x68c588, len:4, tag:5
-[1]        /mpi_comm.cpp,  55, send                            , tid: A5A8C700,    389 ::msg 4 B with tag 5 sent to 0
-[1]     /eng_process.cpp,  48, canTerminate                    , tid: A5A8C700,    389 ::unf task:0 unf-lsnr:0 task_submission_finished:1
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    389 ::work:5, tag:2, item:5
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    389 ::[1] 
-[1]        /mpi_comm.cpp, 130, probe                           , tid: A5A8C700,    389 ::after probe exists:1, src:0, tag:5, len:4
-[1]        /mpi_comm.cpp,  77, receive                         , tid: A5A8C700,    389 ::res:0, src:0, tag:5, st.len:4
-[1]         /mailbox.cpp, 102, getEvent                        , tid: A5A8C700,    389 ::[1] buf:0x2ad9b0003e90,result:0, completed:1, tag:5
-[1]     /eng_process.cpp, 179, doProcessMailBox                , tid: A5A8C700,    389 ::comp:1,found:1,tag:5,dir:0
-[1]        /eng_work.cpp,  17, doProcessWorks                  , tid: A5A8C700,    389 ::work:5, tag:2, item:5
-[1]        /eng_work.cpp,  19, doProcessWorks                  , tid: A5A8C700,    389 ::
-[1]     /eng_process.cpp, 130, doProcessLoop                   , tid: A5A8C700,    389 ::[1] do process loop finished, tot-time=3.985640, loop-cnt:0, sleep-time=0.000000
-[1]     /eng_process.cpp, 131, doProcessLoop                   , tid: A5A8C700,    389 ::[1] prc-wrk:785088, mail-box:2788956, task-finish:133360, terminate:274716, total=3.982120
-[1]          /engine.cpp,  89, finalize                        , tid: A0852100,    390 ::Admin thread joined
-[1]          /engine.cpp, 101, globalSync                      , tid: A0852100,    390 ::Non-Busy time:3.223836
-[1]          /engine.cpp, 111, globalSync                      , tid: A0852100,    559 ::after  dt log 
-[1]          /engine.cpp, 113, globalSync                      , tid: A0852100,    559 ::before comm->finish
-[1]        /mpi_comm.cpp, 164, finish                          , tid: A0852100,    559 ::mpi finalized.
-[1]        /mpi_comm.cpp, 165, finish                          , tid: A0852100,    559 ::recv_time:27932
-[1]          /engine.cpp, 115, globalSync                      , tid: A0852100,    830 ::after  comm->finish
-[1] Chil count of Parent task: 0
+ Engine CTor1
+ Engine CTor2
+ Engine CTor3
+ MPI init called
+        /mpi_comm.cpp,  19, initialize                      , tid: E22A5100,    278 :: result:0, host=1, thread-support:0,requested:0,  thrd-enabled:1
+ MPI init returned
+          /engine.cpp,  46, engine                          , tid: E22A5100,    278 ::[0]        /mpi_comm.cpp,  19, initialize                      , tid: 7B9E3100,    277 ::[0] result:0, host=0, thread-support:0,requested:0,  thrd-enabled:1
+ mpi tick :0.000001
+ Engine start
+ @stats Msg Sizes D,T,L: 392,150,64
+          /engine.cpp, 169, setConfig                       , tid: E22A5100,    278 ::[0] Engine start
+ DataPackSize:392=5*5*8+16+176
+          /engine.cpp, 171, setConfig                       , tid: E22A5100,    278 ::data meory:0x151a4d0
+ 22
+ fmm_ctx->addTask()
+        /eng_task.cpp,  21, register_task                   , tid: E22A5100,    313 ::First task is submitted.
+          /dt_log.cpp,  69, updateStatisticsPair            , tid: E22A5100,    313 ::ProgExec , st:5675243379323628 end:5675243379323628
+ fmm_ctx->addTask()
+ fmm_ctx->addTask()
+ fmm_ctx->addTask()
+ fmm_ctx->addTask()
+          /engine.cpp,  79, finalize                        , tid: E22A5100,    313 ::before join
+     /eng_process.cpp,  96, doProcessLoop                   , tid: E74DF700,    313 ::do process loop started
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    313 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    313 ::
+ task IterTask-0 run in ductteip
+        /eng_work.cpp, 172, executeTaskWork                 , tid: E74DF700,    314 ::Task can run.
+ iter no = 0
+ fmm_ctx->addTask()
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    314 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    314 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    314 ::idle time:0.572876
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    314 :: IterTask-0
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    314 :: task finished:IterTask-0, run-list size:1
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    314 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    314 ::
+ task IterTask-1 run in ductteip
+ iter no = 1
+        /eng_work.cpp, 172, executeTaskWork                 , tid: E74DF700,    314 ::Task can run.
+ fmm_ctx->addTask()
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    314 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    314 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    314 ::idle time:0.803688
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    314 ::IterTask-1
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    314 ::task finished:IterTask-1, run-list size:1
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    314 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    314 ::
+ task IterTask-2 run in ductteip
+ iter no = 2
+        /eng_work.cpp, 172, executeTaskWork                 , tid: E74DF700,    315 ::Task can run.
+ fmm_ctx->addTask()
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    315 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    315 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    315 ::idle time:1.037352
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    315 ::IterTask-2
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    315 ::task finished:IterTask-2, run-list size:1
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    315 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    315 :: 
+ task IterTask-3 run in ductteip
+ iter no = 3
+        /eng_work.cpp, 172, executeTaskWork                 , tid: E74DF700,    315 ::Task can run.
+ fmm_ctx->addTask()
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    315 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    315 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    315 ::idle time:1.266340
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    315 ::IterTask-3
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    315 ::task finished:IterTask-3, run-list size:1
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    315 :: work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    315 ::
+ task IterTask-4 run in ductteip
+ iter no = 4
+        /eng_work.cpp, 172, executeTaskWork                 , tid: E74DF700,    316 ::Task can run.
+ fmm_ctx->addTask()
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    316 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    316 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    316 ::idle time:1.487336
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    316 ::IterTask-4
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    316 ::task finished:IterTask-4, run-list size:1
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    316 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    316 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    316 :: (W)Task IterTask-5 data IterData is not ready,rt:ver:0.0  rq-ver:0.5.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    316 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    316 ::
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    316 ::Task IterTask-0, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    316 ::data:IterData,38
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    316 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    316 ::
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    316 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    316 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    317 ::(W)Task IterTask-6 data IterData is not ready,rt:ver:0.1  rq-ver:0.6.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 ::
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    317 ::Task IterTask-1, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    317 ::data:IterData,39
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 :: 
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    317 :: (W)Task IterTask-7 data IterData is not ready,rt:ver:0.2  rq-ver:0.7.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 ::
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    317 ::Task IterTask-2, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    317 ::data:IterData,39
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 ::
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    317 :: (W)Task IterTask-8 data IterData is not ready,rt:ver:0.3  rq-ver:0.8.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    317 :: work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    317 ::
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    318 ::Task IterTask-3, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    318 ::data:IterData,40
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    318 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    318 ::
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    318 ::work:8, tag:0, item:0
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    318 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    318 ::(W)Task IterTask-9 data IterData is not ready,rt:ver:0.4  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    318 ::work:8, tag:0, item:1
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    318 :: 
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    318 ::Task IterTask-4, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    318 ::data:IterData,40
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    318 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    318 ::
+ task IterTask-5 run in ductteip
+ iter no = 5        /eng_work.cpp, 212, executeDataWork                 , tid: E74DF700,    318 ::Data Upgrade Work, Task run.
+ 
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    318 :: (D)Task IterTask-6 data IterData is not ready,rt:ver:0.5  rq-ver:0.6.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    318 :: (D)Task IterTask-7 data IterData is not ready,rt:ver:0.5  rq-ver:0.7.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    318 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.5  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    318 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.5  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    318 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    319 :: 
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    319 ::idle time:4.239048
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    319 :: IterTask-5
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    319 ::task finished:IterTask-5, run-list size:1
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-6 data IterData is not ready,rt:ver:0.5  rq-ver:0.6.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-7 data IterData is not ready,rt:ver:0.5  rq-ver:0.7.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.5  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.5  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    319 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    319 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-6 data IterData is not ready,rt:ver:0.5  rq-ver:0.6.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-7 data IterData is not ready,rt:ver:0.5  rq-ver:0.7.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.5  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.5  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    319 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    319 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-6 data IterData is not ready,rt:ver:0.5  rq-ver:0.6.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-7 data IterData is not ready,rt:ver:0.5  rq-ver:0.7.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.5  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    319 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.5  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    319 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    319 ::
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-6 data IterData is not ready,rt:ver:0.5  rq-ver:0.6.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-7 data IterData is not ready,rt:ver:0.5  rq-ver:0.7.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.5  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.5  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    320 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    320 ::
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    320 ::Task IterTask-5, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    320 ::data:IterData,42
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    320 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    320 ::
+ task IterTask-6 run in ductteip
+ iter no = 6
+        /eng_work.cpp, 212, executeDataWork                 , tid: E74DF700,    320 ::Data Upgrade Work, Task run.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-7 data IterData is not ready,rt:ver:0.6  rq-ver:0.7.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.6  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    320 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.6  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    320 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    320 :: 
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    320 ::idle time:5.651356
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    321 :: IterTask-6
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    321 ::task finished:IterTask-6, run-list size:1
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    321 :: Task IterTask-6, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    321 ::data:IterData,42
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    321 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    321 ::
+ task IterTask-7 run in ductteip
+ iter no = 7        /eng_work.cpp, 212, executeDataWork                 , tid: E74DF700,    321 ::Data Upgrade Work, Task run.
+ 
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    321 :: (D)Task IterTask-8 data IterData is not ready,rt:ver:0.7  rq-ver:0.8.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    321 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.7  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    321 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    321 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    321 ::idle time:5.914220
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    321 ::IterTask-7
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    321 ::task finished:IterTask-7, run-list size:1
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    321 ::Task IterTask-7, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    321 :: data:IterData,43
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    321 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    321 ::
+ task IterTask-8 run in ductteip
+ iter no = 8
+        /eng_work.cpp, 212, executeDataWork                 , tid: E74DF700,    321 ::Data Upgrade Work, Task run.
+         /dt_task.cpp, 164, canRun                          , tid: E74DF700,    321 :: (D)Task IterTask-9 data IterData is not ready,rt:ver:0.8  rq-ver:0.9.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    321 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    321 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    321 ::idle time:6.146684
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    321 ::IterTask-8
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    322 ::task finished:IterTask-8, run-list size:1
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    322 ::Task IterTask-8, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    322 ::data:IterData,43
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    322 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    322 ::
+ task IterTask-9 run in ductteip
+ iter no = 9
+        /eng_work.cpp, 212, executeDataWork                 , tid: E74DF700,    322 ::Data Upgrade Work, Task run.
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    322 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    322 ::
+        /eng_task.cpp, 315, waitForTaskFinish               , tid: E74DF700,    322 ::idle time:6.396240
+        /eng_work.cpp, 130, putWorkForFinishedTask          , tid: E74DF700,    322 ::IterTask-9
+        /eng_task.cpp, 261, checkRunningTasks               , tid: E74DF700,    322 ::task finished:IterTask-9, run-list size:1
+        /eng_work.cpp, 146, executeTaskWork                 , tid: E74DF700,    322 ::Task IterTask-9, upgrade data. 
+         /dt_task.cpp, 296, upgradeData                     , tid: E74DF700,    322 ::data:IterData,44
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    322 ::work:2, tag:0, item:4
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    322 ::
+          /dt_log.cpp,  69, updateStatisticsPair            , tid: E74DF700,    322 ::ProgExec , st:-1 end:5675243388695792
+         /mailbox.cpp,  43, send                            , tid: E74DF700,    322 ::buf:0x690648, len:4, tag:5
+        /mpi_comm.cpp,  55, send                            , tid: E74DF700,    322 ::msg 4 B with tag 5 sent to 0
+     /eng_process.cpp,  48, canTerminate                    , tid: E74DF700,    322 :: unf task:0 unf-lsnr:0 task_submission_finished:1
+        /eng_work.cpp,  17, doProcessWorks                  , tid: E74DF700,    322 ::work:5, tag:2, item:5
+        /eng_work.cpp,  19, doProcessWorks                  , tid: E74DF700,    322 ::
+        /mpi_comm.cpp, 130, probe                           , tid: E74DF700,    323 ::after probe exists:1, src:0, tag:5, len:4
+        /mpi_comm.cpp,  77, receive                         , tid: E74DF700,    323 ::res:0, src:0, tag:5, st.len:4
+         /mailbox.cpp, 111, getEvent                        , tid: E74DF700,    323 ::buf:0x2b8ef0007aa0,result:0, completed:1, tag:5
+     /eng_process.cpp, 179, doProcessMailBox                , tid: E74DF700,    323 ::comp:1,found:1,tag:5,dir:0
+     /eng_process.cpp, 130, doProcessLoop                   , tid: E74DF700,    323 ::do process loop finished, tot-time=9.835832, loop-cnt:0, sleep-time=0.000000
+     /eng_process.cpp, 131, doProcessLoop                   , tid: E74DF700,    323 ::prc-wrk:2387296, mail-box:6951624, task-finish:318584, terminate:169420, total=9.826924
+          /engine.cpp,  89, finalize                        , tid: E22A5100,    323 ::Admin thread joined
+          /engine.cpp, 101, globalSync                      , tid: E22A5100,    323 ::Non-Busy time:7.129376
+          /engine.cpp, 111, globalSync                      , tid: E22A5100,    613 ::after  dt log 
+          /engine.cpp, 113, globalSync                      , tid: E22A5100,    613 ::before comm->finish
+        /mpi_comm.cpp, 164, finish                          , tid: E22A5100,    613 ::mpi finalized.
+        /mpi_comm.cpp, 165, finish                          , tid: E22A5100,    613 ::recv_time:24748
+          /engine.cpp, 115, globalSync                      , tid: E22A5100,    631 ::after  comm->finish

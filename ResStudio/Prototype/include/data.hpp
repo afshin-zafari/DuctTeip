@@ -116,6 +116,7 @@ public:
     void allocateMemory();
     void prepareMemory();
   virtual void getExistingMemoryInfo(byte **, int *, int *){}
+  virtual void setNewMemoryInfo(MemoryItem*){}
     void addTask(IDuctteipTask *);
     void checkAfterUpgrade(list<IDuctteipTask *> &,MailBox *,char debug =' ');
     /*--------------------------------------------------------------------------*/
@@ -211,6 +212,9 @@ public:
     void *get_guest();
     void set_guest(void *);
     int  getHost();
+    int getMemoryType(){return memory_type;}
+    void setHostType(int ht){host_type = ht;}
+    int getHostType(){return host_type;}
     void addToHosts(int p);
   void removeFromHosts(int );
   void clearHosts();

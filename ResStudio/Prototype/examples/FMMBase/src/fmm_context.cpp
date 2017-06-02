@@ -4,6 +4,8 @@ namespace FMM_3D{
   long DTBase::last_handle=0;
   long DTBase::data_count=0;
   FMMContext *fmm_engine;
+  Parameters_t Parameters;
+  int L_max;
   /*--------------------------------------------------------------------*/
   void FMMContext::add_task(SGTask *t){
     counts[t->key]++;
@@ -12,6 +14,8 @@ namespace FMM_3D{
   /*--------------------------------------------------------------------*/
   void FMMContext::add_task(DTTask *t)
   {
+    if ( t->getHost() != me )
+      return; 
     counts[t->key]++;
     tasks.push_back(t);
     cout << "fmm_ctx->addTask()\n";

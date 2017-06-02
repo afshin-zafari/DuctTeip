@@ -89,9 +89,18 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
     event->handle = 0;
     if ( tag == MigrateDataTag ||
 	 tag == DataTag ||
-	 tag == MigratedTaskOutDataTag){
+	 tag == MigratedTaskOutDataTag
+	 #ifdef UAMD_COMM
+	 || tag == UAMDataTag
+	 #endif
+	 ){
+      #ifdef UAMD_COMM
+      event->memory = new MemoryItem(new byte[length],length,1);
+      #else
       event->memory = memman->getNewMemory();
+      #endif
       event->buffer = event->memory->getAddress();
+      
     }
     else{
       event->memory =  NULL;

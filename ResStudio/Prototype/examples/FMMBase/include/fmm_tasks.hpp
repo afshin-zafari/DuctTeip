@@ -61,9 +61,25 @@ namespace FMM_3D{
     void runKernel();
     void export_it(fstream &f){}
   private:
-    void data_access(DataAccessList *dlist,GData *d, IData::AccessType rw);
+    //void data_access(DataAccessList *dlist,GData *d, IData::AccessType rw);
     void data_access_set();
   };
+/*---*/
+    class IterTask: public DTTask{
+    public:
+        int iter,flag;
+        static GData *d;
+        static double norm_V_diff;
+        static int last_iter_no;
+        IterTask(int f):flag(f){
+            iter = last_iter_no++;
+            data_access_set();
+        }
+        void finished();
+        void runKernel();
+        void export_it(fstream &){}
+        void data_access_set();
+    };
   
 }//namespace FMM_3D
 #endif

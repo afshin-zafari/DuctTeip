@@ -9,6 +9,7 @@
 class DLB{
 private:
   friend class engine;
+  /*--------------------------------------------------------------------------------*/
   struct DLB_Statistics{
     unsigned long tot_try,
       tot_failure,
@@ -17,10 +18,19 @@ private:
     ClockTimeUnit tot_cost,
       tot_silent;      
   };
+  /*--------------------------------------------------------------------------------*/
   DLB_Statistics dlb_profile;
-  int dlb_state,dlb_prev_state,dlb_substate,dlb_stage,dlb_node;
+  int    dlb_state,
+    /**/ dlb_prev_state,
+    /**/ dlb_substate,
+    /**/ dlb_stage,
+    /**/ dlb_node;
   unsigned long dlb_failure,dlb_glb_failure,dlb_silent_cnt,dlb_tot_time;
   TimeUnit dlb_silent_start,last_msg_time,dlb_silent_tot;
+  int FAILURE_MAX,silent_mode;
+  /*--------------------------------------------------------------------------------*/
+
+  /*--------------------------------------------------------------------------------*/
   enum DLB_STATE{
     DLB_IDLE,
     DLB_BUSY,
@@ -28,26 +38,35 @@ private:
     TASK_IMPORTED,
     DLB_STATE_NONE
   };
+  /*--------------------------------------------------------------------------------*/
   enum DLB_SUBSTATE{
     ACCEPTED,
     EARLY_ACCEPT
   };
+  /*--------------------------------------------------------------------------------*/
   enum DLB_STAGE{
     DLB_FINDING_IDLE,
     DLB_FINDING_BUSY,
     DLB_SILENT,
     DLB_NONE
   };
-  enum Limits{
-    FAILURE_MAX=5
-  };
+  /*--------------------------------------------------------------------------------*/
   int dlb_hist[6][2],    SILENT_PERIOD,    DLB_BUSY_TASKS ;
+  /*--------------------------------------------------------------------------------*/
   enum Indices{
     IDX_FINDI=0,IDX_FINDB=1,
     IDX_DECLI=2,IDX_DECLB=3,
     IDX_ACCPI=4,IDX_ACCPB=5,
     IDX_SEND=0,IDX_RECV=1
   };
+  /*--------------------------------------------------------------------------------*/
+  enum SilentModes{
+    DLB_SILENT_NONE,
+    DLB_SILENT_WHEN_I_FOUND_NOBODY,
+    DLB_SILENT_WHEN_NOBODY_FOUND_ME,
+    DLB_SILENT_BOTH
+  };
+  /*--------------------------------------------------------------------------------*/
 #define TIME_DLB 
   /*---------------------------------------------------------------*/
   bool passedSilentDuration();
@@ -57,7 +76,7 @@ private:
   void doDLB(int st);
   void goToSilent();
   void dumpDLB();
-  int getDLBStatus();
+  int  getDLBStatus();
 
   void findBusyNode();
   void findIdleNode();
@@ -97,7 +116,7 @@ public:
   void checkExportedTasks();
   long getActiveTasksCount();
   long getExportableTasksCount();
-/*---------------------------------------------------------------------------------*/
+  /*---------------------------------------------------------------------------------*/
 
 };
 extern DLB dlb;

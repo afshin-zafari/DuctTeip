@@ -1,8 +1,14 @@
 #include "dlb.hpp"
+
+DLB dlb;
+
 /*---------------------------------------------------------------*/
 void DLB::initDLB(){
-  SILENT_PERIOD = config.getSilenceDuration();
+  SILENT_PERIOD  = config.getSilenceDuration();
   DLB_BUSY_TASKS = config.getDLBThreshold();
+  FAILURE_MAX    = config.getDLBFailureMax();
+  silent_mode    = config.getDLBSilentMode();
+  
   dlb_state = DLB_STATE_NONE;
   dlb_substate = DLB_NONE;
   dlb_stage = DLB_NONE;
@@ -644,6 +650,4 @@ long DLB::getActiveTasksCount(){
   return count;
 }
 /*---------------------------------------------------------------------------------*/
-
-DLB dlb;
 

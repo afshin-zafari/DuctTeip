@@ -97,7 +97,8 @@ void engine::finalize(){
 /*---------------------------------------------------------------------------------*/
 void engine::globalSync(){
   LOG_LOADZ;
-
+  printf("Program finished at %ld.\n",UserTime());
+  
   LOG_INFO(LOG_MULTI_THREAD,"Non-Busy time:%lf\n",wasted_time/1000000.0);
   if (true || cfg->getYDimension() == 2400){
     char s[20];
@@ -167,7 +168,10 @@ void engine::setConfig(Config *cfg_,bool sg){
     dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
   }
   LOG_INFO(LOG_MULTI_THREAD,"DataPackSize:%ld=%d*%d*8+%d+%d\n",dps,ny,nx,dh.getPackSize(),4*dv.getPackSize());
-  data_memory = new MemoryManager (  nb * mb ,dps );
+  if ( nb * mb *dps <1e9)
+    data_memory = new MemoryManager (  nb * mb ,dps );
+  else
+    data_memory = new MemoryManager (  nb * mb ,1 );
   LOG_INFO(LOG_MULTI_THREAD,"data meory:%p\n",data_memory);
   //int ipn = cfg->getIPN();
   if ( !sg)

@@ -13,6 +13,8 @@ Config::Config(){
   dlb_thr=10;
   sil_dur=1000;
   column_major=using_blas=true;
+  silent_mode = 0;
+  failure_max = 5;
 }
 /*-----------------------------------------------------------------*/
 void Config::setParams( int n,int m ,
@@ -73,6 +75,8 @@ void Config::getCmdLine(int argc, char **argv){
       {"mq-ip"        ,required_argument, 0,26  }, // 26
       {"mq-name"      ,required_argument, 0,27  }, // 27
       {"mq-pass"      ,required_argument, 0,28  }, // 28
+      {"failure-max"  ,required_argument, 0,29  }, // 29
+      {"silent-mode"  ,required_argument, 0,30  }, // 30
       {0,0,0,0}
     };
 
@@ -244,6 +248,12 @@ void Config::getCmdLine(int argc, char **argv){
       break;
     case 28:
       mq_pass.assign(optarg);
+      break;
+    case 29:
+      failure_max = atoi(optarg);
+      break;
+    case 30:
+      silent_mode = atoi(optarg);
       break;
     case '?':
     default:

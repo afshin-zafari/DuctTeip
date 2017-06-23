@@ -140,7 +140,7 @@ string DataVersion::dumpString(){
 }
 /*--------------------------------------------------------------------------*/
 void DataVersion::dump(char c){
-  //if (!DUMP_FLAG)    return;
+  if (!DUMP_FLAG)    return;
   printf(",version:%s,\n",dumpString().c_str());
 }
 /*--------------------------------------------------------------------------*/
@@ -302,6 +302,8 @@ void IData::setRunTimeVersion(string to_ctx, int to_version){
 void IData::incrementRunTimeVersion(byte type,int v  ){
   dtEngine.criticalSection(engine::Enter);
   exported_nodes.clear();
+  LOG_INFO(LOG_DATA,"Before upgrade versions for type:%d Data (ptr=%p): rt-rd: %s , rt-wrt: %s (increment valuse= %d)\n",type,this,rt_read_version.dumpString().c_str(),
+	   rt_write_version.dumpString().c_str(),v);
   if ( type == IData::WRITE ) {
     rt_read_version += v;
     rt_write_version= rt_read_version;
@@ -312,6 +314,8 @@ void IData::incrementRunTimeVersion(byte type,int v  ){
     rt_read_version +=v;
     dump('R');
   }
+  LOG_INFO(LOG_DATA,"After upgrade versions for Data (ptr=%p): rt-rd: %s , rt-wrt: %s\n",this,rt_read_version.dumpString().c_str(),
+	   rt_write_version.dumpString().c_str());
   dtEngine.criticalSection(engine::Leave);
 }
 /*--------------------------------------------------------------------------*/
@@ -806,17 +810,17 @@ bool IData::isDataSent(int _host , DataVersion version){
 void IData::dataIsSent(int _host) {
   list<IListener *>::iterator it;
 
-  LOG_INFO(LOG_DATA,"Data:%s,DLsnr sent to host:%d,cur ver:",name.c_str(),_host);
+  LOG_INFO(LOG_DATA,"Data:%s,DLsnr sent to host:%d,cur ver:\n",name.c_str(),_host);
   rt_write_version.dump();
   for (it = listeners.begin();it != listeners.end();it ++){
     IListener *lsnr = (*it);
-    LOG_INFO(LOG_DATA,"Lsnr Host:%d, Lsnr Req-ver:" , lsnr->getHost() );
+    LOG_INFO(LOG_DATA,"Lsnr Host:%d, Lsnr Req-ver:\n" , lsnr->getHost() );
     lsnr->getRequiredVersion().dump();
     if (lsnr->getSource() == _host && lsnr->getRequiredVersion() == rt_write_version){
-      LOG_INFO(LOG_DATA,"DLsnr rt_read_version before upgrade:");
+      LOG_INFO(LOG_DATA,"DLsnr rt_read_version before upgrade:\n");
       rt_read_version.dump();
       incrementRunTimeVersion(READ,lsnr->getCount());
-      LOG_INFO(LOG_DATA,"DLsnr rt_read_version after upgrade:");
+      LOG_INFO(LOG_DATA,"DLsnr rt_read_version after upgrade:\n");
       rt_read_version.dump();
       lsnr->setDataSent(true);
       //it=listeners.erase(it);

@@ -72,7 +72,8 @@ namespace FMM_3D{
     parent_context = fmm_engine;
     setName("IterTask");
     d->setName("IterData");
-    d->setRunTimeVersion("0.0",0);
+    if(iter ==0)
+      d->setRunTimeVersion("0.0",0);
     host = me;
     IDuctteipTask::key = key;
     DataAccessList *dlist = new DataAccessList;    

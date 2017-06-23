@@ -13,7 +13,7 @@ class Config
 private:
 public:
   int N,M;
-  short int Nb,Mb,P,p,q,mb,nb,nt,ipn,to,ps,sil_dur,dlb_thr;
+  short int Nb,Mb,P,p,q,mb,nb,nt,ipn,to,ps,sil_dur,dlb_thr,failure_max,silent_mode;
   bool dlb,using_blas,row_major,column_major,simulation,dlb_smart,mq_mode;
   std::string sch1,sch2,sch3,lib1,lib2,lib3;
   std::string mq_send,mq_recv,mq_ip,mq_name,mq_pass;
@@ -41,6 +41,8 @@ public:
   PROPERTY(SilenceDuration,sil_dur)
   PROPERTY(DLBThreshold,dlb_thr)
   PROPERTY(DLBSmart,dlb_smart)
+  PROPERTY(DLBFailureMax,failure_max)
+  PROPERTY(DLBSilentMode,silent_mode)
 
 };
 

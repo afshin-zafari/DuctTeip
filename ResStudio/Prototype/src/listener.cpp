@@ -62,7 +62,7 @@ void IListener::setReceived(bool r) { received = r;}
 bool IListener::isReceived() { return received;}
 /*--------------------------------------------------------------------------*/
 bool IListener::isDataReady(){
-  LOG_INFO(LOG_LISTENERS,"dh:%d rt-ver:%s, rq-ver:%s",
+  LOG_INFO(LOG_LISTENERS,"dh:%d rt-ver:%s, rq-ver:%s \n",
 	   data_request->data->getDataHandleID(),
 	   data_request->data->getRunTimeVersion(IData::READ).dumpString().c_str(),
 	   data_request->required_version.dumpString().c_str());

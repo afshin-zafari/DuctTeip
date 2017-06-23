@@ -201,12 +201,17 @@ public:
   }
   /*--------------------------------------------------------------------------*/
   void setElementsInfoX (int count, int stride=0 ) {
+    static bool once=false;
     if ( stride == 0 ) {
       if ( element_alignment == ROW_MAJOR )
         stride = 1;
-      else
-        printf ("error: X_stride is 0 for Column  Major alignment.\n");
+      else{
+	if(!once){
+	  printf ("error: X_stride is 0 for Column  Major alignment.\n");
+	  once=true;
 	}
+      }
+    }
     setElementsInfo ( X_AXIS,count, stride ) ;
   }
   /*--------------------------------------------------------------------------*/

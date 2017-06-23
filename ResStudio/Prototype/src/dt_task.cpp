@@ -135,7 +135,7 @@ bool IDuctteipTask::canRun(char c){
     return false;
   }
   if ( state == Finished ) {
-    LOG_INFO(LOG_TASKS,"Task already finished.\n");
+    LOG_INFO(LOG_TASKS,"Task %s already finished.\n",getName().c_str());
     return false;
   }
   if ( state >= Running ){
@@ -156,10 +156,10 @@ bool IDuctteipTask::canRun(char c){
 
     if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
 
-	LOG_INFO(LOG_MLEVEL ,"(%c)Task %s data %s is not ready,rt:ver:%s  rq-ver:%s.\n",
+	LOG_INFO(LOG_MLEVEL ,"(%c)Task %s data (ptr=%p)%s is not ready for op:%s,rt:ver:%s  rq-ver:%s.\n",
 	c,
-	getName().c_str(),
-	(*it)->data->getName().c_str(),
+		 getName().c_str(),(*it)->data,
+		 (*it)->data->getName().c_str(), (*it)->type==IData::WRITE?"WRITE":"READ",
 	(*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str(),
 	(*it)->required_version.dumpString().c_str());
 
@@ -253,7 +253,7 @@ void IDuctteipTask::deserialize(byte *buffer,int &offset,int max_length){
 }
 /*--------------------------------------------------------------*/
 void IDuctteipTask::run(){
-  printf("task %s run in ductteip\n",getName().c_str());
+  LOG_INFO(LOG_TASKS,"task %s run in ductteip\n",getName().c_str());
   if ( state == Finished )
     return;
   if ( state == Running )
@@ -271,6 +271,8 @@ void IDuctteipTask::run(){
 void IDuctteipTask::setFinished(bool flag){
   if ( !flag )
     return ;
+  if ( state >=Finished)
+    return;
   state = IDuctteipTask::Finished;
   end = getTime();
 
@@ -295,12 +297,12 @@ void IDuctteipTask::upgradeData(char c){
 	     (*it)->data->getName().c_str(),
 	     (long)dtEngine.elapsedTime(TIME_SCALE_TO_MILI_SECONDS));
     (*it)->data->incrementRunTimeVersion((*it)->type);
-    /*
+    
       LOG_INFO(LOG_MULTI_THREAD,"%s, data:%s, rt-ver:%s\n",
       getName().c_str(),
       (*it)->data->getName().c_str(),
       (*it)->data->getRunTimeVersion((*it)->type).dumpString().c_str());
-    */
+    
 
     LOG_EVENTX(DuctteipLog::RunTimeVersionUpgraded,(*it)->data);
 

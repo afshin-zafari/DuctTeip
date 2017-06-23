@@ -14,6 +14,11 @@ bool engine::canTerminate(){
       }
       TimeUnit t = elapsedTime(TIME_SCALE_TO_SECONDS);
       LOG_ERROR("error: timeout %ld\n",t);
+      LOG_INFO(LOG_MULTI_THREAD,"unf task:%ld %ld  unf-lsnr:%d task_submission_finished:%d\n",
+	       task_list.size(),getUnfinishedTasks(),isAnyUnfinishedListener(),task_submission_finished);
+      for(auto t: task_list){
+	LOG_INFO(LOG_MULTI_THREAD,"remaining task:%s \n",t->getName().c_str());
+      }
       wasted_time += getTime() - t;
       return true;
     }

@@ -138,8 +138,9 @@ void engine::putWorkForSingleDataReady(IData* data){
   work->event = DuctTeipWork::DataUpgraded;
   work->item  = DuctTeipWork::CheckAfterDataUpgraded;
   work_queue.push_back(work);
-  //LOG_INFO(LOG_MULTI_THREAD+LOG_DATA,"Put DataUpgrade work for:%s.\n",data->getName().c_str());
+  LOG_INFO(LOG_DATA,"Put DataUpgrade work for:%s.\n",data->getName().c_str());
 }
+/*---------------------------------------------------------------------------------*/
 void engine::executeTaskWork(DuctTeipWork * work){
   switch (work->item){
   case DuctTeipWork::UpgradeData:
@@ -189,7 +190,7 @@ void engine::executeDataWork(DuctTeipWork * work){
     list<IDuctteipTask *>::iterator task_it;
     list<IListener *>          d_listeners = work->data->getListeners();
     list<IDuctteipTask *>      d_tasks     = work->data->getTasks();
-    //LOG_INFO(LOG_MULTI_THREAD,"Data Upgrade Work, Listener Check.\n");
+    LOG_INFO(LOG_MULTI_THREAD,"Data %s Upgrade Work, Check Listeners cnt:%d .\n",work->data->getName().c_str(),d_listeners.size());
     LOG_EVENT(DuctteipLog::CheckedForListener);
     for(lsnr_it = d_listeners.begin() ;
 	lsnr_it != d_listeners.end()  ;

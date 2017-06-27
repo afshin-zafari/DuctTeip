@@ -31,21 +31,41 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
 /*---------------------------------------------------------------------------------*/
 bool engine::isDuplicateListener(IListener * listener){
   list<IListener *>::iterator it;
+  LOG_INFO(LOG_LISTENERS,"\n");
   for(it = listener_list.begin(); it != listener_list.end();it ++){
     IListener *lsnr=(*it);
-    if (listener->getData()->getDataHandle() == lsnr->getData()->getDataHandle()) {
-      if (listener->getRequiredVersion() == lsnr->getRequiredVersion()) {
-	return true;
+    if ( lsnr->getData() ){
+      if (listener->getData()->getDataHandle() == lsnr->getData()->getDataHandle()) {
+	if (listener->getRequiredVersion() == lsnr->getRequiredVersion()) {
+	  return true;
+	}
       }
+    }
+    else{
+      LOG_INFO(LOG_LISTENERS,"Listener has been added by null data.\n");
     }
   }
   return false;
 }
 /*---------------------------------------------------------------------------------*/
 bool engine::addListener(IListener *listener ){
-  if (isDuplicateListener(listener))
+  if (isDuplicateListener(listener)){
+    /*
+    LOG_INFO(LOG_LISTENERS,"Listenr duplicate for %s, from node:%d, version:%s\n",
+	     listener->getData()->getName().c_str(),
+	     listener->getHost(),
+	     listener->getRequiredVersion().dumpString().c_str());
+    listener->getData()->listenerAdded(listener,listener->getHost(), listener->getRequiredVersion());
+    */
     return false;
+  }
   int handle = last_listener_handle ++;
+  if ( listener->getData() ){
+    LOG_INFO(LOG_LISTENERS,"Listener added for data :%s\n",listener->getData()->getName().c_str());
+  }
+  else {
+    LOG_INFO(LOG_LISTENERS,"Listener added for data :%p\n",listener->getData() );
+  }
   listener_list.push_back(listener);
   listener->setHandle(handle);
   listener->setCommHandle(-1);
@@ -112,6 +132,7 @@ void engine::removeListenerByHandle(int handle ) {
     IListener *listener = (*it);
     if (listener->getHandle() == handle){
       criticalSection(Enter);
+      LOG_INFO(LOG_LISTENERS,"Listener for data %s removed.\n",listener->getData()->getName().c_str());
       listener_list.erase(it);
       criticalSection(Leave);
       return;
@@ -125,6 +146,9 @@ IListener *engine::getListenerByCommHandle ( unsigned long  comm_handle ) {
     IListener *listener=(*it);
     if ( listener->getCommHandle() == comm_handle)
       return listener;
+    else{
+      LOG_INFO(LOG_LISTENERS,"lsnr h:%ld, ch:%ld.\n",listener->getCommHandle(),comm_handle);
+    }
   }
   fprintf(stderr,"\nerror:listener not found by comm-handle %ld\n",comm_handle);
   return NULL;

@@ -19,6 +19,10 @@ bool engine::canTerminate(){
       for(auto t: task_list){
 	LOG_INFO(LOG_MULTI_THREAD,"remaining task:%s \n",t->getName().c_str());
       }
+      for(auto L : listener_list){
+	LOG_INFO(LOG_MULTI_THREAD,"remaining listener for data :%s ver:%s\n",
+		 L->getData()->getName().c_str(), L->getRequiredVersion().dumpString().c_str());
+      }
       wasted_time += getTime() - t;
       return true;
     }
@@ -205,13 +209,16 @@ void engine::processEvent(MailBoxEvent &event){
     break;
   case MailBox::ListenerTag:
     if (event.direction == MailBoxEvent::Received) {
+      LOG_INFO(LOG_LISTENERS,"received listener\n");
       receivedListener(&event);
     }
     else {
+      /*
       IListener *listener = getListenerByCommHandle(event.handle);
       if (listener){
 	LOG_EVENT(DuctteipLog::ListenerSendCompleted);
       }
+      */
     }
     break;
   case MailBox::DataTag:
@@ -228,6 +235,7 @@ void engine::processEvent(MailBoxEvent &event){
       if (listener){
 	LOG_EVENT(DuctteipLog::DataSendCompleted);
 	listener->getData()->dataIsSent(listener->getSource());
+	putWorkForSingleDataReady(listener->getData());
       }
     }
     break;

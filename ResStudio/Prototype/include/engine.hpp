@@ -71,7 +71,7 @@ private:
   SuperGlue<Options>    *thread_manager;
   Config 		*cfg;
   MemoryManager 	*data_memory;
-  int             	term_ok;
+  int             	term_ok,memory_policy;
   enum {
     EVEN_INIT            ,
     WAIT_FOR_FIRST       ,
@@ -88,11 +88,13 @@ private:
 public:
   enum Fence{Enter,Leave};
   enum { MAIN_THREAD, ADMIN_THREAD,MBSEND_THREAD,MBRECV_THREAD,TASK_EXEC_THREAD};
+  enum MemoryAllocPolicy {ENGINE_ALLOCATION,ALL_USER_ALLOCATED};
   /*---------------------------------------------------------------------------------*/
   engine();
   void start ( int argc , char **argv,bool sg = false);
   void initComm();
   ~engine();
+  void set_memory_policy(int p);
   /*---------------------------- THREAD STUFF---------------------------------------*/
   SuperGlue<Options> * getThrdManager() ;
   static void *runMBSendThread(void *);

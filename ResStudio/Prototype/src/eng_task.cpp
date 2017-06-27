@@ -19,7 +19,7 @@ void engine::register_task(IDuctteipTask *task)
   TaskHandle task_handle = last_task_handle ++;
   if(last_task_handle ==1){
     LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
-    printf("First task submitted at %ld.\n",UserTime());
+    if (me == 0)printf("First task submitted at %ld.\n",UserTime());
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
     net_comm->barrier();
   }
@@ -34,7 +34,8 @@ void engine::register_task(IDuctteipTask *task)
     putWorkForNewTask(task);
   }
   criticalSection(Leave) ;
-  signalWorkReady();
+  signalWorkReady();  
+  //  doProcessWorks();  doProcessWorks();  doProcessMailBox();
   if ( !runMultiThread ) {
     doProcessMailBox();
     doProcessWorks();
@@ -177,15 +178,18 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
     LOG_INFO(0*LOG_MLEVEL,"host:%d\n",host);
     if ( host != me ) {
       IListener * lsnr = new IListener((*it),host);
-      if ( addListener(lsnr) ){
+      bool not_duplicate = addListener(lsnr);
+      LOG_INFO(LOG_LISTENERS,"Listener  is duplicated? %d\n",!not_duplicate);
+      if (1 or not_duplicate  ){
 	MessageBuffer *m=lsnr->serialize();
 	unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);
+	LOG_EVENT(DuctteipLog::ListenerSent);
+	lsnr->setCommHandle ( comm_handle);
+	LOG_INFO(LOG_LISTENERS,"Listener is setd with comm-handle:%ld\n",comm_handle);
 	IData *data=data_access.data;//lsnr->getData();
 	LOG_INFO(LOG_MLEVEL,"\n");
 	data->allocateMemory();
 	data->prepareMemory();
-	LOG_EVENT(DuctteipLog::ListenerSent);
-	lsnr->setCommHandle ( comm_handle);
       }
       else{
 	delete lsnr;

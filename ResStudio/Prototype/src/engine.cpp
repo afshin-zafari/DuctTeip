@@ -26,17 +26,13 @@ void DuctTeipWork::dump(){
 
 /*===================================================================*/
 engine::engine(){
-  printf("Engine CTor1\n");
   net_comm = new MPIComm;
-  printf("Engine CTor2\n");
   mailbox = new MailBox(net_comm);
-  printf("Engine CTor3\n");
   SetStartTime();
-  printf("MPI init called\n");
   initComm();
-  printf("MPI init returned\n");
   last_task_handle = 0;
   term_ok = TERMINATE_INIT;
+  memory_policy = ENGINE_ALLOCATION;
   runMultiThread=true;
   dlb.initDLB();
   thread_model = 0;
@@ -149,6 +145,8 @@ void engine::show_affinity() {
   closedir(dp);
 }
 /*---------------------------------------------------------------------------------*/
+void engine::set_memory_policy(int p){memory_policy= p;}
+/*---------------------------------------------------------------------------------*/
 void engine::setConfig(Config *cfg_,bool sg){
   cfg = cfg_;
   num_threads = cfg->getNumThreads();
@@ -168,10 +166,10 @@ void engine::setConfig(Config *cfg_,bool sg){
     dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
   }
   LOG_INFO(LOG_MULTI_THREAD,"DataPackSize:%ld=%d*%d*8+%d+%d\n",dps,ny,nx,dh.getPackSize(),4*dv.getPackSize());
-  if ( nb * mb *dps <1e9)
-    data_memory = new MemoryManager (  nb * mb ,dps );
-  else
+  if ( memory_policy == ALL_USER_ALLOCATED)
     data_memory = new MemoryManager (  nb * mb ,1 );
+  else
+    data_memory = new MemoryManager (  nb * mb ,dps );
   LOG_INFO(LOG_MULTI_THREAD,"data meory:%p\n",data_memory);
   //int ipn = cfg->getIPN();
   if ( !sg)

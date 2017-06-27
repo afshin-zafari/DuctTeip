@@ -15,6 +15,8 @@ IListener::IListener(DataAccess* _d , int _host):data_request(_d) , host(_host){
   received=false;
   int size = data_request->getPackSize()+ sizeof(host);
   message_buffer = new MessageBuffer(size,0);
+  count = 1;
+  source = -1;  
 }
 /*--------------------------------------------------------------------------*/
 IListener::~IListener(){
@@ -32,24 +34,32 @@ int           IListener::getHost       ()                 { return host;        
 int           IListener::getCount()  { return count;}
 void          IListener::setCount(int c ) { count = c; }
 IData *IListener::getData() {
-  return data_request->data;
+  if ( data_request)
+    return data_request->data;
+  return nullptr;
+    
 }
 /*--------------------------------------------------------------------------*/
 DataVersion & IListener::getRequiredVersion(){
+  assert(data_request);
   return data_request->required_version;
 }
 /*--------------------------------------------------------------------------*/
 void IListener::setDataRequest ( DataAccess *dr){
+  if( dr == nullptr )
+    LOG_INFO(LOG_LISTENERS,"Null data request is set for listener.\n");
   data_request = dr;
 }
 /*--------------------------------------------------------------------------*/
 void IListener::setRequiredVersion(DataVersion rhs){
+  assert(data_request);
   data_request->required_version = rhs;
 }
 /*--------------------------------------------------------------------------*/
 void IListener::dump(){
   if (!DUMP_FLAG)
     return;
+  assert(data_request);
   data_request->required_version.dump();
 }
 /*--------------------------------------------------------------------------*/
@@ -62,6 +72,7 @@ void IListener::setReceived(bool r) { received = r;}
 bool IListener::isReceived() { return received;}
 /*--------------------------------------------------------------------------*/
 bool IListener::isDataReady(){
+  assert(data_request);
   LOG_INFO(LOG_LISTENERS,"dh:%d rt-ver:%s, rq-ver:%s \n",
 	   data_request->data->getDataHandleID(),
 	   data_request->data->getRunTimeVersion(IData::READ).dumpString().c_str(),
@@ -88,6 +99,7 @@ MessageBuffer *IListener::serialize(){
 }
 /*--------------------------------------------------------------------------*/
 void IListener::serialize(byte *buffer, int &offset, int max_length){
+  assert(data_request);
   copy<int>(buffer,offset,host);
   data_request->data->getDataHandle()->serialize(buffer,offset,max_length);
   data_request->required_version.serialize(buffer,offset,max_length);
@@ -103,7 +115,7 @@ void IListener::checkAndSendData(MailBox * mailbox)
     return;
   }
   if ( isDataSent() )  {
-    LOG_INFO(LOG_LISTENERS,"Listener data is alreeady sent.\n");
+    LOG_INFO(LOG_LISTENERS,"Listener data is already sent.\n");
     return;
     }
   if (! isDataReady() ) {
@@ -116,7 +128,6 @@ void IListener::checkAndSendData(MailBox * mailbox)
     return;
   }
   data->serialize();
-  LOG_INFO(LOG_LISTENERS,"data sent %s dh:%ld\n",data->getName().c_str(),data->getDataHandleID());
   data->dumpElements();
   unsigned long c_handle=
     mailbox->send(data->getHeaderAddress(),
@@ -128,6 +139,7 @@ void IListener::checkAndSendData(MailBox * mailbox)
 		  #endif
 		  getSource());
 
+  LOG_INFO(LOG_LISTENERS,"data sent %s dh:%ld, comm-handle:%d,count:%d\n",data->getName().c_str(),data->getDataHandleID(),c_handle,getCount());
   data->dumpElements();
   setCommHandle(c_handle);
   setDataSent(true);
@@ -148,5 +160,7 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
   data_access->data = data;
   data_access->required_version.dump();
   data_request = data_access;
+  assert(data_request);
+  LOG_INFO(LOG_LISTENERS,"Data for lsnr:%s\n",data_request->data->getName().c_str());
 }
 /*===============================================================================*/

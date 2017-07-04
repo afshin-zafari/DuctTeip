@@ -105,7 +105,7 @@ public:
     IDuctteipTask();
     IDuctteipTask(PropagateInfo *P);
     IDuctteipTask(IContext *,string,ulong,int,list<DataAccess *> *);
-    ~IDuctteipTask();
+    virtual ~IDuctteipTask();
     void createSyncHandle();
     Handle<Options> *getSyncHandle();
     DuctTeip_Data *getArgument(int index);

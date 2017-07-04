@@ -139,6 +139,7 @@ public:
   IData *importedData(MailBoxEvent *event,MemoryItem*);
   ulong getDataPackSize();
   void receivedListener(MailBoxEvent *event);
+  void receivedListener_old(MailBoxEvent *event);
   bool isDuplicateListener(IListener * listener);
   bool addListener(IListener *listener );
   IListener *getListenerForData(IData *data);

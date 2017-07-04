@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+//#include <pair>
 #include <list>
 #include <new>
 #include "basic.hpp"
@@ -48,6 +49,7 @@ protected:
     list <int>                exported_nodes;
     void                      *guest;
     vector<int>               host_list;
+    vector<pair<DataVersion,int>> send_completed;    
 private:
 public:
     /*--------------------------------------------------------------------------*/
@@ -59,6 +61,7 @@ public:
     IData(string _name,int m, int n,IContext *ctx);
     ~IData() ;
     /*--------------------------------------------------------------------------*/
+    void setDataSent(int,DataVersion);
     string get_name(){return getName();}
     int get_rows(){return M;}
     string        getName          ()
@@ -158,10 +161,13 @@ public:
     /*--------------------------------------------------------------------------*/
     Handle<Options> **createSuperGlueHandles();
     bool isDataSent(int _host , DataVersion version);
+    bool isDataSent_old(int _host , DataVersion version);
     /*--------------------------------------------------------------------------*/
     void dataIsSent(int _host) ;
+    void dataIsSent_old(int _host) ;
     /*--------------------------------------------------------------------------*/
-    void listenerAdded(IListener *,int host , DataVersion version ) ;
+    IListener *listenerAdded(IListener *,int host , DataVersion version ) ;
+    void   listenerAdded_old(IListener *,int host , DataVersion version ) ;
     /*--------------------------------------------------------------------------*/
     DataVersion getRunTimeVersion(byte type);
     void setRunTimeVersion(string to_ctx, int to_version);

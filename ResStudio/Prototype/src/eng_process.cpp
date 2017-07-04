@@ -20,8 +20,8 @@ bool engine::canTerminate(){
 	LOG_INFO(LOG_MULTI_THREAD,"remaining task:%s \n",t->getName().c_str());
       }
       for(auto L : listener_list){
-	LOG_INFO(LOG_MULTI_THREAD,"remaining listener for data :%s ver:%s\n",
-		 L->getData()->getName().c_str(), L->getRequiredVersion().dumpString().c_str());
+	LOG_INFO(LOG_MULTI_THREAD,"remaining listener for data :%s ver:%s, its data sent?:%d, isRecvd?:%d\n",
+		 L->getData()->getName().c_str(), L->getRequiredVersion().dumpString().c_str(),L->isDataSent(),L->isReceived());
       }
       wasted_time += getTime() - t;
       return true;

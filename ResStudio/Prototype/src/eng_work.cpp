@@ -196,7 +196,7 @@ void engine::executeDataWork(DuctTeipWork * work){
 	lsnr_it != d_listeners.end()  ;
 	++lsnr_it){
       IListener *listener = (*lsnr_it);
-      listener->checkAndSendData(mailbox);
+      listener->checkAndSendData(mailbox);      
     }
     //LOG_EVENTX(cft,DuctteipLog::CheckedForTask);
     for(task_it = d_tasks.begin() ;

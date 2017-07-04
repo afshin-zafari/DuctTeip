@@ -302,7 +302,8 @@ void IData::setRunTimeVersion(string to_ctx, int to_version){
 void IData::incrementRunTimeVersion(byte type,int v  ){
   dtEngine.criticalSection(engine::Enter);
   exported_nodes.clear();
-  LOG_INFO(LOG_DATA,"Before upgrade versions for type:%d Data (ptr=%p): rt-rd: %s , rt-wrt: %s (increment valuse= %d)\n",type,this,rt_read_version.dumpString().c_str(),
+  LOG_INFO(LOG_DATA,"(****) %s,Before upgrade versions for type:%d Data (ptr=%p): rt-rd: %s , rt-wrt: %s (inc v= %d)\n",
+	   getName().c_str(),type,this,rt_read_version.dumpString().c_str(),
 	   rt_write_version.dumpString().c_str(),v);
   if ( type == IData::WRITE ) {
     rt_read_version += v;
@@ -314,7 +315,11 @@ void IData::incrementRunTimeVersion(byte type,int v  ){
     rt_read_version +=v;
     dump('R');
   }
-  LOG_INFO(LOG_DATA,"After upgrade versions for Data (ptr=%p): rt-rd: %s , rt-wrt: %s\n",this,rt_read_version.dumpString().c_str(),
+  LOG_INFO(LOG_DATA,"(****) %s,After upgrade versions for Data (ptr=%p): gt-rd %s gt-wr %s  --- rt-rd: %s , rt-wrt: %s\n",
+	   getName().c_str(),this,
+	   gt_read_version.dumpString().c_str(),
+	   gt_write_version.dumpString().c_str(),
+	   rt_read_version.dumpString().c_str(),
 	   rt_write_version.dumpString().c_str());
   dtEngine.criticalSection(engine::Leave);
 }
@@ -387,10 +392,11 @@ void IData::serialize(byte *buffer , int &offset, int max_length){
 }
 /*--------------------------------------------------------------------------*/
 void IData::deserialize(byte *buffer, int &offset,int max_length,MemoryItem *mi,bool header_only ){
+  DataVersion temp;
   my_data_handle->deserialize(buffer,offset,max_length);
-  gt_read_version.deserialize(buffer,offset,max_length);
-  gt_write_version.deserialize(buffer,offset,max_length);
-  rt_read_version.deserialize(buffer,offset,max_length);
+  temp.deserialize(buffer,offset,max_length);
+  temp.deserialize(buffer,offset,max_length);
+  temp.deserialize(buffer,offset,max_length);
   rt_write_version.deserialize(buffer,offset,max_length);
 
   if ( !header_only ) {
@@ -794,8 +800,38 @@ void IData:: allocateMemory(){
   }
 }
 /*----------------------------------------------------------------------------------------*/
+void IData::setDataSent(int rank, DataVersion v){
+  send_completed.push_back(make_pair(v,rank));
+}
+/*----------------------------------------------------------------------------------------*/
 bool IData::isDataSent(int _host , DataVersion version){
+  LOG_INFO(LOG_DATA,"(****)DLsnr data:%s,ver:%s for host:%d is sent?send_comp.size:%ld\n",name.c_str(),version.dumpString().c_str(),_host,send_completed.size());  
   list<IListener *>::iterator it;
+  for (it = listeners.begin();it != listeners.end();it ++){
+    IListener *lsnr = (*it);
+    if (lsnr->getHost() == _host && lsnr->getRequiredVersion() == version){
+      LOG_INFO(LOG_DATA,"DLsnr data:%s for host:%d is sent?:%d\n",name.c_str(),_host , lsnr->isDataSent());
+      return  lsnr->isDataSent();
+    }
+  }
+  return false;
+  
+}
+/*----------------------------------------------------------------------------------------*/
+bool IData::isDataSent_old(int _host , DataVersion version){
+  LOG_INFO(LOG_DATA,"(****)DLsnr data:%s,ver:%s for host:%d is sent?send_comp.size:%ld\n",name.c_str(),version.dumpString().c_str(),_host,send_completed.size());  
+  for ( auto send_comp : send_completed){
+    LOG_INFO(LOG_DATA,"(****)SentData record:  ver:%s, host:%d\n",send_comp.first.dumpString().c_str(),send_comp.second);
+    if ( send_comp.first == version){
+      if ( send_comp.second == _host){
+	LOG_INFO(LOG_DATA,"(****)DLsnr data:%s,ver:%s for host:%d is sent.\n",name.c_str(),version.dumpString().c_str(),_host);
+	return true;
+      }
+    }
+  }
+  return false;
+  /*
+    list<IListener *>::iterator it;
   for (it = listeners.begin();it != listeners.end();it ++){
     IListener *lsnr = (*it);
     if (lsnr->getHost() == _host && lsnr->getRequiredVersion() == version){
@@ -805,23 +841,29 @@ bool IData::isDataSent(int _host , DataVersion version){
     }
   }
   return false;
+  */
 }
 /*--------------------------------------------------------------------------*/
 void IData::dataIsSent(int _host) {
+}
+/*--------------------------------------------------------------------------*/
+void IData::dataIsSent_old(int _host) {
   list<IListener *>::iterator it;
 
-  LOG_INFO(LOG_DATA,"Data:%s,Lsnr data sent to host:%d,cur ver:%s\n",name.c_str(),_host,
+  LOG_INFO(LOG_DATA,"(****)Data:%s,Lsnr data sent to host:%d,cur rt-wrt-ver:%s\n",name.c_str(),_host,
 	   rt_write_version.dumpString().c_str());
   for (it = listeners.begin();it != listeners.end();it ++){
     IListener *lsnr = (*it);
-    LOG_INFO(LOG_DATA,"_host : %d, Lsnr Host:%d, Lsnr-src:%d, Lsnr-cnt:%d, Lsnr Req-ver:%s\n" ,
+    LOG_INFO(LOG_DATA,"(****)_host : %d, Lsnr Host:%d, Lsnr-src:%d, Lsnr-cnt:%d, Lsnr Req-ver:%s\n" ,
 	     _host,lsnr->getHost(),lsnr->getSource(),lsnr->getCount(),
 	     lsnr->getRequiredVersion().dumpString().c_str() );
     if (lsnr->getSource() == _host && lsnr->getRequiredVersion() == rt_write_version){
-      LOG_INFO(LOG_DATA,"DLsnr rt_read_version before upgrade:%s\n",rt_read_version.dumpString().c_str());
+      LOG_INFO(LOG_DATA,"(****)DLsnr rt_read_version before upgrade:%s\n",rt_read_version.dumpString().c_str());
       incrementRunTimeVersion(READ,lsnr->getCount());
-      LOG_INFO(LOG_DATA,"DLsnr rt_read_version after  upgrade:%s\n", rt_read_version.dumpString().c_str());
+      LOG_INFO(LOG_DATA,"(****)DLsnr rt_read_version after  upgrade:%s\n", rt_read_version.dumpString().c_str());
       lsnr->setDataSent(true);
+      lsnr->setDataUpgraded(true);
+      send_completed.push_back(make_pair(lsnr->getRequiredVersion(),_host));
       it=listeners.erase(it);
       return;
     }
@@ -829,28 +871,52 @@ void IData::dataIsSent(int _host) {
 }
 /*--------------------------------------------------------------------------*/
 void IData::addTask(IDuctteipTask *task){
-  //  printf("@@task:%s: added to Data:%s\n",task->getName().c_str(),getName().c_str());
   tasks_list.push_back(task);
 }
 /*--------------------------------------------------------------------------*/
-void IData::listenerAdded(IListener *exlsnr,int host , DataVersion version ) {
+IListener * IData::listenerAdded(IListener *exlsnr,int host , DataVersion version ) {
   list<IListener *>::iterator it;
-  version.dump();
+  LOG_INFO(LOG_LISTENERS,"(****)Check if the listener for data %s is duplicate based on host:%d,ver:%s, then cnt++ or add it.\n",
+	   getName().c_str(),host,version.dumpString().c_str());
   if ( listeners.size()!=0){
-    //    LOG_INFO(LOG_MULTI_THREAD,"loop on listeners\n");
     for (it = listeners.begin();it != listeners.end();it ++){
       IListener *mylsnr = (*it);
       LOG_INFO(LOG_LISTENERS,"lsnr-host:%d, host %d, lsnr-src:%d.\n",
 	       mylsnr->getHost() ,host,mylsnr->getSource() );
-      
+      LOG_INFO(LOG_LISTENERS,"(****)my lsnr src:%d, ver:%s.\n",mylsnr->getSource(),mylsnr->getRequiredVersion().dumpString().c_str());
       if (mylsnr->getSource() == host && mylsnr->getRequiredVersion() == version){
-	LOG_INFO(LOG_MULTI_THREAD,"Listener duplicate: %s %d\n",getName().c_str(),mylsnr->getCount());
 	mylsnr->setCount(mylsnr->getCount()+1);
+	LOG_INFO(LOG_MULTI_THREAD,"(****)Listener detected as duplicate:  %s updated count:%d\n",getName().c_str(),mylsnr->getCount());
+	return mylsnr;
+      }
+    }
+  }
+  LOG_INFO(LOG_LISTENERS,"(****)Listener is not duplicate, so add it to the listener list of data.\n");
+  exlsnr->setCount(1);
+  listeners.push_back(exlsnr);
+  LOG_INFO(LOG_MULTI_THREAD,"data %s listeners count:%d\n",getName().c_str(),listeners.size());
+  return exlsnr;
+}
+/*--------------------------------------------------------------------------*/
+void IData::listenerAdded_old(IListener *exlsnr,int host , DataVersion version ) {
+  list<IListener *>::iterator it;
+  version.dump();
+  LOG_INFO(LOG_LISTENERS,"(****)Check if the listener for data %s is duplicate based on host:%d,ver:%s, then cnt++ or add it.\n",
+	   getName().c_str(),host,version.dumpString().c_str());
+  if ( listeners.size()!=0){
+    for (it = listeners.begin();it != listeners.end();it ++){
+      IListener *mylsnr = (*it);
+      LOG_INFO(LOG_LISTENERS,"lsnr-host:%d, host %d, lsnr-src:%d.\n",
+	       mylsnr->getHost() ,host,mylsnr->getSource() );
+      LOG_INFO(LOG_LISTENERS,"(****)my lsnr src:%d, ver:%s.\n",mylsnr->getSource(),mylsnr->getRequiredVersion().dumpString().c_str());
+      if (mylsnr->getSource() == host && mylsnr->getRequiredVersion() == version){
+	mylsnr->setCount(mylsnr->getCount()+1);
+	LOG_INFO(LOG_MULTI_THREAD,"(****)Listener detected as duplicate:  %s updated count:%d\n",getName().c_str(),mylsnr->getCount());
 	return;
       }
     }
   }
-  //  LOG_INFO(LOG_MULTI_THREAD,"after loop\n");
+  LOG_INFO(LOG_LISTENERS,"(****)Listener is not duplicate, so add it to the listener list of data.\n");
   exlsnr->setCount(1);
   listeners.push_back(exlsnr);
   LOG_INFO(LOG_MULTI_THREAD,"data %s listeners count:%d\n",getName().c_str(),listeners.size());

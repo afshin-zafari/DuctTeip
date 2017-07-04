@@ -14,10 +14,10 @@ class MailBox;
 class IListener
 {
 private:
-  DataAccess *data_request;
-  int state,host,handle,source,count;
+  DataAccess   *data_request;
+  int           state,host,handle,source,count,upgrade_count;
   unsigned long comm_handle;
-  bool data_sent,received;
+  bool          data_sent,received,data_upgraded;
   MessageBuffer *message_buffer;
 public :
   IListener();
@@ -45,11 +45,16 @@ public :
   void setReceived(bool r);
   bool isReceived() ;
   bool isDataReady();
+  bool isDataUpgraded();
+  void setDataUpgraded(bool);
+  
   long getPackSize();
   MessageBuffer *serialize();
   void serialize(byte *buffer, int &offset, int max_length);
   void deserialize(byte *buffer, int &offset, int max_length);
   void checkAndSendData(MailBox * mailbox);
+  void checkAndSendData_old(MailBox * mailbox);
+  void checkAndUpgrade();
 };
 /*============================ IListener =====================================*/
 

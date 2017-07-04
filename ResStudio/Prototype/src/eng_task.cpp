@@ -35,7 +35,7 @@ void engine::register_task(IDuctteipTask *task)
   }
   criticalSection(Leave) ;
   signalWorkReady();  
-  //  doProcessWorks();  doProcessWorks();  doProcessMailBox();
+  //doProcessWorks();  doProcessWorks();  doProcessMailBox();
   if ( !runMultiThread ) {
     doProcessMailBox();
     doProcessWorks();
@@ -178,14 +178,23 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
     LOG_INFO(0*LOG_MLEVEL,"host:%d\n",host);
     if ( host != me ) {
       IListener * lsnr = new IListener((*it),host);
+      lsnr->setDataRequest(*it);
       bool not_duplicate = addListener(lsnr);
-      LOG_INFO(LOG_LISTENERS,"Listener  is duplicated? %d\n",!not_duplicate);
+      LOG_INFO(LOG_LISTENERS,"(****)Task:%s,Listener  for %s ver %s is created and sent to host:%d.\n",
+	       task->getName().c_str(),
+	       lsnr->getData()->getName().c_str(),
+	       lsnr->getRequiredVersion().dumpString().c_str(),
+	       host
+	       );
+      LOG_INFO(LOG_LISTENERS,"(****)Daxs %s for  %s is %p\n",
+	       task->getName().c_str(),
+	       data_access.data->getName().c_str(),*it);
       if (1 or not_duplicate  ){
 	MessageBuffer *m=lsnr->serialize();
 	unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);
 	LOG_EVENT(DuctteipLog::ListenerSent);
 	lsnr->setCommHandle ( comm_handle);
-	LOG_INFO(LOG_LISTENERS,"Listener is setd with comm-handle:%ld\n",comm_handle);
+	LOG_INFO(LOG_LISTENERS,"Listener is sent with comm-handle:%ld\n",comm_handle);
 	IData *data=data_access.data;//lsnr->getData();
 	LOG_INFO(LOG_MLEVEL,"\n");
 	data->allocateMemory();
@@ -249,15 +258,14 @@ long int engine::checkRunningTasks(int v){
 
   list<IDuctteipTask *>::iterator it;
   int cnt =0 ;
-  //long sc =0;
   TimeUnit t= getTime();
-  //  LOG_INFO(LOG_MLEVEL,"run-list size:%ld\n",running_tasks.size());
   for(it = running_tasks.begin(); it != running_tasks.end(); ){
     IDuctteipTask *task=(*it);
     if(task->canBeCleared()){
       updateDurations(task);
       it = running_tasks.erase(it);
-      LOG_INFO(LOG_MLEVEL,"task finished:%s \n",task->getName().c_str());
+      LOG_INFO(LOG_MLEVEL,"(++++)task finished:%s \n",task->getName().c_str());
+      //delete task;
       LOG_LOAD;
       continue;
     }
@@ -266,16 +274,14 @@ long int engine::checkRunningTasks(int v){
       putWorkForFinishedTask(task);
       LOG_INFO(LOG_MLEVEL,"task finished:%s, run-list size:%ld\n",task->get_name().c_str(),running_tasks.size());
       cnt ++;
-      it = running_tasks.erase(it);
+      it ++;
     }
     else
       it++;
   }
   if ( config.getDLB() )
     checkMigratedTasks();
-  //sc=cnt+import_tasks.size()+export_tasks.size()+work_queue.size();
   t = getTime() - t;
-  //  LOG_INFO(LOG_MULTI_THREAD,"Local Non-Busy time:%ld\n",t);
 
   return cnt+import_tasks.size()+export_tasks.size();
 }
@@ -291,8 +297,9 @@ long engine::getUnfinishedTasks(){
     }
     if (task->canBeCleared()){
       checkRunningTasks();
-      LOG_INFO(0*LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
-      it=task_list.erase(it);
+      it=task_list.erase(it);      
+      LOG_INFO(LOG_MLEVEL,"(++++)task removed, %s\n",task->get_name().c_str());
+      //      delete task;
       if ( task_list.size() == 1 ){
 	LOG_INFO(0*LOG_MLEVEL,"task list remaining, last task:%s\n",(*it)->get_name().c_str());
       }

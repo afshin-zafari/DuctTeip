@@ -87,6 +87,34 @@ void engine::receivedListener(MailBoxEvent *event){
   listener->setReceived(true);
   listener->setDataSent(false);
 
+  IData *data= listener->getData();
+  if ( data ==NULL){
+    LOG_INFO(LOG_MULTI_THREAD,"Invalid data in listener.\n");
+    return;
+  }
+  int host = event->host;
+  DataVersion version = listener->getRequiredVersion();
+  LOG_INFO(LOG_LISTENERS,"(****)Ask the data to add it if not duplicate based on host:%d, ver:%s.\n",host,version.dumpString().c_str());
+  listener = data->listenerAdded(listener,host,version);
+
+
+  listener->checkAndSendData(mailbox);
+
+}
+/*---------------------------------------------------------------------------------*/
+void engine::receivedListener_old(MailBoxEvent *event){
+  IListener *listener = new IListener;
+  int offset = 0 ;
+
+  LOG_EVENT(DuctteipLog::ListenerReceived);
+
+  LOG_INFO(LOG_LISTENERS,"ev.buf:%p ev.len:%d\n",event->buffer,event->length);
+  listener->deserialize(event->buffer,offset,event->length);
+  listener->setHost ( me ) ;
+  listener->setSource ( event->host ) ;
+  listener->setReceived(true);
+  listener->setDataSent(false);
+
   int host = event->host;
   DataVersion version = listener->getRequiredVersion();
   version.dump();
@@ -95,12 +123,22 @@ void engine::receivedListener(MailBoxEvent *event){
     LOG_INFO(LOG_MULTI_THREAD,"invalid data \n");
     return;
   }
+  LOG_INFO(LOG_LISTENERS,"(****)Listener received from :%d, for data %s,ver:%s.\n",event->host,data->getName().c_str(), version.dumpString().c_str());
+  if (data->isDataSent(event->host,version) ){
+    listener->setDataSent(true);
+    data->incrementRunTimeVersion(IData::READ);
+    LOG_INFO(LOG_LISTENERS,"(****)The data is already sent. ver upgraded to %s, putWorkFSDdata\n",data->getRunTimeVersion(IData::READ).dumpString().c_str());
+    putWorkForSingleDataReady(data);
+    return;
+  }
+  LOG_INFO(LOG_LISTENERS,"(****)Ask the data to add it if not duplicate based on host:%d, ver:%s.\n",host,version.dumpString().c_str());
   listener->getData()->listenerAdded(listener,host,version);
   criticalSection(Enter);
   listener->setHandle( last_listener_handle ++);
   listener->setCommHandle(-1);
   listener->dump();
-  listener_list.push_back(listener);
+  //listener_list.push_back(listener);
+  LOG_INFO(LOG_LISTENERS,"(****)Pusshed to listener list of dtEngine.\n");
   putWorkForReceivedListener(listener);
   criticalSection(Leave);
 

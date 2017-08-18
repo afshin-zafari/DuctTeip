@@ -234,6 +234,7 @@ void engine::processEvent(MailBoxEvent &event){
       IListener *listener = getListenerByCommHandle(event.handle);
       if (listener){
 	LOG_EVENT(DuctteipLog::DataSendCompleted);
+	assert(listener->getData());
 	listener->getData()->dataIsSent(listener->getSource());
 	putWorkForSingleDataReady(listener->getData());
       }

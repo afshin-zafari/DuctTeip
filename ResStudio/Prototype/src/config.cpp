@@ -338,13 +338,13 @@ void Config::getCmdLine(int argc, char **argv){
     to=3;
   if(!err){
     if ( Mb < p ){
-      err=6;
-      fprintf(stderr,"Mb  must be >= p .\n");
+      //err=6;
+      //fprintf(stderr,"Mb  must be >= p .\n");
     }
     if ( Nb < q ){
-      err=6;
-      fprintf(stderr,"Nb  must be >= q .\n");
-    }
+      //err=6;
+      //fprintf(stderr,"Nb  must be >= q .\n");
+    }  
   }
   if ( ps<=0)
     ps =10000;

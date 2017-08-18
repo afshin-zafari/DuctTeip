@@ -233,6 +233,7 @@ IData::~IData() {
 
 /*--------------------------------------------------------------------------*/
 byte  *IData::getHeaderAddress(){
+  assert(data_memory);
   return data_memory->getAddress();
 }
 /*--------------------------------------------------------------------------*/
@@ -264,9 +265,11 @@ Handle<Options> **IData::createSuperGlueHandles(){
   for(int i=0;i<mb;i++){
     hM[i]=new Handle<Options>[nb];
   }
-  LOG_INFO(LOG_DATA,"data :%s , %p\n memory size:%d, %d,%d\n partition ptr:%p",name.c_str(),getContentAddress(),
+  LOG_INFO(LOG_DATA,"data :%s , %p memory size:%d, %d,%d partition ptr:%p\n",name.c_str(),getContentAddress(),
 	   local_m * local_n,local_m,local_n,dtPartition);
+  assert(dtPartition);
   dtPartition->setBaseMemory( getContentAddress() , local_m * local_n);
+  assert(dtPartition->getBaseMemory());
   dtPartition->dump();
   dtPartition->partitionRectangle(local_m,local_n,local_mb,local_nb);
   LOG_INFO(LOG_DATA,"m:%d,n:%d,mb:%d,nb:%d\n",local_m,local_n,local_mb,local_nb);
@@ -274,12 +277,14 @@ Handle<Options> **IData::createSuperGlueHandles(){
   for(int i=0;i<mb;i++){
     for(int j=0;j<nb;j++){
       hM[i][j].block =dtPartition->getBlock(i,j);
-      LOG_INFO(LOG_DATA,"Block(%d,%d).Mem:%p\n",i,j,hM[i][j].block->getBaseMemory());
-      LOG_INFO(LOG_DATA,"Block(%d,%d).Y_E:%d,X_E:%d\n",i,j,hM[i][j].block->Y_E(),hM[i][j].block->X_E());
-      LOG_INFO(LOG_DATA,"Block(%d,%d).Y_EB:%d,X_EB:%d\n",i,j,hM[i][j].block->Y_EB(),hM[i][j].block->X_EB());
+      //      LOG_INFO(LOG_DATA,"Block(%d,%d).Mem:%p\n",i,j,hM[i][j].block->getBaseMemory());
+      //      LOG_INFO(LOG_DATA,"Block(%d,%d).Y_E:%d,X_E:%d\n",i,j,hM[i][j].block->Y_E(),hM[i][j].block->X_E());
+      //      LOG_INFO(LOG_DATA,"Block(%d,%d).Y_EB:%d,X_EB:%d\n",i,j,hM[i][j].block->Y_EB(),hM[i][j].block->X_EB());
       sprintf( hM[i][j].name,"M[%d,%d](%d,%d)",blk.by,blk.bx,i,j);
+      LOG_INFO(LOG_DATA,"%s\n",hM[i][j].name);
     }
   }
+  LOG_INFO(LOG_DATA,"\n");
   return hM;
 }
 /*--------------------------------------------------------------------------*/
@@ -379,11 +384,13 @@ void IData::dumpElements(){
 byte *IData::serialize(){
   int offset = 0 ;
   byte * buffer =getHeaderAddress();
+  assert(buffer);
   serialize(buffer,offset,getHeaderSize() );
   return buffer;
 }
 /*--------------------------------------------------------------------------*/
 void IData::serialize(byte *buffer , int &offset, int max_length){
+  assert(my_data_handle);
   my_data_handle->serialize(buffer,offset,max_length);
   gt_read_version.serialize(buffer,offset,max_length);
   gt_write_version.serialize(buffer,offset,max_length);
@@ -528,6 +535,10 @@ void IData::prepareMemory(){
     printf("####%s, PrepareData cntntAdr:%p sz:%d\n",getName().c_str(),
 	   getContentAddress(),getContentSize());
   p->partitionRectangle(local_m,local_n,local_mb,local_nb);
+  if (!sg_data){
+    int dummy;
+    sg_data = new SuperGlue_Data(this,dummy,dummy);
+  }
 
 }
 /*--------------------------------------------------------------------------*/
@@ -592,10 +603,14 @@ void IData::setPartition(int _mb, int _nb){
 	newPart->dtPartition=new Partition<double>(2);
 	Partition<double> *p = newPart->dtPartition;
 	p->setBaseMemory(newPart->getContentAddress() ,  newPart->getContentSize());
-	LOG_INFO(LOG_MLEVEL,"AllocData for %s=%p sz:%d,N=%d,M=%d\n",s,newPart->getContentAddress(),newPart->getContentSize(),N,M);
+	assert(p->getBaseMemory());
+	LOG_INFO(LOG_MLEVEL,"AllocData for %s,dh=%d,ptr=%p sz:%d,N=%d,M=%d\n",s,newPart->getDataHandleID(),newPart->getContentAddress(),newPart->getContentSize(),N,M);
 	LOG_INFO(LOG_MLEVEL,"parent of %s is %s\n",s,newPart->parent_data->getName().c_str());
 	p->partitionRectangle(newPart->local_m,newPart->local_n,local_mb,local_nb);
 	LOG_INFO(LOG_MLEVEL,"local m:%d,n:%d,mb:%d,nb:%d\n",newPart->local_m,newPart->local_n,local_mb,local_nb);
+	int dummy;
+	newPart->sg_data = new SuperGlue_Data(newPart, dummy,dummy);
+
       }
       else{
 	LOG_INFO(LOG_DATA,"%s not hosted by me.\n",s);
@@ -617,18 +632,21 @@ IData::IData(string _name,int m, int n,IContext *ctx):
   LOG_EVENT(DuctteipLog::DataDefined);
 
   name=_name;
-  host_type = SINGLE_HOST;
-  memory_type  = SYSTEM_ALLOCATED;
+  
+  host_type   = SINGLE_HOST;
+  memory_type = SYSTEM_ALLOCATED;
+  
    gt_read_version.reset();
   gt_write_version.reset();
    rt_read_version.reset();
   rt_write_version.reset();
+
   string s = glbCtx.getLevelString();
    rt_read_version.setContext(s);
   rt_write_version.setContext(s);
   Mb = -1;Nb=-1;
   if ( ctx!=NULL)
-    setDataHandle( ctx->createDataHandle());
+    setDataHandle( ctx->createDataHandle(this));
 
   hM = NULL;
   dtPartition = NULL;
@@ -698,7 +716,7 @@ int IData::getHost(){
     int i=(rand() / RAND_MAX ) * (n-1) ;
     return host_list[i%n];
   }
-  LOG_INFO(0*LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
   if(!hpData)
     return host;
   if ( parent_data ==NULL){
@@ -781,6 +799,9 @@ void IData:: allocateMemory(){
 
     getExistingMemoryInfo(&adr,&content_size, &leading_dim);
     data_memory = new MemoryItem(adr,content_size+getHeaderSize(),leading_dim);
+    assert(data_memory);
+    assert(adr);
+    LOG_INFO(LOG_DATA,"memory type is User Allocated :%d\n",memory_type,getName().c_str());
     if (config.simulation)
       content_size=1;
     return;
@@ -809,6 +830,7 @@ bool IData::isDataSent(int _host , DataVersion version){
   list<IListener *>::iterator it;
   for (it = listeners.begin();it != listeners.end();it ++){
     IListener *lsnr = (*it);
+    assert(lsnr);
     if (lsnr->getHost() == _host && lsnr->getRequiredVersion() == version){
       LOG_INFO(LOG_DATA,"DLsnr data:%s for host:%d is sent?:%d\n",name.c_str(),_host , lsnr->isDataSent());
       return  lsnr->isDataSent();
@@ -871,6 +893,7 @@ void IData::dataIsSent_old(int _host) {
 }
 /*--------------------------------------------------------------------------*/
 void IData::addTask(IDuctteipTask *task){
+  assert(task);
   tasks_list.push_back(task);
 }
 /*--------------------------------------------------------------------------*/
@@ -881,6 +904,7 @@ IListener * IData::listenerAdded(IListener *exlsnr,int host , DataVersion versio
   if ( listeners.size()!=0){
     for (it = listeners.begin();it != listeners.end();it ++){
       IListener *mylsnr = (*it);
+      assert(mylsnr);
       LOG_INFO(LOG_LISTENERS,"lsnr-host:%d, host %d, lsnr-src:%d.\n",
 	       mylsnr->getHost() ,host,mylsnr->getSource() );
       LOG_INFO(LOG_LISTENERS,"(****)my lsnr src:%d, ver:%s.\n",mylsnr->getSource(),mylsnr->getRequiredVersion().dumpString().c_str());
@@ -892,6 +916,7 @@ IListener * IData::listenerAdded(IListener *exlsnr,int host , DataVersion versio
     }
   }
   LOG_INFO(LOG_LISTENERS,"(****)Listener is not duplicate, so add it to the listener list of data.\n");
+  assert(exlsnr);
   exlsnr->setCount(1);
   listeners.push_back(exlsnr);
   LOG_INFO(LOG_MULTI_THREAD,"data %s listeners count:%d\n",getName().c_str(),listeners.size());
@@ -933,6 +958,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
 	lsnr_it != listeners.end()  ;
 	++lsnr_it){
       IListener *listener = (*lsnr_it);
+      assert(listener);
       listener->checkAndSendData(mailbox);
     }
   }
@@ -942,6 +968,7 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
 	task_it != tasks_list.end()  ;
 	++task_it){
       IDuctteipTask *task = (*task_it);
+      assert(task);
       LOG_EVENT(DuctteipLog::CheckedForRun);
       if ( !task->isFinished())
 	LOG_INFO(LOG_DLB,"data %s -> task:%s,stat=%d.\n",
@@ -960,18 +987,16 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
 void IData::setParentData(IData *pp){
   parent_data = pp;
 }
-/*--------------------------------------------------------------------------*/
-DuctTeip_Data::DuctTeip_Data(int M, int N):Data("",M,N,NULL){
+/*
+DuctTeip_Data::DuctTeip_Data(int M, int N):Data("A",M,N,NULL){
   configure();
 }
-/*--------------------------------------------------------------------------*/
-DuctTeip_Data::DuctTeip_Data(int M, int N,IContext  *alg):Data("",M,N,alg){
+DuctTeip_Data::DuctTeip_Data(int M, int N,IContext  *alg):Data("A",M,N,alg){
   configure();
 }
-/*--------------------------------------------------------------------------*/
 void  DuctTeip_Data::configure(){
   if ( getParent())
-    setDataHandle( getParent()->createDataHandle());
+    setDataHandle( getParent()->createDataHandle(this));
   setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
   setLocalNumBlocks(config.nb,config.nb);
 
@@ -980,10 +1005,10 @@ void  DuctTeip_Data::configure(){
   LOG_INFO(LOG_DATA,"data.Nb=%d.\n",Nb);
 
 }
-/*--------------------------------------------------------------------------*/
 DuctTeip_Data *DuctTeip_Data::clone(){
   return new DuctTeip_Data(*this);
 }
+*/
 /*--------------------------------------------------------------------------*/
 void IData::setName(string s){
   name=s;
@@ -992,3 +1017,11 @@ void IData::setName(string s){
 void  IData::set_guest(void *p){guest = p;}
 void *IData::get_guest(){return guest;}
 /*--------------------------------------------------------------------------*/
+SuperGlue_Data::SuperGlue_Data(IData *d, int &m,int &n){
+  assert(d);
+  hM=d->createSuperGlueHandles();
+  LOG_INFO(LOG_DATA,"\n");
+  rows = m = d->getYLocalNumBlocks();
+  cols = n = d->getXLocalNumBlocks();
+  LOG_INFO(LOG_DATA,"\n");
+}

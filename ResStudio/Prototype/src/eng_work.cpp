@@ -14,6 +14,7 @@ void engine::doProcessWorks(){
   DuctTeipWork *work = work_queue.front();
   work_queue.pop_front();
   executeWork(work);
+  assert(work);
   LOG_INFO(LOG_MULTI_THREAD,"work:%d, tag:%d, item:%d\n",work->event,work->tag,work->item);
   criticalSection(Leave);
   LOG_INFO(LOG_MLEVEL,"\n");
@@ -40,6 +41,7 @@ void engine::putWorkForDataReady(list<DataAccess *> *data_list){
   list<DataAccess *>::iterator it;
   for (it =data_list->begin(); it != data_list->end() ; it ++) {
     IData *data=(*it)->data;
+    assert(data);
     putWorkForSingleDataReady(data);
   }
 }
@@ -72,6 +74,7 @@ void engine::putWorkForCheckAllTasks(){
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForReceivedListener(IListener *listener){
   DuctTeipWork *work = new DuctTeipWork;
+  assert(work);
   work->listener  = listener;
   work->tag   = DuctTeipWork::ListenerWork;
   work->event = DuctTeipWork::Received;
@@ -82,6 +85,7 @@ void engine::putWorkForReceivedListener(IListener *listener){
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForSendingTask(IDuctteipTask *task){
   DuctTeipWork *work = new DuctTeipWork;
+  assert(work);
   work->task  = task;
   work->tag   = DuctTeipWork::TaskWork;
   work->event = DuctTeipWork::Added;
@@ -92,6 +96,7 @@ void engine::putWorkForSendingTask(IDuctteipTask *task){
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForNewTask(IDuctteipTask *task){
   DuctTeipWork *work = new DuctTeipWork;
+  assert(work);
   work->task  = task;
   work->tag   = DuctTeipWork::TaskWork;
   work->event = DuctTeipWork::Added;
@@ -99,6 +104,7 @@ void engine::putWorkForNewTask(IDuctteipTask *task){
   work->host  = task->getHost(); // ToDo : create_place, dest_place
   work_queue.push_back(work);
   DuctTeipWork *second_work = new DuctTeipWork;
+  assert(second_work);
   *second_work = *work;
   second_work->item  = DuctTeipWork::CheckTaskForRun;
   work_queue.push_back(second_work);
@@ -106,6 +112,7 @@ void engine::putWorkForNewTask(IDuctteipTask *task){
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForReceivedTask(IDuctteipTask *task){
   DuctTeipWork *work = new DuctTeipWork;
+  assert(work);
   work->task  = task;
   work->tag   = DuctTeipWork::TaskWork;
   work->event = DuctTeipWork::Received;
@@ -120,6 +127,7 @@ void engine::putWorkForReceivedTask(IDuctteipTask *task){
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForFinishedTask(IDuctteipTask * task){
   DuctTeipWork *work = new DuctTeipWork;
+  assert(work);
   work->task  = task;
   work->tag   = DuctTeipWork::TaskWork;
   work->event = DuctTeipWork::Finished;
@@ -133,6 +141,7 @@ void engine::putWorkForFinishedTask(IDuctteipTask * task){
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForSingleDataReady(IData* data){
   DuctTeipWork *work = new DuctTeipWork;
+  assert(work);
   work->data = data;
   work->tag   = DuctTeipWork::DataWork;
   work->event = DuctTeipWork::DataUpgraded;
@@ -142,6 +151,7 @@ void engine::putWorkForSingleDataReady(IData* data){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::executeTaskWork(DuctTeipWork * work){
+  assert(work);
   switch (work->item){
   case DuctTeipWork::UpgradeData:
     LOG_INFO(LOG_MULTI_THREAD,"Task %s, upgrade data. \n",work->task->getName().c_str());
@@ -184,6 +194,7 @@ void engine::executeTaskWork(DuctTeipWork * work){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::executeDataWork(DuctTeipWork * work){
+  assert(work);  
   switch (work->item){
   case DuctTeipWork::CheckAfterDataUpgraded:
     list<IListener *>::iterator lsnr_it;
@@ -223,6 +234,7 @@ void engine::executeDataWork(DuctTeipWork * work){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::executeListenerWork(DuctTeipWork * work){
+  assert(work);
   switch (work->item){
   case DuctTeipWork::CheckListenerForData:
     {
@@ -234,6 +246,7 @@ void engine::executeListenerWork(DuctTeipWork * work){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::executeWork(DuctTeipWork *work){
+  assert(work);
   switch (work->tag){
   case DuctTeipWork::TaskWork:      executeTaskWork(work);      break;
   case DuctTeipWork::ListenerWork:  executeListenerWork(work);  break;

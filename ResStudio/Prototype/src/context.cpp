@@ -9,6 +9,7 @@ IContext::IContext(string _name)
     parent =NULL;
     setContextHandle ( glbCtx.createContextHandle() ) ;
     glbCtx.addContext( this ) ;
+    data_list.reserve(10000);
 }
 /*--------------------------------------------------------------------------------------*/
 IContext::~IContext()
@@ -22,6 +23,7 @@ IContext::~IContext()
     inputData.clear();
     outputData.clear();
     children.clear();
+    data_list.clear();
 }
 /*--------------------------------------------------------------------------------------*/
 void IContext::runKernels(IDuctteipTask *){int s=0;}
@@ -70,6 +72,12 @@ IData *IContext::getDataByHandle(list<IData *> dlist,DataHandle *dh)
 IData *IContext::getDataByHandle(DataHandle *dh )
 {
     IData *data=NULL;
+    data = data_list[dh->data_handle];
+    if ( data== nullptr) {
+      fprintf(stderr,"Data Handle %ld not found in the system.\n",dh->data_handle);
+    }
+    return data;
+    /*obsolete*/
     data = getDataByHandle ( inputData,dh);
     if ( data )
         if ( data ->getName().size() != 0 )
@@ -108,11 +116,12 @@ void IContext::addInOutData(IData *_d)
     LOG_INFO(LOG_MULTI_THREAD,"add in-out data ptr:%p, len:%ld\n",_d,in_outData.size());
 }
 /*--------------------------------------------------------------------------------------*/
-DataHandle * IContext::createDataHandle ( )
+DataHandle * IContext::createDataHandle (IData *new_data )
 {
     DataHandle *d =glbCtx.createDataHandle () ;
     d->context_handle = *my_context_handle ;
-    if(0)printf("@data se dh:%ld\n",d->data_handle);
+    data_list[d->data_handle] = new_data;
+    LOG_INFO(LOG_DATA,"@data dh:%ld, dlist.size:%ld\n",d->data_handle,data_list.size());
     return d;
 }
 /*----------------------------------------------------------------------------*/

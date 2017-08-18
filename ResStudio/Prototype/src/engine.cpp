@@ -180,6 +180,7 @@ void engine::setConfig(Config *cfg_,bool sg){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::updateDurations(IDuctteipTask *task){
+  assert(task);
   long k = task->getKey();
   double dur = task->getDuration()/1000000.0;
   avg_durations[k]=  (avg_durations[k] * cnt_durations[k]+dur)/(cnt_durations[k]+1);

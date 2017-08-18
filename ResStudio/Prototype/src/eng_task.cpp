@@ -7,6 +7,7 @@ IDuctteipTask *engine::getTask(TaskHandle th)
   list<IDuctteipTask *>::iterator it;
   for ( it = task_list.begin(); it !=task_list.end();it++){
     IDuctteipTask *t = *it;
+    assert(t);
     if ( t->getHandle() == th ) 
       return t;
   }
@@ -15,18 +16,24 @@ IDuctteipTask *engine::getTask(TaskHandle th)
 /*---------------------------------------------------------------------------------*/
 void engine::register_task(IDuctteipTask *task)
 {
+  if ( task == nullptr ){
+    LOG_INFO(LOG_TASKS,"Null pointer of a new task is passed in.\n");
+    return ;
+  }
   criticalSection(Enter) ;
   TaskHandle task_handle = last_task_handle ++;
   if(last_task_handle ==1){
-    LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
     if (me == 0)printf("First task submitted at %ld.\n",UserTime());
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
+    assert(net_comm);
     net_comm->barrier();
+    LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
   }
   task->setHandle(task_handle);
   LOG_METRIC(DuctteipLog::TaskDefined);
   if (task->getHost() != me ) {
     if(0)putWorkForSendingTask(task);
+    LOG_INFO(LOG_TASKS,"New task not added, its host is:%d.\n",task->getHost() );
   }
   else {
     task_list.push_back(task);
@@ -50,6 +57,7 @@ TaskHandle  engine::addTask(IContext * context,
 			    list<DataAccess *> *data_access)
 {
   IDuctteipTask *task = new IDuctteipTask (context,task_name,key,task_host,data_access);
+  assert(task);
   criticalSection(Enter) ;
   task->child_count = 0;
   TaskHandle task_handle = last_task_handle ++;
@@ -77,6 +85,11 @@ TaskHandle  engine::addTask(IContext * context,
 #endif
     */
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
+    if (me == 0)printf("First task submitted at %ld.\n",UserTime());
+    dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
+    assert(net_comm);
+    net_comm->barrier();
+    LOG_INFO(LOG_MULTI_THREAD,"First task is submitted.\n");
   }
   task->setHandle(task_handle);
   LOG_METRIC(DuctteipLog::TaskDefined);
@@ -106,6 +119,8 @@ void engine::dumpTasks(){
 }
 /*--------------------------------------------------------------*/
 void engine:: sendTask(IDuctteipTask* task,int destination){
+  assert(task);
+  assert(dtEngine.mailbox);
   MessageBuffer *m = task->serialize();
   unsigned long ch =  dtEngine.mailbox->send(m->address,m->size,MailBox::TaskTag,destination);
   task->setCommHandle (ch);
@@ -117,6 +132,7 @@ IDuctteipTask *engine::getTaskByHandle(TaskHandle  task_handle){
   criticalSection(Enter);
   for ( it = task_list.begin(); it != task_list.end(); it ++){
     IDuctteipTask *task = (*it);
+    assert(task);
     if (task->getHandle() == task_handle){
       criticalSection(Leave);
       return task;
@@ -131,6 +147,7 @@ IDuctteipTask *engine::getTaskByCommHandle(unsigned long handle){
   criticalSection(Enter);
   for ( it = task_list.begin(); it != task_list.end(); it ++){
     IDuctteipTask *task = (*it);
+    assert(task);
     if (task->getCommHandle() == handle){
       criticalSection(Leave);
       return task;
@@ -164,6 +181,7 @@ void  engine::checkMigratedTasks(){
 }
 /*---------------------------------------------------------------------------------*/
 void engine::checkTaskDependencies(IDuctteipTask *task){
+  assert(task);
   list<DataAccess *> *data_list= task->getDataAccessList();
   list<DataAccess *>::iterator it;
   for (it = data_list->begin(); it != data_list->end() ; it ++) {
@@ -173,13 +191,16 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
 	     data_access.data->getDataHostPolicy());
 
     int host;
+    assert(data_access.data);
     host = data_access.data->getHost();
     data_access.data->addTask(task);
     LOG_INFO(0*LOG_MLEVEL,"host:%d\n",host);
     if ( host != me ) {
       IListener * lsnr = new IListener((*it),host);
-      lsnr->setDataRequest(*it);
+      assert(lsnr);      
+      lsnr->setDataRequest(*it);      
       bool not_duplicate = addListener(lsnr);
+      assert(lsnr->getData());
       LOG_INFO(LOG_LISTENERS,"(****)Task:%s,Listener  for %s ver %s is created and sent to host:%d.\n",
 	       task->getName().c_str(),
 	       lsnr->getData()->getName().c_str(),
@@ -191,12 +212,13 @@ void engine::checkTaskDependencies(IDuctteipTask *task){
 	       data_access.data->getName().c_str(),*it);
       if (1 or not_duplicate  ){
 	MessageBuffer *m=lsnr->serialize();
+	assert(m);
 	unsigned long comm_handle = mailbox->send(m->address,m->size,MailBox::ListenerTag,host);
 	LOG_EVENT(DuctteipLog::ListenerSent);
 	lsnr->setCommHandle ( comm_handle);
 	LOG_INFO(LOG_LISTENERS,"Listener is sent with comm-handle:%ld\n",comm_handle);
 	IData *data=data_access.data;//lsnr->getData();
-	LOG_INFO(LOG_MLEVEL,"\n");
+	assert(data);
 	data->allocateMemory();
 	data->prepareMemory();
       }
@@ -245,6 +267,7 @@ void engine::removeTaskByHandle(TaskHandle task_handle){
   criticalSection(Enter);
   for ( it = task_list.begin(); it != task_list.end(); it ++){
     IDuctteipTask *task = (*it);
+    assert(task);
     if (task->getHandle() == task_handle){
       task_list.erase(it);
       if(0)printf("TL:%ld\n",task_list.size());
@@ -261,6 +284,7 @@ long int engine::checkRunningTasks(int v){
   TimeUnit t= getTime();
   for(it = running_tasks.begin(); it != running_tasks.end(); ){
     IDuctteipTask *task=(*it);
+    assert(task);
     if(task->canBeCleared()){
       updateDurations(task);
       it = running_tasks.erase(it);
@@ -292,6 +316,7 @@ long engine::getUnfinishedTasks(){
   it = task_list.begin();
   for(; it != task_list.end(); ){
     IDuctteipTask * task = (*it);
+    assert(task);
     if (task_list.size() <=3 ){
       LOG_INFO(0*LOG_MLEVEL,"task list remaining, n:%ld,%s\n",task_list.size(),task->get_name().c_str());
     }

@@ -23,6 +23,25 @@ class IHostPolicy ;
 class IContext;
 class IDuctteipTask;
 class MailBox;
+class IData;
+
+/*==============================================================*/
+  class SuperGlue_Data {
+  private:
+    Handle<Options> **hM;
+    int rows,cols;
+  public:
+    SuperGlue_Data(IData *d, int &m,int &n);
+    int get_rows_count(){return rows;}
+    int get_cols_count(){return cols;}
+    Handle<Options> &operator()(int i,int j ){
+      return hM[i][j];
+    }
+    ~SuperGlue_Data(){
+      cout << "xxxxxx" << endl;
+    }
+  };
+
 
 /*========================== IData Class =====================================*/
 class IData
@@ -49,7 +68,8 @@ protected:
     list <int>                exported_nodes;
     void                      *guest;
     vector<int>               host_list;
-    vector<pair<DataVersion,int>> send_completed;    
+    vector<pair<DataVersion,int>> send_completed;
+  SuperGlue_Data *sg_data;
 private:
 public:
     /*--------------------------------------------------------------------------*/
@@ -226,6 +246,13 @@ public:
   void clearHosts();
     void allocate_memory_for_utp(void);
     void setPartition_for_utp(IData *,int ,int);
+    SuperGlue_Data *getSuperGlueData(){
+      if (!sg_data){
+	fprintf(stdout,"Error in getSGData for %s.\n",name.c_str());
+      }
+      return sg_data;
+  }
+  
 };
 /*========================== IData Class =====================================*/
 
@@ -263,27 +290,7 @@ public:
   
 };
 
-/*========================= =====================================*/
-  class SuperGlue_Data {
-  private:
-    Handle<Options> **hM;
-    int rows,cols;
-  public:
-    SuperGlue_Data(IData *d, int &m,int &n){
-      hM=d->createSuperGlueHandles();
-      rows = m = d->getYLocalNumBlocks();
-      cols = n = d->getXLocalNumBlocks();
-    }
-    int get_rows_count(){return rows;}
-    int get_cols_count(){return cols;}
-    Handle<Options> &operator()(int i,int j ){
-      return hM[i][j];
-    }
-    ~SuperGlue_Data(){
-      cout << "xxxxxx" << endl;
-    }
-  };
-
+/*
 class DuctTeip_Data : public Data
 {
 public:
@@ -298,6 +305,8 @@ public:
       return sgd;
   }
 };
+*/
+typedef IData DuctTeip_Data;
 
 /*========================= =====================================*/
 

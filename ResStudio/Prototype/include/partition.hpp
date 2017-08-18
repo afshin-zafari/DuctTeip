@@ -308,7 +308,7 @@ struct MyHandle : public HandleBase<Options> {
 struct Options : public DefaultOptions<Options> {
   typedef MyHandle<Options> HandleType;
   typedef Enable Logging;
-  typedef Trace<Options> TaskExecutorInstrumentation;
+  typedef Trace<Options> Instrumentation;
   typedef Enable TaskName;
   typedef Enable PassTaskExecutor;
   typedef Enable Subtasks;

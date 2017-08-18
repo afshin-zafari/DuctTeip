@@ -4,7 +4,7 @@
 #include "context.hpp"
 
 
-#define SUBTASK 0
+#define SUBTASK 1
 /*--------------------------------------------------------------------------*/
 IDuctteipTask::IDuctteipTask (IContext *context,
 			      string _name,
@@ -60,8 +60,8 @@ void IDuctteipTask::createSyncHandle(){sg_handle = new Handle<Options>;}
 /*--------------------------------------------------------------------------*/
 Handle<Options> *IDuctteipTask::getSyncHandle(){return sg_handle;}
 /*--------------------------------------------------------------------------*/
-DuctTeip_Data *IDuctteipTask::getArgument(int index){
-  return (DuctTeip_Data *)getDataAccess(index);
+IData *IDuctteipTask::getArgument(int index){
+  return getDataAccess(index);
 }
 /*--------------------------------------------------------------------------*/
 IData *IDuctteipTask::getDataAccess(int index){
@@ -166,12 +166,7 @@ bool IDuctteipTask::canRun(char c){
       result=false;
     }
   }
-  if (false && config.getDLB()){
-    if(dbg)printf("%c(%c)%s %c%c\n%s %lld\n",c,result?'+':'-',s1.c_str(),stats[state-2],xi,s2.c_str(),getTime());
-    else   printf("%c[%c]%s %c%c\n%s %lld\n",c,result?'+':'-',s1.c_str(),stats[state-2],xi,s2.c_str(),getTime());
-  }
   tot += getTime() - t;
-  //    LOG_INFO(LOG_MULTI_THREAD ,"Local cost %ld\n",tot);
   return result;
 }
 /*--------------------------------------------------------------------------*/
@@ -187,7 +182,6 @@ bool IDuctteipTask::isRunning(){return state == Running ;}
 void IDuctteipTask::dump(char c){
   if ( !DUMP_FLAG)
     return;
-  //if ( c!='i') return;
   printf("#task:%s key:%lx ,no.of data:%ld state:%d expo:%d impo:%d\n ",
 	 name.c_str(),key,data_list->size(),state,exported,imported);
   if (type == PropagateTask)

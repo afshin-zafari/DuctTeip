@@ -8,7 +8,8 @@ SUPERGLUE_DIR   =/pica/h1/afshin/sg/superglue/include
 SUPERGLUE_FLAGS =-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 SOURCE_DIR=./src
 HEADER_DIR=./include
-DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM
+#DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM
+DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) 
 LINK=mpif90
 
 
@@ -21,7 +22,7 @@ else
 #-----------------------GCC Compiler set---------------------
 	CPP=mpicxx
 	GCOV_FLAGS=-fprofile-arcs -ftest-coverage
-	OPTIM_FLAGS=-mavx -march=bdver1 -mfma4 -Ofast  -Wwrite-strings
+	OPTIM_FLAGS=-mavx2 -march=broadwell -mfma -O3 -Wwrite-strings
 	SPECIAL_FLAGS=$(OPTIM_FLAGS)     
 	LINK_FLAGS=-lm -lrt -lpthread
 	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS)

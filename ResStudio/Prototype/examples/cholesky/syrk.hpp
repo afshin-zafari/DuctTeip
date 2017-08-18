@@ -10,6 +10,8 @@ struct SyrkTask : public SuperGlueTaskBase {
     int N = getAccess(1).getHandle()->block->X_E();
     double *a = getAccess(1).getHandle()->block->getBaseMemory();
     double *b = getAccess(2).getHandle()->block->getBaseMemory();
-    dsyrk('L','N',N,N,-1.0,a,N,1.0,b,N);
+    assert(a);
+    assert(b);
+    dsyrk(CblasColMajor, CblasLower,CblasNoTrans,N,N,-1.0,a,N,1.0,b,N);
   }
 };

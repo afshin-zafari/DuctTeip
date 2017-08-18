@@ -36,6 +36,7 @@ protected:
   ProcessGrid     *PG;
   ContextHandle   *my_context_handle;
   Config *cfg;
+  vector<IData *> data_list;
 public:
   IContext(string _name);
   //  ~IContext();
@@ -60,7 +61,7 @@ public:
   void addInputData(IData *_d);
   void addOutputData(IData *_d);
   void addInOutData(IData *_d);
-  DataHandle * createDataHandle ( ) ;
+  DataHandle * createDataHandle (IData * ) ;
   void addTask(ulong,IData *d1,IData *d2=NULL,IData *d3=NULL);
 };
 /*===================================================================================*/

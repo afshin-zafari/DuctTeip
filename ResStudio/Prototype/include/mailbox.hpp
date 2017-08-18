@@ -62,6 +62,8 @@ public:
     ulong  	 send                  (byte *, int, int, int,bool wait=false);
     inline void 	 getLRNeighbors        (int ,int *,int *);
     bool 		 getEvent              (MemoryManager *,MailBoxEvent *,bool *,bool wait = false);
+    bool 		 getEventAsync         (MemoryManager *,MailBoxEvent *,bool *);
+    bool  		 checkDLBEvents        (MemoryManager *,MailBoxEvent *,bool *);
     void 		 waitForAnySendComplete(MailBoxEvent *);
     void 		 waitForAnyReceive     (MemoryManager *,MailBoxEvent *);
     bool 		 getSelfTerminate      (int send_or_recv);

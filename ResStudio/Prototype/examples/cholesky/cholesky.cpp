@@ -1,6 +1,10 @@
 #include "cholesky.hpp"
+//typedef Data DuctTeip_Data;
 void Cholesky::taskified(){/*@\label{line:taskified_start}@*/
+  Data &A= *M;
   int Nb = A.getXNumBlocks();
+  //  LOG_INFO(LOG_DATA,
+  printf("Memory Type of Cholesky data:%d, host type=%d\n",  A.getMemoryType(),A.getHostType());
   for(int i = 0; i<Nb; i++){
     for(int j = 0; j<i; j++){
       // submit task for $ \color{cmtmgray}A_{ii}=A_{ij}A_{ij}^T$
@@ -37,10 +41,13 @@ void Cholesky::runKernels(DuctTeip_Task *task ) /*@\label{line:runkernelsdef_sta
 void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@*/
   // Get the argument of the POTRF task
   DuctTeip_Data  *A = dt_task->getArgument(0);/*@\label{line:pkdtdata}@*/
+  assert(A);
 
   // Retrieve the corresponding SuperGlue blocks 
-  //   from the DuctTeip data 
-  SuperGlue_Data M = A->getSuperGlueData();/*@\label{line:pksgdata}@*/
+  //   from the DuctTeip data
+  assert(A->getSuperGlueData());
+  SuperGlue_Data &M = *A->getSuperGlueData();/*@\label{line:pksgdata}@*/
+  LOG_INFO(LOG_DATA,"\n");
   int n = M.get_rows_count();
 
   // Blocks of A can be accessed using '(i,j)' indexing and 
@@ -48,8 +55,10 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
   for(int i = 0; i<n ; i++){
    for(int j = 0; j<i ; j++){
     // create and submit task for $ \color{cmtmgray}M_{ii}=M_{ij}M_{ij}^T$      
+     LOG_INFO(LOG_DATA,"\n");
     SyrkTask *syrk = new SyrkTask(dt_task, M(i,j), M(i,i)); /*@\label{line:pksyrk}@*/
     dt_task->subtask(syrk);
+     LOG_INFO(LOG_DATA,"\n");
     for (int k = i+1; k<n ; k++){
      // create and submit task for $ \color{cmtmgray}M_{ki}=M_{kj}M_{ij}$
      GemmTask *gemm=new GemmTask(dt_task,M(k,j),M(i,j),M(k,i));/*@\label{line:pkgemm}@*/
@@ -59,11 +68,13 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
    // submit task for $ \color{cmtmgray}M_{ii}\rightarrow LL^T$
    PotrfTask *potrf = new PotrfTask(dt_task, M(i,i));/*@\label{line:pkpotrf}@*/
    dt_task->subtask(potrf);
+     LOG_INFO(LOG_DATA,"\n");
    for( int j = i+1; j<n ; j++){
      // submit task for $ \color{cmtmgray}M_{ji}=M_{ii}^{-1}M_{ji}$
      TrsmTask *trsm = new TrsmTask(dt_task, M(i,i), M(j,i));/*@\label{line:pktrsm}@*/
      dt_task->subtask(trsm);
    }
+     LOG_INFO(LOG_DATA,"\n");
   }
 }/*@\label{line:pkdef_end}@*/
 
@@ -74,9 +85,13 @@ void Cholesky::TRSM_kernel(DuctTeip_Task *dt_task)
       
   DuctTeip_Data  *a = (DuctTeip_Data *)dt_task->getArgument(0);
   DuctTeip_Data  *b = (DuctTeip_Data *)dt_task->getArgument(1);
-
-  SuperGlue_Data A = a->getSuperGlueData();
-  SuperGlue_Data B = b->getSuperGlueData();
+  assert(a);
+  assert(b);
+  
+  assert(a->getSuperGlueData());
+  assert(b->getSuperGlueData());
+  SuperGlue_Data &A = *a->getSuperGlueData();
+  SuperGlue_Data &B = *b->getSuperGlueData();
   int n = A.get_rows_count();
   for(int i = 0; i< n ; i++){
     for(int j = 0; j<n; j++){
@@ -95,9 +110,13 @@ void Cholesky::SYRK_kernel(DuctTeip_Task *dt_task)
 {
   DuctTeip_Data  *a = (DuctTeip_Data *)dt_task->getArgument(0);
   DuctTeip_Data  *b = (DuctTeip_Data *)dt_task->getArgument(1);
+  assert(a);
+  assert(b);
+  assert(a->getSuperGlueData());
+  assert(b->getSuperGlueData());
 
-  SuperGlue_Data A = a->getSuperGlueData();
-  SuperGlue_Data B = b->getSuperGlueData();
+  SuperGlue_Data &A = *a->getSuperGlueData();
+  SuperGlue_Data &B = *b->getSuperGlueData();
   int n = A.get_rows_count();
   for(int i = 0; i<n ; i++){
     for(int j = 0; j<i+1; j++){
@@ -120,10 +139,16 @@ void Cholesky::GEMM_kernel(DuctTeip_Task  *dt_task)
   DuctTeip_Data  *a = (DuctTeip_Data *)dt_task->getArgument(0);
   DuctTeip_Data  *b = (DuctTeip_Data *)dt_task->getArgument(1);
   DuctTeip_Data  *c = (DuctTeip_Data *)dt_task->getArgument(2);
+  assert(a);
+  assert(b);
+  assert(c);
+  assert(a->getSuperGlueData());
+  assert(b->getSuperGlueData());
+  assert(c->getSuperGlueData());
 
-  SuperGlue_Data A = a->getSuperGlueData();
-  SuperGlue_Data B = b->getSuperGlueData();
-  SuperGlue_Data C = c->getSuperGlueData();
+  SuperGlue_Data &A = *a->getSuperGlueData();
+  SuperGlue_Data &B = *b->getSuperGlueData();
+  SuperGlue_Data &C = *c->getSuperGlueData();
   int n = A.get_rows_count();
   for(int i = 0; i<n; i++){
     for(int j = 0; j<n; j++){
@@ -135,9 +160,10 @@ void Cholesky::GEMM_kernel(DuctTeip_Task  *dt_task)
   }
 }
 /*----------------------------------------------------------------------------*/
-Cholesky::Cholesky(DuctTeip_Data *inData )
+Cholesky::Cholesky()
 {
-  name=static_cast<string>("chol");
+  name.assign("chol");
+  /*
   if ( inData !=NULL)
     {
       if ( !inData->getParent() )
@@ -145,15 +171,26 @@ Cholesky::Cholesky(DuctTeip_Data *inData )
 	  setParent(this);
 	  inData->setDataHandle(createDataHandle());
 	}
-      M  = inData->clone();
+      M  = inData;//->clone();
       M->setParent(this);
-      M->configure();
+      //      M->configure();
     }
   else
     {
-      M= new DuctTeip_Data (config.N,config.N,this);
+      //M= new DuctTeip_Data (config.N,config.N,this);
     }
-  A=*M;
+  */
+  M = new Data("A",config.N,config.N,this);
+  Data &A= *M;
+  printf("Memory Type of Cholesky data:%d, host type=%d\n",  A.getMemoryType(),A.getHostType());
+  if ( M->getParent())
+    M->setDataHandle( M->getParent()->createDataHandle(M));
+  M->setDataHostPolicy( glbCtx.getDataHostPolicy() ) ;
+  M->setLocalNumBlocks(config.nb,config.nb);
+
+  LOG_INFO(LOG_DATA,"config.Nb=%d.\n",config.Nb);
+  M->setPartition(config.Nb,config.Nb ) ;
+  LOG_INFO(LOG_DATA,"cholesky ctor finished.\n");
   populateMatrice();
   addInOutData(M);
 }
@@ -186,13 +223,13 @@ void Cholesky::taskFinished(IDuctteipTask *task, TimeUnit dur)
 void Cholesky::checkCorrectness()
 {
   if ( config.simulation) return;
-  int I = cfg->getYBlocks();        // Mb
+  int mI = cfg->getYBlocks();        // Mb
   int J = cfg->getXBlocks();        // Nb
-  int K = cfg->getYDimension() / I; // #rows per block== M/ Mb
+  int K = cfg->getYDimension() / mI; // #rows per block== M/ Mb
   int L = cfg->getXDimension() / J; // #cols per block== N/ Nb
   IData &A=*M;
   bool found = false;
-  for ( int i=0; i < I; i ++ )    {
+  for ( int i=0; i < mI; i ++ )    {
     for ( int j=0 ; j < J ; j ++)	{
       if ( A(i,j)->getHost() == me )	    {
 	for ( int k=0; k < K; k++)		{
@@ -220,13 +257,13 @@ void Cholesky::populateMatrice()
 {
   if ( config.simulation) return;
   cfg=&config;
-  int I = cfg->getYBlocks();        // Mb
+  int mI = cfg->getYBlocks();        // Mb
   int J = cfg->getXBlocks();        // Nb
-  int K = cfg->getYDimension() / I; // #rows per block== M/ Mb
+  int K = cfg->getYDimension() / mI; // #rows per block== M/ Mb
   int L = cfg->getXDimension() / J; // #cols per block== N/ Nb
   IData &A=*M;
 
-  for ( int i=0; i < I; i ++ )    {
+  for ( int i=0; i < mI; i ++ )    {
     for ( int j=0 ; j < J ; j ++)	{
       if ( A(i,j)->getHost() == me )	    {
 	for ( int k=0; k < K; k++)		{
@@ -251,9 +288,9 @@ void Cholesky::populateMatrice()
 /*----------------------------------------------------------------------------*/
 void Cholesky::dumpAllData()
 {
-  int I = cfg->getYBlocks();        // Mb
+  int mI = cfg->getYBlocks();        // Mb
   int J = cfg->getXBlocks();        // Nb
-  int R = cfg->getYDimension() / I; // #rows per block== M/ Mb
+  int R = cfg->getYDimension() / mI; // #rows per block== M/ Mb
   int C = cfg->getXDimension() / J; // #cols per block== N/ Nb
   int mb = cfg->getYLocalBlocks();
   int nb = cfg->getXLocalBlocks();
@@ -262,9 +299,9 @@ void Cholesky::dumpAllData()
   return;
   if ( R>10)
     return;
-  //	IData &A=*M;
+  Data &A=*M;
   for ( int j=0 ; j < J ; j ++)        {
-    for ( int i=j; i < I; i ++ )            {
+    for ( int i=j; i < mI; i ++ )            {
       if ( A(i,j)->getHost() == me )                {
 	double *contents=A(i,j)->getContentAddress();
 	for ( int k=0; k<mb; k++)                    {

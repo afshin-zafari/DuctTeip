@@ -75,8 +75,10 @@ typedef unsigned char byte;
 #define LOG_INFO(a,b,c...)
 #else
 #define LOG_INFO(f,p,args...) if((LOG_FLAG &(f))||((f)==LOG_TESTS)){	\
-    std::string __fname=__FILE__;					\
+    std::string __fname;						\
+    __fname.assign(__FILE__);						\
     std::string::size_type __n= __fname.rfind("/");			\
+    if ( __n ==string::npos)__n=0;					\
     fprintf(stderr,"%20s,%4d, %-32s, tid:%9X, %6llu ::",		\
 	    __fname.substr(__n).c_str(),				\
 	    __LINE__,__FUNCTION__,					\

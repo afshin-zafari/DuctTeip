@@ -229,6 +229,10 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
   data_handle->deserialize(buffer,offset,max_length);
   IData *data = glbCtx.getDataByHandle(data_handle);
   LOG_INFO(LOG_LISTENERS,"dh:%ld datap:%p\n",data_handle->data_handle,data);
+  if ( data == NULL){
+    fprintf(stdout,"error: received a listener for not known data with handle:%d.\n",data_handle->data_handle);
+    return;
+  }
   data_access->required_version.deserialize(buffer,offset,max_length);
   data_access->data = data;
   data_access->required_version.dump();

@@ -4,9 +4,9 @@ int main (int argc, char * argv[])
 {
   DuctTeip_Start(argc,argv);
 
-  DuctTeip_Data A(config.N,config.N);
+  //  Data A(config.N,config.N);
 
-  Cholesky *C=new Cholesky(static_cast<DuctTeip_Data *>(&A));
+  Cholesky *C=new Cholesky();//static_cast<Data *>(&A));
   C->taskified();
 
 
@@ -17,5 +17,8 @@ int main (int argc, char * argv[])
 	    t,config.N,config.Nb,config.nb,config.p,config.q,
 	    double(config.N)*double(config.N)*double(config.N)/3e9/t);
   }
-  C->checkCorrectness();
+  stringstream  fn;
+  fn << "execution_" << config.P << "_" << config.M <<"_" << me <<".log";
+  Trace<Options>::dump(fn.str().c_str());
+  //C->checkCorrectness();
 }

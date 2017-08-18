@@ -74,8 +74,8 @@ void ContextHeader::addDataRange(IData::AccessType daxs,DataRange *dr){
     li.seq = 0;
     li.children = 0;
     lstLevels.push_back(li);
-    last_context_handle = 34 ;
-    last_data_handle = 1000 ;
+    last_context_handle = 0 ;
+    last_data_handle = 0 ;
   }
   /*-----------------------------------------------------------------------------------------*/
   GlobalContext::~GlobalContext() {

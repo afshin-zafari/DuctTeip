@@ -3,20 +3,28 @@
 
 #include "ductteip.hpp"
 #include "math.h"
+#include "cblas.h"
+#include "lapacke.h"
+#define dgemm cblas_dgemm
+#define dpotrf LAPACK_dpotrf
+#define dsyrk cblas_dsyrk
+#define dtrsm cblas_dtrsm
+#ifdef ACML
+#include <acml.h>
+#endif
 #include "potrf.hpp"
 #include "syrk.hpp"
 #include "trsm.hpp"
 #include "gemm.hpp"
-#include <acml.h>
 
 class Cholesky: public Algorithm{
 private:
   // The input/output data of Cholesky factorization
-  DuctTeip_Data  *M,A;                          /*@\label{line:memberdata}@*/
+  Data  *M;                          /*@\label{line:memberdata}@*/
   enum KernelKeys {POTRF,TRSM,GEMM,SYRK};       /*@\label{line:taskkeys}@*/
 public:
   
-  Cholesky(DuctTeip_Data *inData = NULL );      /*@\label{line:ctor}@*/
+  Cholesky( );      /*@\label{line:ctor}@*/
 
   // The taskified version of Cholesky factorization
   void taskified();

@@ -25,7 +25,6 @@ inline std::string to_string (const T& t)
 
 using namespace std;
 struct PropagateInfo;
-class DuctTeip_Data;
 class IData;
 class DataVersion;
 class DataHandle;
@@ -108,7 +107,7 @@ public:
     virtual ~IDuctteipTask();
     void createSyncHandle();
     Handle<Options> *getSyncHandle();
-    DuctTeip_Data *getArgument(int index);
+    IData *getArgument(int index);
     IData  *getDataAccess(int index);
     void    setHost(int h )    ;
     int     getHost()          ;

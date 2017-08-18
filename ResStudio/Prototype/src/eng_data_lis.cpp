@@ -7,10 +7,12 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
   //const bool header_only = true;
   const bool all_content = false;
   DataHandle dh;
+  assert(event);
   dh.deserialize(event->buffer,offset,event->length);
 
   LOG_INFO(LOG_MULTI_THREAD,"Data handle %ld.\n",dh.data_handle);
   IData *data = glbCtx.getDataByHandle(&dh);
+  assert(data);
   offset =0 ;
   #if UAMD_COMM
   if (event->tag == MailBox::UAMDataTag){
@@ -31,9 +33,11 @@ void engine::receivedData(MailBoxEvent *event,MemoryItem *mi){
 /*---------------------------------------------------------------------------------*/
 bool engine::isDuplicateListener(IListener * listener){
   list<IListener *>::iterator it;
+  assert(listener);
   LOG_INFO(LOG_LISTENERS,"\n");
   for(it = listener_list.begin(); it != listener_list.end();it ++){
     IListener *lsnr=(*it);
+    assert(lsnr);
     if ( lsnr->getData() ){
       if (listener->getData()->getDataHandle() == lsnr->getData()->getDataHandle()) {
 	if (listener->getRequiredVersion() == lsnr->getRequiredVersion()) {
@@ -49,6 +53,7 @@ bool engine::isDuplicateListener(IListener * listener){
 }
 /*---------------------------------------------------------------------------------*/
 bool engine::addListener(IListener *listener ){
+  assert(listener);
   if (isDuplicateListener(listener)){
     /*
     LOG_INFO(LOG_LISTENERS,"Listenr duplicate for %s, from node:%d, version:%s\n",
@@ -77,7 +82,8 @@ bool engine::addListener(IListener *listener ){
 void engine::receivedListener(MailBoxEvent *event){
   IListener *listener = new IListener;
   int offset = 0 ;
-
+  assert(event);
+  assert(listener);
   LOG_EVENT(DuctteipLog::ListenerReceived);
 
   LOG_INFO(LOG_LISTENERS,"ev.buf:%p ev.len:%d\n",event->buffer,event->length);
@@ -146,8 +152,10 @@ void engine::receivedListener_old(MailBoxEvent *event){
 /*---------------------------------------------------------------------------------*/
 IListener *engine::getListenerForData(IData *data){
   list<IListener *>::iterator it ;
+  assert(data);
   for(it = listener_list.begin();it != listener_list.end(); it ++){
     IListener *listener = (*it);
+    assert(listener);
     if (listener->getData()->getDataHandle() == data->getDataHandle() )
       if ( listener->getRequiredVersion() == data->getRunTimeVersion(IData::READ) )
 	{
@@ -182,13 +190,14 @@ IListener *engine::getListenerByCommHandle ( unsigned long  comm_handle ) {
   list<IListener *>::iterator it;
   for (it = listener_list.begin(); it !=listener_list.end();it ++){
     IListener *listener=(*it);
+    assert(listener);
     if ( listener->getCommHandle() == comm_handle)
       return listener;
     else{
       LOG_INFO(LOG_LISTENERS,"lsnr h:%ld, ch:%ld.\n",listener->getCommHandle(),comm_handle);
     }
   }
-  fprintf(stderr,"\nerror:listener not found by comm-handle %ld\n",comm_handle);
+  //  fprintf(stderr,"\nerror:listener not found by comm-handle %ld\n",comm_handle);
   return NULL;
 }
 /*---------------------------------------------------------------------------------*/
@@ -197,6 +206,7 @@ bool engine::isAnyUnfinishedListener(){
   for ( it = listener_list.begin(); it != listener_list.end(); it ++)
     {
       IListener *listener = (*it);
+      assert(listener);
       if ( listener->isReceived() )
 	if ( !listener->isDataSent() ) {
 	  listener->dump();

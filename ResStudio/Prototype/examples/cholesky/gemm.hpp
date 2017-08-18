@@ -22,12 +22,17 @@ struct GemmTask : public SuperGlueTaskBase {
       double *a = getAccess(1).getHandle()->block->getBaseMemory();
       double *b = getAccess(2).getHandle()->block->getBaseMemory();
       double *c = getAccess(3).getHandle()->block->getBaseMemory();
-      char transb = (b_trans)?'T':'N';
+      //      char transb = (b_trans)?'T':'N';
+      CBLAS_TRANSPOSE  transb = (b_trans)?CblasTrans:CblasNoTrans;
       double alpha = (c_decrease)?-1.0:1.0;
       double beta = 1.0;
-      printf("+++++++++++ N in gemm :%d\n",N);
-      printf("+++++++++++ a:%p, b:%p, c:%p\n",a,b,c);      
-      dgemm('N',transb,N,N,N,alpha,a,N,b,N,beta,c,N);
+      
+      //printf("+++++++++++ N in gemm :%d\n",N);
+      //printf("+++++++++++ a:%p, b:%p, c:%p\n",a,b,c);
+      assert(a);
+      assert(b);
+      assert(c);
+      dgemm(CblasColMajor,CblasNoTrans,transb,N,N,N,alpha,a,N,b,N,beta,c,N);
     }
   /*----------------------------------------------------------------------------*/
 };

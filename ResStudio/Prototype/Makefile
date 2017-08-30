@@ -8,15 +8,18 @@ SUPERGLUE_DIR   =/pica/h1/afshin/sg/superglue/include
 SUPERGLUE_FLAGS =-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 SOURCE_DIR=./src
 HEADER_DIR=./include
-#DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM
-DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) 
-LINK=mpif90
 
+APP=chol
+
+ifeq ($(APP),chol)
+    DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DSUBTASK=1
+else
+    DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM -DSUBTASK=0
+endif
 
 ifeq ($(CXX),icpc)
 #-----------------------Intel Compiler set---------------------
 	CPP=mpiicpc
-	LINK_FLAGS=-lm -lrt 
 	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 -qopt-prefetch -O3  -xCORE-AVX2 
 else
 #-----------------------GCC Compiler set---------------------
@@ -24,7 +27,6 @@ else
 	GCOV_FLAGS=-fprofile-arcs -ftest-coverage
 	OPTIM_FLAGS=-mavx2 -march=broadwell -mfma -O3 -Wwrite-strings
 	SPECIAL_FLAGS=$(OPTIM_FLAGS)     
-	LINK_FLAGS=-lm -lrt -lpthread
 	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS)
 endif
 #########################################################

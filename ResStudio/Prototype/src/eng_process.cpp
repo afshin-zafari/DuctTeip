@@ -229,6 +229,8 @@ void engine::processEvent(MailBoxEvent &event){
       LOG_INFO(LOG_MULTI_THREAD,"Data received.\n");
       receivedData(&event,event.getMemoryItem());
       LOG_METRIC(DuctteipLog::DataReceived);
+      fprintf(comm_log,"%d -1: %ld 1 data-recvd\n",
+	      me,getTime());
     }
     else{
       IListener *listener = getListenerByCommHandle(event.handle);

@@ -1,5 +1,7 @@
 temp/*
 lib/libductteip.a
 examples/bin/*
+examples/cholesky/experiments/*
 *.gcov
 tests/gtests/temp
+*-Test-*N*

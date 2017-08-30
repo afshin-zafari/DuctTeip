@@ -4,7 +4,7 @@
 #include "context.hpp"
 
 
-#define SUBTASK 1
+//#define SUBTASK 1
 /*--------------------------------------------------------------------------*/
 IDuctteipTask::IDuctteipTask (IContext *context,
 			      string _name,

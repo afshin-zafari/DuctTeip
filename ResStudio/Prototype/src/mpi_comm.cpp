@@ -23,6 +23,13 @@ void MPIComm::initialize(){
   last_receive = MPI_REQUEST_NULL;
   tot_sent_time = 0L;
   tot_sent_len = 0;
+  tot_send_count = 0;
+  char fn[20];
+  sprintf(fn,"pending_count_%02d.dat",rank);
+  pending_counts = fopen(fn,"w");
+  LOG_INFO(0xffffff,"Pending Count file name:%s, ptr=%p\n",fn,pending_counts);
+  pending_sends = 0;
+  
   pthread_mutexattr_t send_mxattr;
   pthread_mutexattr_init(&send_mxattr);
   pthread_mutexattr_settype(&send_mxattr,PTHREAD_MUTEX_RECURSIVE);
@@ -34,6 +41,7 @@ MPIComm::~MPIComm(){
 
   //  int stat = MPI_Finalize();
   //  LOG_INFO(LOG_COMM,"result:%d, host=%d\n",stat,rank);
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -58,6 +66,10 @@ ulong  MPIComm::send(byte *buffer,int length,int tag,int dest,bool wait){
   pthread_cond_signal(&send_cv);
   pthread_mutex_unlock(&send_mx);
   //flushBuffer(buffer,64);
+  if ( tag == 2 || tag == 15){    
+    fprintf(pending_counts,"%d 101: %ld 1 %d\n",me,getTime(),++pending_sends);
+    tot_send_count ++;
+  }
   (void)result;
   return last_comm_handle  ;
 }
@@ -105,6 +117,8 @@ bool MPIComm::isAnySendCompleted(int *tag,unsigned long *handle){
 	tot_sent_len +=req->length;
 	LOG_INFO(LOG_DLB_SMART,"tot-time:%ld, tot-len:%ld\n",(long)tot_sent_time,(long)tot_sent_len);
       }
+      if ( *tag == 2 || *tag == 15)
+	fprintf(pending_counts,"%d 101: %ld 1 %d\n",me,getTime(),--pending_sends);
       request_list.erase(it);
       return flag;
     }
@@ -149,12 +163,19 @@ int MPIComm::probeTags(int *tag,int n,int *source,int *length,int *outtag){
   return false;
 }
 /*--------------------------------------------------------------------------*/
-int MPIComm::initialize(int argc,char **argv){return MPI_Init(&argc,&argv);}//ToDo: argv,argc
+int MPIComm::initialize(int argc,char **argv){
+  int r=MPI_Init(&argc,&argv);
+  return r;
+}
 /*--------------------------------------------------------------------------*/
 int MPIComm::finish(){
   list<CommRequest*>::iterator it;
-  //int r,flag;
-  //MPI_Status st;
+
+  if (pending_counts){
+    fprintf(pending_counts,"%d 101: %ld 1 %d\n",me,getTime(),tot_send_count);
+    fclose(pending_counts);
+    pending_counts= NULL;
+  }
 
   for (it = request_list.begin(); it != request_list.end(); it ++){
     LOG_INFO(LOG_COMM,"request with tag:%d, handle:%ld cancelled.\n",

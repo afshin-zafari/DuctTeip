@@ -163,23 +163,6 @@ void Cholesky::GEMM_kernel(DuctTeip_Task  *dt_task)
 Cholesky::Cholesky()
 {
   name.assign("chol");
-  /*
-  if ( inData !=NULL)
-    {
-      if ( !inData->getParent() )
-	{
-	  setParent(this);
-	  inData->setDataHandle(createDataHandle());
-	}
-      M  = inData;//->clone();
-      M->setParent(this);
-      //      M->configure();
-    }
-  else
-    {
-      //M= new DuctTeip_Data (config.N,config.N,this);
-    }
-  */
   M = new Data("A",config.N,config.N,this);
   Data &A= *M;
   printf("Memory Type of Cholesky data:%d, host type=%d\n",  A.getMemoryType(),A.getHostType());
@@ -191,7 +174,7 @@ Cholesky::Cholesky()
   LOG_INFO(LOG_DATA,"config.Nb=%d.\n",config.Nb);
   M->setPartition(config.Nb,config.Nb ) ;
   LOG_INFO(LOG_DATA,"cholesky ctor finished.\n");
-  populateMatrice();
+  //populateMatrice();
   addInOutData(M);
 }
 /*----------------------------------------------------------------------------*/
@@ -256,6 +239,7 @@ void Cholesky::checkCorrectness()
 void Cholesky::populateMatrice()
 {
   if ( config.simulation) return;
+  
   cfg=&config;
   int mI = cfg->getYBlocks();        // Mb
   int J = cfg->getXBlocks();        // Nb

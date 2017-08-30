@@ -72,6 +72,7 @@ private:
   Config 		*cfg;
   MemoryManager 	*data_memory;
   int             	term_ok,memory_policy;
+  FILE                  *comm_log;
   enum {
     EVEN_INIT            ,
     WAIT_FOR_FIRST       ,

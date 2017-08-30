@@ -3,29 +3,31 @@ ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/libduc
 SUPERGLUE_DIR=/pica/h1/afshin/sg/superglue/include
 SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 HEADER_DIR=../../include
-DUCTTEIP_FLAGS=-I$(HEADER_DIR)
+DUCTTEIP_FLAGS=-I$(HEADER_DIR) -std=c++11
+BLAS_DIR=/sw/libs/openblas/0.2.19/rackham
+BLAS_LIB=$(BLAS_DIR)/lib
+BLAS_LINK_FLAGS=-L$(BLAS_DIR)/lib -lopenblas
+BLAS_COMP_FLAGS=-I$(BLAS_DIR)/include 
+
+
 CPP=mpic++
+OUT=release
+ifeq ($(OUT),debug)
+     ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/libductteip.a
+     OUT_FLAG=-g      
+else
+     ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/release/libductteip.a
+     OUT_FLAG=-DDEBUG=0
+endif
 
 ifeq ($(CXX),icpc)
 #-----------------------Intel Compiler set---------------------
-	ACML_DIR=/home/afshin/acml/acmllib/ifort64_fma4
-	ACML_LIB=$(ACML_DIR)/lib/libacml.a
-	EXPORT_PATH := export LD_LIBRARY_PATH='$(ACML_DIR)/lib:$(LD_LIBRARY_PATH)'
-	BLAS_COMP_FLAGS=-I$(ACML_DIR)/include 
+	CPP=mpiicpc
+	LINKER=mpiicpc
 
-	LINKER=mpif90
-
-	BLAS_LINK_FLAGS=-L$(ACML_DIR)/lib  -lacml -nofor-main
-	LINK_FLAGS=-lm -lrt -no-ipo -lstdc++ $(BLAS_LINK_FLAGS) 
-	COMP_FLAGS=-fast -no-ipo -opt-prefetch -Os -simd -mavx $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS)
+	LINK_FLAGS=-lm -lrt -no-ipo -lstdc++ $(BLAS_LINK_FLAGS) -Wl,-rpath=$(BLAS_DIR)/lib -Wl,--allow-multiple-definition 
+	COMP_FLAGS=-fast -no-ipo -qopt-prefetch -Os -simd -mavx $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS)
 else
-	ACML_DIR=/pica/h1/afshin/acml/gnu/acmllib/gfortran64
-	ACML_LIB=$(ACML_DIR)/lib/libacml.a
-	BLAS_DIR=/sw/libs/openblas/0.2.19/rackham
-       BLAS_LIB=$(BLAS_DIR)/lib
-	BLAS_COMP_FLAGS=-I$(BLAS_DIR)/include 
-
-
 	GCOV_FLAGS=-fprofile-arcs -ftest-coverage
 	OPTIM_FLAGS=-mavx  -Wwrite-strings -march=broadwell -O3 -mfma
 	SPECIAL_FLAGS=$(OPTIM_FLAGS)     
@@ -36,7 +38,7 @@ else
 	BLAS_LINK_FLAGS=-L$(BLAS_DIR)/lib -lopenblas
 #	LINK_FLAGS=-lm -lrt -march=bdver1 $(BLAS_LINK_FLAGS) -lstdc++ -lpthread -Wl,-rpath=$(ACML_DIR)/lib  -Wl,--allow-multiple-definition #-fprofile-arcs 
 	LINK_FLAGS=-lm -lrt $(BLAS_LINK_FLAGS) -lstdc++ -lpthread -Wl,-rpath=$(BLAS_DIR)/lib  -Wl,--allow-multiple-definition #-fprofile-arcs 
-	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS) -g #$(SPECIAL_FLAGS) 
+	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS) $(OUT_FLAG) #$(SPECIAL_FLAGS) 
 endif
 #########################################################
 headers:=$(shell ls -Sr *.hpp)

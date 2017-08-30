@@ -40,12 +40,15 @@ private:
   ulong           last_comm_handle;
   int             rank,prcv_count;
   bool            thread_enabled;
-  ulong           tot_sent_len;
+  ulong           tot_sent_len,tot_send_count;
   TimeUnit        tot_sent_time,recv_time;
   MPI_Request     last_receive,*prcv_reqs;
   vector<CommRequest *> prcv_vect;
   pthread_mutex_t send_mx;
   pthread_cond_t  send_cv;
+  FILE *pending_counts;
+  int pending_sends;
+  enum {PENDING_DATA, PENDING_NON_DATA};
 public:
   /*--------------------------------------------------------------------------*/
   MPIComm(){recv_time=0;}

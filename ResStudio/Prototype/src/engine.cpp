@@ -40,6 +40,10 @@ engine::engine(){
   data_memory = NULL;
   thread_manager = NULL;
   LOG_INFO(LOG_MULTI_THREAD,"mpi tick :%f\n",MPI_Wtick());
+  char fn[20];
+  sprintf(fn,"comm_log_%02d.txt",me);
+  comm_log=fopen(fn,"w");
+  LOG_INFO(LOG_DATA,"Comm Log file : %s opened %p",fn,comm_log);
 }
 /*---------------------------------------------------------------------------------*/
 template < typename T> 
@@ -54,6 +58,7 @@ void engine::initComm(){
 }
 /*---------------------------------------------------------------------------------*/
 engine::~engine(){
+  fclose(comm_log);
   if (net_comm)
     delete net_comm;
   net_comm = NULL;
@@ -140,7 +145,7 @@ void engine::show_affinity() {
       else
 	ss << 0;
     }
-    if(0)fprintf(stderr, "tid %d affinity %s\n", atoi(dirp->d_name), ss.str().c_str());
+    if(1)fprintf(stderr, "tid %d affinity %s\n", atoi(dirp->d_name), ss.str().c_str());
   }
   closedir(dp);
 }
@@ -206,6 +211,7 @@ void engine::start ( int argc , char **argv,bool sg){
   int P,p,q;
 
   printf("Engine start\n");
+  //show_affinity();
   config.getCmdLine(argc,argv);
   P =config.P;
   p =config.p;

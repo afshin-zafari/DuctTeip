@@ -801,7 +801,7 @@ void IData:: allocateMemory(){
     data_memory = new MemoryItem(adr,content_size+getHeaderSize(),leading_dim);
     assert(data_memory);
     assert(adr);
-    LOG_INFO(LOG_DATA,"memory type is User Allocated :%d\n",memory_type,getName().c_str());
+    LOG_INFO(LOG_DATA,"memory type for Data:%s is User Allocated :%d\n",getName().c_str(),memory_type);
     if (config.simulation)
       content_size=1;
     return;

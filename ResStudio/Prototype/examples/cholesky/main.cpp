@@ -2,7 +2,7 @@
 
 int main (int argc, char * argv[])
 {
-  DuctTeip_Start(argc,argv);
+  DuctTeip_Start(argc,argv,true);
 
   //  Data A(config.N,config.N);
 

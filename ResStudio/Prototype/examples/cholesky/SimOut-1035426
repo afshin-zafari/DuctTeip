@@ -1,0 +1,47 @@
++ nt=20
++ to=10000
++ ps=1000
++ ipn=1
++ sim_N=100000
++ sim_P=9
++ sim_file=sim_pars_100000_9.sh
++ python sim_pars.py 100000 9
++ sim_dir=Sim_N100000-P9
++ mkdir -p Sim_N100000-P9
++ source ./sim_pars_100000_9.sh
+++ sim_cnt=14
++ cd bin
++ pwd
+/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/examples/cholesky/bin
++ app=cholesky
++ date
+Fri Sep 22 14:00:41 CEST 2017
++ '[' intel == gcc ']'
+++ seq 8 8
++ for sim_no in '$(seq 8 8)'
++ create_pars 8
++ set_pars 8
++ case $1 in
++ N=99900
++ P=9
++ p=9
++ q=1
++ B=45
++ b=3
++ z=740
++ params='-P 9 -p 9 -q 1 -N 99900 45 3 -I 1 -T 10000 -t 20 -S 1000 '
++ param_str=-P9-p9-q1-N99900-B45-b3
++ '[' x0 == x0 ']'
++ params_long='--num-proc 9 --proc-grid-row 9 --proc-grid-col 1 --data-rows 99900 45 3 --ipn 1 --timeout 10000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P9/sim_result_-P9-p9-q1-N99900-B45-b3_1035426
++ srun -n 9 -l --output=../Sim_N100000-P9/sim_result_-P9-p9-q1-N99900-B45-b3_1035426 cholesky --num-proc 9 --proc-grid-row 9 --proc-grid-col 1 --data-rows 99900 45 3 --ipn 1 --timeout 10000 --num-threads 20 --poll-sleep 1000 --simulation
+slurmstepd: error: Warning: CPU load on host r88 is 73.99
+slurmstepd: error: Warning: CPU load on host r93 is 59.59
++ date
+Fri Sep 22 14:29:07 CEST 2017
++ echo Finished.
+Finished.
++ grep -i error '../Sim_N100000-P9/sim_result_-P9-p9-q1-N99900-B45-b3_1035426.*'
+grep: ../Sim_N100000-P9/sim_result_-P9-p9-q1-N99900-B45-b3_1035426.*: No such file or directory
++ rm dt_export_file-00.txt dt_export_file-01.txt dt_export_file-02.txt dt_export_file-03.txt dt_export_file-04.txt dt_export_file-05.txt dt_export_file-06.txt dt_export_file-07.txt dt_export_file-08.txt dt_import_file-00.txt dt_import_file-01.txt dt_import_file-02.txt dt_import_file-03.txt dt_import_file-04.txt dt_import_file-05.txt dt_import_file-06.txt dt_import_file-07.txt dt_import_file-08.txt dt_load_file-00.txt dt_load_file-01.txt dt_load_file-02.txt dt_load_file-03.txt dt_load_file-04.txt dt_load_file-05.txt dt_load_file-06.txt dt_load_file-07.txt dt_load_file-08.txt dt_log_file-00.txt dt_log_file-01.txt dt_log_file-02.txt dt_log_file-03.txt dt_log_file-04.txt dt_log_file-05.txt dt_log_file-06.txt dt_log_file-07.txt dt_log_file-08.txt sg_log_file-00.txt sg_log_file-01.txt sg_log_file-02.txt sg_log_file-03.txt sg_log_file-04.txt sg_log_file-05.txt sg_log_file-06.txt sg_log_file-07.txt sg_log_file-08.txt
++ cd ..

@@ -1,0 +1,127 @@
+13: Engine start, pure-mpi=0
+02: Engine start, pure-mpi=0
+02: @stats Msg Sizes D,T,L: 88711392,150,64
+09: Engine start, pure-mpi=0
+09: @stats Msg Sizes D,T,L: 88711392,150,64
+00: Engine start, pure-mpi=0
+00: @stats Msg Sizes D,T,L: 88711392,150,64
+13: @stats Msg Sizes D,T,L: 88711392,150,64
+03: Engine start, pure-mpi=0
+19: Engine start, pure-mpi=0
+03: @stats Msg Sizes D,T,L: 88711392,150,64
+19: @stats Msg Sizes D,T,L: 88711392,150,64
+12: Engine start, pure-mpi=0
+15: Engine start, pure-mpi=0
+12: @stats Msg Sizes D,T,L: 88711392,150,64
+15: @stats Msg Sizes D,T,L: 88711392,150,64
+08: Engine start, pure-mpi=0
+17: Engine start, pure-mpi=0
+08: @stats Msg Sizes D,T,L: 88711392,150,64
+17: @stats Msg Sizes D,T,L: 88711392,150,64
+11: Engine start, pure-mpi=0
+16: Engine start, pure-mpi=0
+07: Engine start, pure-mpi=0
+14: Engine start, pure-mpi=0
+11: @stats Msg Sizes D,T,L: 88711392,150,64
+14: @stats Msg Sizes D,T,L: 88711392,150,64
+07: @stats Msg Sizes D,T,L: 88711392,150,64
+16: @stats Msg Sizes D,T,L: 88711392,150,64
+06: Engine start, pure-mpi=0
+24: Engine start, pure-mpi=0
+04: Engine start, pure-mpi=0
+24: @stats Msg Sizes D,T,L: 88711392,150,64
+06: @stats Msg Sizes D,T,L: 88711392,150,64
+20: Engine start, pure-mpi=0
+04: @stats Msg Sizes D,T,L: 88711392,150,64
+21: Engine start, pure-mpi=0
+05: Engine start, pure-mpi=0
+20: @stats Msg Sizes D,T,L: 88711392,150,64
+05: @stats Msg Sizes D,T,L: 88711392,150,64
+21: @stats Msg Sizes D,T,L: 88711392,150,64
+10: Engine start, pure-mpi=0
+18: Engine start, pure-mpi=0
+10: @stats Msg Sizes D,T,L: 88711392,150,64
+18: @stats Msg Sizes D,T,L: 88711392,150,64
+01: Engine start, pure-mpi=0
+23: Engine start, pure-mpi=0
+01: @stats Msg Sizes D,T,L: 88711392,150,64
+23: @stats Msg Sizes D,T,L: 88711392,150,64
+22: Engine start, pure-mpi=0
+22: @stats Msg Sizes D,T,L: 88711392,150,64
+00: First task submitted at 2303.
+00: Program finished at 13665.
+01: Program finished at 13640.
+20: Program finished at 13639.
+15: Program finished at 13645.
+13: Program finished at 13713.
+22: Program finished at 13716.
+02: Program finished at 13720.
+04: Program finished at 13857.
+17: Program finished at 13775.
+03: Program finished at 13768.
+10: Program finished at 13882.
+05: Program finished at 13817.
+16: Program finished at 13859.
+07: Program finished at 13769.
+18: Program finished at 13774.
+06: Program finished at 13780.
+21: Program finished at 13773.
+09: Program finished at 13769.
+14: Program finished at 13803.
+08: Program finished at 13778.
+24: Program finished at 13861.
+12: Program finished at 13776.
+19: Program finished at 13773.
+23: Program finished at 14157.
+11: Program finished at 14351.
+01: 
+01: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=1,t=26195,T=130,s=120,S=10645367040,r=105,R=9314696160,c=20,z=555,i=8720.000000
+02: 
+02: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=2,t=29317,T=145,s=115,S=10201810080,r=115,R=10201810080,c=20,z=555,i=10436.000000
+07: 
+07: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=7,t=29255,T=145,s=115,S=10201810080,r=115,R=10201810080,c=20,z=555,i=8408.000000
+13: 
+13: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=13,t=32440,T=160,s=110,S=9758253120,r=125,R=11088924000,c=20,z=555,i=3832.000000
+08: 
+08: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=8,t=32353,T=160,s=110,S=9758253120,r=125,R=11088924000,c=20,z=555,i=7764.000000
+03: 
+03: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=3,t=32308,T=160,s=110,S=9758253120,r=125,R=11088924000,c=20,z=555,i=8308.000000
+00: 
+00: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=0,t=32715,T=196,s=144,S=12774440448,r=60,R=5322683520,c=20,z=555,i=35420.000000
+14: 
+14: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=14,t=35515,T=175,s=105,S=9314696160,r=135,R=11976037920,c=20,z=555,i=3732.000000
+19: 
+19: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=19,t=35559,T=175,s=105,S=9314696160,r=135,R=11976037920,c=20,z=555,i=3796.000000
+09: 
+09: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=9,t=35487,T=175,s=105,S=9314696160,r=135,R=11976037920,c=20,z=555,i=3712.000000
+04: 
+04: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=4,t=35443,T=175,s=105,S=9314696160,r=135,R=11976037920,c=20,z=555,i=3596.000000
+20: 
+20: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=20,t=39525,T=196,s=144,S=12774440448,r=141,R=12508306272,c=20,z=555,i=3728.000000
+15: 
+15: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=15,t=39594,T=196,s=144,S=12774440448,r=141,R=12508306272,c=20,z=555,i=3844.000000
+06: 
+06: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=6,t=36240,T=217,s=138,S=12242172096,r=66,R=5854951872,c=20,z=555,i=3672.000000
+05: 
+05: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=5,t=39772,T=196,s=144,S=12774440448,r=141,R=12508306272,c=20,z=555,i=3632.000000
+10: 
+10: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=10,t=39385,T=196,s=144,S=12774440448,r=141,R=12508306272,c=20,z=555,i=3936.000000
+12: 
+12: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=12,t=39937,T=238,s=132,S=11709903744,r=72,R=6387220224,c=20,z=555,i=3544.000000
+16: 
+16: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=16,t=43840,T=217,s=138,S=12242172096,r=153,R=13572842976,c=20,z=555,i=3572.000000
+21: 
+21: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=21,t=43916,T=217,s=138,S=12242172096,r=153,R=13572842976,c=20,z=555,i=3320.000000
+18: 
+18: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=18,t=43972,T=259,s=126,S=11177635392,r=78,R=6919488576,c=20,z=555,i=4104.000000
+22: 
+22: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=22,t=48585,T=238,s=132,S=11709903744,r=165,R=14637379680,c=20,z=555,i=4064.000000
+24: 
+24: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=24,t=48115,T=280,s=120,S=10645367040,r=84,R=7451756928,c=20,z=555,i=10168.000000
+17: 
+17: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=17,t=48548,T=238,s=132,S=11709903744,r=165,R=14637379680,c=20,z=555,i=3432.000000
+11: 
+11: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=11,t=44211,T=217,s=138,S=12242172096,r=153,R=13572842976,c=20,z=555,i=7988.000000
+23: 
+23: @Simulation: N=99900,P=25, p=5,q=5,B=30,b=6,k=23,t=53250,T=259,s=126,S=11177635392,r=177,R=15701916384,c=20,z=555,i=3652.000000
+00: [****] Time = 35420.000000, N = 99900 , NB= 30 , nb= 6 , p= 5, q = 140728898420741, gf= 9.382675

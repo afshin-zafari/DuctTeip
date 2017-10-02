@@ -1,0 +1,22 @@
+3: Engine start, pure-mpi=0
+1: Engine start, pure-mpi=0
+1: @stats Msg Sizes D,T,L: 12340704,150,64
+3: @stats Msg Sizes D,T,L: 12340704,150,64
+0: Engine start, pure-mpi=0
+2: Engine start, pure-mpi=0
+0: @stats Msg Sizes D,T,L: 12340704,150,64
+2: @stats Msg Sizes D,T,L: 12340704,150,64
+0: First task submitted at 818.
+0: error: timeout 1002
+3: error: timeout 1003
+3: 
+3: @Simulation: N=49680,P=4, p=2,q=2,B=40,b=3,k=3,t=0,T=3080,s=0,S=0,r=0,R=0,c=20,z=414,i=3756.000000
+0: 
+0: @Simulation: N=49680,P=4, p=2,q=2,B=40,b=3,k=0,t=4347,T=2870,s=33,S=407243232,r=0,R=0,c=20,z=414,i=25560.000000
+1: error: timeout 1017
+1: 
+1: @Simulation: N=49680,P=4, p=2,q=2,B=40,b=3,k=1,t=592,T=2660,s=0,S=0,r=22,R=271495488,c=20,z=414,i=3580.000000
+2: error: timeout 1017
+2: 
+2: @Simulation: N=49680,P=4, p=2,q=2,B=40,b=3,k=2,t=4416,T=2870,s=39,S=481287456,r=14,R=172769856,c=20,z=414,i=9372.000000
+0: [****] Time = 25560.000000, N = 49680 , NB= 40 , nb= 3 , p= 2, q = 140728898420738, gf= 1.599052

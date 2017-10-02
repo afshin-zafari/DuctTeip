@@ -43,6 +43,7 @@ bool engine::canTerminate(){
     if (task_submission_finished && getUnfinishedTasks() < 1){
       if (once==0){
 	dt_log.addEventEnd(this,DuctteipLog::ProgramExecution);
+	printf("Program finished at %ld.\n",UserTime());
 	once++;
       }
       if ( net_comm->get_host_count() ==1 ) {

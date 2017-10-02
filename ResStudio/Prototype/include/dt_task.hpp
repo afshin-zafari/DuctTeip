@@ -47,6 +47,8 @@ class SuperGlueTaskBase:public Task<Options> {
 private:
   IDuctteipTask* dt_task;
   TaskExecutor<Options> *task_executor;
+protected:
+  string name;
 public:
   SuperGlueTaskBase(IDuctteipTask* d);
   void run(TaskExecutor<Options> &te) {
@@ -57,7 +59,7 @@ public:
     }
   /*--------------------------------------------------------------------------*/
   virtual void runKernel() =0;
-  string get_name(){return string("basic_task_for_kernels");}
+  string get_name(){return name;}//string("basic_task_for_kernels");}
   LastLevel_Data  &get_argument(int);
 };
 

@@ -1,0 +1,40 @@
++ nt=20
++ to=10000
++ ps=1000
++ ipn=1
++ sim_N=100000
++ sim_P=9
++ sim_file=sim_pars_100000_9.sh
++ python sim_pars.py 100000 9
++ sim_dir=Sim_N100000-P9
++ mkdir -p Sim_N100000-P9
++ source ./sim_pars_100000_9.sh
+++ sim_cnt=49
++ cd bin
++ pwd
+/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/examples/cholesky/bin
++ app=cholesky
++ date
+Thu Sep 21 01:41:46 CEST 2017
++ '[' intel == gcc ']'
+++ seq 26 28
++ for sim_no in '$(seq 26 28)'
++ create_pars 26
++ set_pars 26
++ case $1 in
++ N=99900
++ P=9
++ p=9
++ q=1
++ B=45
++ b=3
++ z=740
++ params='-P 9 -p 9 -q 1 -N 99900 45 3 -I 1 -T 10000 -t 20 -S 1000 '
++ param_str=-P9-p9-q1-N99900-B45-b3
++ '[' x0 == x0 ']'
++ params_long='--num-proc 9 --proc-grid-row 9 --proc-grid-col 1 --data-rows 99900 45 3 --ipn 1 --timeout 10000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P9/sim_result_-P9-p9-q1-N99900-B45-b3_1033263
++ srun -n 9 -l --output=../Sim_N100000-P9/sim_result_-P9-p9-q1-N99900-B45-b3_1033263 cholesky --num-proc 9 --proc-grid-row 9 --proc-grid-col 1 --data-rows 99900 45 3 --ipn 1 --timeout 10000 --num-threads 20 --poll-sleep 1000 --simulation
+srun: Job step aborted: Waiting up to 602 seconds for job step to finish.
+slurmstepd: error: *** JOB 1033263 ON r49 CANCELLED AT 2017-09-21T01:45:30 ***
+srun: error: r50: tasks 5-8: Terminated

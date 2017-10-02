@@ -1,0 +1,82 @@
+10: Engine start, pure-mpi=0
+10: @stats Msg Sizes D,T,L: 39783392,150,64
+01: Engine start, pure-mpi=0
+13: Engine start, pure-mpi=0
+01: @stats Msg Sizes D,T,L: 39783392,150,64
+13: @stats Msg Sizes D,T,L: 39783392,150,64
+03: Engine start, pure-mpi=0
+03: @stats Msg Sizes D,T,L: 39783392,150,64
+12: Engine start, pure-mpi=0
+12: @stats Msg Sizes D,T,L: 39783392,150,64
+14: Engine start, pure-mpi=0
+14: @stats Msg Sizes D,T,L: 39783392,150,64
+09: Engine start, pure-mpi=0
+09: @stats Msg Sizes D,T,L: 39783392,150,64
+07: Engine start, pure-mpi=0
+07: @stats Msg Sizes D,T,L: 39783392,150,64
+04: Engine start, pure-mpi=0
+05: Engine start, pure-mpi=0
+04: @stats Msg Sizes D,T,L: 39783392,150,64
+05: @stats Msg Sizes D,T,L: 39783392,150,64
+15: Engine start, pure-mpi=0
+15: @stats Msg Sizes D,T,L: 39783392,150,64
+00: Engine start, pure-mpi=0
+00: @stats Msg Sizes D,T,L: 39783392,150,64
+02: Engine start, pure-mpi=0
+02: @stats Msg Sizes D,T,L: 39783392,150,64
+11: Engine start, pure-mpi=0
+11: @stats Msg Sizes D,T,L: 39783392,150,64
+08: Engine start, pure-mpi=0
+08: @stats Msg Sizes D,T,L: 39783392,150,64
+06: Engine start, pure-mpi=0
+06: @stats Msg Sizes D,T,L: 39783392,150,64
+00: First task submitted at 2609.
+00: Program finished at 994741.
+02: Program finished at 994578.
+01: Program finished at 994570.
+05: Program finished at 994567.
+13: Program finished at 994902.
+06: Program finished at 994564.
+10: Program finished at 994566.
+14: Program finished at 994572.
+03: Program finished at 994580.
+11: Program finished at 994745.
+07: Program finished at 994478.
+12: Program finished at 994565.
+04: Program finished at 994658.
+09: Program finished at 994594.
+15: Program finished at 994609.
+08: Program finished at 994570.
+01: 
+01: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=1,t=91456,T=770,s=330,S=13128519360,r=345,R=13725270240,c=3,z=446,i=3247.000000
+02: 
+02: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=2,t=98489,T=825,s=320,S=12730685440,r=365,R=14520938080,c=3,z=446,i=2989.000000
+06: 
+06: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=6,t=98464,T=825,s=320,S=12730685440,r=365,R=14520938080,c=3,z=446,i=2904.000000
+00: 
+00: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=0,t=102038,T=946,s=363,S=14441371296,r=165,R=6564259680,c=3,z=446,i=30907.000000
+03: 
+03: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=3,t=105243,T=880,s=310,S=12332851520,r=385,R=15316605920,c=3,z=446,i=3143.000000
+07: 
+07: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=7,t=105243,T=880,s=310,S=12332851520,r=385,R=15316605920,c=3,z=446,i=3286.000000
+11: 
+11: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=11,t=104760,T=880,s=310,S=12332851520,r=385,R=15316605920,c=3,z=446,i=2932.000000
+05: 
+05: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=5,t=109763,T=1012,s=352,S=14003753984,r=176,R=7001876992,c=3,z=446,i=3657.000000
+12: 
+12: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=12,t=112205,T=946,s=363,S=14441371296,r=396,R=15754223232,c=3,z=446,i=2934.000000
+08: 
+08: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=8,t=112952,T=946,s=363,S=14441371296,r=396,R=15754223232,c=3,z=446,i=3156.000000
+10: 
+10: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=10,t=117036,T=1078,s=341,S=13566136672,r=187,R=7439494304,c=3,z=446,i=3004.000000
+04: 
+04: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=4,t=112492,T=946,s=363,S=14441371296,r=396,R=15754223232,c=3,z=446,i=2607.000000
+09: 
+09: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=9,t=120482,T=1012,s=352,S=14003753984,r=418,R=16629457856,c=3,z=446,i=2649.000000
+13: 
+13: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=13,t=120305,T=1012,s=352,S=14003753984,r=418,R=16629457856,c=3,z=446,i=3274.000000
+14: 
+14: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=14,t=129300,T=1078,s=341,S=13566136672,r=440,R=17504692480,c=3,z=446,i=2755.000000
+15: 
+15: @Simulation: N=98120,P=16, p=4,q=4,B=44,b=5,k=15,t=125784,T=1144,s=330,S=13128519360,r=198,R=7877111616,c=3,z=446,i=3487.000000
+00: [****] Time = 30907.000000, N = 98120 , NB= 44 , nb= 5 , p= 4, q = 140724603453444, gf= 10.188131

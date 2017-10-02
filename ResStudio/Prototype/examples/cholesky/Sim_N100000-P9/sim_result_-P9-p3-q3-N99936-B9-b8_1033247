@@ -1,0 +1,175 @@
+1: Engine start, pure-mpi=0
+5: Engine start, pure-mpi=0
+5: @stats Msg Sizes D,T,L: 986390720,150,64
+1: @stats Msg Sizes D,T,L: 986390720,150,64
+7: Engine start, pure-mpi=0
+3: Engine start, pure-mpi=0
+6: Engine start, pure-mpi=0
+3: @stats Msg Sizes D,T,L: 986390720,150,64
+6: @stats Msg Sizes D,T,L: 986390720,150,64
+4: Engine start, pure-mpi=0
+7: @stats Msg Sizes D,T,L: 986390720,150,64
+4: @stats Msg Sizes D,T,L: 986390720,150,64
+8: Engine start, pure-mpi=0
+2: Engine start, pure-mpi=0
+8: @stats Msg Sizes D,T,L: 986390720,150,64
+2: @stats Msg Sizes D,T,L: 986390720,150,64
+0: Engine start, pure-mpi=0
+0: @stats Msg Sizes D,T,L: 986390720,150,64
+0: First task submitted at 760.
+0: #Bandwidth# time:896, dur=0, size=193, bw=inf
+0: #Bandwidth# time:897, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:899, dur=0, size=193, bw=inf
+0: #Bandwidth# time:899, dur=0, size=193, bw=inf
+0: #Bandwidth# time:899, dur=0, size=193, bw=inf
+0: #Bandwidth# time:900, dur=0, size=193, bw=inf
+0: #Bandwidth# time:901, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:901, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:907, dur=0, size=193, bw=inf
+0: #Bandwidth# time:911, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1000, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:982, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1001, dur=2, size=193, bw=96.500000
+3: #Bandwidth# time:983, dur=2, size=193, bw=96.500000
+6: #Bandwidth# time:1001, dur=2, size=193, bw=96.500000
+6: #Bandwidth# time:1001, dur=2, size=193, bw=96.500000
+3: #Bandwidth# time:983, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1002, dur=0, size=193, bw=inf
+6: #Bandwidth# time:1002, dur=0, size=193, bw=inf
+6: #Bandwidth# time:1003, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1003, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1004, dur=0, size=193, bw=inf
+3: #Bandwidth# time:986, dur=0, size=193, bw=inf
+6: #Bandwidth# time:1005, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:986, dur=0, size=193, bw=inf
+3: #Bandwidth# time:987, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:989, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:989, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:989, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:989, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:922, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:922, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:927, dur=0, size=193, bw=inf
+4: #Bandwidth# time:928, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1008, dur=0, size=193, bw=inf
+4: #Bandwidth# time:928, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1009, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1009, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:929, dur=0, size=193, bw=inf
+4: #Bandwidth# time:930, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:930, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:930, dur=1, size=193, bw=193.000000
+8: #Bandwidth# time:1020, dur=1, size=193, bw=193.000000
+8: #Bandwidth# time:1020, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1012, dur=0, size=193, bw=inf
+7: #Bandwidth# time:1012, dur=0, size=193, bw=inf
+7: #Bandwidth# time:1013, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1013, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1014, dur=0, size=193, bw=inf
+7: #Bandwidth# time:1014, dur=0, size=193, bw=inf
+1: #Bandwidth# time:944, dur=1, size=193, bw=193.000000
+5: #Bandwidth# time:1030, dur=0, size=193, bw=inf
+1: #Bandwidth# time:945, dur=2, size=193, bw=96.500000
+5: #Bandwidth# time:1031, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:945, dur=2, size=193, bw=96.500000
+5: #Bandwidth# time:1031, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:945, dur=2, size=193, bw=96.500000
+5: #Bandwidth# time:1034, dur=0, size=193, bw=inf
+1: #Bandwidth# time:948, dur=0, size=193, bw=inf
+5: #Bandwidth# time:1035, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:949, dur=1, size=193, bw=193.000000
+5: #Bandwidth# time:1035, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:949, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:949, dur=1, size=193, bw=193.000000
+5: #Bandwidth# time:1035, dur=1, size=193, bw=193.000000
+8: #Bandwidth# time:1029, dur=1, size=193, bw=193.000000
+8: #Bandwidth# time:1029, dur=1, size=193, bw=193.000000
+8: #Bandwidth# time:1029, dur=1, size=193, bw=193.000000
+8: #Bandwidth# time:1030, dur=2, size=193, bw=96.500000
+8: #Bandwidth# time:1032, dur=0, size=193, bw=inf
+2: #Bandwidth# time:944, dur=0, size=193, bw=inf
+8: #Bandwidth# time:1032, dur=0, size=193, bw=inf
+2: #Bandwidth# time:945, dur=1, size=193, bw=193.000000
+2: #Bandwidth# time:945, dur=1, size=193, bw=193.000000
+2: #Bandwidth# time:945, dur=1, size=193, bw=193.000000
+2: #Bandwidth# time:952, dur=1, size=193, bw=193.000000
+2: #Bandwidth# time:952, dur=1, size=193, bw=193.000000
+2: #Bandwidth# time:952, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:957, dur=0, size=193, bw=inf
+0: #Bandwidth# time:958, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1046, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:960, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1046, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:1028, dur=0, size=193, bw=inf
+0: #Bandwidth# time:960, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:1028, dur=0, size=193, bw=inf
+0: #Bandwidth# time:960, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:1029, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:961, dur=2, size=193, bw=96.500000
+6: #Bandwidth# time:1048, dur=0, size=193, bw=inf
+6: #Bandwidth# time:1049, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1049, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1049, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:1031, dur=0, size=193, bw=inf
+3: #Bandwidth# time:1032, dur=1, size=193, bw=193.000000
+3: #Bandwidth# time:1032, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:964, dur=0, size=193, bw=inf
+4: #Bandwidth# time:964, dur=0, size=193, bw=inf
+1: Program finished at 975.
+7: #Bandwidth# time:1047, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1047, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:976, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1047, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:976, dur=0, size=193, bw=inf
+1: #Bandwidth# time:977, dur=1, size=193, bw=193.000000
+1: #Bandwidth# time:977, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1049, dur=0, size=193, bw=inf
+8: #Bandwidth# time:1058, dur=1, size=193, bw=193.000000
+7: #Bandwidth# time:1049, dur=0, size=193, bw=inf
+8: #Bandwidth# time:1058, dur=1, size=193, bw=193.000000
+2: Program finished at 972.
+2: #Bandwidth# time:973, dur=0, size=193, bw=inf
+2: #Bandwidth# time:973, dur=0, size=193, bw=inf
+2: #Bandwidth# time:974, dur=1, size=193, bw=193.000000
+0: Program finished at 977.
+8: #Bandwidth# time:1064, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:975, dur=0, size=193, bw=inf
+8: #Bandwidth# time:1064, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:975, dur=0, size=193, bw=inf
+0: #Bandwidth# time:978, dur=1, size=193, bw=193.000000
+4: #Bandwidth# time:976, dur=1, size=193, bw=193.000000
+0: #Bandwidth# time:978, dur=1, size=193, bw=193.000000
+6: Program finished at 1068.
+5: Program finished at 1075.
+6: #Bandwidth# time:1069, dur=1, size=193, bw=193.000000
+5: #Bandwidth# time:1076, dur=1, size=193, bw=193.000000
+6: #Bandwidth# time:1069, dur=1, size=193, bw=193.000000
+5: #Bandwidth# time:1076, dur=1, size=193, bw=193.000000
+5: #Bandwidth# time:1077, dur=2, size=193, bw=96.500000
+3: Program finished at 1055.
+3: #Bandwidth# time:1056, dur=0, size=193, bw=inf
+3: #Bandwidth# time:1057, dur=1, size=193, bw=193.000000
+4: Program finished at 988.
+4: #Bandwidth# time:989, dur=0, size=193, bw=inf
+7: Program finished at 1071.
+7: #Bandwidth# time:1072, dur=1, size=193, bw=193.000000
+8: Program finished at 1082.
+1: 
+1: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=1,t=3864,T=9,s=12,S=11836688640,r=11,R=10850297920,c=20,z=1388,i=7924.000000
+2: 
+2: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=2,t=5424,T=12,s=10,S=9863907200,r=15,R=14795860800,c=20,z=1388,i=3624.000000
+0: 
+0: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=0,t=5270,T=18,s=18,S=17755032960,r=6,R=5918344320,c=20,z=1388,i=18256.000000
+5: 
+5: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=5,t=5435,T=12,s=10,S=9863907200,r=15,R=14795860800,c=20,z=1388,i=12196.000000
+6: 
+6: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=6,t=7767,T=18,s=18,S=17755032960,r=18,R=17755032960,c=20,z=1388,i=4012.000000
+3: 
+3: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=3,t=7765,T=18,s=18,S=17755032960,r=18,R=17755032960,c=20,z=1388,i=3416.000000
+8: 
+8: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=8,t=9887,T=30,s=12,S=11836688640,r=12,R=11836688640,c=20,z=1388,i=4856.000000
+4: 
+4: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=4,t=7657,T=24,s=15,S=14795860800,r=9,R=8877516480,c=20,z=1388,i=3168.000000
+7: 
+7: @Simulation: N=99936,P=9, p=3,q=3,B=9,b=8,k=7,t=10506,T=24,s=15,S=14795860800,r=24,R=23673377280,c=20,z=1388,i=4200.000000
+0: [****] Time = 18256.000000, N = 99936 , NB= 9 , nb= 8 , p= 3, q = 140720308486147, gf= 18.223803

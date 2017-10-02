@@ -98,7 +98,6 @@ void engine::finalize(){
 /*---------------------------------------------------------------------------------*/
 void engine::globalSync(){
   LOG_LOADZ;
-  printf("Program finished at %ld.\n",UserTime());
   
   LOG_INFO(LOG_MULTI_THREAD,"Non-Busy time:%lf\n",wasted_time/1000000.0);
   if (true || cfg->getYDimension() == 2400){
@@ -145,7 +144,7 @@ void engine::show_affinity() {
       else
 	ss << 0;
     }
-    if(1)fprintf(stderr, "tid %d affinity %s\n", atoi(dirp->d_name), ss.str().c_str());
+    fprintf(stderr, "tid %d affinity %s\n", atoi(dirp->d_name), ss.str().c_str());
   }
   closedir(dp);
 }
@@ -167,6 +166,7 @@ void engine::setConfig(Config *cfg_,bool sg){
 
   long dps = ny * nx * sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
   dt_log.setParams(cfg->getProcessors(),dps,l.getPackSize(),t.getPackSize());
+  LOG_INFO(1,"");
   if ( simulation ) {
     dps = sizeof(double) + dh.getPackSize() + 4*dv.getPackSize();
   }
@@ -177,10 +177,14 @@ void engine::setConfig(Config *cfg_,bool sg){
     data_memory = new MemoryManager (  nb * mb ,dps );
   LOG_INFO(LOG_MULTI_THREAD,"data meory:%p\n",data_memory);
   //int ipn = cfg->getIPN();
-  if ( !sg)
+  if ( !sg){
     thread_manager = new ThreadManager<Options> ( num_threads );//,0* (me % ipn )  * 16/ipn) ;
+  }
+  else{
+    printf("No SuperGlue created , pure-mpi=%d.\n",config.pure_mpi);
+  }
   
-  show_affinity();
+  //show_affinity();
   dlb.initDLB();
 }
 /*---------------------------------------------------------------------------------*/
@@ -210,13 +214,12 @@ void engine::resetTime(){
 void engine::start ( int argc , char **argv,bool sg){
   int P,p,q;
 
-  printf("Engine start\n");
-  //show_affinity();
   config.getCmdLine(argc,argv);
   P =config.P;
   p =config.p;
   q =config.q;
   time_out = config.to;
+  printf("Engine start, pure-mpi=%d\n",config.pure_mpi);
 
   ProcessGrid *_PG = new ProcessGrid(P,p,q);
   ProcessGrid &PG=*_PG;
@@ -230,6 +233,10 @@ void engine::start ( int argc , char **argv,bool sg){
 
   glbCtx.setPolicies(hpData,hpTask,hpContext,hpTaskRead,hpTaskAdd);
   glbCtx.setConfiguration(&config);
+  if ( config.pure_mpi )
+    sg = true;
+  else
+    sg= false;
   setConfig(&config,sg);
   doProcess();
 }

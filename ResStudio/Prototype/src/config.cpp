@@ -9,12 +9,13 @@ Config config;
 /*-----------------------------------------------------------------*/
 Config::Config(){
   P=p=q=N=M=Mb=nb=Nb=nt=ipn=to=ps=-1;
-  simulation=dlb=false;
+  simulation=dlb=pure_mpi=false;
   dlb_thr=10;
   sil_dur=1000;
   column_major=using_blas=true;
   silent_mode = 0;
   failure_max = 5;
+  
 }
 /*-----------------------------------------------------------------*/
 void Config::setParams( int n,int m ,
@@ -77,6 +78,7 @@ void Config::getCmdLine(int argc, char **argv){
       {"mq-pass"      ,required_argument, 0,28  }, // 28
       {"failure-max"  ,required_argument, 0,29  }, // 29
       {"silent-mode"  ,required_argument, 0,30  }, // 30
+      {"pure-mpi"     ,no_argument      , 0,31  }, // 31
       {0,0,0,0}
     };
 
@@ -156,7 +158,10 @@ void Config::getCmdLine(int argc, char **argv){
 	  mq_name.assign(optarg);
 	  break;
 	case 28:
-	  mq_pass.assign(optarg);
+	  mq_pass.assign(optarg);	  
+	  break;
+	case 31:
+	  pure_mpi = true;
 	  break;
 	default:
 	  break;
@@ -254,6 +259,9 @@ void Config::getCmdLine(int argc, char **argv){
       break;
     case 30:
       silent_mode = atoi(optarg);
+      break;
+    case 31:
+      pure_mpi = true;
       break;
     case '?':
     default:

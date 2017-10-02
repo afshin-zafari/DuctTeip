@@ -135,6 +135,7 @@ public:
         row = blk.by;
         col = blk.bx;
     }
+    bool isTaskWritingOnMe(IDuctteipTask*task);
     /*--------------------------------------------------------------------------*/
     void allocateMemory();
     void prepareMemory();

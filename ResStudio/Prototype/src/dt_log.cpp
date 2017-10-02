@@ -296,6 +296,7 @@ double DuctteipLog::getStattime(int e){
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::dumpLoad(list<load*> lst,char *s){
     list<load *>::iterator it;
+    if (lst.size() ==0 ) return;
     ofstream log_file(s);
     for (it = lst.begin();it != lst.end();it ++){
       load  *l =(*it);
@@ -317,7 +318,8 @@ double DuctteipLog::getStattime(int e){
   void DuctteipLog::dumpSimulationResults(long sg_task_count){
     fprintf(stderr,"\n@Simulation: N=%d,P=%d, p=%d,q=%d,B=%d,b=%d,k=%d," \
 	   "t=%ld,T=%ld,s=%ld,S=%ld,r=%ld,R=%ld,c=%d,z=%d,i=%lf\n",
-	   config.N,config.P,config.p,config.q,config.Nb,config.nb,me,sg_task_count,stats[TaskDefined].count,
+	   config.N,config.P,config.p,config.q,config.Nb,config.nb,me,
+	    stats[SuperGlueTaskDefine].count,stats[TaskDefined].count,
 	   stats[DataSent].count,stats[DataSent].count*DataPackSize,
 	   stats[DataReceived].count,stats[DataReceived].count*DataPackSize,
 	   config.nt,config.N/config.Nb/config.nb,stats[ProgramExecution].total);

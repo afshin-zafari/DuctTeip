@@ -947,6 +947,19 @@ void IData::listenerAdded_old(IListener *exlsnr,int host , DataVersion version )
   LOG_INFO(LOG_MULTI_THREAD,"data %s listeners count:%d\n",getName().c_str(),listeners.size());
 }
 /*--------------------------------------------------------------------------*/
+bool IData::isTaskWritingOnMe(IDuctteipTask*task){
+  list<DataAccess *>*dlist=task->getDataAccessList();
+  list<DataAccess *>::iterator it;
+  
+  for ( DataAccess *daxs : *dlist){
+    if (daxs->data->getDataHandleID() == getDataHandleID() ) {
+      if ( daxs->type == WRITE )
+	return true;
+    }
+  }
+  return false;
+}
+/*--------------------------------------------------------------------------*/
 void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailbox,char debug){
   list<IListener *>::iterator lsnr_it;
   list<IDuctteipTask *>::iterator task_it;
@@ -978,6 +991,8 @@ void IData::checkAfterUpgrade(list<IDuctteipTask*> &running_tasks,MailBox *mailb
 	LOG_INFO(LOG_DLB,"RUNNING Tasks#:%ld\n",running_tasks.size());
 	LOG_INFO(LOG_DLB,"task:%s inserted in running q.\n",task->getName().c_str());
       }
+      if (isTaskWritingOnMe(task) )
+	break;
     }
   }
   LOG_INFO(LOG_DLB,"result data from migrated task checked\n");

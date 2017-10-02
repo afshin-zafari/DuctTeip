@@ -1,0 +1,22 @@
+1: Engine start, pure-mpi=0
+3: Engine start, pure-mpi=0
+1: @stats Msg Sizes D,T,L: 136852160,150,64
+0: Engine start, pure-mpi=0
+0: @stats Msg Sizes D,T,L: 136852160,150,64
+3: @stats Msg Sizes D,T,L: 136852160,150,64
+2: Engine start, pure-mpi=0
+2: @stats Msg Sizes D,T,L: 136852160,150,64
+0: First task submitted at 586.
+1: Program finished at 828.
+0: Program finished at 828.
+2: Program finished at 830.
+3: Program finished at 832.
+1: 
+1: @Simulation: N=49632,P=4, p=2,q=2,B=12,b=8,k=1,t=29680,T=70,s=30,S=4105564800,r=45,R=6158347200,c=20,z=517,i=10756.000000
+0: 
+0: @Simulation: N=49632,P=4, p=2,q=2,B=12,b=8,k=0,t=29797,T=91,s=36,S=4926677760,r=15,R=2052782400,c=20,z=517,i=21112.000000
+2: 
+2: @Simulation: N=49632,P=4, p=2,q=2,B=12,b=8,k=2,t=38051,T=91,s=36,S=4926677760,r=51,R=6979460160,c=20,z=517,i=3452.000000
+3: 
+3: @Simulation: N=49632,P=4, p=2,q=2,B=12,b=8,k=3,t=39233,T=112,s=30,S=4105564800,r=21,R=2873895360,c=20,z=517,i=4264.000000
+0: [****] Time = 21112.000000, N = 49632 , NB= 12 , nb= 8 , p= 2, q = 140720308486146, gf= 1.930344

@@ -1,0 +1,57 @@
++ nt=3
++ to=1000
++ ps=1000
++ ipn=1
++ sim_N=100000
++ sim_P=16
++ sim_file=sim_pars_100000_16.sh
++ python sim_pars.py 100000 16
++ sim_dir=Sim_N100000-P16
++ mkdir -p Sim_N100000-P16
++ source ./sim_pars_100000_16.sh
+++ sim_cnt=22
++ cd bin
++ pwd
+/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/examples/cholesky/bin
++ app=cholesky
++ date
+Wed Sep 13 23:26:35 CEST 2017
++ '[' intel == gcc ']'
+++ seq 5 22
++ for sim_no in '$(seq 5 $sim_cnt)'
++ create_pars 5
++ set_pars 5
++ case $1 in
++ N=99684
++ P=16
++ p=4
++ q=4
++ B=12
++ b=13
++ z=639
++ params='-P 16 -p 4 -q 4 -N 99684 12 13 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99684-B12-b13
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99684 12 13 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99684-B12-b13_1003296
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99684-B12-b13_1003296 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99684 12 13 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 5 $sim_cnt)'
++ create_pars 6
++ set_pars 6
++ case $1 in
++ N=99624
++ P=16
++ p=4
++ q=4
++ B=12
++ b=14
++ z=593
++ params='-P 16 -p 4 -q 4 -N 99624 12 14 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99624-B12-b14
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99624 12 14 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99624-B12-b14_1003296
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99624-B12-b14_1003296 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99624 12 14 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
+srun: error: r334: task 14: Segmentation fault (core dumped)
+slurmstepd: error: *** JOB 1003296 ON r333 CANCELLED AT 2017-09-13T23:32:02 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 602 seconds for job step to finish.

@@ -1,0 +1,82 @@
+12: Engine start, pure-mpi=0
+12: @stats Msg Sizes D,T,L: 48177120,150,64
+08: Engine start, pure-mpi=0
+08: @stats Msg Sizes D,T,L: 48177120,150,64
+03: Engine start, pure-mpi=0
+03: @stats Msg Sizes D,T,L: 48177120,150,64
+09: Engine start, pure-mpi=0
+09: @stats Msg Sizes D,T,L: 48177120,150,64
+10: Engine start, pure-mpi=0
+10: @stats Msg Sizes D,T,L: 48177120,150,64
+01: Engine start, pure-mpi=0
+01: @stats Msg Sizes D,T,L: 48177120,150,64
+04: Engine start, pure-mpi=0
+04: @stats Msg Sizes D,T,L: 48177120,150,64
+11: Engine start, pure-mpi=0
+11: @stats Msg Sizes D,T,L: 48177120,150,64
+14: Engine start, pure-mpi=0
+14: @stats Msg Sizes D,T,L: 48177120,150,64
+06: Engine start, pure-mpi=0
+06: @stats Msg Sizes D,T,L: 48177120,150,64
+15: Engine start, pure-mpi=0
+15: @stats Msg Sizes D,T,L: 48177120,150,64
+02: Engine start, pure-mpi=0
+02: @stats Msg Sizes D,T,L: 48177120,150,64
+07: Engine start, pure-mpi=0
+07: @stats Msg Sizes D,T,L: 48177120,150,64
+05: Engine start, pure-mpi=0
+05: @stats Msg Sizes D,T,L: 48177120,150,64
+00: Engine start, pure-mpi=0
+00: @stats Msg Sizes D,T,L: 48177120,150,64
+13: Engine start, pure-mpi=0
+13: @stats Msg Sizes D,T,L: 48177120,150,64
+00: First task submitted at 2555.
+00: Program finished at 446118.
+06: Program finished at 446372.
+02: Program finished at 446223.
+04: Program finished at 446113.
+14: Program finished at 446113.
+12: Program finished at 446053.
+01: Program finished at 446059.
+08: Program finished at 446078.
+10: Program finished at 446164.
+03: Program finished at 446106.
+09: Program finished at 446107.
+15: Program finished at 446092.
+11: Program finished at 446073.
+07: Program finished at 446077.
+05: Program finished at 446078.
+13: Program finished at 446062.
+01: 
+01: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=1,t=117344,T=570,s=270,S=13007822400,r=279,R=13441416480,c=3,z=409,i=2525.000000
+06: 
+06: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=6,t=126743,T=615,s=261,S=12574228320,r=297,R=14308604640,c=3,z=409,i=2795.000000
+00: 
+00: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=0,t=130427,T=715,s=300,S=14453136000,r=135,R=6503911200,c=3,z=409,i=30272.000000
+02: 
+02: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=2,t=126063,T=615,s=261,S=12574228320,r=297,R=14308604640,c=3,z=409,i=3004.000000
+07: 
+07: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=7,t=135909,T=660,s=252,S=12140634240,r=315,R=15175792800,c=3,z=409,i=3192.000000
+03: 
+03: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=3,t=136215,T=660,s=252,S=12140634240,r=315,R=15175792800,c=3,z=409,i=2646.000000
+11: 
+11: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=11,t=135918,T=660,s=252,S=12140634240,r=315,R=15175792800,c=3,z=409,i=2698.000000
+04: 
+04: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=4,t=147314,T=715,s=300,S=14453136000,r=325,R=15657564000,c=3,z=409,i=2707.000000
+12: 
+12: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=12,t=146434,T=715,s=300,S=14453136000,r=325,R=15657564000,c=3,z=409,i=2533.000000
+08: 
+08: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=8,t=147117,T=715,s=300,S=14453136000,r=325,R=15657564000,c=3,z=409,i=2752.000000
+05: 
+05: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=5,t=141258,T=770,s=290,S=13971364800,r=145,R=6985682400,c=3,z=409,i=2686.000000
+10: 
+10: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=10,t=152341,T=825,s=280,S=13489593600,r=155,R=7467453600,c=3,z=409,i=2989.000000
+13: 
+13: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=13,t=158710,T=770,s=290,S=13971364800,r=345,R=16621106400,c=3,z=409,i=3432.000000
+14: 
+14: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=14,t=170967,T=825,s=280,S=13489593600,r=365,R=17584648800,c=3,z=409,i=2458.000000
+09: 
+09: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=9,t=159096,T=770,s=290,S=13971364800,r=345,R=16621106400,c=3,z=409,i=2628.000000
+15: 
+15: @Simulation: N=98160,P=16, p=4,q=4,B=40,b=6,k=15,t=164618,T=880,s=270,S=13007822400,r=165,R=7949224800,c=3,z=409,i=2879.000000
+00: [****] Time = 30272.000000, N = 98160 , NB= 40 , nb= 6 , p= 4, q = 140720308486148, gf= 10.414568

@@ -116,6 +116,7 @@ bool MPIComm::isAnySendCompleted(int *tag,unsigned long *handle){
 	tot_sent_time +=t;
 	tot_sent_len +=req->length;
 	LOG_INFO(LOG_DLB_SMART,"tot-time:%ld, tot-len:%ld\n",(long)tot_sent_time,(long)tot_sent_len);
+	printf("#Bandwidth# time:%ld, dur=%ld, size=%ld, bw=%lf\n",UserTime(),t,req->length,double(req->length)/t);
       }
       if ( *tag == 2 || *tag == 15)
 	fprintf(pending_counts,"%d 101: %ld 1 %d\n",me,getTime(),--pending_sends);

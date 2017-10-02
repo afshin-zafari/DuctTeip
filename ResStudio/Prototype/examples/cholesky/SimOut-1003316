@@ -1,0 +1,227 @@
++ nt=3
++ to=1000
++ ps=1000
++ ipn=1
++ sim_N=100000
++ sim_P=16
++ sim_file=sim_pars_100000_16.sh
++ python sim_pars.py 100000 16
++ sim_dir=Sim_N100000-P16
++ mkdir -p Sim_N100000-P16
++ source ./sim_pars_100000_16.sh
+++ sim_cnt=22
++ cd bin
++ pwd
+/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/examples/cholesky/bin
++ app=cholesky
++ date
+Thu Sep 14 00:12:09 CEST 2017
++ '[' intel == gcc ']'
+++ seq 6 22
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 6
++ set_pars 6
++ case $1 in
++ N=99624
++ P=16
++ p=4
++ q=4
++ B=12
++ b=14
++ z=593
++ params='-P 16 -p 4 -q 4 -N 99624 12 14 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99624-B12-b14
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99624 12 14 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99624-B12-b14_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99624-B12-b14_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99624 12 14 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 7
++ set_pars 7
++ case $1 in
++ N=99568
++ P=16
++ p=4
++ q=4
++ B=16
++ b=7
++ z=889
++ params='-P 16 -p 4 -q 4 -N 99568 16 7 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99568-B16-b7
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99568 16 7 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99568-B16-b7_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99568-B16-b7_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99568 16 7 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 8
++ set_pars 8
++ case $1 in
++ N=99456
++ P=16
++ p=4
++ q=4
++ B=16
++ b=8
++ z=777
++ params='-P 16 -p 4 -q 4 -N 99456 16 8 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99456-B16-b8
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99456 16 8 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99456-B16-b8_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99456-B16-b8_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99456 16 8 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 9
++ set_pars 9
++ case $1 in
++ N=99360
++ P=16
++ p=4
++ q=4
++ B=16
++ b=9
++ z=690
++ params='-P 16 -p 4 -q 4 -N 99360 16 9 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99360-B16-b9
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99360 16 9 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99360-B16-b9_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99360-B16-b9_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99360 16 9 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 10
++ set_pars 10
++ case $1 in
++ N=99360
++ P=16
++ p=4
++ q=4
++ B=16
++ b=10
++ z=621
++ params='-P 16 -p 4 -q 4 -N 99360 16 10 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99360-B16-b10
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99360 16 10 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99360-B16-b10_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99360-B16-b10_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99360 16 10 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 11
++ set_pars 11
++ case $1 in
++ N=99264
++ P=16
++ p=4
++ q=4
++ B=16
++ b=11
++ z=564
++ params='-P 16 -p 4 -q 4 -N 99264 16 11 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99264-B16-b11
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99264 16 11 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99264-B16-b11_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99264-B16-b11_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99264 16 11 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 12
++ set_pars 12
++ case $1 in
++ N=99264
++ P=16
++ p=4
++ q=4
++ B=16
++ b=12
++ z=517
++ params='-P 16 -p 4 -q 4 -N 99264 16 12 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99264-B16-b12
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99264 16 12 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99264-B16-b12_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99264-B16-b12_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99264 16 12 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 13
++ set_pars 13
++ case $1 in
++ N=99216
++ P=16
++ p=4
++ q=4
++ B=16
++ b=13
++ z=477
++ params='-P 16 -p 4 -q 4 -N 99216 16 13 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99216-B16-b13
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99216 16 13 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99216-B16-b13_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99216-B16-b13_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99216 16 13 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 14
++ set_pars 14
++ case $1 in
++ N=99008
++ P=16
++ p=4
++ q=4
++ B=16
++ b=14
++ z=442
++ params='-P 16 -p 4 -q 4 -N 99008 16 14 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99008-B16-b14
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99008 16 14 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99008-B16-b14_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99008-B16-b14_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99008 16 14 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 15
++ set_pars 15
++ case $1 in
++ N=99000
++ P=16
++ p=4
++ q=4
++ B=20
++ b=5
++ z=990
++ params='-P 16 -p 4 -q 4 -N 99000 20 5 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99000-B20-b5
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99000 20 5 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99000-B20-b5_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99000-B20-b5_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99000 20 5 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 16
++ set_pars 16
++ case $1 in
++ N=99000
++ P=16
++ p=4
++ q=4
++ B=20
++ b=6
++ z=825
++ params='-P 16 -p 4 -q 4 -N 99000 20 6 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N99000-B20-b6
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99000 20 6 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99000-B20-b6_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N99000-B20-b6_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 99000 20 6 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 6 $sim_cnt)'
++ create_pars 17
++ set_pars 17
++ case $1 in
++ N=98980
++ P=16
++ p=4
++ q=4
++ B=20
++ b=7
++ z=707
++ params='-P 16 -p 4 -q 4 -N 98980 20 7 -I 1 -T 1000 -t 3 -S 1000 '
++ param_str=-P16-p4-q4-N98980-B20-b7
++ '[' x0 == x0 ']'
++ params_long='--num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 98980 20 7 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P16/sim_result_-P16-p4-q4-N98980-B20-b7_1003316
++ srun -n 16 -l --output=../Sim_N100000-P16/sim_result_-P16-p4-q4-N98980-B20-b7_1003316 cholesky --num-proc 16 --proc-grid-row 4 --proc-grid-col 4 --data-rows 98980 20 7 --ipn 1 --timeout 1000 --num-threads 3 --poll-sleep 1000 --simulation
+srun: error: r331: task 2: Segmentation fault (core dumped)
+srun: Job step aborted: Waiting up to 602 seconds for job step to finish.
+slurmstepd: error: *** JOB 1003316 ON r331 CANCELLED AT 2017-09-14T01:07:16 DUE TO TIME LIMIT ***

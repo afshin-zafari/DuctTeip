@@ -2,7 +2,7 @@
 #include "data.hpp"
 #include "glb_context.hpp"
 #include "context.hpp"
-
+#include "config.hpp"
 
 //#define SUBTASK 1
 /*--------------------------------------------------------------------------*/
@@ -14,7 +14,7 @@ IDuctteipTask::IDuctteipTask (IContext *context,
   data_list(dlist),host(_host){
 
   parent_context = context;
-  printf("Task ctor par ctx:%p, %s\n",parent_context,parent_context->getName().c_str());
+  //printf("Task ctor par ctx:%p, %s\n",parent_context,parent_context->getName().c_str());
   key = _key;
   if (_name.size() ==0  )
     _name.assign("task");
@@ -256,7 +256,10 @@ void IDuctteipTask::run(){
   start = getTime();
   exp_fin = dtEngine.getAverageDur(getKey())+start;
 #if SUBTASK ==1
-  dtEngine.getThrdManager()->submit(sg_task);
+  if ( dtEngine.getThrdManager() ) // in pure-mpi case, the ptr is nully
+    dtEngine.getThrdManager()->submit(sg_task);
+  else
+    parent_context->runKernels(this);
 #else
   runKernel();
 #endif
@@ -345,11 +348,19 @@ void  IDuctteipTask::set_guest(void *p){guest = p;}
 void *IDuctteipTask::get_guest(){return guest;}
 /*--------------------------------------------------------------*/
 void IDuctteipTask::subtask(SuperGlueTaskBase *t){
-  te->subtask(getKernelTask(),t);
+  if ( config.pure_mpi){
+    t->run(*te);
+    printf("immediate task run.\n");
+  }
+  else{
+    te->subtask(getKernelTask(),t);
+    //printf("scheduled task.\n");
+  }
 }
 /*===============================================================*/
 SuperGlueTaskBase::SuperGlueTaskBase(IDuctteipTask* d):dt_task(d){
     registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
+    LOG_METRIC(DuctteipLog::SuperGlueTaskDefine);
 }
 /*--------------------------------------------------------------*/
 LastLevel_Data &SuperGlueTaskBase::get_argument(int arg){

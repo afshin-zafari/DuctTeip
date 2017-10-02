@@ -1,5 +1,5 @@
-#ifdef ACML
-#include <acml.h>
+#ifdef USE_MKL
+#include <mkl.h>
 #endif
 // A SuperGlue task that is submitted 
 //   in the kernel of a DuctTeip task
@@ -11,7 +11,9 @@ public:
   PotrfTask( DuctTeip_Task *task_,Handle<Options> &A):
     SuperGlueTaskBase(task_) {
     registerAccess(ReadWriteAdd::write, A);/*@\label{line:sgreg}@*/
+    name.assign("potrf");
   }
+  string get_name(){return string( "potrf");}
   //---------------------------------------------------------
   // This is called by the SuperGlue framework, 
   //   when the task is ready to run.
@@ -27,6 +29,12 @@ public:
     side[0]='L';side[1]=0;
     
     assert(mem);
-    dpotrf(side,&N,mem,&N,&info);
+#ifdef USE_OPENBLAS
+    dpotrf(side,&N,mem,&N,&info); 
+#endif
+#ifdef USE_MKL
+    int nb = N;
+    dpotrf("L", &nb, mem, &nb, &info);
+#endif
   }
 };

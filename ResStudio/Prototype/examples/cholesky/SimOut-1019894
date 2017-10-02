@@ -1,0 +1,198 @@
++ nt=20
++ to=1000
++ ps=1000
++ ipn=1
++ sim_N=100000
++ sim_P=25
++ sim_file=sim_pars_100000_25.sh
++ python sim_pars.py 100000 25
++ sim_dir=Sim_N100000-P25
++ mkdir -p Sim_N100000-P25
++ source ./sim_pars_100000_25.sh
+++ sim_cnt=10
++ cd bin
++ pwd
+/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/examples/cholesky/bin
++ app=cholesky
++ date
+Sun Sep 17 13:37:46 CEST 2017
++ '[' intel == gcc ']'
+++ seq 1 10
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 1
++ set_pars 1
++ case $1 in
++ N=99900
++ P=25
++ p=5
++ q=5
++ B=30
++ b=5
++ z=666
++ params='-P 25 -p 5 -q 5 -N 99900 30 5 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99900-B30-b5
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99900 30 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99900-B30-b5_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99900-B30-b5_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99900 30 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 2
++ set_pars 2
++ case $1 in
++ N=99900
++ P=25
++ p=5
++ q=5
++ B=30
++ b=6
++ z=555
++ params='-P 25 -p 5 -q 5 -N 99900 30 6 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99900-B30-b6
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99900 30 6 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99900-B30-b6_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99900-B30-b6_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99900 30 6 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 3
++ set_pars 3
++ case $1 in
++ N=99750
++ P=25
++ p=5
++ q=5
++ B=30
++ b=7
++ z=475
++ params='-P 25 -p 5 -q 5 -N 99750 30 7 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99750-B30-b7
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99750 30 7 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99750-B30-b7_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99750-B30-b7_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99750 30 7 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 4
++ set_pars 4
++ case $1 in
++ N=99600
++ P=25
++ p=5
++ q=5
++ B=30
++ b=8
++ z=415
++ params='-P 25 -p 5 -q 5 -N 99600 30 8 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99600-B30-b8
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99600 30 8 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99600-B30-b8_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99600-B30-b8_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99600 30 8 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 5
++ set_pars 5
++ case $1 in
++ N=99575
++ P=25
++ p=5
++ q=5
++ B=35
++ b=5
++ z=569
++ params='-P 25 -p 5 -q 5 -N 99575 35 5 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99575-B35-b5
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99575 35 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99575-B35-b5_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99575-B35-b5_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99575 35 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 6
++ set_pars 6
++ case $1 in
++ N=99540
++ P=25
++ p=5
++ q=5
++ B=35
++ b=6
++ z=474
++ params='-P 25 -p 5 -q 5 -N 99540 35 6 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99540-B35-b6
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99540 35 6 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99540-B35-b6_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99540-B35-b6_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99540 35 6 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 7
++ set_pars 7
++ case $1 in
++ N=99470
++ P=25
++ p=5
++ q=5
++ B=35
++ b=7
++ z=406
++ params='-P 25 -p 5 -q 5 -N 99470 35 7 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99470-B35-b7
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99470 35 7 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99470-B35-b7_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99470-B35-b7_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99470 35 7 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 8
++ set_pars 8
++ case $1 in
++ N=99400
++ P=25
++ p=5
++ q=5
++ B=40
++ b=5
++ z=497
++ params='-P 25 -p 5 -q 5 -N 99400 40 5 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99400-B40-b5
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99400 40 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99400-B40-b5_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99400-B40-b5_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99400 40 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 9
++ set_pars 9
++ case $1 in
++ N=99360
++ P=25
++ p=5
++ q=5
++ B=40
++ b=6
++ z=414
++ params='-P 25 -p 5 -q 5 -N 99360 40 6 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99360-B40-b6
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99360 40 6 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99360-B40-b6_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99360-B40-b6_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99360 40 6 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ for sim_no in '$(seq 1 $sim_cnt)'
++ create_pars 10
++ set_pars 10
++ case $1 in
++ N=99225
++ P=25
++ p=5
++ q=5
++ B=45
++ b=5
++ z=441
++ params='-P 25 -p 5 -q 5 -N 99225 45 5 -I 1 -T 1000 -t 20 -S 1000 '
++ param_str=-P25-p5-q5-N99225-B45-b5
++ '[' x0 == x0 ']'
++ params_long='--num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99225 45 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation  '
++ outfile=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99225-B45-b5_1019894
++ srun -n 25 -l --output=../Sim_N100000-P25/sim_result_-P25-p5-q5-N99225-B45-b5_1019894 cholesky --num-proc 25 --proc-grid-row 5 --proc-grid-col 5 --data-rows 99225 45 5 --ipn 1 --timeout 1000 --num-threads 20 --poll-sleep 1000 --simulation
++ date
+Sun Sep 17 13:43:46 CEST 2017
++ echo Finished.
+Finished.
++ grep -i error '../Sim_N100000-P25/sim_result_-P25-p5-q5-N99225-B45-b5_1019894.*'
+grep: ../Sim_N100000-P25/sim_result_-P25-p5-q5-N99225-B45-b5_1019894.*: No such file or directory
++ rm dt_export_file-00.txt dt_export_file-01.txt dt_export_file-02.txt dt_export_file-03.txt dt_export_file-04.txt dt_export_file-05.txt dt_export_file-06.txt dt_export_file-07.txt dt_export_file-08.txt dt_export_file-09.txt dt_export_file-10.txt dt_export_file-11.txt dt_export_file-12.txt dt_export_file-13.txt dt_export_file-14.txt dt_export_file-15.txt dt_export_file-16.txt dt_export_file-17.txt dt_export_file-18.txt dt_export_file-19.txt dt_export_file-20.txt dt_export_file-21.txt dt_export_file-22.txt dt_export_file-23.txt dt_export_file-24.txt dt_import_file-00.txt dt_import_file-01.txt dt_import_file-02.txt dt_import_file-03.txt dt_import_file-04.txt dt_import_file-05.txt dt_import_file-06.txt dt_import_file-07.txt dt_import_file-08.txt dt_import_file-09.txt dt_import_file-10.txt dt_import_file-11.txt dt_import_file-12.txt dt_import_file-13.txt dt_import_file-14.txt dt_import_file-15.txt dt_import_file-16.txt dt_import_file-17.txt dt_import_file-18.txt dt_import_file-19.txt dt_import_file-20.txt dt_import_file-21.txt dt_import_file-22.txt dt_import_file-23.txt dt_import_file-24.txt dt_load_file-00.txt dt_load_file-01.txt dt_load_file-02.txt dt_load_file-03.txt dt_load_file-04.txt dt_load_file-05.txt dt_load_file-06.txt dt_load_file-07.txt dt_load_file-08.txt dt_load_file-09.txt dt_load_file-10.txt dt_load_file-11.txt dt_load_file-12.txt dt_load_file-13.txt dt_load_file-14.txt dt_load_file-15.txt dt_load_file-16.txt dt_load_file-17.txt dt_load_file-18.txt dt_load_file-19.txt dt_load_file-20.txt dt_load_file-21.txt dt_load_file-22.txt dt_load_file-23.txt dt_load_file-24.txt dt_log_file-00.txt dt_log_file-01.txt dt_log_file-02.txt dt_log_file-03.txt dt_log_file-04.txt dt_log_file-05.txt dt_log_file-06.txt dt_log_file-07.txt dt_log_file-08.txt dt_log_file-09.txt dt_log_file-10.txt dt_log_file-11.txt dt_log_file-12.txt dt_log_file-13.txt dt_log_file-14.txt dt_log_file-15.txt dt_log_file-16.txt dt_log_file-17.txt dt_log_file-18.txt dt_log_file-19.txt dt_log_file-20.txt dt_log_file-21.txt dt_log_file-22.txt dt_log_file-23.txt dt_log_file-24.txt sg_log_file-00.txt sg_log_file-01.txt sg_log_file-02.txt sg_log_file-03.txt sg_log_file-04.txt sg_log_file-05.txt sg_log_file-06.txt sg_log_file-07.txt sg_log_file-08.txt sg_log_file-09.txt sg_log_file-10.txt sg_log_file-11.txt sg_log_file-12.txt sg_log_file-13.txt sg_log_file-14.txt sg_log_file-15.txt sg_log_file-16.txt sg_log_file-17.txt sg_log_file-18.txt sg_log_file-19.txt sg_log_file-20.txt sg_log_file-21.txt sg_log_file-22.txt sg_log_file-23.txt sg_log_file-24.txt
++ cd ..

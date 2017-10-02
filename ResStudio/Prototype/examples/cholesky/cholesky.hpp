@@ -3,12 +3,18 @@
 
 #include "ductteip.hpp"
 #include "math.h"
+
+#ifdef USE_MKL
+#include "mkl.h"
+#endif
+#ifdef USE_OPENBLAS
 #include "cblas.h"
 #include "lapacke.h"
 #define dgemm cblas_dgemm
 #define dpotrf LAPACK_dpotrf
 #define dsyrk cblas_dsyrk
 #define dtrsm cblas_dtrsm
+#endif
 #ifdef ACML
 #include <acml.h>
 #endif

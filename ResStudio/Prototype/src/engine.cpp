@@ -43,6 +43,8 @@ engine::engine(){
   char fn[20];
   sprintf(fn,"comm_log_%02d.txt",me);
   comm_log=fopen(fn,"w");
+  terminate_barrier = MPI_REQUEST_NULL;
+  user_ctx = NULL;
   LOG_INFO(LOG_DATA,"Comm Log file : %s opened %p",fn,comm_log);
 }
 /*---------------------------------------------------------------------------------*/
@@ -159,6 +161,7 @@ void engine::setConfig(Config *cfg_,bool sg){
   int nb =  cfg->getXBlocks();
   int ny = cfg->getYDimension() / mb;
   int nx = cfg->getXDimension() / nb;
+  int P = cfg->getProcessors();
   DataHandle dh;
   DataVersion dv;
   IDuctteipTask t;
@@ -174,11 +177,12 @@ void engine::setConfig(Config *cfg_,bool sg){
   if ( memory_policy == ALL_USER_ALLOCATED)
     data_memory = new MemoryManager (  nb * mb ,1 );
   else
-    data_memory = new MemoryManager (  nb * mb ,dps );
+    data_memory = new MemoryManager (  nb * mb / P  ,dps );
   LOG_INFO(LOG_MULTI_THREAD,"data meory:%p\n",data_memory);
   //int ipn = cfg->getIPN();
   if ( !sg){
     thread_manager = new ThreadManager<Options> ( num_threads );//,0* (me % ipn )  * 16/ipn) ;
+    LOG_INFO(LOG_MULTI_THREAD,"nt=%d.\n",num_threads);
   }
   else{
     printf("No SuperGlue created , pure-mpi=%d.\n",config.pure_mpi);

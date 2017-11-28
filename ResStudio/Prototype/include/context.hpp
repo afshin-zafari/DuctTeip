@@ -44,6 +44,7 @@ public:
   virtual void runKernels(IDuctteipTask *task)  ;
   virtual string getTaskName(unsigned long) =0;
   virtual void taskFinished(IDuctteipTask *task,TimeUnit dur)=0;
+  virtual void local_finished(){}
 
   string getName()    {return name;}
   string getFullName(){return getName();}

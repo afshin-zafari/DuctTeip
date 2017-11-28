@@ -4,7 +4,7 @@ libfile         = ./lib/libductteip.a
 libfile_rel     = ./lib/release/libductteip.a
 outdir_rel      = ./temp/release
 
-SUPERGLUE_DIR   =/pica/h1/afshin/sg/superglue/include
+SUPERGLUE_DIR   =/pica/h1/afshin/sg/include
 SUPERGLUE_FLAGS =-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 SOURCE_DIR=./src
 HEADER_DIR=./include
@@ -12,9 +12,9 @@ HEADER_DIR=./include
 APP=chol
 
 ifeq ($(APP),chol)
-    DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DSUBTASK=1 
+    DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM -DSUBTASK=0 -UMPI_TERMINATE -DCONTEXT_KERNELS
 else
-    DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM -DSUBTASK=0
+    DUCTTEIP_FLAGS=-I$(HEADER_DIR) -DWITH_MPI=1 -I$(SUPERGLUE_DIR) -DUAMD_COMM -DSUBTASK=0 -DMPI_TERMINATE
 endif
 
 ifeq ($(CXX),icpc)
@@ -26,6 +26,7 @@ else
 	CPP=mpicxx
 	GCOV_FLAGS=-fprofile-arcs -ftest-coverage
 	OPTIM_FLAGS=-mavx2 -march=broadwell -mfma -O3 -Wwrite-strings
+	OPTIM_FLAGS=
 	SPECIAL_FLAGS=$(OPTIM_FLAGS)     
 	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) -std=c++11 $(SPECIAL_FLAGS)
 endif

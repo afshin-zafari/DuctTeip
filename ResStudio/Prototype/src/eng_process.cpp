@@ -1,4 +1,5 @@
 #include "engine.hpp"
+#include "context.hpp"
 /*---------------------------------------------------------------------------------*/
 bool engine::canTerminate(){
   static int once=0;
@@ -17,10 +18,10 @@ bool engine::canTerminate(){
       LOG_INFO(LOG_MULTI_THREAD,"unf task:%ld %ld  unf-lsnr:%d task_submission_finished:%d\n",
 	       task_list.size(),getUnfinishedTasks(),isAnyUnfinishedListener(),task_submission_finished);
       for(auto t: task_list){
-	LOG_INFO(LOG_MULTI_THREAD,"remaining task:%s \n",t->getName().c_str());
+	LOG_INFO(1 +LOG_MULTI_THREAD,"remaining task:%s \n",t->getName().c_str());
       }
       for(auto L : listener_list){
-	LOG_INFO(LOG_MULTI_THREAD,"remaining listener for data :%s ver:%s, its data sent?:%d, isRecvd?:%d\n",
+	LOG_INFO(1+LOG_MULTI_THREAD,"remaining listener for data :%s ver:%s, its data sent?:%d, isRecvd?:%d\n",
 		 L->getData()->getName().c_str(), L->getRequiredVersion().dumpString().c_str(),L->isDataSent(),L->isReceived());
       }
       wasted_time += getTime() - t;
@@ -32,9 +33,16 @@ bool engine::canTerminate(){
       return false;
     }
     */
-
-    if ( term_ok == TERMINATE_OK ) {
+    int f=0;
+    MPI_Status st;
+    #ifdef MPI_TERMINATE
+    if ( terminate_barrier != MPI_REQUEST_NULL)
+      MPI_Test(&terminate_barrier,&f,&st);
+    #endif
+    
+    if ( f or  term_ok == TERMINATE_OK ) {
       wasted_time += getTime() - t;
+      term_ok = TERMINATE_OK;
       return true;
     }
 
@@ -43,7 +51,12 @@ bool engine::canTerminate(){
     if (task_submission_finished && getUnfinishedTasks() < 1){
       if (once==0){
 	dt_log.addEventEnd(this,DuctteipLog::ProgramExecution);
-	printf("Program finished at %ld.\n",UserTime());
+	#ifdef MPI_TERMINATE
+	MPI_Ibarrier(MPI_COMM_WORLD,&terminate_barrier);
+	#endif
+	if (user_ctx)
+	  user_ctx->local_finished();
+	printf("Program finished at %ld in node:%d.\n",UserTime(),me);
 	once++;
       }
       if ( net_comm->get_host_count() ==1 ) {
@@ -51,7 +64,9 @@ bool engine::canTerminate(){
 	return true;
       }
       if (!isAnyUnfinishedListener() ){
+	#ifndef MPI_TERMINATE
 	sendTerminateOK();
+	#endif
 	static int flag=0;
 	if ( !flag){
 	  LOG_INFO(LOG_MULTI_THREAD,"unf task:%ld unf-lsnr:%d task_submission_finished:%d\n",

@@ -94,6 +94,7 @@ TaskHandle  engine::addTask(IContext * context,
   task->setHandle(task_handle);
   LOG_METRIC(DuctteipLog::TaskDefined);
   task_list.push_back(task);
+  LOG_INFO(LOG_TASKS,"DTTask list size:%d\n",task_list.size());
   if (task_host != me ) {
     putWorkForSendingTask(task);
   }
@@ -295,7 +296,9 @@ long int engine::checkRunningTasks(int v){
     }
     if (task->isFinished() ) {
       task->setState(IDuctteipTask::UpgradingData);
+      //task->finished();
       putWorkForFinishedTask(task);
+      //task->upgradeData('w');
       LOG_INFO(LOG_MLEVEL,"task finished:%s, run-list size:%ld\n",task->get_name().c_str(),running_tasks.size());
       cnt ++;
       it ++;

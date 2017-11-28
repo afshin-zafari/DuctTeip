@@ -39,10 +39,10 @@ struct KernelTask : Task<Options>
     IDuctteipTask* dt_task;
     KernelTask(IDuctteipTask*);
     ~KernelTask();
-    void run(TaskExecutor<Options> &te);
+    void run();
     string get_name();
 };
-/*======================= IDuctteipTask ==============================================*/
+  /*--------------------------------------------------------------------------*/
 class SuperGlueTaskBase:public Task<Options> {
 private:
   IDuctteipTask* dt_task;
@@ -51,18 +51,26 @@ protected:
   string name;
 public:
   SuperGlueTaskBase(IDuctteipTask* d);
-  void run(TaskExecutor<Options> &te) {
-    task_executor=&te;
+  void run() {
+    LOG_INFO(LOG_TASKS,"sgTask.run(().\n");//,dt_task->getName().c_str());
     if (config.simulation) return;
-    
     runKernel();
     }
-  /*--------------------------------------------------------------------------*/
   virtual void runKernel() =0;
   string get_name(){return name;}//string("basic_task_for_kernels");}
   LastLevel_Data  &get_argument(int);
 };
-
+  /*--------------------------------------------------------------------------*/
+class SyncTask :public Task<Options> {
+private:
+  IDuctteipTask* dt_task;
+  string name;
+public:
+  SyncTask(IDuctteipTask *);
+  ~SyncTask();
+  void run(){}
+  string get_name(){return name;}
+};
 
 typedef unsigned long TaskHandle;
 /*======================= IDuctteipTask ==============================================*/
@@ -85,7 +93,8 @@ protected:
     TaskBase<Options>     *sg_task;
     TaskExecutor<Options> *te;
     TimeUnit               start,end,exp_fin;
-    void *guest;
+    void                  *guest;
+    SyncTask              *syncTask;
 public:
   int child_count;
     enum TaskType
@@ -155,6 +164,8 @@ public:
   void *get_guest();
   void  set_guest(void *);
   void subtask(SuperGlueTaskBase *);
+  void submission_finished();
+  virtual void finished(){};
 };
 /*======================= IDuctteipTask ==============================================*/
 typedef IDuctteipTask DuctTeip_Task;

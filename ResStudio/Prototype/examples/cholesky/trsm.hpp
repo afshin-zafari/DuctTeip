@@ -1,5 +1,6 @@
 struct TrsmTask : public SuperGlueTaskBase {
   TrsmTask(  IDuctteipTask *task_ ,Handle<Options> &h1,Handle<Options> &h2):  SuperGlueTaskBase(task_)  {
+    register_access(ReadWriteAdd::read,*task_->getSyncHandle());
     registerAccess(ReadWriteAdd::read , h1);
     registerAccess(ReadWriteAdd::write, h2);
     name.assign("trsm");

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-struct GemmTask : public SuperGlueTaskBase {
+struct GemmTask : public  SuperGlueTaskBase {
   bool b_trans,c_decrease;
 /*----------------------------------------------------------------------------*/
   GemmTask(IDuctteipTask *task_ ,
@@ -11,6 +11,7 @@ struct GemmTask : public SuperGlueTaskBase {
     SuperGlueTaskBase (task_),
     b_trans(trans_b),
     c_decrease(decrease_c){
+        register_access(ReadWriteAdd::read,*task_->getSyncHandle());
         registerAccess(ReadWriteAdd::read , h1);
         registerAccess(ReadWriteAdd::read , h2);
         registerAccess(ReadWriteAdd::write, h3);

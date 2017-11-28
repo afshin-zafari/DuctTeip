@@ -1,10 +1,28 @@
 #include "engine.hpp"
 /*---------------------------------------------------------------------------------*/
+void engine::doProcessNewTasksWorks(){
+  if ( new_tasks_queue.size() == 0 )
+    return;
+  criticalSection(Enter);
+
+  LOG_EVENT(DuctteipLog::WorkProcessed);
+
+  DuctTeipWork *work = new_tasks_queue.front();
+  new_tasks_queue.pop_front();
+  executeWork(work);
+  assert(work);
+  LOG_INFO(LOG_MULTI_THREAD,"work:%d, tag:%d, item:%d\n",work->event,work->tag,work->item);
+  criticalSection(Leave);
+  LOG_INFO(LOG_MLEVEL,"new tasks  queue size after process : %d.\n",new_tasks_queue.size());
+}
+/*---------------------------------------------------------------------------------*/
 void engine::doProcessWorks(){
   TimeUnit t= getTime();
   if ( work_queue.size() < 1 ) {
     wasted_time += getTime() - t;
 //    LOG_INFO(LOG_MULTI_THREAD,"No work. #running tasks:%d, wt:%ld\n",running_tasks.size(),wasted_time);
+
+    doProcessNewTasksWorks();
     return;
   }
   criticalSection(Enter);
@@ -17,7 +35,7 @@ void engine::doProcessWorks(){
   assert(work);
   LOG_INFO(LOG_MULTI_THREAD,"work:%d, tag:%d, item:%d\n",work->event,work->tag,work->item);
   criticalSection(Leave);
-  LOG_INFO(LOG_MLEVEL,"\n");
+  LOG_INFO(LOG_MLEVEL,"work queue size after process : %d.\n",work_queue.size());
 }
 /*---------------------------------------------------------------------------------*/
 void engine::waitForWorkReady(){
@@ -102,12 +120,13 @@ void engine::putWorkForNewTask(IDuctteipTask *task){
   work->event = DuctTeipWork::Added;
   work->item  = DuctTeipWork::CheckTaskForData;
   work->host  = task->getHost(); // ToDo : create_place, dest_place
-  work_queue.push_back(work);
+  
+  new_tasks_queue.push_back(work);
   DuctTeipWork *second_work = new DuctTeipWork;
   assert(second_work);
   *second_work = *work;
   second_work->item  = DuctTeipWork::CheckTaskForRun;
-  work_queue.push_back(second_work);
+  new_tasks_queue.push_back(second_work);
 }
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForReceivedTask(IDuctteipTask *task){
@@ -135,8 +154,8 @@ void engine::putWorkForFinishedTask(IDuctteipTask * task){
   work->host  = task->getHost();
   criticalSection(Enter);
   work_queue.push_back(work);
-  LOG_INFO(LOG_MULTI_THREAD+1,"%s\n",task->getName().c_str());
   criticalSection(Leave);
+  LOG_INFO(LOG_MULTI_THREAD+1,"%s\n",task->getName().c_str());
 }
 /*---------------------------------------------------------------------------------*/
 void engine::putWorkForSingleDataReady(IData* data){

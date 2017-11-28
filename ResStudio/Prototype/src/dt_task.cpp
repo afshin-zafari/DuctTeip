@@ -33,6 +33,8 @@ IDuctteipTask::IDuctteipTask (IContext *context,
   exported = imported = false;
 #if SUBTASK ==1
   sg_task = new KernelTask(this);
+#else
+  //register_access(ReadWriteAdd::read, getSyncHandle());
 #endif
 
 }
@@ -144,7 +146,7 @@ bool IDuctteipTask::canRun(char c){
   }
   string s1,s2;
   s1=getName();s2="            ";
-  for ( it = data_list->begin(); it != data_list->end(); ++it ) {
+  for ( it = data_list->begin(); it != data_list->end() && result; ++it ) {
     if(c=='r'){
       s1+=" - "+(*it)->data->getName()+" , "+(*it)->required_version.dumpString();
       s2+="             " +(*it)->data->getRunTimeVersion((*it)->type).dumpString();
@@ -256,13 +258,38 @@ void IDuctteipTask::run(){
   start = getTime();
   exp_fin = dtEngine.getAverageDur(getKey())+start;
 #if SUBTASK ==1
-  if ( dtEngine.getThrdManager() ) // in pure-mpi case, the ptr is nully
+  if ( dtEngine.getThrdManager() ){ // in pure-mpi case, the ptr is null
+    LOG_INFO(LOG_TASKS,"submit sg_task %s\n.",sg_task->get_name().c_str());
     dtEngine.getThrdManager()->submit(sg_task);
+    LOG_INFO(LOG_TASKS,"after submit sg_task %s\n.",sg_task->get_name().c_str());
+  }
   else
     parent_context->runKernels(this);
 #else
+#if CONTEXT_KERNELS
+  assert(parent_context);
+  parent_context->runKernels(this);
+#else
   runKernel();
 #endif
+#endif
+}
+/*--------------------------------------------------------------*/
+SyncTask::SyncTask(IDuctteipTask *t){
+  name.assign("SyncTask");
+  dt_task = t;
+  LOG_INFO(LOG_TASKS,"SyncTask for %s.\n",t->getName().c_str());
+  register_access(ReadWriteAdd::write, *dt_task->getSyncHandle());  
+}
+/*--------------------------------------------------------------*/
+SyncTask::~SyncTask(){
+  if (dt_task)
+    dt_task->setFinished(true);
+}
+/*--------------------------------------------------------------*/
+void IDuctteipTask::submission_finished(){
+  syncTask =new SyncTask(this);
+  dtEngine.getThrdManager()->submit(syncTask);
 }
 /*--------------------------------------------------------------*/
 void IDuctteipTask::setFinished(bool flag){
@@ -316,9 +343,12 @@ KernelTask::~KernelTask(){
   dt_task->setFinished(true);
 }
 /*--------------------------------------------------------------*/
-void KernelTask::run(TaskExecutor<Options> &te){
+void KernelTask::run(){
+  LOG_INFO(LOG_TASKS,"task  run \n");
+  /*
   dt_task->setTaskExecutor(&te);
   dt_task->getParentContext()->runKernels(dt_task);
+  */
 }
 /*--------------------------------------------------------------*/
 string KernelTask::get_name(){
@@ -349,18 +379,24 @@ void *IDuctteipTask::get_guest(){return guest;}
 /*--------------------------------------------------------------*/
 void IDuctteipTask::subtask(SuperGlueTaskBase *t){
   if ( config.pure_mpi){
-    t->run(*te);
+    t->run();
     printf("immediate task run.\n");
   }
   else{
+    #if SUBTASK==1
     te->subtask(getKernelTask(),t);
+    #else
+    dtEngine.getThrdManager()->submit(t);
+    LOG_INFO(LOG_TASKS,"run subtask for :%s.\n", getName().c_str());
+    #endif
     //printf("scheduled task.\n");
   }
 }
 /*===============================================================*/
 SuperGlueTaskBase::SuperGlueTaskBase(IDuctteipTask* d):dt_task(d){
-    registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
-    LOG_METRIC(DuctteipLog::SuperGlueTaskDefine);
+  // registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
+  LOG_INFO(LOG_TASKS,"CTOR child task for %s.\n",d->getName().c_str());
+  LOG_METRIC(DuctteipLog::SuperGlueTaskDefine);
 }
 /*--------------------------------------------------------------*/
 LastLevel_Data &SuperGlueTaskBase::get_argument(int arg){

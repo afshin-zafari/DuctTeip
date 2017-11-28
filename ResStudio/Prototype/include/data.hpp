@@ -193,7 +193,10 @@ public:
     DataVersion getRunTimeVersion(byte type);
     void setRunTimeVersion(string to_ctx, int to_version);
     void incrementRunTimeVersion(byte type,int v = 1 );
-    void setHost(int h){host = h;}
+    void setHost(int h){
+      //LOG_INFO(1,"hohst is changed from %d to %d.\n",host,h);
+      host = h;
+    }
     IData *operator () (const int i,const int j=0) ;
     IData *operator [] (const int i) ;
     IData *operator & (void) ;
@@ -270,7 +273,7 @@ private :
   double *memory;
 public:
 
-  LastLevel_Data(Task<Options,-1> *t,int arg){
+  LastLevel_Data(Task<Options> *t,int arg){
     arg++;
     N = t->getAccess(arg).getHandle()->block->X_E();
     M = t->getAccess(arg).getHandle()->block->Y_E();

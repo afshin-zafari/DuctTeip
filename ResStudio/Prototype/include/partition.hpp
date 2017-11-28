@@ -310,8 +310,8 @@ struct Options : public DefaultOptions<Options> {
   typedef Enable Logging;
   typedef Trace<Options> Instrumentation;
   typedef Enable TaskName;
-  typedef Enable PassTaskExecutor;
-  typedef Enable Subtasks;
+  //  typedef Enable PassTaskExecutor;
+  //  typedef Enable Subtasks;
 };
 /*===================== SuperGlue Handle ================================================*/
 

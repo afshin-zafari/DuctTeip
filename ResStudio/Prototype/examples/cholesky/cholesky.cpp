@@ -2,25 +2,26 @@
 //typedef Data DuctTeip_Data;
 void Cholesky::taskified(){/*@\label{line:taskified_start}@*/
   Data &A= *M;
+  int cnt=0;
   int Nb = A.getXNumBlocks();
-  //  LOG_INFO(LOG_DATA,
   //printf("Memory Type of Cholesky data:%d, host type=%d\n",  A.getMemoryType(),A.getHostType());
   for(int i = 0; i<Nb; i++){
     for(int j = 0; j<i; j++){
       // submit task for $ \color{cmtmgray}A_{ii}=A_{ij}A_{ij}^T$
-      addTask(SYRK, A(i,j), A(i,i));
+      addTask(SYRK, A(i,j), A(i,i));cnt++;
       for(int k = i+1; k<Nb; k++){
 	// submit task for $ \color{cmtmgray}A_{ki}=A_{kj}A_{ij}$
-	addTask(GEMM, A(k,j), A(i,j), A(k,i));
+	addTask(GEMM, A(k,j), A(i,j), A(k,i));cnt++;
       }
     }
     // submit task for $ \color{cmtmgray}A_{ii}\rightarrow LL^T$
-    addTask(POTRF, A(i,i));
+    addTask(POTRF, A(i,i));cnt++;
     for(int j = i+1; j<Nb; j++){
       // submit task for $ \color{cmtmgray}A_{ji}=A_{ii}^{-1}A_{ji}$
-      addTask(TRSM, A(i,i), A(j,i));
+      addTask(TRSM, A(i,i), A(j,i));cnt++;
     }
   }
+  LOG_INFO(LOG_DATA,"DTTask count:%d\n",cnt);
 }/*@\label{line:taskified_end}@*/
 //=======================================================
 void Cholesky::runKernels(DuctTeip_Task *task ) /*@\label{line:runkernelsdef_start}@*/
@@ -58,7 +59,7 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
      //     LOG_INFO(LOG_DATA,"\n");
     SyrkTask *syrk = new SyrkTask(dt_task, M(i,j), M(i,i)); /*@\label{line:pksyrk}@*/
     dt_task->subtask(syrk);
-    //LOG_INFO(LOG_DATA,"\n");
+    LOG_INFO(LOG_DATA,"\n");
     for (int k = i+1; k<n ; k++){
      // create and submit task for $ \color{cmtmgray}M_{ki}=M_{kj}M_{ij}$
      GemmTask *gemm=new GemmTask(dt_task,M(k,j),M(i,j),M(k,i));/*@\label{line:pkgemm}@*/
@@ -67,7 +68,8 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
    }
    // submit task for $ \color{cmtmgray}M_{ii}\rightarrow LL^T$
    PotrfTask *potrf = new PotrfTask(dt_task, M(i,i));/*@\label{line:pkpotrf}@*/
-   dt_task->subtask(potrf);
+   //   dt_task->subtask(potrf);
+   dtEngine.getThrdManager()->submit(potrf);
    //LOG_INFO(LOG_DATA,"\n");
    for( int j = i+1; j<n ; j++){
      // submit task for $ \color{cmtmgray}M_{ji}=M_{ii}^{-1}M_{ji}$
@@ -77,6 +79,7 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
    //LOG_INFO(LOG_DATA,"\n");
   }
   //  dt_task->isSubmitting = false;
+  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }/*@\label{line:pkdef_end}@*/
@@ -111,6 +114,7 @@ void Cholesky::TRSM_kernel(DuctTeip_Task *dt_task)
   }
   //  dt_task->isSubmitting = false;
 
+  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }
@@ -145,6 +149,7 @@ void Cholesky::SYRK_kernel(DuctTeip_Task *dt_task)
   }
   //  dt_task->isSubmitting = false;
 
+  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }
@@ -177,6 +182,7 @@ void Cholesky::GEMM_kernel(DuctTeip_Task  *dt_task)
     }
   }
   //  dt_task->isSubmitting = false;
+  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }

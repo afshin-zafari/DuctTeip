@@ -1,7 +1,7 @@
 
 #13: @Simulation: N=99684,P=16, p=4,q=4,B=12,b=13,k=13,t=54891,T=28,s=24,S=13249204416,r=30,R=16561505520,c=3,z=639,i=7552.000000
 import glob as g
-files=g.glob('sim_result*')
+files=g.glob('sim_result*6097*')
 print 'sim_res=[\\'
 for fn in files:
   f=open(fn,'rb')

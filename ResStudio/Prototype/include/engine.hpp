@@ -66,13 +66,15 @@ private:
 
   MailBox        	*mailbox;
   INetwork         	*net_comm;
-  list<DuctTeipWork *> 	work_queue;
+  list<DuctTeipWork *> 	work_queue,new_tasks_queue;
   list<IListener *> 	listener_list;
   SuperGlue<Options>    *thread_manager;
   Config 		*cfg;
   MemoryManager 	*data_memory;
   int             	term_ok,memory_policy;
+  MPI_Request           terminate_barrier;
   FILE                  *comm_log;
+  IContext              *user_ctx;
   enum {
     EVEN_INIT            ,
     WAIT_FOR_FIRST       ,
@@ -150,6 +152,7 @@ public:
   bool isAnyUnfinishedListener();
  
   /*----------------------------ADMINISTRATION-----------------------------------------*/
+  void set_user_context(IContext *s){user_ctx=s;}
   template <typename T>
   void set_superglue(SuperGlue<T> * );
   int getLocalNumBlocks();
@@ -179,6 +182,7 @@ public:
   MemoryItem *newDataMemory();
   void insertDataMemory(IData *,byte *);  
   /*------------------WORK  ---------------------------------------------------------*/
+  void doProcessNewTasksWorks();
   void doProcessWorks();
   void waitForWorkReady();
   void putWorkForDataReady(list<DataAccess *> *data_list);

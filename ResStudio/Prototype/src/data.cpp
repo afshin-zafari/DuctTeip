@@ -281,7 +281,7 @@ Handle<Options> **IData::createSuperGlueHandles(){
       //      LOG_INFO(LOG_DATA,"Block(%d,%d).Y_E:%d,X_E:%d\n",i,j,hM[i][j].block->Y_E(),hM[i][j].block->X_E());
       //      LOG_INFO(LOG_DATA,"Block(%d,%d).Y_EB:%d,X_EB:%d\n",i,j,hM[i][j].block->Y_EB(),hM[i][j].block->X_EB());
       sprintf( hM[i][j].name,"M[%d,%d](%d,%d)",blk.by,blk.bx,i,j);
-      LOG_INFO(LOG_DATA,"%s\n",hM[i][j].name);
+      //LOG_INFO(LOG_DATA,"%s\n",hM[i][j].name);
     }
   }
   LOG_INFO(LOG_DATA,"\n");
@@ -716,11 +716,11 @@ int IData::getHost(){
     int i=(rand() / RAND_MAX ) * (n-1) ;
     return host_list[i%n];
   }
-  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
+  //  LOG_INFO(LOG_MLEVEL,"parent data:%p hpData:%p.\n",parent_data,hpData);
   if(!hpData)
     return host;
   if ( parent_data ==NULL){
-    LOG_INFO(0*LOG_MLEVEL,"parent data is null.\n");
+    LOG_INFO(LOG_MLEVEL,"parent data is null,host %d returned.\n",host);
     return host;
   }
   if (parent_data->Nb == 1 &&   parent_data->Mb == 1 )
@@ -1038,5 +1038,5 @@ SuperGlue_Data::SuperGlue_Data(IData *d, int &m,int &n){
   LOG_INFO(LOG_DATA,"\n");
   rows = m = d->getYLocalNumBlocks();
   cols = n = d->getXLocalNumBlocks();
-  LOG_INFO(LOG_DATA,"\n");
+  LOG_INFO(LOG_DATA,"m:%d, n:%d\n",m,n);
 }

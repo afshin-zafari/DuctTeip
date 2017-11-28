@@ -1,3 +1,21 @@
+def create_all_fixed_size(N_,grids):  
+  no=0
+  for g in grids:
+    P,p,q=g
+    for B in [36]:
+      for z in [462]:        
+        b=N_/B/z
+        #if z>1000: continue
+        #if z< 400: continue
+        N=z*B*b
+        if float(N)/float(N_) < 0.99:
+          print N,N_,b,B,float(N)/float(N_)
+          continue
+        no += 1
+        #print "N=",N,";P=",P,";p=",p,";q=",p,";B=",B,";b=",b,";z=",z
+        print "    %d) N=%d;P=%d;p=%d;q=%d;B=%d;b=%d;z=%d;;"%(no,N,P,p,q,B,b,z)
+  return no
+
 def create_all(N_,grids):  
   no=0
   for g in grids:
@@ -32,14 +50,14 @@ def create(N_,P):
   return no
 N=100000
 P=36
-grids=[(9,1,9),(9,9,1)]
+grids=[(9,1,9),(9,9,1),(9,3,3)]
 import sys
 if len(sys.argv)>2:
   N=int(sys.argv[1])
   P=int(sys.argv[2])
 print "function set_pars {"
 print "  case $1 in" 
-no=create_all(N,grids)
+no=create_all_fixed_size(N,grids)
 print "  esac"
 print "}"
 print "sim_cnt=%d;"%no

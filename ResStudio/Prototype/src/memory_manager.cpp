@@ -112,7 +112,8 @@ MemoryItem *MemoryManager::expandMemoryItems(int n )
     MemoryItem * first_mem,*m;
     first_mem=NULL;
     int elem_count = memory_list.size();
-    int expand  = (elem_count ==0)?n:elem_count/2 + 1;
+    int expand  = (elem_count ==0)?n:10;//elem_count/2 + 1;
+    fprintf(stderr,"@memory pool is going to be expanded by %d items, each %ld bytes.\n",expand,element_size);
     for ( int i = 0 ; i < expand; i ++)
     {
         m = new MemoryItem(element_size,last_key ++);

@@ -181,6 +181,8 @@ int MPIComm::finish(){
   for (it = request_list.begin(); it != request_list.end(); it ++){
     LOG_INFO(LOG_COMM,"request with tag:%d, handle:%ld cancelled.\n",
 	     (*it)->tag,(*it)->handle);
+    fprintf(stdout,"request with tag:%d, handle:%ld cancelled.\n",
+	     (*it)->tag,(*it)->handle);
     MPI_Cancel((*it)->request);
   }
   LOG_INFO(LOG_COMM,"mpi finalized.\n");

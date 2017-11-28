@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -A snic2017-7-18
+#SBATCH -A snic2017-1-448
 #SBATCH -p node
 #SBATCH -N 2
 #SBATCH -n 40
@@ -57,7 +57,7 @@ date
 if [ $comp == "gcc" ] ; then 
     mpiexec -n $P --cpus-per-proc 2 -npernode 10 -bind-to core --output-filename ${outfile} ./cholesky ${params_long}
 else
-    for sim_no in $(seq 8 8) # $sim_cnt)
+    for sim_no in $(seq 1 $sim_cnt)
     do
       create_pars $sim_no
       srun -n $P -l --output=$outfile $app ${params_long} || true

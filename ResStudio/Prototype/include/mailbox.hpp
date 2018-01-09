@@ -55,6 +55,8 @@ public:
         MigratedTaskOutDataTag
 #ifdef UAMD_COMM // User Allocated Memory Data communication
 	,UAMDataTag
+        ,UAMDMigrateDataTag
+        ,UAMDMigratedTaskOutDataTag
 #endif
 	
     } ;

@@ -280,17 +280,17 @@ double DuctteipLog::getStattime(int e){
    }
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::logExportTask(long count){
-    load * l = new load(getTime(),count);
+    load * l = new load(UserTime(),count);
     export_list.push_back(l);
   }
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::logImportTask(long count){
-    load * l = new load(getTime(),count);
+    load * l = new load(UserTime(),count);
     import_list.push_back(l);
   }
 /*----------------------------------------------------------------------------*/
   void DuctteipLog::logLoadChange(long ld){
-    load * l = new load(getTime(),ld);
+    load * l = new load(UserTime(),ld);
     load_list.push_back(l);
   }
 /*----------------------------------------------------------------------------*/

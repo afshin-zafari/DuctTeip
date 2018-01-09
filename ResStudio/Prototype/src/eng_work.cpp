@@ -1,8 +1,11 @@
 #include "engine.hpp"
 /*---------------------------------------------------------------------------------*/
 void engine::doProcessNewTasksWorks(){
-  if ( new_tasks_queue.size() == 0 )
+  if ( new_tasks_queue.size() == 0 ){
+    //    cfg->setDLB(dlb_mode);
     return;
+  }
+  //  cfg->setDLB(0);
   criticalSection(Enter);
 
   LOG_EVENT(DuctteipLog::WorkProcessed);
@@ -194,8 +197,11 @@ void engine::executeTaskWork(DuctTeipWork * work){
 	  long actives=dlb.getActiveTasksCount();
 	  LOG_INFO(LOG_DLBX,"\n");
 	  if ( actives< dlb.DLB_BUSY_TASKS ){
-	    LOG_INFO(LOG_DLBX,"Let task run, since there is not enough active tasks:%ld\n",actives);
+	    LOG_INFO(LOG_DLB,"Let task run, since there is not enough active tasks:%ld\n",actives);
 	    work->task->run();
+	  }
+	  else{
+	    dlb.refresh_needed = true;
 	  }
 	}
 	else{

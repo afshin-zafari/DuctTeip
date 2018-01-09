@@ -5,6 +5,7 @@ SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-form
 HEADER_DIR=../../include
 DUCTTEIP_FLAGS=-I$(HEADER_DIR) -std=c++11
 
+COMP=gcc
 CPP=mpic++
 OUT=debug
 BLAS=openblas
@@ -37,7 +38,7 @@ ifeq ($(OUT),debug)
      OUT_FLAG= -g
 else
      ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/release/libductteip.a
-     OUT_FLAG=-DDEBUG=0
+     OUT_FLAG=-DDEBUG=0 -DBUILD=RELEASE
 endif
 
 DUCTTEIP_FLAGS += $(OUT_FLAG)
@@ -69,12 +70,12 @@ endif
 #########################################################
 headers:=$(shell ls -Sr *.hpp)
 
-all: bin/cholesky
+all: bin/cholesky_$(COMP)
 
-bin/cholesky: bin/cholesky.o bin/main.o
+bin/cholesky_$(COMP): bin/cholesky.o bin/main.o
 	$(info )
 	$(info Link with DTLib.)
-	$(LINKER) bin/cholesky.o bin/main.o $(ductteip_lib) $(LINK_FLAGS) -o bin/cholesky 
+	$(LINKER) bin/cholesky.o bin/main.o $(ductteip_lib) $(LINK_FLAGS) -o bin/cholesky_$(COMP) 
 	$(info )
 
 bin/cholesky.o : cholesky.cpp $(headers)
@@ -92,4 +93,4 @@ bin/main.o : main.cpp $(headers)
 
 
 clean: 
-	rm -f bin/*.o bin/cholesky bin/*file*
+	rm -f bin/*.o bin/cholesky_$(COMP) bin/*file*

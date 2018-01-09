@@ -71,7 +71,7 @@ private:
   SuperGlue<Options>    *thread_manager;
   Config 		*cfg;
   MemoryManager 	*data_memory;
-  int             	term_ok,memory_policy;
+  int             	term_ok,memory_policy,dlb_mode;
   MPI_Request           terminate_barrier;
   FILE                  *comm_log;
   IContext              *user_ctx;

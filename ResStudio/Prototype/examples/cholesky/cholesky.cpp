@@ -68,8 +68,7 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
    }
    // submit task for $ \color{cmtmgray}M_{ii}\rightarrow LL^T$
    PotrfTask *potrf = new PotrfTask(dt_task, M(i,i));/*@\label{line:pkpotrf}@*/
-   //   dt_task->subtask(potrf);
-   dtEngine.getThrdManager()->submit(potrf);
+   dt_task->subtask(potrf);
    //LOG_INFO(LOG_DATA,"\n");
    for( int j = i+1; j<n ; j++){
      // submit task for $ \color{cmtmgray}M_{ji}=M_{ii}^{-1}M_{ji}$
@@ -78,8 +77,6 @@ void Cholesky::POTRF_kernel(DuctTeip_Task *dt_task){/*@\label{line:pkdef_start}@
    }
    //LOG_INFO(LOG_DATA,"\n");
   }
-  //  dt_task->isSubmitting = false;
-  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }/*@\label{line:pkdef_end}@*/
@@ -114,7 +111,6 @@ void Cholesky::TRSM_kernel(DuctTeip_Task *dt_task)
   }
   //  dt_task->isSubmitting = false;
 
-  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }
@@ -149,7 +145,6 @@ void Cholesky::SYRK_kernel(DuctTeip_Task *dt_task)
   }
   //  dt_task->isSubmitting = false;
 
-  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }
@@ -182,7 +177,6 @@ void Cholesky::GEMM_kernel(DuctTeip_Task  *dt_task)
     }
   }
   //  dt_task->isSubmitting = false;
-  dt_task->submission_finished();
   if ( config.pure_mpi)
     dt_task->setFinished(true);
 }

@@ -86,7 +86,9 @@ public:
     int get_rows(){return M;}
     string        getName          ()
     {
-        return name;
+      stringstream ss;
+      ss << name << ",dh:[" << getDataHandleID() << "]";
+      return ss.str();
     }
     IContext     *getParent        ()
     {
@@ -127,7 +129,9 @@ public:
     }
     unsigned long getDataHandleID  ()
     {
+      if (my_data_handle)
         return my_data_handle->data_handle;
+      return -1;
     }
     void setBlockIdx(int y,int x);
     void getBlockIdx(int &row, int & col)
@@ -149,6 +153,10 @@ public:
     void setDataMemory(MemoryItem *mi ) ;
     MemoryItem *getDataMemory();
     void setLocalNumBlocks(int mb, int nb ) ;
+    void setLocalDimensions(int m, int n){
+      local_m = m;
+      local_n = n;
+    }
     /*--------------------------------------------------------------------------*/
     int  getXLocalNumBlocks( )
     {
@@ -256,7 +264,7 @@ public:
       }
       return sg_data;
   }
-  
+  void setRunTimeVersion(DataVersion rd, DataVersion wr)  ;
 };
 /*========================== IData Class =====================================*/
 

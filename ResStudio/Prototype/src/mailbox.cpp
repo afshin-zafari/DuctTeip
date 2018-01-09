@@ -1,4 +1,3 @@
-
 #include "mailbox.hpp"
 #include "data.hpp"
 /*-------------------------------------------------------------------------------*/
@@ -131,11 +130,14 @@ bool MailBox::getEventAsync(MemoryManager *memman,MailBoxEvent *event,bool *comp
   event->host      = source;
   event->tag       = tag ;
   event->handle    = 0;
-  if ( tag == MigrateDataTag ||
+  if (
+      tag == MigrateDataTag ||
        tag == DataTag ||
        tag == MigratedTaskOutDataTag
 #ifdef UAMD_COMM
        || tag == UAMDataTag
+       || tag == UAMDMigrateDataTag        
+       || tag == UAMDMigratedTaskOutDataTag
 #endif
        ){
 #ifdef UAMD_COMM
@@ -189,6 +191,8 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
 	 tag == MigratedTaskOutDataTag
 	 #ifdef UAMD_COMM
 	 || tag == UAMDataTag
+	 || tag == UAMDMigrateDataTag        
+	 || tag == UAMDMigratedTaskOutDataTag
 	 #endif
 	 ){
       #ifdef UAMD_COMM
@@ -209,15 +213,22 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
     LOG_INFO(LOG_MULTI_THREAD,"buf:%p,result:%d, completed:%d, tag:%d\n",event->buffer,res,*completed,tag);
     return true;
   }
-
+  #ifdef UAMD_COMM
+  int dlbtags[9]={
+  #else
   int dlbtags[7]={
+    #endif
     FindIdleTag,
     FindBusyTag,
-    MigrateTaskTag,
-    MigrateDataTag,
     DeclineMigrateTag,
     AcceptMigrateTag,
+    MigrateTaskTag,
+    MigrateDataTag,
     MigratedTaskOutDataTag
+    #ifdef UAMD_COMM
+    ,UAMDMigrateDataTag
+    ,UAMDMigratedTaskOutDataTag
+    #endif
   };
   tag=-1;
   found = comm->probeTags(dlbtags,7,&source,&length,&tag);
@@ -236,8 +247,19 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
       *completed = true;
       return true;
     }
-    if (  tag == MigrateDataTag || tag == MigratedTaskOutDataTag) {
+    if (
+	tag == MigrateDataTag
+	|| tag == MigratedTaskOutDataTag
+        #ifdef UAMD_COMM
+	|| tag == UAMDMigrateDataTag
+	|| tag == UAMDMigratedTaskOutDataTag
+	#endif
+	  ) {
+      #ifdef UAMD_COMM
+      event->memory = new MemoryItem(new byte[length],length,1);
+      #else
       event->memory = memman->getNewMemory();
+      #endif
       event->buffer = event->memory->getAddress();
       event->memory->setState(MemoryItem::InUse);
     LOG_INFO(LOG_MULTI_THREAD,"DLB DATA rcv src:%d,tag:%d,len:%d,buf:%p\n",source,tag,length,event->buffer);
@@ -245,8 +267,6 @@ bool MailBox::getEvent(MemoryManager *memman,MailBoxEvent *event,bool *completed
     else{
       event->buffer = new byte[event->length];
     }
-
-    //int res=
     comm->receive(event->buffer,length,tag,source,true);
     if(0)printf("et , el, es : %d,%d,%d\n",event->tag,event->length,event->host);
     *completed = true;

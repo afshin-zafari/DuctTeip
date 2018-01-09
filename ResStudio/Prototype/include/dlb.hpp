@@ -27,6 +27,8 @@ private:
     /**/ dlb_node;
   unsigned long dlb_failure,dlb_glb_failure,dlb_silent_cnt,dlb_tot_time;
   TimeUnit dlb_silent_start,last_msg_time,dlb_silent_tot;
+
+
   int FAILURE_MAX,silent_mode;
   /*--------------------------------------------------------------------------------*/
 
@@ -109,6 +111,7 @@ private:
   };
   vector<Failure *> dlb_fail_list;
 public:
+  bool refresh_needed;
   bool isInList(int p,int req);
   int  getRandomNodeEx(int r);
   int  getRandomNodeOld(int exclude =-1);

@@ -23,7 +23,9 @@ void engine::register_task(IDuctteipTask *task)
   criticalSection(Enter) ;
   TaskHandle task_handle = last_task_handle ++;
   if(last_task_handle ==1){
-    if (me == 0)printf("First task submitted at %ld.\n",UserTime());
+    //    if (me == 0)
+    printf("First task submitted at pureTime %ld.\n",getTime());
+    printf("First task submitted at UserTime %ld.\n",UserTime());
     dt_log.addEventStart(this,DuctteipLog::ProgramExecution);
     assert(net_comm);
     net_comm->barrier();
@@ -33,11 +35,11 @@ void engine::register_task(IDuctteipTask *task)
   LOG_METRIC(DuctteipLog::TaskDefined);
   if (task->getHost() != me ) {
     if(0)putWorkForSendingTask(task);
-    LOG_INFO(LOG_TASKS,"New task not added, its host is:%d.\n",task->getHost() );
+    LOG_INFO(0*LOG_TASKS,"New task not added, its host is:%d.\n",task->getHost() );
   }
   else {
     task_list.push_back(task);
-    LOG_INFO(LOG_TASKS,"New task added, total count :%d.\n",task_list.size());
+    LOG_INFO(0*LOG_TASKS,"New task added, total count :%d.\n",task_list.size());
     putWorkForNewTask(task);
   }
   criticalSection(Leave) ;

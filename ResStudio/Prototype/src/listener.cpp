@@ -86,7 +86,7 @@ bool IListener::isDataReady(){
 	   data_request->data->getRunTimeVersion(IData::READ).dumpString().c_str(),
 	   data_request->required_version.dumpString().c_str());
   
-  bool isReady = (data_request->data->getRunTimeVersion(IData::READ) == data_request->required_version);
+  bool isReady = (data_request->data->getRunTimeVersion(IData::READ) >= data_request->required_version);
   data_request->data->dump();
   data_request->data->getRunTimeVersion(IData::READ).dump();
   data_request->required_version.dump();
@@ -238,6 +238,7 @@ void IListener::deserialize(byte *buffer, int &offset, int max_length){
   data_access->required_version.dump();
   data_request = data_access;
   assert(data_request);
-  LOG_INFO(LOG_LISTENERS,"Data for lsnr:%s\n",data_request->data->getName().c_str());
+  if (data_request->data)
+    LOG_INFO(LOG_LISTENERS,"Data for lsnr:%s\n",data_request->data->getName().c_str());
 }
 /*===============================================================================*/

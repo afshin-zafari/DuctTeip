@@ -10,8 +10,7 @@ public:
   //    and the input/output SuperGlue data 
   PotrfTask( DuctTeip_Task *task_,Handle<Options> &A):
     SuperGlueTaskBase(task_) {
-    //register_access(ReadWriteAdd::read,*task_->getSyncHandle());
-    //registerAccess(ReadWriteAdd::write, A);/*@\label{line:sgreg}@*/
+    registerAccess(ReadWriteAdd::write, A);/*@\label{line:sgreg}@*/
     LOG_INFO(LOG_TASKS,"CTOR sgPotrf for parent:%s.\n",task_->getName().c_str());
     name.assign("potrf");
   }

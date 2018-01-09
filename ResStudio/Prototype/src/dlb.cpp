@@ -38,6 +38,7 @@ void DLB::updateDLBProfile(){
 }
 /*---------------------------------------------------------------*/
 void DLB::restartDLB(int s){
+  refresh_needed = false;
   if ( dlb_state == TASK_IMPORTED || dlb_state == TASK_EXPORTED){
     if(0)printf("state = %d(Imp=2,Exp=3), =>no restart.\n",dlb_state);
     return;
@@ -61,7 +62,7 @@ void DLB::goToSilent(){
   dlb_failure =0;
   dlb_silent_cnt++;
   dlb_silent_start = UserTime();
-  LOG_INFO(LOG_DLBX,"%ld\n",dlb_silent_start);
+  LOG_INFO(LOG_DLB,"%ld\n",dlb_silent_start);
   dlb_stage = DLB_SILENT;
 }
 /*---------------------------------------------------------------*/
@@ -69,7 +70,7 @@ bool DLB::passedSilentDuration(){
   long silent = (ulong)UserTime() - (ulong)dlb_silent_start;
   bool passed = silent > SILENT_PERIOD;
   if(passed){
-    LOG_INFO(LOG_DLBX,"silent-dur:%ld, start:%ld\n",silent,(ulong)dlb_silent_start);
+    LOG_INFO(LOG_DLB,"silent-dur:%ld, start:%ld\n",silent,(ulong)dlb_silent_start);
     dlb_silent_start = 0 ;
   }
   return passed;
@@ -104,14 +105,16 @@ int DLB::getDLBStatus(){
     LOG_INFO(LOG_DLB,"task#:%ld export#:%ld\n",dtEngine.running_tasks.size(),exportables);
     return DLB_BUSY;
   }
+  //  if (getActiveTasksCount() <DLB_BUSY_TASKS)
   return DLB_IDLE;
+  //return DLB_NONE;
 }
 /*---------------------------------------------------------------*/
 void DLB::doDLB(int st){
 
   if (!dtEngine.cfg->getDLB())
     return;
-  LOG_INFO(LOG_DLB,"Enter\n");
+
   if (dtEngine.net_comm->get_host_count()==1)
     return;
   TIMERACC(dlb_tot_time,DuctteipLog::DLB);
@@ -120,10 +123,11 @@ void DLB::doDLB(int st){
     return;
   }
 
-  LOG_INFO(LOG_DLB,"\n");
   if ( dlb_stage == DLB_SILENT ){
-    if ( !passedSilentDuration() )
+    if ( !passedSilentDuration() ){
+      LOG_INFO(LOG_DLB,"Still to be in silent.\n");
       return;
+    }
     else{
       LOG_INFO(LOG_DLB,"I'm not Silent any more.=> DLB_NONE.\n");
       dlb_profile.tot_silent+=SILENT_PERIOD;
@@ -135,7 +139,6 @@ void DLB::doDLB(int st){
     }
   }
 
-  LOG_INFO(LOG_DLB,"is Not silent\n");
   if (dlb_failure > FAILURE_MAX ) {
     LOG_INFO(LOG_DLB,"Too many failures(%ld), go to Silent.\n",dlb_failure);
     goToSilent();
@@ -144,11 +147,10 @@ void DLB::doDLB(int st){
   }
   long t= (long)UserTime();
   if ( (signed)(t-last_msg_time)>(signed)SILENT_PERIOD){
-    LOG_INFO(LOG_DLBX,"last_msg:%ld, dur:%ld?\n",last_msg_time ,(t-last_msg_time));
+    //LOG_INFO(LOG_DLB,"last_msg:%ld, dur:%ld?\n",last_msg_time ,(t-last_msg_time));
     restartDLB();
-    return;
+    //return;
   }
-  LOG_INFO(LOG_DLB,"stage:%d is None:%d?\n",dlb_stage ,DLB_NONE);
   if ( dlb_stage != DLB_NONE )
     return;
   LOG_INFO(LOG_DLB,"state:%d is X:%d/Imp:%d?\n",dlb_state,TASK_EXPORTED ,TASK_IMPORTED);
@@ -160,18 +162,19 @@ void DLB::doDLB(int st){
     dlb_state =  getDLBStatus();
   }
   if ( dlb_state == DLB_BUSY ) {
-    LOG_INFO(LOG_DLBX,"find idle\n");
+    LOG_INFO(LOG_DLB,"find idle\n");
     findIdleNode();
   }
   else
     if ( dlb_state == DLB_IDLE ) {
-      LOG_INFO(LOG_DLBX,"find busy\n");
+      LOG_INFO(LOG_DLB,"find busy\n");
       findBusyNode();
     }
 }
 
 /*---------------------------------------------------------------*/
 void DLB::findBusyNode(){
+  //  if (refresh_needed)    restartDLB();
   if ( dlb_stage == DLB_FINDING_BUSY )
     return;
   dlb_node = getRandomNodeEx(DLB_FINDING_BUSY);
@@ -181,10 +184,12 @@ void DLB::findBusyNode(){
   dlb_hist[IDX_FINDB][IDX_SEND]++;
   dlb_stage = DLB_FINDING_BUSY ;
   last_msg_time = UserTime();
+  LOG_INFO(LOG_DLB,"send FIND_BUSY to :%d\n",dlb_node);
   dtEngine.mailbox->send((byte*)&dlb_node,1,MailBox::FindBusyTag,dlb_node);
 }
 /*---------------------------------------------------------------*/
 void DLB::findIdleNode(){
+  //  if (refresh_needed)    restartDLB();
   if ( dlb_stage == DLB_FINDING_IDLE )
     return;
   dlb_node = getRandomNodeEx(DLB_FINDING_IDLE);
@@ -194,7 +199,7 @@ void DLB::findIdleNode(){
   dlb_hist[IDX_FINDI][IDX_SEND]++;
   last_msg_time = UserTime();
   dlb_stage = DLB_FINDING_IDLE ;
-  LOG_INFO(LOG_DLBX,"send FIND_IDLE to :%d\n",dlb_node);
+  LOG_INFO(LOG_DLB,"send FIND_IDLE to :%d\n",dlb_node);
   dtEngine.mailbox->send((byte*)&dlb_node,1,MailBox::FindIdleTag,dlb_node);
 }
 /*---------------------------------------------------------------*/
@@ -212,6 +217,8 @@ void DLB::receivedImportRequest(int p){ received_FIND_IDLE(p);}
 /*---------------------------------------------------------------*/
 void DLB::received_FIND_BUSY(int p ) {
   TIMERACC(dlb_tot_time,DuctteipLog::DLB);
+  //  if (refresh_needed)    restartDLB();
+  
   last_msg_time = UserTime();
   dlb_hist[IDX_FINDB][IDX_RECV]++;
   dlb_substate = DLB_NONE;
@@ -221,11 +228,11 @@ void DLB::received_FIND_BUSY(int p ) {
     return;
   }
   if ( dlb_state == DLB_BUSY){
-    LOG_INFO(LOG_DLB,"I'm BUSY  and already sent FIND_IDLE to %d(not %d).\n",dlb_node,p);
     if (dlb_node !=-1 && dlb_node != p){
+      LOG_INFO(LOG_DLB,"I'm BUSY  and already sent FIND_IDLE to %d(not %d).\n",dlb_node,p);
       dlb_hist[IDX_ACCPB][IDX_SEND]++;
       exportTasks(p);
-      LOG_INFO(LOG_DLBX,"restart\n");
+      LOG_INFO(LOG_DLB,"restart\n");
       restartDLB();
       dlb_substate = EARLY_ACCEPT;
     }
@@ -243,14 +250,17 @@ void DLB::received_DECLINE(int p){
     dlb_failure ++;
   }
   dlb_stage = DLB_NONE;
-  LOG_INFO(LOG_DLBX,"restart\n");
+  LOG_INFO(LOG_DLB,"restart\n");
   restartDLB();
 }
 void DLB::receivedDeclineMigration(int p){received_DECLINE(p); }
 /*---------------------------------------------------------------*/
 IDuctteipTask *DLB::selectTaskForExport(double &from){
   list<IDuctteipTask*>::iterator it;
-  for(it=dtEngine.running_tasks.begin();it != dtEngine.running_tasks.end();it++){
+  for(it=dtEngine.running_tasks.end();
+      it != dtEngine.running_tasks.begin();
+      ){
+    it--;
     IDuctteipTask *t = *it;
     if (t->isExported()) continue;
     if (t->isFinished()) continue;
@@ -294,15 +304,19 @@ bool DLB::isFinishedEarlier(IDuctteipTask *task,double from){
 void DLB::exportTasks(int p){
   IDuctteipTask *t;
   double from;
+  int exp_count=0;
   from = (double)UserTime();
   do{
     t=selectTaskForExport(from);
     if( t == NULL){
-      dlb_state = DLB_STATE_NONE;
-      LOG_INFO(LOG_DLBX,"no task for export,restart\n");
+      //dlb_state = DLB_STATE_NONE;
+      LOG_INFO(LOG_DLB,"no task for export,restart\n");
       restartDLB();
       return;
     }
+    if ( exp_count++ > DLB_BUSY_TASKS )
+      return;
+    
     dlb_profile.export_task++;
     dlb_state = TASK_EXPORTED;
     t->dump();
@@ -320,7 +334,7 @@ void DLB::exportTasks(int p){
       data->dumpCheckSum('x');
       data->dump(' ');
       data->serialize();
-      if(0)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
+      if(1)printf("data-map:%p,%p,%d,%d,%d\n",data->getHeaderAddress(),
 		  data->getContentAddress(),
 		  data->getContentSize(),
 		  data->getHeaderSize(),
@@ -328,12 +342,17 @@ void DLB::exportTasks(int p){
 
       dtEngine.mailbox->send(data->getHeaderAddress(),
 			     data->getPackSize(),
+			     #ifdef UAMD_COMM
+			     data->getMemoryType() == IData::USER_ALLOCATED?MailBox::UAMDMigrateDataTag: MailBox::MigrateDataTag,
+			     #else
 			     MailBox::MigrateDataTag,
+			     #endif
 			     p);
     }
   }while( t !=NULL);
 }
 /*---------------------------------------------------------------*/
+/**
 void DLB::importData(MailBoxEvent *event){
   TIMERACC(dlb_tot_time,DuctteipLog::DLB);
   dlb_profile.import_data++;
@@ -342,13 +361,15 @@ void DLB::importData(MailBoxEvent *event){
   data->dump(' ');
   void dumpData(double *,int,int,char);
   list<IDuctteipTask *>::iterator it;
+  LOG_INFO(LOG_DLB,"imported data %s.\n",data->getName().c_str());
   for(it=dtEngine.import_tasks.begin();it != dtEngine.import_tasks.end(); it ++){
     IDuctteipTask *t = *it;
     if ( t->canRun('i')){
-      t->run();
+      t->getParentContext()->runKernels(t);
     }
   }
 }
+*/
 /*---------------------------------------------------------------*/
 void DLB::receiveTaskOutData(MailBoxEvent *event){
   TIMERACC(dlb_tot_time,DuctteipLog::DLB);
@@ -358,7 +379,7 @@ void DLB::receiveTaskOutData(MailBoxEvent *event){
   dh.deserialize(event->buffer,offset,event->length);
   IData *data = glbCtx.getDataByHandle(&dh);
 
-
+  LOG_INFO(LOG_DLB,"task out data %s is returned back.\n",data->getName().c_str());
   data->dumpCheckSum('r');
   data->dump(' ');
   list<IDuctteipTask *>::iterator it;
@@ -383,6 +404,8 @@ void DLB::receiveTaskOutData(MailBoxEvent *event){
 	    task->upgradeData('r');
 	    it = dtEngine.export_tasks.erase(it);
 	    dt_log.logExportTask(dtEngine.import_tasks.size());
+	    LOG_INFO(LOG_DLB,"Task's finished is called for %s, parent=%p.\n",task->getName().c_str(),task->task_parent);
+	    task->finished();
 	    task->setState(IDuctteipTask::CanBeCleared);
 	    data->checkAfterUpgrade(dtEngine.running_tasks,dtEngine.mailbox,'r');
 	    dtEngine.putWorkForCheckAllTasks();
@@ -400,12 +423,12 @@ void DLB::receivedMigrateTask(MailBoxEvent *event){
   dlb_profile.import_task++;
   dlb_hist[IDX_ACCPB][IDX_RECV]++;
   importedTask(event);
-  LOG_INFO(LOG_DLBX,"received tasks from %d\n",event->host);
+  LOG_INFO(LOG_DLB,"received tasks from %d\n",event->host);
   dlb_stage = DLB_NONE;
   if (dlb_state == DLB_BUSY) {
-    LOG_INFO(LOG_DLBX,"BUSY, but received TASKS from %d.\n",event->host);
+    LOG_INFO(LOG_DLB,"BUSY, but received TASKS from %d.\n",event->host);
   }
-  LOG_INFO(LOG_DLBX,"restart\n");
+  LOG_INFO(LOG_DLB,"restart\n");
   restartDLB();
 }
 /*---------------------------------------------------------------*/
@@ -414,32 +437,32 @@ void DLB::received_ACCEPTED(int p){
   dlb_stage = DLB_NONE;
   dlb_hist[IDX_ACCPI][IDX_RECV]++;
   if ( dlb_state == DLB_IDLE ) {
-    LOG_INFO(LOG_DLBX,"requested task from %d but received ACCEPTED from %d.\n",dlb_node,p);
+    LOG_INFO(LOG_DLB,"requested task from %d but received ACCEPTED from %d.\n",dlb_node,p);
     return;
   }
   if ( dlb_substate == EARLY_ACCEPT ) {
     if ( dlb_node == p ){
-      LOG_INFO(LOG_DLBX,"restart\n");
+      LOG_INFO(LOG_DLB,"restart\n");
       restartDLB();
       return;
     }
   }
   exportTasks(p);
-  LOG_INFO(LOG_DLBX,"restart\n");
+  LOG_INFO(LOG_DLB,"restart\n");
   restartDLB();
 }
 /*---------------------------------------------------------------*/
 void DLB::declineImportTasks(int p){
   dlb_glb_failure ++;
   dlb_hist[IDX_DECLI][IDX_SEND]++;
-  LOG_INFO(LOG_DLBX,"from %d\n",p);
+  LOG_INFO(LOG_DLB,"from %d\n",p);
   dtEngine.mailbox->send((byte*)&p,1,MailBox::DeclineMigrateTag,p);
 }
 /*---------------------------------------------------------------*/
 void DLB::declineExportTasks(int p){
   dlb_glb_failure ++;
   dlb_hist[IDX_DECLB][IDX_SEND]++;
-  LOG_INFO(LOG_DLB,"from %d\n",p);
+  LOG_INFO(LOG_DLB,"to %d\n",p);
   dtEngine.mailbox->send((byte*)&p,1,MailBox::DeclineMigrateTag,p);
 }
 /*---------------------------------------------------------------*/
@@ -451,8 +474,10 @@ void DLB::acceptImportTasks(int p){
 }
 /*---------------------------------------------------------------------------------*/
 void DLB::importedTask(MailBoxEvent *event){
+  
   IDuctteipTask *task = new IDuctteipTask;
   int offset = 0 ;
+  
   task->deserialize(event->buffer,offset,event->length);
   task->setHost ( me ) ;
   task->setImported(true);
@@ -464,6 +489,9 @@ void DLB::importedTask(MailBoxEvent *event){
   task->setHandle( dtEngine.last_task_handle ++);
   dtEngine.import_tasks.push_back(task);
   dt_log.logImportTask(dtEngine.import_tasks.size());
+#if SUBTASK ==1
+  task->sg_task = new KernelTask(task);
+#endif
 
   LOG_EVENT(DuctteipLog::TaskImported);
 
@@ -535,6 +563,15 @@ IData * DLB::importedData(MailBoxEvent *event,MemoryItem *mi){
 
   dh.deserialize(event->buffer,offset,event->length);
   IData *data = glbCtx.getDataByHandle(&dh);
+  //  IData *data= new IData;
+  assert(data);
+  DataVersion temp,rd,wr;
+  temp.deserialize(event->buffer,offset,event->length);
+  temp.deserialize(event->buffer,offset,event->length);
+  rd.deserialize(event->buffer,offset,event->length);
+  wr.deserialize(event->buffer,offset,event->length);
+  data->setRunTimeVersion(rd,wr);
+
   event->memory->dump();
   mi = data->getDataMemory();
   if ( mi != NULL ) {
@@ -545,6 +582,14 @@ IData * DLB::importedData(MailBoxEvent *event,MemoryItem *mi){
     data->setDataMemory(event->memory);
     data->setContentSize(event->length-data->getHeaderSize());
     mi = data->getDataMemory();
+    /*
+    int mb = data_org->getYLocalNumBlocks();
+    int nb = data_org->getXLocalNumBlocks();
+    int m = data_org->getYLocalDimension();
+    int n = data_org->getXLocalDimension();
+    data->setLocalNumBlocks(mb,nb);
+    data->setLocalDimensions(m,n);
+    */
     data->prepareMemory();
   }
   if ( mi == NULL) {
@@ -574,9 +619,14 @@ void  DLB::checkImportedTasks(){
 	  data->dump(' ');
 	  int host;
 	  host = data->getHost();
+	  LOG_INFO(LOG_DLB,"task %s out data %s is returned back to %d.\n",task->getName().c_str(),data->getName().c_str(),host);
 	  dtEngine.mailbox->send(data->getHeaderAddress(),
 			data->getPackSize(),
+                        #ifdef UAMD_COMM
+			MailBox::UAMDMigratedTaskOutDataTag,
+			#else
 			MailBox::MigratedTaskOutDataTag,
+			#endif
 			host);
 	}
       }
@@ -620,7 +670,7 @@ long DLB::getExportableTasksCount(){
     if ( task->isExported()   ) continue;
     count ++;
   }
-  LOG_INFO(LOG_DLBX,"Exportable  Tasks count=%ld from %ld st:%c,%d sg:%c,%d\n",count,size
+  LOG_INFO(LOG_DLB,"Exportable  Tasks count=%ld from %ld st:%c,%d sg:%c,%d\n",count,size
 		      ,"IBXMN"[dlb_state%5],dlb_state,"IBSN"[dlb_stage%4],dlb_stage );
   return (count-DLB_BUSY_TASKS);
 }
@@ -645,7 +695,7 @@ long DLB::getActiveTasksCount(){
       count ++;
     }
   }
-  LOG_INFO(LOG_DLBX," RUNNING Tasks count=%ld from %ld st:%c,%d sg:%c,%d\n",count,size
+  LOG_INFO(LOG_DLB," RUNNING Tasks count=%ld from %ld running st:%c,%d sg:%c,%d\n",count,size
 		      ,"IBXMN"[dlb_state%5],dlb_state,"IBSN"[dlb_stage%4],dlb_stage );
   return count;
 }

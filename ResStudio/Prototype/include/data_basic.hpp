@@ -43,6 +43,7 @@ public:
   DataVersion operator =(int a);
   bool operator ==(DataVersion rhs);
   bool operator <(DataVersion rhs);
+  bool operator >=(DataVersion rhs);
   bool operator !=(DataVersion &rhs);
   DataVersion operator ++(int a) ;
   DataVersion operator ++() ;

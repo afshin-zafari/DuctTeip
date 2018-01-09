@@ -55,7 +55,9 @@ IDuctteipTask::IDuctteipTask():name(""),host(-1){
   sg_handle = NULL;
   exported = imported = false;
   child_count = 0;
-  //    sg_task = new KernelTask(this);
+  message_buffer = new MessageBuffer ( getPackSize(),0);
+  createSyncHandle();
+  exported = imported = false;
 }
 /*--------------------------------------------------------------------------*/
 void IDuctteipTask::createSyncHandle(){sg_handle = new Handle<Options>;}
@@ -156,7 +158,7 @@ bool IDuctteipTask::canRun(char c){
     }
 
 
-    if ( (*it)->data->getRunTimeVersion((*it)->type) != (*it)->required_version ) {
+    if ( (*it)->data->getRunTimeVersion((*it)->type) < (*it)->required_version ) {
 
 	LOG_INFO(LOG_MLEVEL ,"(%c)Task %s data (ptr=%p)%s is not ready for op:%s,rt:ver:%s  rq-ver:%s.\n",
 	c,
@@ -259,14 +261,14 @@ void IDuctteipTask::run(){
   exp_fin = dtEngine.getAverageDur(getKey())+start;
 #if SUBTASK ==1
   if ( dtEngine.getThrdManager() ){ // in pure-mpi case, the ptr is null
-    LOG_INFO(LOG_TASKS,"submit sg_task %s\n.",sg_task->get_name().c_str());
+    LOG_INFO(LOG_TASKS,"submit KernelTask  %s\n.",sg_task->get_name().c_str());
     dtEngine.getThrdManager()->submit(sg_task);
-    LOG_INFO(LOG_TASKS,"after submit sg_task %s\n.",sg_task->get_name().c_str());
+    LOG_INFO(LOG_TASKS,"after submit KernelTask %s\n.",sg_task->get_name().c_str());
   }
   else
     parent_context->runKernels(this);
 #else
-#if CONTEXT_KERNELS
+#if CONTEXT_KERNELS==1
   assert(parent_context);
   parent_context->runKernels(this);
 #else
@@ -343,12 +345,11 @@ KernelTask::~KernelTask(){
   dt_task->setFinished(true);
 }
 /*--------------------------------------------------------------*/
-void KernelTask::run(){
-  LOG_INFO(LOG_TASKS,"task  run \n");
-  /*
+void KernelTask::run(TaskExecutor<Options> &te){
+  LOG_INFO(LOG_TASKS,"KernelTask.run with te:%p \n",&te); 
   dt_task->setTaskExecutor(&te);
   dt_task->getParentContext()->runKernels(dt_task);
-  */
+  
 }
 /*--------------------------------------------------------------*/
 string KernelTask::get_name(){
@@ -379,11 +380,13 @@ void *IDuctteipTask::get_guest(){return guest;}
 /*--------------------------------------------------------------*/
 void IDuctteipTask::subtask(SuperGlueTaskBase *t){
   if ( config.pure_mpi){
-    t->run();
+    t->run(*te);
     printf("immediate task run.\n");
   }
   else{
     #if SUBTASK==1
+    assert(getKernelTask());
+    assert(te);
     te->subtask(getKernelTask(),t);
     #else
     dtEngine.getThrdManager()->submit(t);
@@ -394,12 +397,35 @@ void IDuctteipTask::subtask(SuperGlueTaskBase *t){
 }
 /*===============================================================*/
 SuperGlueTaskBase::SuperGlueTaskBase(IDuctteipTask* d):dt_task(d){
-  // registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
-  LOG_INFO(LOG_TASKS,"CTOR child task for %s.\n",d->getName().c_str());
+  registerAccess(ReadWriteAdd::read, *dt_task->getSyncHandle());
+  //LOG_INFO(LOG_TASKS,"CTOR child task for %s.\n",d->getName().c_str());
   LOG_METRIC(DuctteipLog::SuperGlueTaskDefine);
 }
 /*--------------------------------------------------------------*/
 LastLevel_Data &SuperGlueTaskBase::get_argument(int arg){
   LastLevel_Data &lld = * new LastLevel_Data(this,arg);
   return lld;
+}
+/*---------------------------------------------------------------*/
+void DLB::importData(MailBoxEvent *event){
+  TIMERACC(dlb_tot_time,DuctteipLog::DLB);
+  dlb_profile.import_data++;
+  IData *data = importedData(event,event->getMemoryItem());
+  data->dumpCheckSum('i');
+  data->dump(' ');
+  void dumpData(double *,int,int,char);
+  list<IDuctteipTask *>::iterator it;
+  LOG_INFO(LOG_DLB,"imported data %s.\n",data->getName().c_str());
+  for(it=dtEngine.import_tasks.begin();it != dtEngine.import_tasks.end(); it ++){
+    IDuctteipTask *t = *it;
+    if ( t->canRun('i')){
+      LOG_INFO(LOG_DLB,"task can run  %s.\n",t->getName().c_str());
+      #if SUBTASK==1
+      t->run();
+      #else
+      t->getParentContext()->runKernels(t);
+      #endif
+      t->setState(IDuctteipTask::Running);
+    }
+  }
 }

@@ -102,7 +102,7 @@ void engine::globalSync(){
   LOG_LOADZ;
   
   LOG_INFO(LOG_MULTI_THREAD,"Non-Busy time:%lf\n",wasted_time/1000000.0);
-  if (true || cfg->getYDimension() == 2400){
+  if ( false and  cfg->getYDimension() == 2400){
     char s[20];
     sprintf(s,"sg_log_file-%2.2d.txt",me);
     Log<Options>::dump(s);
@@ -190,6 +190,7 @@ void engine::setConfig(Config *cfg_,bool sg){
   
   //show_affinity();
   dlb.initDLB();
+  dlb_mode = cfg->getDLB();
 }
 /*---------------------------------------------------------------------------------*/
 void engine::updateDurations(IDuctteipTask *task){
@@ -246,11 +247,12 @@ void engine::start ( int argc , char **argv,bool sg){
 }
 /*---------------------------------------------------------------*/
 void engine::doDLB(int st){
-  static long last_count;
-  return;
+  static long last_count=0;
+  
   long c =  running_tasks.size();
-  if ( c && c!= last_count )    return;
-  LOG_INFO(0&LOG_DLB,"task count last:%ld, cur:%ld\n",last_count ,c);
+  //  LOG_INFO(LOG_DLB,"task count last:%ld, cur:%ld\n",last_count ,c);
+  if ( !c) return;
+  if ( last_count >0  && c== last_count )    return;
   last_count = c;
   dlb.doDLB(st);
 }

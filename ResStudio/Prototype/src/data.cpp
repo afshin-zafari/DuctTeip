@@ -119,6 +119,16 @@ bool DataVersion::operator <(DataVersion rhs){
   return false;
 }
 /*--------------------------------------------------------------------------*/
+bool DataVersion::operator >=(DataVersion rhs){
+  if (prefix != rhs.prefix) {
+    return false;
+  }
+  if ( version >= rhs.version){
+    return true;
+  }
+  return false;
+}
+/*--------------------------------------------------------------------------*/
 bool DataVersion::operator !=(DataVersion &rhs){
   return !(*this==rhs);
 }
@@ -294,6 +304,11 @@ DataVersion IData::getRunTimeVersion(byte type){
   else
     return rt_write_version;
 
+}
+/*--------------------------------------------------------------------------*/
+void IData::setRunTimeVersion(DataVersion rd, DataVersion wr){
+  rt_read_version  = rd;
+  rt_write_version = wr;
 }
 /*--------------------------------------------------------------------------*/
 void IData::setRunTimeVersion(string to_ctx, int to_version){
@@ -720,7 +735,7 @@ int IData::getHost(){
   if(!hpData)
     return host;
   if ( parent_data ==NULL){
-    LOG_INFO(LOG_MLEVEL,"parent data is null,host %d returned.\n",host);
+    //LOG_INFO(LOG_MLEVEL,"parent data is null,host %d returned.\n",host);
     return host;
   }
   if (parent_data->Nb == 1 &&   parent_data->Mb == 1 )

@@ -194,7 +194,7 @@ IListener *engine::getListenerByCommHandle ( unsigned long  comm_handle ) {
     if ( listener->getCommHandle() == comm_handle)
       return listener;
     else{
-      LOG_INFO(LOG_LISTENERS,"lsnr h:%ld, ch:%ld.\n",listener->getCommHandle(),comm_handle);
+      LOG_INFO(0*LOG_LISTENERS,"lsnr h:%ld, ch:%ld.\n",listener->getCommHandle(),comm_handle);
     }
   }
   //  fprintf(stderr,"\nerror:listener not found by comm-handle %ld\n",comm_handle);

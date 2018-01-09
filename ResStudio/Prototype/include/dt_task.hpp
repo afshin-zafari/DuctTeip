@@ -39,7 +39,7 @@ struct KernelTask : Task<Options>
     IDuctteipTask* dt_task;
     KernelTask(IDuctteipTask*);
     ~KernelTask();
-    void run();
+  void run(TaskExecutor<Options> &);
     string get_name();
 };
   /*--------------------------------------------------------------------------*/
@@ -51,8 +51,9 @@ protected:
   string name;
 public:
   SuperGlueTaskBase(IDuctteipTask* d);
-  void run() {
-    LOG_INFO(LOG_TASKS,"sgTask.run(().\n");//,dt_task->getName().c_str());
+  void run(TaskExecutor<Options> &te) {
+    task_executor= &te;
+    //LOG_INFO(LOG_TASKS,"sgTask.run().\n");//,dt_task->getName().c_str());
     if (config.simulation) return;
     runKernel();
     }
@@ -68,7 +69,7 @@ private:
 public:
   SyncTask(IDuctteipTask *);
   ~SyncTask();
-  void run(){}
+  void run(TaskExecutor<Options> &){}
   string get_name(){return name;}
 };
 
@@ -88,14 +89,15 @@ protected:
     MessageBuffer         *message_buffer;
     pthread_mutex_t        task_finish_mx;
     pthread_mutexattr_t    task_finish_ma;
-    Handle<Options>       *sg_handle;
     bool                   exported,imported;
-    TaskBase<Options>     *sg_task;
     TaskExecutor<Options> *te;
     TimeUnit               start,end,exp_fin;
     void                  *guest;
     SyncTask              *syncTask;
 public:
+    Handle<Options>       *sg_handle;
+    TaskBase<Options>     *sg_task;
+  IDuctteipTask           *task_parent;
   int child_count;
     enum TaskType
     {

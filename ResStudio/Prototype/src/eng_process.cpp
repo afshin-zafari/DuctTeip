@@ -7,6 +7,11 @@ bool engine::canTerminate(){
   {
 
     LOG_EVENT(DuctteipLog::CheckedForTerminate);
+    if(cfg->getDLB()){
+      if((signed)elapsedTime(TIME_SCALE_TO_SECONDS) < 2){
+	return false;
+      }
+    }
 
     if ((signed)elapsedTime(TIME_SCALE_TO_SECONDS)>(signed)time_out){
       if (checkRunningTasks(1) >0 || work_queue.size() >0){
@@ -17,9 +22,11 @@ bool engine::canTerminate(){
       LOG_ERROR("error: timeout %ld\n",t);
       LOG_INFO(LOG_MULTI_THREAD,"unf task:%ld %ld  unf-lsnr:%d task_submission_finished:%d\n",
 	       task_list.size(),getUnfinishedTasks(),isAnyUnfinishedListener(),task_submission_finished);
+      if (task_list.size()<100)
       for(auto t: task_list){
 	LOG_INFO(1 +LOG_MULTI_THREAD,"remaining task:%s \n",t->getName().c_str());
       }
+      if (listener_list.size()<100)
       for(auto L : listener_list){
 	LOG_INFO(1+LOG_MULTI_THREAD,"remaining listener for data :%s ver:%s, its data sent?:%d, isRecvd?:%d\n",
 		 L->getData()->getName().c_str(), L->getRequiredVersion().dumpString().c_str(),L->isDataSent(),L->isReceived());
@@ -294,13 +301,21 @@ void engine::processEvent(MailBoxEvent &event){
       dlb.receivedMigrateTask(&event);
     }
     break;
+    #ifdef UADM_COMM
+  case MailBox::UADMMigrateDataTag:
+    #else
   case MailBox::MigrateDataTag:
+    #endif
     if ( event.direction == MailBoxEvent::Received ) {
       LOG_INFO(LOG_DLB,"DATA imported from %d\n",event.host);
       dlb.importData(&event);
     }
     break;
+    #ifdef UADM_COMM
+  case MailBox::UADMMigratedTaskOutDataTag:
+    #else
   case MailBox::MigratedTaskOutDataTag:
+    #endif
     if ( event.direction == MailBoxEvent::Received ) {
       LOG_INFO(LOG_DLB,"result for exported task is imported from %d\n",event.host);
       dlb.receiveTaskOutData(&event);

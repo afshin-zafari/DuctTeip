@@ -12,15 +12,20 @@ SuperGlue is another C++ task based parallel programming framework that can be f
 To build and run the examples that exist in the sub-directories of the cloned repository:
 - Edit the `Makefile` such that the DUCTTEIP_DIR and SUPERGLUE_DIR point to the places where these frameworks are copied.
 - Run `make` to get the compiled output
-# Runtime command line flags used by DuctTeip:
+# Runtime command line flags used by DuctTeip
 Flags (prepended with a '-') | Meaning
 ---------------------------- | --------
- P  |  Total number of processors
- p |     No. of processor in rows, in grid topology
- q|      No. of processor in columns, in grid topology
+ P| Total number of processors
+ p| No. of processor in rows, in grid topology
+ q| No. of processor in columns, in grid topology
  M| No. of elements of input matrix in row
  N| No. of elements of input matrix in columns
  B| No. of blocks at DuctTeip level 
  b| No. of blocks at SuperGlue level
  t| number of threads at each computing node
  DLB | Use Dynamic Load Balancing for task execution at DuctTeip level
+
+# In progress and Future Works
+- [x] Improving Dynamic Load Balancing
+- [x] Including the Unified Task Programming
+- [ ] Implementing 3D Fast Multipole Method in distributed environment

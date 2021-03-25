@@ -2,7 +2,10 @@
 #define __MPI_COMM_HPP__
 
 #include "basic.hpp"
+#if WITH_MPI
 #include "mpi.h"
+#endif
+
 #include "network.hpp"
 #include "dt_log.hpp"
 #include "memory_manager.hpp"

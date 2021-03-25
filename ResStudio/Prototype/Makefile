@@ -4,7 +4,7 @@ libfile         = ./lib/libductteip.a
 libfile_rel     = ./lib/release/libductteip.a
 outdir_rel      = ./temp/release
 
-SUPERGLUE_DIR   =/pica/h1/afshin/sg/include
+SUPERGLUE_DIR   = ../../../../afshin/superglue/include/
 SUPERGLUE_FLAGS =-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 SOURCE_DIR=./src
 HEADER_DIR=./include

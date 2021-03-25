@@ -1,14 +1,14 @@
 
-ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/libductteip.a
-SUPERGLUE_DIR=/pica/h1/afshin/sg/include
+ductteip_lib=../../lib/libductteip.a
+SUPERGLUE_DIR=../../../../../superglue/include
 SUPERGLUE_FLAGS=-pthread -I$(SUPERGLUE_DIR)  #-pedantic -Wno-long-long -Wno-format
 HEADER_DIR=../../include
-DUCTTEIP_FLAGS=-I$(HEADER_DIR) -std=c++11
+DUCTTEIP_FLAGS=-I$(HEADER_DIR) -std=c++11 -DWITH_MPI=1
 
 COMP=gcc
 CPP=mpic++
 OUT=debug
-BLAS=openblas
+BLAS=nothing
 
 ifeq ($(BLAS),openblas)
 	BLAS_DIR=/sw/libs/openblas/0.2.19/rackham
@@ -34,10 +34,10 @@ endif
 
 
 ifeq ($(OUT),debug)
-     ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/libductteip.a
+     ductteip_lib=../../lib/libductteip.a
      OUT_FLAG= -g
 else
-     ductteip_lib=/pica/h1/afshin/Damavand/D4/DuctTeip/ResStudio/Prototype/lib/release/libductteip.a
+     ductteip_lib=../../lib/release/libductteip.a
      OUT_FLAG=-DDEBUG=0 -DBUILD=RELEASE
 endif
 
@@ -62,10 +62,11 @@ else
 
 	LINKER=mpic++
 
-	BLAS_LINK_FLAGS=-L$(BLAS_DIR)/lib -lopenblas
+	#BLAS_LINK_FLAGS=-L$(BLAS_DIR)/lib -lopenblas
+	BLAS_LINK_FLAGS=-L$(BLAS_DIR)/lib 
 #	LINK_FLAGS=-lm -lrt -march=bdver1 $(BLAS_LINK_FLAGS) -lstdc++ -lpthread -Wl,-rpath=$(ACML_DIR)/lib  -Wl,--allow-multiple-definition #-fprofile-arcs 
 	LINK_FLAGS=-lm -lrt $(BLAS_LINK_FLAGS) -lstdc++ -lpthread -Wl,-rpath=$(BLAS_DIR)/lib  -Wl,--allow-multiple-definition #-fprofile-arcs 
-	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS) $(OUT_FLAG) $(SPECIAL_FLAGS) 
+	COMP_FLAGS= $(SUPERGLUE_FLAGS) $(DUCTTEIP_FLAGS) $(BLAS_COMP_FLAGS) $(OUT_FLAG) $(SPECIAL_FLAGS) -UUSE_OPENBLAS
 endif
 #########################################################
 headers:=$(shell ls -Sr *.hpp)

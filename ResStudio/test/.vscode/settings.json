@@ -1,0 +1,10 @@
+{
+
+    "makefile.extensionOutputFolder": "./.vscode",
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/../Prototype/include",
+        "${workspaceFolder}/../../../superglue/include/",
+        "/home/afshin/opt/openmpi/include"
+    ]
+    
+}

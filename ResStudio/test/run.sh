@@ -6,3 +6,4 @@ MPIRUN=/home/afshin/opt/openmpi/bin/mpirun
 outfile=test_logfile
 echo "$MPIRUN -n $P --output-filename ${outfile} ./bin/test_gcc ${params_long}"
 $MPIRUN -n $P --output-filename ${outfile} ./bin/test_gcc ${params_long}
+rm *.txt *.dat

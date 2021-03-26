@@ -12,6 +12,7 @@ class DataViewContext: public Algorithm
 {
     public:
     DataViewContext();
+    void test_01();
     std::vector<DataView> * partition ( std::vector<Data*> * data_vector, int n );
     void  runKernels(IDuctteipTask *task){}
     string getTaskName(unsigned long) {}

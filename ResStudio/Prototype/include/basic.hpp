@@ -18,7 +18,7 @@
 #define getTaskCount get_task_count
 
 
-#if WITH_MPI == 1
+#if WITH_MPI == 10
 #include "mpi.h"
 #else
 #include "sg/platform/gettime.hpp"
